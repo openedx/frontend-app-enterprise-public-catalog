@@ -10,6 +10,8 @@ import ReactDOM from 'react-dom';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
+import App from './components/app/App';
+
 import appMessages from './i18n';
 
 import './index.scss';
@@ -18,7 +20,7 @@ subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider>
       <Header />
-      <div>edX public Enterprise catalog</div>
+      <App />
       <Footer />
     </AppProvider>,
     document.getElementById('root'),
