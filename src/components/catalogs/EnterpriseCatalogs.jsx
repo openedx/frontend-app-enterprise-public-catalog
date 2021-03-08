@@ -1,17 +1,15 @@
 import React from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import {
-  Configure, Hits, InstantSearch, SearchBox,
+  Configure, Hits, InstantSearch,
 } from 'react-instantsearch-dom';
 
 import { getConfig } from '@edx/frontend-platform';
+import { SearchData, SearchHeader } from '@edx/frontend-enterprise';
 
 import Wrapper from '../PageWrapper';
 import { NUM_RESULTS_PER_PAGE } from '../../constants';
 
-const SearchHeader = () => (
-  <SearchBox />
-);
 const SearchResults = () => (
   <Hits />
 );
@@ -25,16 +23,18 @@ export default function EnterpriseCatalogs() {
 
   return (
     <Wrapper>
-      <InstantSearch
-        indexName={config.ALGOLIA_INDEX_NAME}
-        searchClient={searchClient}
-      >
-        <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
-        <div className="search-header-wrapper">
-          <SearchHeader />
-        </div>
-        <SearchResults />
-      </InstantSearch>
+      <SearchData>
+        <InstantSearch
+          indexName={config.ALGOLIA_INDEX_NAME}
+          searchClient={searchClient}
+        >
+          <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
+          <div className="search-header-wrapper">
+            <SearchHeader />
+          </div>
+          <SearchResults />
+        </InstantSearch>
+      </SearchData>
     </Wrapper>
   );
 }
