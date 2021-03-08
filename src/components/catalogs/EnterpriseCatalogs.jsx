@@ -9,12 +9,6 @@ import { getConfig } from '@edx/frontend-platform';
 import Wrapper from '../PageWrapper';
 import { NUM_RESULTS_PER_PAGE } from '../../constants';
 
-const config = getConfig();
-const searchClient = algoliasearch(
-  config.ALGOLIA_APP_ID,
-  config.ALGOLIA_SEARCH_API_KEY,
-);
-
 const SearchHeader = () => (
   <SearchBox />
 );
@@ -23,6 +17,12 @@ const SearchResults = () => (
 );
 
 export default function EnterpriseCatalogs() {
+  const config = getConfig();
+  const searchClient = algoliasearch(
+    config.ALGOLIA_APP_ID,
+    config.ALGOLIA_SEARCH_API_KEY,
+  );
+
   return (
     <Wrapper>
       <InstantSearch
