@@ -1,36 +1,40 @@
 import React from 'react';
-import { Container } from '@edx/paragon';
-import { Helmet } from 'react-helmet';
+import algoliasearch from 'algoliasearch/lite';
+import {
+  Configure, Hits, InstantSearch, SearchBox,
+} from 'react-instantsearch-dom';
 
-import useCourseCatalogs from './data/hooks';
-import { PAGE_TITLE } from '../../constants';
+import { getConfig } from '@edx/frontend-platform';
 
-// eslint-disable-next-line react/prop-types
-const Wrapper = ({ children }) => (
-  <Container size="lg" className="mt-3">
-    <Helmet title={PAGE_TITLE} />
-    <div className="text-center py-5">
-      {children}
-    </div>
-  </Container>
+import Wrapper from '../PageWrapper';
+import { NUM_RESULTS_PER_PAGE } from '../../constants';
+
+const config = getConfig();
+const searchClient = algoliasearch(
+  config.ALGOLIA_APP_ID,
+  config.ALGOLIA_SEARCH_API_KEY,
+);
+
+const SearchHeader = () => (
+  <SearchBox />
+);
+const SearchResults = () => (
+  <Hits />
 );
 
 export default function EnterpriseCatalogs() {
-  const catalogs = useCourseCatalogs();
-
-  if (!catalogs || catalogs.length < 1) {
-    return <Wrapper><div>No Course information found</div></Wrapper>;
-  }
-
   return (
     <Wrapper>
-      {
-          catalogs.map(catalog => (
-            <div>
-              {catalog.course} | {catalog.subject} | {catalog.partner}
-            </div>
-          ))
-      }
+      <InstantSearch
+        indexName={config.ALGOLIA_INDEX_NAME}
+        searchClient={searchClient}
+      >
+        <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
+        <div className="search-header-wrapper">
+          <SearchHeader />
+        </div>
+        <SearchResults />
+      </InstantSearch>
     </Wrapper>
   );
 }
