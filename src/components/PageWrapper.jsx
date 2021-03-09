@@ -8,7 +8,7 @@ import { PAGE_TITLE } from '../constants';
 const Wrapper = ({ children }) => (
   <Container size="lg" className="mt-3">
     <Helmet title={PAGE_TITLE} />
-    <div className="text-center py-5">
+    <div className="py-5">
       {children}
     </div>
   </Container>
