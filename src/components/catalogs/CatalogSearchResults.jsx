@@ -8,7 +8,7 @@ import {
   DataTable, StatusAlert,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise';
-import LoadingMessage from '../LoadingMessage';
+import Skeleton from 'react-loading-skeleton';
 
 const ERROR_MESSAGE = 'An error occured while retrieving data';
 const NO_DATA_MESSAGE = 'There are no course results';
@@ -32,6 +32,29 @@ const CatalogSearchResults = ({
   searchState,
   error,
 }) => {
+  if (isSearchStalled) {
+    return (<Skeleton height={25} />);
+  }
+  if (error) {
+    return (
+      <StatusAlert
+        alertType="danger"
+        iconClassName="fa fa-times-circle"
+        message={`${ERROR_MESSAGE} ${error.message}`}
+      />
+    );
+  }
+
+  if (searchResults?.nbHits === 0) {
+    return (
+      <StatusAlert
+        alertType="warning"
+        iconClassName="fa fa-exclamation-circle"
+        message={NO_DATA_MESSAGE}
+      />
+    );
+  }
+
   const { refinementsFromQueryParams } = useContext(SearchContext);
   const columns = useMemo(() => [
     {
@@ -54,45 +77,25 @@ const CatalogSearchResults = ({
     },
   ], []);
 
+  const calculatePage = () => {
+    if (refinementsFromQueryParams.page) {
+      return refinementsFromQueryParams.page;
+    }
+    return searchState && searchState.page;
+  };
+
   const page = useMemo(
-    () => {
-      if (refinementsFromQueryParams.page) {
-        return refinementsFromQueryParams.page;
-      }
-      return searchState && searchState.page;
-    },
-    [searchState?.page, refinementsFromQueryParams],
+    calculatePage,
+    [calculatePage, searchState?.page, refinementsFromQueryParams?.page],
   );
 
-  if (isSearchStalled) {
-    return (<LoadingMessage className="overview mt-3" />);
-  }
-
-  if (!isSearchStalled && error) {
-    return (
-      <StatusAlert
-        alertType="danger"
-        iconClassName="fa fa-times-circle"
-        message={`${ERROR_MESSAGE} ${error.message}`}
-      />
-    );
-  }
-  if (!isSearchStalled && searchResults?.nbHits === 0) {
-    return (
-      <StatusAlert
-        alertType="warning"
-        iconClassName="fa fa-exclamation-circle"
-        message={NO_DATA_MESSAGE}
-      />
-    );
-  }
-
+  const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (
     <>
-      <div>
+      <div key={page}>
         <DataTable
           columns={columns}
-          data={searchResults?.hits || []}
+          data={tableData}
           itemCount={searchResults?.nbHits}
           isSelectable
           pageCount={searchResults?.nbPages || 1}
