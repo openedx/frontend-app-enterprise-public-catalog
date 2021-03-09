@@ -92,7 +92,7 @@ const CatalogSearchResults = ({
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (
     <>
-      <div key={page}>
+      <div>
         <DataTable
           columns={columns}
           data={tableData}
