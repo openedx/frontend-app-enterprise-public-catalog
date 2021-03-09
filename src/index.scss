@@ -5,3 +5,7 @@
 
 @import "~@edx/frontend-component-header/dist/index";
 @import "~@edx/frontend-component-footer/dist/footer";
+
+@import "~@edx/frontend-enterprise/src/course-search/styles/index";
+
+@import './components/LoadingMessage/LoadingMessage';

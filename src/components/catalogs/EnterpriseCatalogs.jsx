@@ -1,7 +1,7 @@
 import React from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import {
-  Configure, Hits, InstantSearch,
+  Configure, InstantSearch,
 } from 'react-instantsearch-dom';
 
 import { getConfig } from '@edx/frontend-platform';
@@ -9,10 +9,7 @@ import { SearchData, SearchHeader } from '@edx/frontend-enterprise';
 
 import Wrapper from '../PageWrapper';
 import { NUM_RESULTS_PER_PAGE } from '../../constants';
-
-const SearchResults = () => (
-  <Hits />
-);
+import CatalogSearchResults from './CatalogSearchResults';
 
 export default function EnterpriseCatalogs() {
   const config = getConfig();
@@ -32,7 +29,7 @@ export default function EnterpriseCatalogs() {
           <div className="search-header-wrapper">
             <SearchHeader />
           </div>
-          <SearchResults />
+          <CatalogSearchResults />
         </InstantSearch>
       </SearchData>
     </Wrapper>
