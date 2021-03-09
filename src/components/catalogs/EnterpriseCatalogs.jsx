@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import {
   Configure, InstantSearch,
@@ -13,10 +13,10 @@ import CatalogSearchResults from './CatalogSearchResults';
 
 export default function EnterpriseCatalogs() {
   const config = getConfig();
-  const searchClient = algoliasearch(
+  const searchClient = useMemo(() => algoliasearch(
     config.ALGOLIA_APP_ID,
     config.ALGOLIA_SEARCH_API_KEY,
-  );
+  ), [config]);
 
   return (
     <Wrapper>
