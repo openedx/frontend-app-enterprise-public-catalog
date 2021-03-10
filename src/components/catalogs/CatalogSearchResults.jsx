@@ -37,7 +37,7 @@ export const BaseCatalogSearchResults = ({
   isSearchStalled,
   searchState,
   error,
-  paginationComponent: PaginationComponent = SearchPagination,
+  paginationComponent: PaginationComponent,
 }) => {
   if (isSearchStalled) {
     return (<Skeleton className="m-1 loading-skeleton" height={25} count={5} />);
@@ -102,6 +102,7 @@ export const BaseCatalogSearchResults = ({
 BaseCatalogSearchResults.defaultProps = {
   searchResults: { nbHits: 0, hits: [] },
   error: null,
+  paginationComponent: SearchPagination,
 };
 
 BaseCatalogSearchResults.propTypes = {
@@ -120,7 +121,7 @@ BaseCatalogSearchResults.propTypes = {
   searchState: PropTypes.shape({
     page: PropTypes.number,
   }).isRequired,
-  paginationComponent: PropTypes.node.isRequired,
+  paginationComponent: PropTypes.node,
 };
 
 export default connectStateResults(BaseCatalogSearchResults);

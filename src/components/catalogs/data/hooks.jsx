@@ -5,11 +5,13 @@ import algoliasearch from 'algoliasearch/lite';
 
 import { getConfig } from '@edx/frontend-platform';
 
-const useAlgoliaIndex = () => {
-  // if we create a new instance of algoliasearch it will generate new queries!
-  // we cannot move this outside the component function here since mergeConfig based vars
-  // will not work when calling getConfig()
-  const config = getConfig();
+/**
+ * @param {Function} args.getConfigFcn inject config fetcher if necessary
+ */
+const useAlgoliaIndex = ({ getConfigFcn = getConfig }) => {
+  // note: calling the getConfig outside of a hook/render function won't work
+  // if using `mergeConfig`
+  const config = getConfigFcn();
   const searchClient = useMemo(() => algoliasearch(
     config.ALGOLIA_APP_ID,
     config.ALGOLIA_SEARCH_API_KEY,
