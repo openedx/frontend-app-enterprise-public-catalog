@@ -6,7 +6,7 @@ import { PAGE_TITLE } from '../constants';
 
 // eslint-disable-next-line react/prop-types
 const Wrapper = ({ children }) => (
-  <Container size="lg" className="mt-3">
+  <Container size="lg" className="enterprise-catalogs mt-3">
     <Helmet title={PAGE_TITLE} />
     <div className="py-5">
       {children}

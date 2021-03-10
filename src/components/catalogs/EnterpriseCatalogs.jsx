@@ -22,7 +22,7 @@ export default function EnterpriseCatalogs() {
         >
           <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
           <div className="enterprise-catalogs-header"><SearchHeader /></div>
-          <div className="enterprise-catalogs"><CatalogSearchResults /></div>
+          <CatalogSearchResults />
         </InstantSearch>
       </SearchData>
     </PageWrapper>
