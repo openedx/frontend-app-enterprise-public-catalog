@@ -19,12 +19,6 @@ const TABLE_HEADERS = {
   partner: 'Partner',
 };
 
-const SimpleDisplayCell = ({ value }) => <>{value}</>;
-
-SimpleDisplayCell.propTypes = {
-  value: PropTypes.string.isRequired,
-};
-
 const CatalogSearchResults = ({
   searchResults,
   // algolia recommends this prop instead of searching
@@ -60,20 +54,14 @@ const CatalogSearchResults = ({
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
-      // eslint-disable-next-line react/prop-types
-      Cell: ({ value }) => <SimpleDisplayCell value={value} />,
     },
     {
       Header: TABLE_HEADERS.subject,
       accessor: 'subjects[0]',
-      // eslint-disable-next-line react/prop-types
-      Cell: ({ value }) => <SimpleDisplayCell value={value} />,
     },
     {
       Header: TABLE_HEADERS.partner,
       accessor: 'partners[0].name',
-      // eslint-disable-next-line react/prop-types
-      Cell: ({ value }) => <SimpleDisplayCell value={value} />,
     },
   ], []);
 
