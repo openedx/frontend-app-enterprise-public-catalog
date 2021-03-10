@@ -1,28 +1,23 @@
-import React, { useMemo } from 'react';
-import algoliasearch from 'algoliasearch/lite';
+import React from 'react';
 import {
   Configure, InstantSearch,
 } from 'react-instantsearch-dom';
 
-import { getConfig } from '@edx/frontend-platform';
 import { SearchData, SearchHeader } from '@edx/frontend-enterprise';
 
 import Wrapper from '../PageWrapper';
 import { NUM_RESULTS_PER_PAGE } from '../../constants';
 import CatalogSearchResults from './CatalogSearchResults';
+import { useAlgoliaIndex } from './data/hooks';
 
 export default function EnterpriseCatalogs() {
-  const config = getConfig();
-  const searchClient = useMemo(() => algoliasearch(
-    config.ALGOLIA_APP_ID,
-    config.ALGOLIA_SEARCH_API_KEY,
-  ), [config]);
+  const { algoliaIndexName, searchClient } = useAlgoliaIndex();
 
   return (
     <Wrapper>
       <SearchData>
         <InstantSearch
-          indexName={config.ALGOLIA_INDEX_NAME}
+          indexName={algoliaIndexName}
           searchClient={searchClient}
         >
           <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
