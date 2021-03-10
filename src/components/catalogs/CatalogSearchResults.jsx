@@ -44,7 +44,7 @@ export const CoreCatalogSearchResults = ({
   }
   if (error) {
     return (
-      <Alert variant="warning">
+      <Alert className="mt-2" variant="warning">
         {ERROR_MESSAGE}: {error.message}
       </Alert>
     );
@@ -52,7 +52,7 @@ export const CoreCatalogSearchResults = ({
 
   if (searchResults?.nbHits === 0) {
     return (
-      <Alert variant="warning">
+      <Alert className="mt-2" variant="warning">
         {NO_DATA_MESSAGE}
       </Alert>
     );
