@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise';
-import { CoreCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE } from '../CatalogSearchResults';
+import { BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE } from '../CatalogSearchResults';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
@@ -51,7 +51,7 @@ describe('Main Catalogs view works as expected', () => {
   test('all courses rendered when search results available', () => {
     render(
       <SearchDataWrapper>
-        <CoreCatalogSearchResults
+        <BaseCatalogSearchResults
           paginationComponent={PaginationComponent}
           searchResults={searchResults}
           isSearchStalled={false}
@@ -74,7 +74,7 @@ describe('Main Catalogs view works as expected', () => {
   test('pagination component renders', () => {
     render(
       <SearchDataWrapper>
-        <CoreCatalogSearchResults
+        <BaseCatalogSearchResults
           paginationComponent={PaginationComponent}
           searchResults={searchResults}
           isSearchStalled={false}
@@ -89,7 +89,7 @@ describe('Main Catalogs view works as expected', () => {
     const emptySearchResults = { ...searchResults, nbHits: 0 };
     render(
       <SearchDataWrapper>
-        <CoreCatalogSearchResults
+        <BaseCatalogSearchResults
           paginationComponent={PaginationComponent}
           searchResults={emptySearchResults}
           isSearchStalled={false}
@@ -104,7 +104,7 @@ describe('Main Catalogs view works as expected', () => {
     const ERRMSG = 'something ain\'t right here';
     render(
       <SearchDataWrapper>
-        <CoreCatalogSearchResults
+        <BaseCatalogSearchResults
           paginationComponent={PaginationComponent}
           searchResults={searchResults}
           isSearchStalled={false}

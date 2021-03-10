@@ -31,7 +31,7 @@ const TABLE_HEADERS = {
  * @param {object} args.error Error with `message` field if available (see: `connectStateResults``)
  * @param {object} args.paginationComponent Defaults to <SearchPagination> but can be injected
  */
-export const CoreCatalogSearchResults = ({
+export const BaseCatalogSearchResults = ({
   searchResults,
   // algolia recommends this prop instead of searching
   isSearchStalled,
@@ -99,12 +99,12 @@ export const CoreCatalogSearchResults = ({
   );
 };
 
-CoreCatalogSearchResults.defaultProps = {
+BaseCatalogSearchResults.defaultProps = {
   searchResults: { nbHits: 0, hits: [] },
   error: null,
 };
 
-CoreCatalogSearchResults.propTypes = {
+BaseCatalogSearchResults.propTypes = {
   // from Algolia
   searchResults: PropTypes.shape({
     nbHits: PropTypes.number,
@@ -123,4 +123,4 @@ CoreCatalogSearchResults.propTypes = {
   paginationComponent: PropTypes.node.isRequired,
 };
 
-export default connectStateResults(CoreCatalogSearchResults);
+export default connectStateResults(BaseCatalogSearchResults);
