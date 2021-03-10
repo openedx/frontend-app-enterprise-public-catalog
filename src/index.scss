@@ -8,7 +8,4 @@
 
 @import "~@edx/frontend-enterprise/src/course-search/styles/index";
 
-.bg-brand-primary {
-  background-color: $primary-700;
-  color: $white;
-}
+@import "./components/catalogs/styles";

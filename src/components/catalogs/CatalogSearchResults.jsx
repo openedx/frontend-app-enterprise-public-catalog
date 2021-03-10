@@ -5,7 +5,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import {
-  DataTable, StatusAlert,
+  DataTable, Alert,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise';
 import Skeleton from 'react-loading-skeleton';
@@ -27,25 +27,21 @@ const CatalogSearchResults = ({
   error,
 }) => {
   if (isSearchStalled) {
-    return (<Skeleton height={25} />);
+    return (<Skeleton className="m-1 loading-skeleton" height={25} count={5} />);
   }
   if (error) {
     return (
-      <StatusAlert
-        alertType="danger"
-        iconClassName="fa fa-times-circle"
-        message={`${ERROR_MESSAGE} ${error.message}`}
-      />
+      <Alert variant="warning">
+        {ERROR_MESSAGE}: {error.message}
+      </Alert>
     );
   }
 
   if (searchResults?.nbHits === 0) {
     return (
-      <StatusAlert
-        alertType="warning"
-        iconClassName="fa fa-exclamation-circle"
-        message={NO_DATA_MESSAGE}
-      />
+      <Alert variant="warning">
+        {NO_DATA_MESSAGE}
+      </Alert>
     );
   }
 
@@ -65,17 +61,7 @@ const CatalogSearchResults = ({
     },
   ], []);
 
-  const calculatePage = () => {
-    if (refinementsFromQueryParams.page) {
-      return refinementsFromQueryParams.page;
-    }
-    return searchState && searchState.page;
-  };
-
-  const page = useMemo(
-    calculatePage,
-    [calculatePage, searchState?.page, refinementsFromQueryParams?.page],
-  );
+  const page = refinementsFromQueryParams.page || (searchState ? searchState.page : 0);
 
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (
@@ -85,7 +71,6 @@ const CatalogSearchResults = ({
           columns={columns}
           data={tableData}
           itemCount={searchResults?.nbHits}
-          isSelectable
           pageCount={searchResults?.nbPages || 1}
           pageSize={searchResults?.hitsPerPage || 0}
         >
