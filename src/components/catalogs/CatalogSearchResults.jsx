@@ -10,8 +10,8 @@ import {
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise';
 import Skeleton from 'react-loading-skeleton';
 
-const ERROR_MESSAGE = 'An error occured while retrieving data';
-const NO_DATA_MESSAGE = 'There are no course results';
+export const ERROR_MESSAGE = 'An error occured while retrieving data';
+export const NO_DATA_MESSAGE = 'There are no course results';
 
 const TABLE_HEADERS = {
   courseName: 'Course name',
@@ -19,12 +19,25 @@ const TABLE_HEADERS = {
   partner: 'Partner',
 };
 
-const CatalogSearchResults = ({
+/**
+ * The core search resultss rendering component.
+ *
+ * Wrapping this in `connectStateResults()` will inject the first few props.
+ *
+ * @param {object} args arguments
+ * @param {object} args.searchResults Results of search (see: `connectStateResults``)
+ * @param {Boolean} args.isSearchStalled Whether search is stalled (see: `connectStateResults`)
+ * @param {object} args.searchState contents of search state, like `page` (see: `connectStateResults``)
+ * @param {object} args.error Error with `message` field if available (see: `connectStateResults``)
+ * @param {object} args.paginationComponent Defaults to <SearchPagination> but can be injected
+ */
+export const CoreCatalogSearchResults = ({
   searchResults,
   // algolia recommends this prop instead of searching
   isSearchStalled,
   searchState,
   error,
+  paginationComponent: PaginationComponent = SearchPagination,
 }) => {
   if (isSearchStalled) {
     return (<Skeleton className="m-1 loading-skeleton" height={25} count={5} />);
@@ -78,7 +91,7 @@ const CatalogSearchResults = ({
           <DataTable.Table />
           <DataTable.TableFooter>
             <DataTable.RowStatus />
-            <SearchPagination defaultRefinement={page} />
+            <PaginationComponent defaultRefinement={page} />
           </DataTable.TableFooter>
         </DataTable>
       </div>
@@ -86,12 +99,12 @@ const CatalogSearchResults = ({
   );
 };
 
-CatalogSearchResults.defaultProps = {
+CoreCatalogSearchResults.defaultProps = {
   searchResults: { nbHits: 0, hits: [] },
   error: null,
 };
 
-CatalogSearchResults.propTypes = {
+CoreCatalogSearchResults.propTypes = {
   // from Algolia
   searchResults: PropTypes.shape({
     nbHits: PropTypes.number,
@@ -107,6 +120,7 @@ CatalogSearchResults.propTypes = {
   searchState: PropTypes.shape({
     page: PropTypes.number,
   }).isRequired,
+  paginationComponent: PropTypes.node.isRequired,
 };
 
-export default connectStateResults(CatalogSearchResults);
+export default connectStateResults(CoreCatalogSearchResults);

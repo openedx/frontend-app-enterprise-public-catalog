@@ -68,6 +68,8 @@
     "glob": "7.1.6",
     "husky": "3.1.0",
     "jest": "24.9.0",
-    "reactifex": "1.1.1"
+    "reactifex": "1.1.1",
+    "@testing-library/jest-dom": "5.11.9",
+    "@testing-library/react": "11.2.3"
   }
 }
