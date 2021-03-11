@@ -3,7 +3,9 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise';
-import { BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE } from '../CatalogSearchResults';
+import {
+  BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID,
+} from '../CatalogSearchResults';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
@@ -121,5 +123,21 @@ describe('Main Catalogs view works as expected', () => {
 
     expect(screen.queryByText(TEST_COURSE_NAME)).not.toBeInTheDocument();
     expect(screen.queryByText(TEST_COURSE_NAME_2)).not.toBeInTheDocument();
+  });
+  test('isSearchStalled leads to rendering skeleton and not content', () => {
+    render(
+      <SearchDataWrapper>
+        <BaseCatalogSearchResults
+          paginationComponent={PaginationComponent}
+          searchResults
+          isSearchStalled
+          searchState
+          error
+        />
+      </SearchDataWrapper>,
+    );
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(screen.queryByText(TEST_COURSE_NAME)).not.toBeInTheDocument();
+    expect(screen.getByTestId(SKELETON_DATA_TESTID)).toBeInTheDocument();
   });
 });

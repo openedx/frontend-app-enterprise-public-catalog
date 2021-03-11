@@ -12,6 +12,7 @@ import Skeleton from 'react-loading-skeleton';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 export const NO_DATA_MESSAGE = 'There are no course results';
+export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
 
 const TABLE_HEADERS = {
   courseName: 'Course name',
@@ -40,7 +41,15 @@ export const BaseCatalogSearchResults = ({
   paginationComponent: PaginationComponent,
 }) => {
   if (isSearchStalled) {
-    return (<Skeleton className="m-1 loading-skeleton" height={25} count={5} />);
+    return (
+      <div data-testid={SKELETON_DATA_TESTID}>
+        <Skeleton
+          className="m-1 loading-skeleton"
+          height={25}
+          count={5}
+        />
+      </div>
+    );
   }
   if (error) {
     return (
