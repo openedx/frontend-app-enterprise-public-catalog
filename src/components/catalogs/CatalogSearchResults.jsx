@@ -88,7 +88,7 @@ export const BaseCatalogSearchResults = ({
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (
     <>
-      <div data-testid="enterprise-catalogs-listing">
+      <div>
         <DataTable
           columns={columns}
           data={tableData}
