@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise';
 import {
-  BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID,
+  BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID, TABLE_HEADERS,
 } from '../CatalogSearchResults';
 
 // Mocking this connected component so as not to have to mock the algolia Api
@@ -139,5 +139,21 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     expect(screen.queryByText(TEST_COURSE_NAME)).not.toBeInTheDocument();
     expect(screen.getByTestId(SKELETON_DATA_TESTID)).toBeInTheDocument();
+  });
+  test('headers rendered correctly', () => {
+    render(
+      <SearchDataWrapper>
+        <BaseCatalogSearchResults
+          paginationComponent={PaginationComponent}
+          searchResults={searchResults}
+          isSearchStalled={false}
+          searchState={{ page: 1 }}
+          error={null}
+        />
+      </SearchDataWrapper>,
+    );
+    expect(screen.queryByText(TABLE_HEADERS.courseName)).toBeInTheDocument();
+    expect(screen.queryByText(TABLE_HEADERS.partner)).toBeInTheDocument();
+    expect(screen.queryByText(TABLE_HEADERS.subject)).toBeInTheDocument();
   });
 });

@@ -14,7 +14,7 @@ export const ERROR_MESSAGE = 'An error occured while retrieving data';
 export const NO_DATA_MESSAGE = 'There are no course results';
 export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
 
-const TABLE_HEADERS = {
+export const TABLE_HEADERS = {
   courseName: 'Course name',
   subject: 'Subject',
   partner: 'Partner',
