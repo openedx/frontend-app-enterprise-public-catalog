@@ -8,15 +8,21 @@ import Footer from '@edx/frontend-component-footer';
 import { EnterpriseCatalogs } from '../catalogs';
 import NotFoundPage from '../NotFoundPage';
 
+export const EnterpriseCatalogsApp = () => (
+  <>
+    <Header />
+    <Switch>
+      <PageRoute exact path="/" component={EnterpriseCatalogs} />
+      <PageRoute path="*" component={NotFoundPage} />
+    </Switch>
+    <Footer />
+  </>
+);
+
 export default function App() {
   return (
     <AppProvider>
-      <Header />
-      <Switch>
-        <PageRoute exact path="/" component={EnterpriseCatalogs} />
-        <PageRoute path="*" component={NotFoundPage} />
-      </Switch>
-      <Footer />
+      <EnterpriseCatalogsApp />
     </AppProvider>
   );
 }
