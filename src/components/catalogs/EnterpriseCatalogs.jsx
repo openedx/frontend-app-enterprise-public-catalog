@@ -9,22 +9,28 @@ import PageWrapper from '../PageWrapper';
 import { NUM_RESULTS_PER_PAGE } from '../../constants';
 import CatalogSearchResults from './CatalogSearchResults';
 import { useAlgoliaIndex } from './data/hooks';
+import Hero from '../hero/Hero';
 
 export default function EnterpriseCatalogs() {
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
 
   return (
-    <PageWrapper>
-      <SearchData>
-        <InstantSearch
-          indexName={algoliaIndexName}
-          searchClient={searchClient}
-        >
-          <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
-          <div className="enterprise-catalogs-header"><SearchHeader /></div>
-          <CatalogSearchResults />
-        </InstantSearch>
-      </SearchData>
-    </PageWrapper>
+    <>
+      <Hero
+        text="Browse edX courses"
+      />
+      <PageWrapper>
+        <SearchData>
+          <InstantSearch
+            indexName={algoliaIndexName}
+            searchClient={searchClient}
+          >
+            <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
+            <div className="enterprise-catalogs-header"><SearchHeader /></div>
+            <CatalogSearchResults />
+          </InstantSearch>
+        </SearchData>
+      </PageWrapper>
+    </>
   );
 }

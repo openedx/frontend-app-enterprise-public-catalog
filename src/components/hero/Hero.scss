@@ -1,0 +1,38 @@
+$hero-max-height: 350px;
+
+.hero {
+  background-color: $primary-700;
+  font-family: Inter;
+  min-height: 298px;
+  max-height: $hero-max-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .display-3 {
+    color: $white;
+    padding: 1rem 0
+  }
+  .hero-image {
+    max-height: $hero-max-height;
+  }
+}
+
+.word-splitter .highlighted {
+  color: $accent-b;
+}
+
+
+@include media-breakpoint-down(sm) {
+  .hero {
+    min-height: 200px;
+  }
+}
+
+
+@include media-breakpoint-up(xl) {
+  .px-lg-6 {
+    padding-right: $spacer * 8 !important;
+    padding-left: $spacer * 8 !important;
+  }
+}
