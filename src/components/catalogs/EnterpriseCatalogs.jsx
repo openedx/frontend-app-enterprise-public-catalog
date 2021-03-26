@@ -10,6 +10,10 @@ import { NUM_RESULTS_PER_PAGE } from '../../constants';
 import CatalogSearchResults from './CatalogSearchResults';
 import { useAlgoliaIndex } from './data/hooks';
 import Hero from '../hero/Hero';
+import CallToAction from '../callToAction/callToAction';
+
+const ctaText= 'Explore comprehensive course catalogs curated for businesses and for educational institutions, or work with an edX representative to customize a solution for your unique needs.'
+
 
 export default function EnterpriseCatalogs() {
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
@@ -18,6 +22,10 @@ export default function EnterpriseCatalogs() {
     <>
       <Hero
         text="Browse edX courses"
+      />
+      <CallToAction
+        title="Tailored learning for your team"
+        text={ctaText}
       />
       <PageWrapper>
         <SearchData>

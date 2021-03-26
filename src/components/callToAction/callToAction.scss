@@ -1,0 +1,24 @@
+.cta {
+  min-height: 298px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .cta__text {
+    max-width: 50%;
+  }
+}
+
+
+@include media-breakpoint-down(sm) {
+  .cta {
+    min-height: 200px;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .cta__text {
+      max-width: 100%;
+      margin-bottom: 2rem;
+    }
+  }
+}

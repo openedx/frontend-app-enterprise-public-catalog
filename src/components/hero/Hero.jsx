@@ -1,5 +1,6 @@
 import { ExtraLarge, Image, Large } from '@edx/paragon';
 import React from 'react';
+import { paddingClasses } from '../constants';
 import SmallHeroImage from '../../assets/hero-image-cluster-1x.png';
 import LargeHeroImage from '../../assets/hero-image-cluster-2x.png';
 
@@ -13,7 +14,7 @@ export const FirstWordHighlighter = ({ text }) => {
 };
 
 const Hero = ({ text }) => (
-  <div className="hero px-4 px-md-5 px-lg-6">
+  <div className={`hero ${paddingClasses}`}>
     <h1 className="display-3"><FirstWordHighlighter text={heroText} /></h1>
     <div className="hero-image">
       <Large>
