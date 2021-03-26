@@ -1,11 +1,21 @@
 .cta {
-  min-height: 298px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include full-width-padding;
+  @include center-vertically;
+  @extend .py-5;
+  @extend .py-md-4;
+  min-height: $banner-min-height;
 
+
+  .cta__title {
+    @extend .h4
+  }
   .cta__text {
     max-width: 50%;
+  }
+
+  .cta__button {
+    @extend .ml-0;
+    @extend .ml-md-5;
   }
 }
 

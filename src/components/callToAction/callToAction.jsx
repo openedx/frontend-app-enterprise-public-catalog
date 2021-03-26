@@ -1,19 +1,32 @@
 import {
-  Button, ExtraLarge, Image, Large,
+  Button,
 } from '@edx/paragon';
 import React from 'react';
-import { paddingClasses } from '../constants';
+import PropTypes from 'prop-types';
 
-const CallToAction = ({ title, text }) => (
-  <div className={`cta py-5 py-md-4 ${paddingClasses}`}>
+const CallToAction = ({
+  title, text, buttonText, buttonLink,
+}) => (
+  <section className="cta">
     <div className="cta__text">
-      <h2 className="h4">{title}</h2>
+      {title && <h2 className="cta__title">{title}</h2>}
       <p>{text}</p>
     </div>
-    <div className="cta__button ml-0 ml-md-5">
-      <Button variant="brand">Schedule a call</Button>
+    <div className="cta__button">
+      <Button variant="brand" href={buttonLink}>{buttonText}</Button>
     </div>
-  </div>
+  </section>
 );
+
+CallToAction.defaultProps = {
+  title: null,
+};
+
+CallToAction.propTypes = {
+  title: PropTypes.string,
+  text: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+  buttonText: PropTypes.string.isRequired,
+  buttonLink: PropTypes.string.isRequired,
+};
 
 export default CallToAction;

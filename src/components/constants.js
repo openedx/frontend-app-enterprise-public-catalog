@@ -1,1 +1,0 @@
-export const paddingClasses = "px-4 px-md-5 px-lg-6"

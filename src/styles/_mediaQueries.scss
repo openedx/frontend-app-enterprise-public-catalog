@@ -1,0 +1,6 @@
+@include media-breakpoint-up(xl) {
+  .px-lg-6 {
+    padding-right: $spacer * 8 !important;
+    padding-left: $spacer * 8 !important;
+  }
+}

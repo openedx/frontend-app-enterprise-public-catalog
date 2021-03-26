@@ -1,38 +1,33 @@
-$hero-max-height: 350px;
-
 .hero {
+  @include full-width-padding;
+  @include center-vertically;
   background-color: $primary-700;
   font-family: Inter;
-  min-height: 298px;
+  min-height: $banner-min-height;
   max-height: $hero-max-height;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
   .display-3 {
     color: $white;
-    padding: 1rem 0
+    padding: 1rem 0;
+    max-width: 50%;
   }
-  .hero-image {
+  .hero__image {
     max-height: $hero-max-height;
+    height: 100%;
   }
 }
 
 .word-splitter .highlighted {
-  color: $accent-b;
+  color: $brand;
 }
-
 
 @include media-breakpoint-down(sm) {
   .hero {
     min-height: 200px;
-  }
-}
+    max-height: 331px;
 
-
-@include media-breakpoint-up(xl) {
-  .px-lg-6 {
-    padding-right: $spacer * 8 !important;
-    padding-left: $spacer * 8 !important;
+    .display-3 {
+      max-width: 100%;
+    }
   }
 }

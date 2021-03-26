@@ -5,14 +5,14 @@ import { AppProvider, PageRoute } from '@edx/frontend-platform/react';
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
 
-import { EnterpriseCatalogs } from '../catalogs';
+import CatalogPage from '../catalogPage/CatalogPage';
 import NotFoundPage from '../NotFoundPage';
 
 export const EnterpriseCatalogsApp = () => (
   <>
     <Header />
     <Switch>
-      <PageRoute exact path="/" component={EnterpriseCatalogs} />
+      <PageRoute exact path="/" component={CatalogPage} />
       <PageRoute path="*" component={NotFoundPage} />
     </Switch>
     <Footer />

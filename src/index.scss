@@ -8,6 +8,9 @@
 
 @import "~@edx/frontend-enterprise/src/course-search/styles/index";
 
+@import "./styles/variables";
+@import "./styles/mediaQueries";
+@import "./styles/mixins";
 @import "./components/catalogs/styles";
 @import "./components/hero/Hero";
 @import "./components/callToAction/callToAction";

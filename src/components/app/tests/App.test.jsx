@@ -1,16 +1,9 @@
 /* eslint-disable react/prop-types */
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import React from 'react';
-
 import '@testing-library/jest-dom/extend-expect';
-
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { AppContext } from '@edx/frontend-platform/react';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-
+import { renderWithRouter } from '../../tests/testUtils';
 import { EnterpriseCatalogsApp } from '../App';
 import { NOT_FOUND_TEXT } from '../../NotFoundPage';
 
@@ -21,37 +14,23 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 jest.mock('@edx/frontend-platform/auth');
 getAuthenticatedUser.mockReturnValue({ username: 'test-username' });
 
+// all we are testing is routes, we don't care what's rendered as long as it's the right page
+jest.mock('react-instantsearch-dom', () => ({
+  ...jest.requireActual('react-instantsearch-dom'),
+  InstantSearch: () => (<div>SEARCH</div>),
+}));
 /**
  * Rationale of test: Render the main EnterpriseCatalogsApp excluding the AppProvider (which is
  * what App does)
- * This allows us to inject fake data into AppProvider
+ * Test that routes render correctly
+ * This means we can inject fake data into AppProvider
  */
-
-const TEST_CONFIG = {
-  ALGOLIA_APP_ID: 'app',
-  ALGOLIA_INDEX_NAME: 'index',
-  ALGOLIA_SEARCH_API_KEY: 'key',
-};
-const renderWithRouter = (ui, { route } = {}) => {
-  const history = createMemoryHistory();
-  if (route) { history.push(route); }
-  const locale = 'en-US';
-  render(
-    <AppContext.Provider value={{ authenticatedUser: null, config: TEST_CONFIG, locale }}>
-      <IntlProvider locale={locale} messages={{}}>
-        <Router history={history}>
-          {ui}
-        </Router>
-      </IntlProvider>
-    </AppContext.Provider>,
-  );
-};
 
 describe('app routes', () => {
   test('/ renders the EnterpriseCatalogs component', () => {
     renderWithRouter(<EnterpriseCatalogsApp />);
     // we are good if the table renders
-    expect(screen.getByTestId('enterprise-catalogs-content')).toBeInTheDocument();
+    expect(screen.getByText('SEARCH')).toBeInTheDocument();
   });
   test('all other routes render the NotFoundPage component', () => {
     renderWithRouter(<EnterpriseCatalogsApp />, { route: '/something-else' });
