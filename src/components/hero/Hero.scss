@@ -1,14 +1,16 @@
 .hero {
-  @include full-width-padding;
-  @include center-vertically;
   background-color: $primary-700;
+}
+
+.hero__content {
+  @include center-vertically;
   font-family: Inter;
   min-height: $banner-min-height;
   max-height: $hero-max-height;
 
   .display-3 {
+    @extend .py-3;
     color: $white;
-    padding: 1rem 0;
     max-width: 50%;
   }
   .hero__image {
@@ -21,7 +23,7 @@
   color: $brand;
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
   .hero {
     min-height: 200px;
     max-height: 331px;

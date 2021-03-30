@@ -1,5 +1,2 @@
-.enterprise-catalogs {
-  .loading-skeleton {
-    background-color: $info-100;
-  }
-}
+@import "./enterprise_catalogs";
+@import "./skeleton";

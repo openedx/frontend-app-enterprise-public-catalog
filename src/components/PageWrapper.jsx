@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container } from '@edx/paragon';
 import { Helmet } from 'react-helmet';
-import classNames from 'classnames';
 
 import { PAGE_TITLE } from '../constants';
 
@@ -9,11 +8,11 @@ export const DATA_TEST_ID = 'enterprise-catalogs-content';
 
 // eslint-disable-next-line react/prop-types
 const PageWrapper = ({ children, className }) => (
-  <Container size="lg" className={classNames('mt-3', className)}>
+  <Container size="lg" className={className}>
     <Helmet title={PAGE_TITLE} />
-    <section data-testid={DATA_TEST_ID} className="py-5">
+    <div data-testid={DATA_TEST_ID}>
       {children}
-    </section>
+    </div>
   </Container>
 );
 

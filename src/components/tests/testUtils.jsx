@@ -18,7 +18,7 @@ export const renderWithRouter = (ui, { route } = {}) => {
   const history = createMemoryHistory();
   if (route) { history.push(route); }
   const locale = 'en';
-  render(
+  return render(
     <AppContext.Provider value={{ authenticatedUser: null, config: TEST_CONFIG, locale }}>
       <IntlProvider locale={locale} messages={headerMessages[locale]}>
         <Router history={history}>

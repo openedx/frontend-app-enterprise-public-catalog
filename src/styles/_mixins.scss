@@ -1,10 +1,4 @@
 
-@mixin full-width-padding {
-  @extend .px-4 ;
-  @extend .px-md-5 ;
-  @extend .px-lg-6 !optional;
-}
-
 @mixin center-vertically {
   display: flex;
   align-items: center;

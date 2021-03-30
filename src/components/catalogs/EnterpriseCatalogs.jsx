@@ -15,16 +15,19 @@ export default function EnterpriseCatalogs() {
   return (
     <>
       <PageWrapper className="enterprise-catalogs">
-        <SearchData>
-          <InstantSearch
-            indexName={algoliaIndexName}
-            searchClient={searchClient}
-          >
-            <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
-            <div className="enterprise-catalogs-header"><SearchHeader /></div>
-            <CatalogSearchResults />
-          </InstantSearch>
-        </SearchData>
+        <section>
+          <h2>Search courses and programs</h2>
+          <SearchData>
+            <InstantSearch
+              indexName={algoliaIndexName}
+              searchClient={searchClient}
+            >
+              <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
+              <div className="enterprise-catalogs-header"><SearchHeader variant="default" /></div>
+              <CatalogSearchResults />
+            </InstantSearch>
+          </SearchData>
+        </section>
       </PageWrapper>
     </>
   );

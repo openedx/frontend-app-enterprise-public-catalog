@@ -1,10 +1,8 @@
 .cta {
-  @include full-width-padding;
-  @include center-vertically;
-  @extend .py-5;
-  @extend .py-md-4;
-  min-height: $banner-min-height;
+  @extend .my-5;
 
+  display: flex;
+  justify-content: space-between;
 
   .cta__title {
     @extend .h4

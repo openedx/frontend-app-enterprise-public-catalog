@@ -1,4 +1,6 @@
-import { ExtraLarge, Image, Large } from '@edx/paragon';
+import {
+  ExtraLarge, Image, Large, Container,
+} from '@edx/paragon';
 import React from 'react';
 import PropTypes from 'prop-types';
 import SmallHeroImage from '../../assets/hero-image-cluster-1x.png';
@@ -18,15 +20,17 @@ FirstWordHighlighter.propTypes = {
 
 const Hero = ({ text }) => (
   <section className="hero">
-    <h1 className="display-3"><FirstWordHighlighter text={text} /></h1>
-    <div>
-      <Large>
-        <Image className="hero__image" src={SmallHeroImage} alt={imageAltText} />
-      </Large>
-      <ExtraLarge>
-        <Image className="hero__image" src={LargeHeroImage} alt={imageAltText} />
-      </ExtraLarge>
-    </div>
+    <Container size="lg" className="hero__content">
+      <h1 className="display-3"><FirstWordHighlighter text={text} /></h1>
+      <div>
+        <Large>
+          <Image className="hero__image" src={SmallHeroImage} alt={imageAltText} />
+        </Large>
+        <ExtraLarge>
+          <Image className="hero__image" src={LargeHeroImage} alt={imageAltText} />
+        </ExtraLarge>
+      </div>
+    </Container>
   </section>
 );
 
