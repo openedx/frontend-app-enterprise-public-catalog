@@ -5,8 +5,11 @@ import Hero from './Hero';
 
 describe('Hero', () => {
   it('displays hero text', () => {
-    render(<Hero text="Here be bears" />);
-    expect(screen.getByText('Here')).toBeInTheDocument();
+    const firstWord = 'Here';
+    render(<Hero text="Here be bears" highlight={firstWord} />);
+    expect(screen.getByText(firstWord)).toBeInTheDocument();
+    expect(screen.getByText(firstWord)).toHaveClass('highlighted');
+
     expect(screen.getByText('be bears')).toBeInTheDocument();
   });
 });

@@ -17,10 +17,9 @@
     max-height: $hero-max-height;
     height: 100%;
   }
-}
-
-.word-splitter .highlighted {
-  color: $brand;
+  .highlighted {
+    color: $brand;
+  }
 }
 
 @include media-breakpoint-down(md) {

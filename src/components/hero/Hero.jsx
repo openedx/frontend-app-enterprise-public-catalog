@@ -5,23 +5,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SmallHeroImage from '../../assets/hero-image-cluster-1x.png';
 import LargeHeroImage from '../../assets/hero-image-cluster-2x.png';
+import { Highlighted } from '../helperComponents';
 
 const imageAltText = 'People learning and performing highly skilled tasks';
 
-export const FirstWordHighlighter = ({ text }) => {
-  const words = text.split(' ');
-  const firstWord = words.shift();
-  return <span className="word-splitter"><div className="highlighted">{`${firstWord} `}</div><div>{words.join(' ')}</div></span>;
-};
-
-FirstWordHighlighter.propTypes = {
-  text: PropTypes.string.isRequired,
-};
-
-const Hero = ({ text }) => (
+const Hero = ({ text, highlight }) => (
   <section className="hero">
     <Container size="lg" className="hero__content">
-      <h1 className="display-3"><FirstWordHighlighter text={text} /></h1>
+      <h1 className="display-3"><Highlighted text={text} highlight={highlight} /></h1>
       <div>
         <Large>
           <Image className="hero__image" src={SmallHeroImage} alt={imageAltText} />
@@ -34,8 +25,13 @@ const Hero = ({ text }) => (
   </section>
 );
 
+Hero.defaultProps = {
+  highlight: '',
+};
+
 Hero.propTypes = {
   text: PropTypes.string.isRequired,
+  highlight: PropTypes.string,
 };
 
 export default Hero;

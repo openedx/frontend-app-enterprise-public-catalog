@@ -5,13 +5,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CallToAction = ({
-  title, text, buttonText, buttonLink,
+  title, buttonText, buttonLink, children,
 }) => (
   <section>
     <Container className="cta" size="lg">
       <div className="cta__text">
         {title && <h2 className="cta__title">{title}</h2>}
-        <div>{text}</div>
+        <div>{children}</div>
       </div>
       <div className="cta__button">
         <Button variant="brand" href={buttonLink}>{buttonText}</Button>
@@ -26,7 +26,7 @@ CallToAction.defaultProps = {
 
 CallToAction.propTypes = {
   title: PropTypes.string,
-  text: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
   buttonText: PropTypes.string.isRequired,
   buttonLink: PropTypes.string.isRequired,
 };
