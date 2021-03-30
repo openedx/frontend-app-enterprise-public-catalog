@@ -1,0 +1,35 @@
+.cta {
+  @extend .my-5;
+
+  display: flex;
+  justify-content: space-between;
+
+  .cta__title {
+    @extend .h4
+  }
+  .cta__text {
+    max-width: 50%;
+  }
+
+  .cta__button {
+    @extend .ml-0;
+    @extend .ml-md-5;
+  }
+  .info {
+    color: $info-300;
+  }
+}
+
+
+@include media-breakpoint-down(sm) {
+  .cta {
+    min-height: 200px;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .cta__text {
+      max-width: 100%;
+      margin-bottom: 2rem;
+    }
+  }
+}

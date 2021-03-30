@@ -130,7 +130,7 @@ BaseCatalogSearchResults.propTypes = {
   searchState: PropTypes.shape({
     page: PropTypes.number,
   }).isRequired,
-  paginationComponent: PropTypes.node,
+  paginationComponent: PropTypes.func,
 };
 
 export default connectStateResults(BaseCatalogSearchResults);

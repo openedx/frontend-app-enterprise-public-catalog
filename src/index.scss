@@ -1,11 +1,15 @@
-@import "@edx/brand/paragon/fonts.scss";
-@import "@edx/brand/paragon/variables.scss";
+@import "~@edx/brand/paragon/fonts.scss";
+@import "~@edx/brand/paragon/variables.scss";
 @import "@edx/paragon/scss/core/core.scss";
-@import "@edx/brand/paragon/overrides.scss";
+@import "~@edx/brand/paragon/overrides.scss";
 
 @import "~@edx/frontend-component-header/dist/index";
 @import "~@edx/frontend-component-footer/dist/footer";
 
-@import "~@edx/frontend-enterprise/src/course-search/styles/index";
+@import "~@edx/frontend-enterprise";
 
+@import "./styles/variables";
+@import "./styles/mixins";
 @import "./components/catalogs/styles";
+@import "./components/hero/Hero";
+@import "./components/callToAction/callToAction";

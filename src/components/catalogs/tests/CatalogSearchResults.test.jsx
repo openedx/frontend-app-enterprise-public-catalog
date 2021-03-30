@@ -129,10 +129,9 @@ describe('Main Catalogs view works as expected', () => {
       <SearchDataWrapper>
         <BaseCatalogSearchResults
           paginationComponent={PaginationComponent}
-          searchResults
+          searchResults={searchResults}
           isSearchStalled
-          searchState
-          error
+          searchState={{ page: 1 }}
         />
       </SearchDataWrapper>,
     );
