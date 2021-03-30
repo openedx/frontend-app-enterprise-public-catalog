@@ -36,6 +36,7 @@ initialize({
         ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,
       });
     },
+    auth: () => {},
   },
   messages: [
     appMessages,
