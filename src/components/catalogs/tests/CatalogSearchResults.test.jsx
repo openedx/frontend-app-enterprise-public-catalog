@@ -3,9 +3,12 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise';
+// import { IntlProvider } from '@edx/frontend-platform/i18n';
 import {
-  BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID, TABLE_HEADERS,
+  BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID,
 } from '../CatalogSearchResults';
+import { renderWithRouter } from '../../tests/testUtils';
+import messages from '../CatalogSearchResults.messages';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
@@ -49,17 +52,30 @@ const searchResults = {
   page: 1,
 };
 
+const defaultProps = {
+  paginationComponent: PaginationComponent,
+  searchResults,
+  isSearchStalled: false,
+  searchState: { page: 1 },
+  error: null,
+  // mock i18n requirements
+  intl: {
+    formatMessage: (header) => header.defaultMessage,
+    formatDate: () => {},
+    formatTime: () => {},
+    formatRelative: () => {},
+    formatNumber: () => {},
+    formatPlural: () => {},
+    formatHTMLMessage: () => {},
+    now: () => {},
+  },
+};
+
 describe('Main Catalogs view works as expected', () => {
   test('all courses rendered when search results available', () => {
     render(
       <SearchDataWrapper>
-        <BaseCatalogSearchResults
-          paginationComponent={PaginationComponent}
-          searchResults={searchResults}
-          isSearchStalled={false}
-          searchState={{ page: 1 }}
-          error={null}
-        />
+        <BaseCatalogSearchResults {...defaultProps} />
       </SearchDataWrapper>,
     );
 
@@ -74,14 +90,10 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
   });
   test('pagination component renders', () => {
-    render(
+    renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
-          paginationComponent={PaginationComponent}
-          searchResults={searchResults}
-          isSearchStalled={false}
-          searchState={{ page: 1 }}
-          error={null}
+          {...defaultProps}
         />
       </SearchDataWrapper>,
     );
@@ -89,14 +101,11 @@ describe('Main Catalogs view works as expected', () => {
   });
   test('no search results displays NO_DATA_MESSAGE', () => {
     const emptySearchResults = { ...searchResults, nbHits: 0 };
-    render(
+    renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
-          paginationComponent={PaginationComponent}
+          {...defaultProps}
           searchResults={emptySearchResults}
-          isSearchStalled={false}
-          searchState={{ page: 1 }}
-          error={null}
         />
       </SearchDataWrapper>,
     );
@@ -104,13 +113,10 @@ describe('Main Catalogs view works as expected', () => {
   });
   test('error if present is rendered instead of table', () => {
     const ERRMSG = 'something ain\'t right here';
-    render(
+    renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
-          paginationComponent={PaginationComponent}
-          searchResults={searchResults}
-          isSearchStalled={false}
-          searchState={{ page: 1 }}
+          {...defaultProps}
           error={{ message: ERRMSG }}
         />
       </SearchDataWrapper>,
@@ -125,13 +131,11 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(TEST_COURSE_NAME_2)).not.toBeInTheDocument();
   });
   test('isSearchStalled leads to rendering skeleton and not content', () => {
-    render(
+    renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
-          paginationComponent={PaginationComponent}
-          searchResults={searchResults}
+          {...defaultProps}
           isSearchStalled
-          searchState={{ page: 1 }}
         />
       </SearchDataWrapper>,
     );
@@ -140,19 +144,15 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.getByTestId(SKELETON_DATA_TESTID)).toBeInTheDocument();
   });
   test('headers rendered correctly', () => {
-    render(
+    renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
-          paginationComponent={PaginationComponent}
-          searchResults={searchResults}
-          isSearchStalled={false}
-          searchState={{ page: 1 }}
-          error={null}
+          {...defaultProps}
         />
       </SearchDataWrapper>,
     );
-    expect(screen.queryByText(TABLE_HEADERS.courseName)).toBeInTheDocument();
-    expect(screen.queryByText(TABLE_HEADERS.partner)).toBeInTheDocument();
-    expect(screen.queryByText(TABLE_HEADERS.subject)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.subject'].defaultMessage)).toBeInTheDocument();
   });
 });

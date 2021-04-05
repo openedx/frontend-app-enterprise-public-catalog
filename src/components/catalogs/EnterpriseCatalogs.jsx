@@ -4,6 +4,7 @@ import {
 } from 'react-instantsearch-dom';
 import { SearchData, SearchHeader } from '@edx/frontend-enterprise';
 
+import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import PageWrapper from '../PageWrapper';
 import { NUM_RESULTS_PER_PAGE } from '../../constants';
 import CatalogSearchResults from './CatalogSearchResults';
@@ -16,7 +17,12 @@ export default function EnterpriseCatalogs() {
     <>
       <PageWrapper className="enterprise-catalogs">
         <section>
-          <h2>Search courses and programs</h2>
+          <FormattedMessage
+            id="catalogs.enterpriseCatalogs.header"
+            defaultMessage="Search courses and programs"
+            description="Search dialogue."
+            tagName="h2"
+          />
           <SearchData>
             <InstantSearch
               indexName={algoliaIndexName}
