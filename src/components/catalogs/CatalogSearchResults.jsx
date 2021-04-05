@@ -9,17 +9,14 @@ import {
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise';
 import Skeleton from 'react-loading-skeleton';
+import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+
+import messages from './CatalogSearchResults.messages';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 export const NO_DATA_MESSAGE = 'There are no course results';
+
 export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
-
-export const TABLE_HEADERS = {
-  courseName: 'Course name',
-  subject: 'Subject',
-  partner: 'Partner',
-};
-
 /**
  * The core search resultss rendering component.
  *
@@ -33,6 +30,7 @@ export const TABLE_HEADERS = {
  * @param {object} args.paginationComponent Defaults to <SearchPagination> but can be injected
  */
 export const BaseCatalogSearchResults = ({
+  intl,
   searchResults,
   // algolia recommends this prop instead of searching
   isSearchStalled,
@@ -40,6 +38,12 @@ export const BaseCatalogSearchResults = ({
   error,
   paginationComponent: PaginationComponent,
 }) => {
+  const TABLE_HEADERS = {
+    courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
+    subject: intl.formatMessage(messages['catalogSearchResults.table.subject']),
+    partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
+  };
+
   if (isSearchStalled) {
     return (
       <div data-testid={SKELETON_DATA_TESTID}>
@@ -54,7 +58,12 @@ export const BaseCatalogSearchResults = ({
   if (error) {
     return (
       <Alert className="mt-2" variant="warning">
-        {ERROR_MESSAGE}: {error.message}
+        <FormattedMessage
+          id="catalogs.catalogSearchResults.error"
+          defaultMessage="{message}: {fullError}"
+          description="Error message displayed when results cannot be returned."
+          values={{ message: ERROR_MESSAGE, fullError: error.message }}
+        />
       </Alert>
     );
   }
@@ -62,7 +71,11 @@ export const BaseCatalogSearchResults = ({
   if (searchResults?.nbHits === 0) {
     return (
       <Alert className="mt-2" variant="warning">
-        {NO_DATA_MESSAGE}
+        <FormattedMessage
+          id="catalogs.catalogSearchResults.data"
+          defaultMessage={NO_DATA_MESSAGE}
+          description="Message is displayed when no data is returned (but no error occurs)."
+        />
       </Alert>
     );
   }
@@ -115,6 +128,7 @@ BaseCatalogSearchResults.defaultProps = {
 };
 
 BaseCatalogSearchResults.propTypes = {
+  intl: intlShape.isRequired,
   // from Algolia
   searchResults: PropTypes.shape({
     nbHits: PropTypes.number,
@@ -133,4 +147,4 @@ BaseCatalogSearchResults.propTypes = {
   paginationComponent: PropTypes.func,
 };
 
-export default connectStateResults(BaseCatalogSearchResults);
+export default connectStateResults(injectIntl(BaseCatalogSearchResults));
