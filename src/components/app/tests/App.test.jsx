@@ -19,6 +19,18 @@ jest.mock('react-instantsearch-dom', () => ({
   ...jest.requireActual('react-instantsearch-dom'),
   InstantSearch: () => (<div>SEARCH</div>),
 }));
+
+const mockConfig = () => (
+  {
+    ENTERPRISE_MARKETING_URL: 'http://apptest.com',
+  }
+);
+
+jest.mock('@edx/frontend-platform', () => ({
+  ...jest.requireActual('@edx/frontend-platform'),
+  getConfig: () => mockConfig(),
+}));
+
 /**
  * Rationale of test: Render the main EnterpriseCatalogsApp excluding the AppProvider (which is
  * what App does)

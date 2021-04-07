@@ -5,8 +5,7 @@ import { EnterpriseCatalogs } from '../catalogs';
 import Hero from '../hero/Hero';
 import CallToAction from '../callToAction/callToAction';
 import messages from './CatalogPage.messages';
-
-const ctaButtonLink = 'https://business.edx.org/schedule';
+import { useMarketingSite } from '../catalogs/data/hooks';
 
 const CatalogPage = ({ intl }) => (
   <main>
@@ -16,7 +15,7 @@ const CatalogPage = ({ intl }) => (
     />
     <CallToAction
       buttonText={intl.formatMessage(messages['catalogPage.cta.button.text'])}
-      buttonLink={ctaButtonLink}
+      buttonLink={useMarketingSite()}
       highlighted={intl.formatMessage(messages['catalogPage.cta.business.link'])}
     >
       <span>

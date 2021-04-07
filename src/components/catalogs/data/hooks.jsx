@@ -15,6 +15,13 @@ const useAlgoliaIndex = () => {
   ), [config]);
   return { algoliaIndexName: config.ALGOLIA_INDEX_NAME, searchClient };
 };
+
+const useMarketingSite = () => {
+  const config = getConfig();
+  return config.ENTERPRISE_MARKETING_URL;
+};
+
 export {
   useAlgoliaIndex,
+  useMarketingSite,
 };
