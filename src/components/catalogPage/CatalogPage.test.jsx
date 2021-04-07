@@ -11,6 +11,19 @@ jest.mock('react-instantsearch-dom', () => ({
   InstantSearch: () => (<div>SEARCH</div>),
 }));
 
+// Catalog Page loads the CTA button link which expects a config value.
+// Thus we're mocking the config here.
+const mockConfig = () => (
+  {
+    ENTERPRISE_MARKETING_URL: 'http://bobsdooremporium.com',
+  }
+);
+
+jest.mock('@edx/frontend-platform', () => ({
+  ...jest.requireActual('@edx/frontend-platform'),
+  getConfig: () => mockConfig(),
+}));
+
 describe('CatalogPage', () => {
   it('renders a hero component', () => {
     const { container } = renderWithRouter(<CatalogPage />);
