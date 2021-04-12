@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardCheckbox is checked when uuid is included in the query param 1`] = `
+<div
+  className="pgn__form-checkbox catalog-selection-card"
+>
+  <input
+    checked={true}
+    className="pgn__form-checkbox-input"
+    id="form-field3"
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <div>
+    <label
+      className="pgn__form-label"
+      htmlFor="form-field3"
+    >
+      foo
+    </label>
+  </div>
+</div>
+`;
+
+exports[`CardCheckbox renders a checkbox and label 1`] = `
+<div
+  className="pgn__form-checkbox catalog-selection-card"
+>
+  <input
+    checked={false}
+    className="pgn__form-checkbox-input"
+    id="form-field1"
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <div>
+    <label
+      className="pgn__form-label"
+      htmlFor="form-field1"
+    >
+      foo
+    </label>
+  </div>
+</div>
+`;

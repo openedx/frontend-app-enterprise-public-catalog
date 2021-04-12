@@ -10,3 +10,4 @@ export const NUM_RESULTS_PER_PAGE = 40;
 export const PRODUCT_EVENTS = {
   ctaButtonPressed: 'edx.enterprise.public_catalog.cta_button_pressed',
 };
+export const QUERY_UUID_REFINEMENT = 'enterprise_catalog_query_uuids';
