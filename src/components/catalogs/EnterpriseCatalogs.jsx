@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Configure, InstantSearch,
 } from 'react-instantsearch-dom';
-import { SearchData, SearchHeader } from '@edx/frontend-enterprise';
+import { SearchHeader } from '@edx/frontend-enterprise';
 
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import PageWrapper from '../PageWrapper';
@@ -23,16 +23,14 @@ export default function EnterpriseCatalogs() {
             description="Search dialogue."
             tagName="h2"
           />
-          <SearchData>
-            <InstantSearch
-              indexName={algoliaIndexName}
-              searchClient={searchClient}
-            >
-              <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
-              <div className="enterprise-catalogs-header"><SearchHeader variant="default" /></div>
-              <CatalogSearchResults />
-            </InstantSearch>
-          </SearchData>
+          <InstantSearch
+            indexName={algoliaIndexName}
+            searchClient={searchClient}
+          >
+            <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} />
+            <div className="enterprise-catalogs-header"><SearchHeader variant="default" /></div>
+            <CatalogSearchResults />
+          </InstantSearch>
         </section>
       </PageWrapper>
     </>

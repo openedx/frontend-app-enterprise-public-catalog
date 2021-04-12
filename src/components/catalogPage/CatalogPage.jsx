@@ -1,11 +1,14 @@
 import React from 'react';
 import { Hyperlink } from '@edx/paragon';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { SearchData, SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise';
 import { EnterpriseCatalogs } from '../catalogs';
 import Hero from '../hero/Hero';
 import CallToAction from '../callToAction/callToAction';
 import messages from './CatalogPage.messages';
 import { useMarketingSite } from '../catalogs/data/hooks';
+import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
+import { QUERY_UUID_REFINEMENT } from '../../constants';
 
 const CatalogPage = ({ intl }) => (
   <main>
@@ -42,7 +45,14 @@ const CatalogPage = ({ intl }) => (
         />
       </span>
     </CallToAction>
-    <EnterpriseCatalogs />
+    <SearchData
+      searchFacetFilters={
+          [...SEARCH_FACET_FILTERS, { attribute: QUERY_UUID_REFINEMENT, title: 'Catalog Uuids', noDisplay: true }]
+      }
+    >
+      <CatalogSelectionDeck title={intl.formatMessage(messages['catalogPage.catalogSelectionDeck.title'])} />
+      <EnterpriseCatalogs />
+    </SearchData>
   </main>
 );
 
