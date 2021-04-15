@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 
-import { sendPageEvent } from '@edx/frontend-platform/analytics';
 import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig,
 } from '@edx/frontend-platform';
@@ -22,7 +21,6 @@ subscribe(APP_READY, () => {
     <App />,
     document.getElementById('root'),
   );
-  sendPageEvent();
 });
 
 subscribe(APP_INIT_ERROR, (error) => {
