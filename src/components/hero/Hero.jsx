@@ -12,6 +12,7 @@ import { Highlighted } from '../helperComponents';
 import messages from './Hero.messages';
 
 const IMAGE_WRAPPER_CLASS = 'hero__image-wrapper';
+const IMAGE_CLASS = 'hero__image';
 
 const Hero = ({ intl, text, highlight }) => (
   <section className="hero">
@@ -20,7 +21,7 @@ const Hero = ({ intl, text, highlight }) => (
       <div>
         <Large className={IMAGE_WRAPPER_CLASS}>
           <Image
-            className="hero__image"
+            className={IMAGE_CLASS}
             srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
             src={SmallHeroImageLoRes}
             alt={intl.formatMessage(messages['hero.image.alt'])}
@@ -29,7 +30,7 @@ const Hero = ({ intl, text, highlight }) => (
         </Large>
         <ExtraLarge className={IMAGE_WRAPPER_CLASS}>
           <Image
-            className="hero__image"
+            className={IMAGE_CLASS}
             srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
             src={LargeHeroImageLoRes}
             alt={intl.formatMessage(messages['hero.image.alt'])}
