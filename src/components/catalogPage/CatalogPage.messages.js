@@ -21,7 +21,11 @@ const messages = defineMessages({
     defaultMessage: 'for businesses',
     description: 'Hyperlink text that directs users to our enterprise sales page.',
   },
-
+  'catalogPage.catalogSelectionDeck.title': {
+    id: 'catalogPage.catalogSelectionDeck.title',
+    defaultMessage: 'Select a catalog',
+    description: 'Title for catalog filters',
+  },
 });
 
 export default messages;

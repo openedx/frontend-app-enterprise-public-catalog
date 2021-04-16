@@ -35,6 +35,9 @@ initialize({
         ALGOLIA_SEARCH_API_KEY: process.env.ALGOLIA_SEARCH_API_KEY || null,
         ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,
         ENTERPRISE_MARKETING_URL: process.env.ENTERPRISE_MARKETING_URL || null,
+        EDX_FOR_BUSINESS_UUID: process.env.EDX_FOR_BUSINESS_UUID || null,
+        EDX_FOR_ONLINE_EDU_UUID: process.env.EDX_FOR_ONLINE_EDU_UUID || null,
+        EDX_ONLINE_ESSENTIALS_UUID: process.env.EDX_ONLINE_ESSENTIALS_UUID || null,
       });
     },
     auth: () => {},
