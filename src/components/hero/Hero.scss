@@ -13,7 +13,13 @@
     color: $white;
     max-width: 50%;
   }
+  div {
+    min-height: $banner-min-height;
+    max-height: $hero-max-height;
+    height: 100%;
+  }
   .hero__image {
+    min-height: $banner-min-height;
     max-height: $hero-max-height;
     height: 100%;
   }
