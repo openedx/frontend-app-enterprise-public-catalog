@@ -28,12 +28,12 @@ const CatalogPage = ({ intl }) => (
           description="Description of the catalog contents and navigation to other edX pages."
           values={{
             businessLink: (
-              <Hyperlink destination="https://business.edx.org">
+              <Hyperlink destination="https://business.edx.org" target="_blank">
                 {intl.formatMessage(messages['catalogPage.cta.business.link'])}
               </Hyperlink>
             ),
             campusLink: (
-              <Hyperlink destination="https://campus.edx.org">
+              <Hyperlink destination="https://campus.edx.org" target="_blank">
                 <FormattedMessage
                   id="catalogPage.cta.campus.link"
                   defaultMessage="for educational institutions"
