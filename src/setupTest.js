@@ -1,4 +1,5 @@
-import 'babel-polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 // Fail tests if there are console errors
 const { error } = global.console;
