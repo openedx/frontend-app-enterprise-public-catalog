@@ -8,7 +8,7 @@ import CallToAction from '../callToAction/callToAction';
 import messages from './CatalogPage.messages';
 import { useMarketingSite } from '../catalogs/data/hooks';
 import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
-import { QUERY_UUID_REFINEMENT } from '../../constants';
+import { QUERY_UUID_REFINEMENT, TRACKING_APP_NAME } from '../../constants';
 
 const CatalogPage = ({ intl }) => (
   <main>
@@ -46,8 +46,9 @@ const CatalogPage = ({ intl }) => (
       </span>
     </CallToAction>
     <SearchData
+      trackingName={TRACKING_APP_NAME}
       searchFacetFilters={
-          [...SEARCH_FACET_FILTERS, { attribute: QUERY_UUID_REFINEMENT, title: 'Catalog Uuids', noDisplay: true }]
+        [...SEARCH_FACET_FILTERS, { attribute: QUERY_UUID_REFINEMENT, title: 'Catalog Uuids', noDisplay: true }]
       }
     >
       <CatalogSelectionDeck title={intl.formatMessage(messages['catalogPage.catalogSelectionDeck.title'])} />
