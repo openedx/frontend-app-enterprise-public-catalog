@@ -22,7 +22,7 @@ jest.mock('react-instantsearch-dom', () => ({
 
 const mockConfig = () => (
   {
-    ENTERPRISE_MARKETING_URL: 'http://apptest.com',
+    HUBSPOT_MARKETING_URL: 'http://bobsdooremporium.com',
     EDX_FOR_BUSINESS_UUID: 'ayylmao',
     EDX_FOR_ONLINE_EDU_UUID: 'foo',
     EDX_ONLINE_ESSENTIALS_UUID: 'bar',
