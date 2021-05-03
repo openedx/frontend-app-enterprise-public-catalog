@@ -12,7 +12,7 @@ const mockConfig = () => (
     ALGOLIA_INDEX_NAME: indexName,
     ALGOLIA_APP_ID: appid,
     ALGOLIA_SEARCH_API_KEY: key,
-    ENTERPRISE_MARKETING_URL: marketingSite,
+    HUBSPOT_MARKETING_URL: marketingSite,
   }
 );
 

@@ -18,7 +18,7 @@ const useAlgoliaIndex = () => {
 
 const useMarketingSite = () => {
   const config = getConfig();
-  return config.ENTERPRISE_MARKETING_URL;
+  return config.HUBSPOT_MARKETING_URL;
 };
 
 export {
