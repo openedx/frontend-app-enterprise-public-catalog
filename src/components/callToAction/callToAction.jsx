@@ -21,7 +21,7 @@ const CallToAction = ({
         <div>{children}</div>
       </div>
       <div className="cta__button">
-        <Button onClick={handleClick} variant="brand" href={buttonLink}>{buttonText}</Button>
+        <Button onClick={handleClick} variant="brand" href={buttonLink} target="_blank" rel="noopener noreferrer">{buttonText}</Button>
       </div>
     </Container>
   </section>
