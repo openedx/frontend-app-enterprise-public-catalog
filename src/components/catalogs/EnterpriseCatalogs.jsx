@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Configure, InstantSearch,
 } from 'react-instantsearch-dom';
-import { SearchHeader } from '@edx/frontend-enterprise';
+import { SearchHeader } from '@edx/frontend-enterprise-catalog-search';
 
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import PageWrapper from '../PageWrapper';

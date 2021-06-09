@@ -7,7 +7,7 @@ import { connectStateResults } from 'react-instantsearch-dom';
 import {
   DataTable, Alert,
 } from '@edx/paragon';
-import { SearchContext, SearchPagination } from '@edx/frontend-enterprise';
+import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
 import Skeleton from 'react-loading-skeleton';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 

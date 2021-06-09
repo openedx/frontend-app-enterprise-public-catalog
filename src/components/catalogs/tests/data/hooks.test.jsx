@@ -2,7 +2,7 @@ import React from 'react';
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import { SearchContext } from '@edx/frontend-enterprise';
+import { SearchContext } from '@edx/frontend-enterprise-catalog-search';
 import { useAlgoliaIndex, useDefaultSearchFilters, useMarketingSite } from '../../data/hooks';
 import { QUERY_UUID_REFINEMENT } from '../../../../constants';
 
