@@ -2,7 +2,7 @@ import React, {
   useContext,
 } from 'react';
 import PropTypes from 'prop-types';
-import { SearchContext, deleteRefinementAction, setRefinementAction } from '@edx/frontend-enterprise';
+import { SearchContext, deleteRefinementAction, setRefinementAction } from '@edx/frontend-enterprise-catalog-search';
 import {
   Card, Form,
 } from '@edx/paragon';

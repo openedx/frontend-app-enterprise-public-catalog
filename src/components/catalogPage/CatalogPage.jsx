@@ -1,7 +1,7 @@
 import React from 'react';
 import { Hyperlink } from '@edx/paragon';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { SearchData, SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise';
+import { SearchData, SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise-catalog-search';
 import { EnterpriseCatalogs } from '../catalogs';
 import Hero from '../hero/Hero';
 import CallToAction from '../callToAction/callToAction';

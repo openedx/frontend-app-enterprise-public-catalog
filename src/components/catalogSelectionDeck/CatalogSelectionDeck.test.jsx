@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/react';
-import { SEARCH_FACET_FILTERS, SearchContext } from '@edx/frontend-enterprise';
+import { SEARCH_FACET_FILTERS, SearchContext } from '@edx/frontend-enterprise-catalog-search';
 import CatalogSelectionDeck from './CatalogSelectionDeck';
 import { renderWithRouter } from '../tests/testUtils';
 import messages from './CatalogSelectionDeck.messages';

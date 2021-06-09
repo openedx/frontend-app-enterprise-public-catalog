@@ -2,9 +2,13 @@ import '@testing-library/jest-dom/extend-expect';
 import renderer from 'react-test-renderer';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { SEARCH_FACET_FILTERS, SearchContext } from '@edx/frontend-enterprise';
+import {
+  SEARCH_FACET_FILTERS,
+  SearchContext,
+  deleteRefinementAction,
+  setRefinementAction,
+} from '@edx/frontend-enterprise-catalog-search';
 import { render, screen } from '@testing-library/react';
-import { deleteRefinementAction, setRefinementAction } from '@edx/frontend-enterprise/dist/course-search/data/actions';
 import { CardCheckbox } from './CatalogSelectionCard';
 import { QUERY_UUID_REFINEMENT } from '../../constants';
 

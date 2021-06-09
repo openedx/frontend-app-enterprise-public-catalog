@@ -4,7 +4,7 @@ import { useContext, useMemo } from 'react';
 import algoliasearch from 'algoliasearch/lite';
 
 import { getConfig } from '@edx/frontend-platform';
-import { SearchContext } from '@edx/frontend-enterprise';
+import { SearchContext } from '@edx/frontend-enterprise-catalog-search';
 import { QUERY_UUID_REFINEMENT } from '../../../constants';
 
 const useAlgoliaIndex = () => {
