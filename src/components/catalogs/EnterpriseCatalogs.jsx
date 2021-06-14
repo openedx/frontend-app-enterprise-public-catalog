@@ -27,7 +27,7 @@ export default function EnterpriseCatalogs() {
             indexName={algoliaIndexName}
             searchClient={searchClient}
           >
-            <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} filters={filters} />
+            <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} filters={filters} facetingAfterDistinct />
             <div className="enterprise-catalogs-header"><SearchHeader variant="default" /></div>
             <CatalogSearchResults />
           </InstantSearch>
