@@ -8,11 +8,11 @@ import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import PageWrapper from '../PageWrapper';
 import { NUM_RESULTS_PER_PAGE } from '../../constants';
 import CatalogSearchResults from './CatalogSearchResults';
-import { useAlgoliaIndex, useDefaultSearchFilters } from './data/hooks';
+import { useAlgoliaIndex } from './data/hooks';
 
 export default function EnterpriseCatalogs() {
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
-  const filters = useDefaultSearchFilters();
+
   return (
     <>
       <PageWrapper className="enterprise-catalogs">
@@ -27,7 +27,7 @@ export default function EnterpriseCatalogs() {
             indexName={algoliaIndexName}
             searchClient={searchClient}
           >
-            <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} filters={filters} facetingAfterDistinct />
+            <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} facetingAfterDistinct />
             <div className="enterprise-catalogs-header"><SearchHeader variant="default" /></div>
             <CatalogSearchResults />
           </InstantSearch>
