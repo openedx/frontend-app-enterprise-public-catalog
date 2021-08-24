@@ -3,32 +3,47 @@ import { defineMessages } from '@edx/frontend-platform/i18n';
 const messages = defineMessages({
   'catalogSelectionDeck.edxForBusiness.label': {
     id: 'catalogSelectionDeck.edxForBusiness.label',
-    defaultMessage: 'edX For Business',
+    defaultMessage: 'Business subscription',
     description: 'label for checkbox for filtering results',
+  },
+  'catalogSelectionDeck.edxForBusiness.labelDetail': {
+    id: 'catalogSelectionDeck.edxForBusiness.labelDetail',
+    defaultMessage: 'Single, per learner price',
+    description: 'secondary label for checkbox for filtering results',
   },
   'catalogSelectionDeck.edxForBusiness.body': {
     id: 'catalogSelectionDeck.edxForBusiness.body',
-    defaultMessage: 'On-demand skills pathways for every employee in today\'s most job-relevant subject areas.',
+    defaultMessage: '\u2713 Unlimited access to 1,000+ courses\n\u2713 Professional certificates and select programs\n\u2713 Self-paced courses',
     description: 'description of filter',
   },
   'catalogSelectionDeck.edxForOnlineEdu.label': {
     id: 'catalogSelectionDeck.edxForOnlineEdu.label',
-    defaultMessage: 'edX For Education',
+    defaultMessage: 'Education subscription',
     description: 'label for checkbox for filtering results',
+  },
+  'catalogSelectionDeck.edxForOnlineEdu.labelDetail': {
+    id: 'catalogSelectionDeck.edxForOnlineEdu.labelDetail',
+    defaultMessage: 'Single, per learner price',
+    description: 'secondary label for checkbox for filtering results',
   },
   'catalogSelectionDeck.edxForOnlineEdu.body': {
     id: 'catalogSelectionDeck.edxForOnlineEdu.body',
-    defaultMessage: 'Online programs that students, faculty, and staff can access in and out of the classroom.',
+    defaultMessage: '\u2713 Unlimited access to 1,000+ courses\n\u2713 Professional certificates and select programs\n\u2713 Self-paced courses',
     description: 'description of filter',
   },
-  'catalogSelectionDeck.edxForOnlineEssentials.label': {
-    id: 'catalogSelectionDeck.edxForOnlineEssentials.label',
-    defaultMessage: 'edX For Education Online Essentials',
+  'catalogSelectionDeck.aLaCarte.label': {
+    id: 'catalogSelectionDeck.aLaCarte.label',
+    defaultMessage: 'A la carte',
     description: 'label for checkbox for filtering results',
   },
-  'catalogSelectionDeck.edxForOnlineEssentials.body': {
-    id: 'forOnlineEssentials.body',
-    defaultMessage: 'Over 100 hand-picked courses available for free to universities, colleges, and high schools.',
+  'catalogSelectionDeck.aLaCarte.labelDetail': {
+    id: 'catalogSelectionDeck.aLaCarte.labelDetail',
+    defaultMessage: 'Individually priced courses and programs',
+    description: 'label for checkbox for filtering results',
+  },
+  'catalogSelectionDeck.aLaCarte.body': {
+    id: 'aLaCarte.body',
+    defaultMessage: '\u2713 Select from all 3,000+ courses available on edX including all programs and certificates\n\u2713 Self-paced instructor led courses',
     description: 'description of filter',
   },
 });

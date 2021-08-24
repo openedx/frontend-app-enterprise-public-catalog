@@ -14,19 +14,22 @@ const CatalogSelectionDeck = ({ intl, title }) => {
         <h2>{title}</h2>
         <CardDeck>
           <CatalogSelectionCard
+            queryUuid={config.EDX_ENTERPRISE_ALACARTE_UUID}
+            label={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.label'])}
+            labelDetail={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.labelDetail'])}
+            cardBody={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.body'])}
+          />
+          <CatalogSelectionCard
             queryUuid={config.EDX_FOR_BUSINESS_UUID}
             label={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.label'])}
+            labelDetail={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.labelDetail'])}
             cardBody={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.body'])}
           />
           <CatalogSelectionCard
             queryUuid={config.EDX_FOR_ONLINE_EDU_UUID}
             label={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}
+            labelDetail={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.labelDetail'])}
             cardBody={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.body'])}
-          />
-          <CatalogSelectionCard
-            queryUuid={config.EDX_ONLINE_ESSENTIALS_UUID}
-            label={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEssentials.label'])}
-            cardBody={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEssentials.body'])}
           />
         </CardDeck>
       </Container>
