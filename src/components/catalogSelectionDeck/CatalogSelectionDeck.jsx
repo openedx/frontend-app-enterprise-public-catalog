@@ -24,6 +24,7 @@ const CatalogSelectionDeck = ({ intl, title }) => {
             label={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.label'])}
             labelDetail={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.labelDetail'])}
             cardBody={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.body'])}
+
           />
           <CatalogSelectionCard
             queryUuid={config.EDX_FOR_ONLINE_EDU_UUID}

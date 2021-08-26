@@ -1,5 +1,5 @@
 import React, {
-  useContext,
+  ListGroup, ListGroupItem, useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -44,7 +44,7 @@ const CatalogSelectionCard = ({
           queryUuid={queryUuid}
         />
       </Card.Title>
-      <Card.Text>{cardBody}</Card.Text>
+      <Card.Subtitle>{subtitle}</Card.Subtitle>
     </Card.Body>
   </Card>
 );

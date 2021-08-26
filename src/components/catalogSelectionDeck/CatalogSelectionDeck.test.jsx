@@ -7,7 +7,7 @@ import { renderWithRouter } from '../tests/testUtils';
 import messages from './CatalogSelectionDeck.messages';
 import QUERY_UUID_REFINEMENT from '../../constants';
 
-const DEFAULT_SEARCH_CONTEXT_VALUE = { refinementsFromQueryParams: {} };
+const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 
 const mockConfig = () => (
   {

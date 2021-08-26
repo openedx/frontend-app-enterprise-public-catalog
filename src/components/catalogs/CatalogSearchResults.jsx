@@ -5,7 +5,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import {
-  DataTable, Alert,
+  Badge, DataTable, Alert,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
 import Skeleton from 'react-loading-skeleton';
@@ -40,8 +40,8 @@ export const BaseCatalogSearchResults = ({
 }) => {
   const TABLE_HEADERS = {
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
-    subject: intl.formatMessage(messages['catalogSearchResults.table.subject']),
     partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
+    catalogs: intl.formatMessage(messages['catalogSearchResults.table.catalogs']),
   };
 
   if (isSearchStalled) {
@@ -80,25 +80,55 @@ export const BaseCatalogSearchResults = ({
     );
   }
 
-  const { refinementsFromQueryParams } = useContext(SearchContext);
+  const { refinements } = useContext(SearchContext);
+  let badgeStyle = {
+      margin: '3px',
+      padding: '6px',
+      maxWidth: '20vw',
+      color: '#ffffff',
+      fontWeight: 400,
+      backgroundColor: '#091221'
+    }
+  let badgeStyle2 = {...badgeStyle} 
+  let badgeStyle3 = {...badgeStyle} 
+  badgeStyle2['backgroundColor'] = '#5b5d63'
+  badgeStyle3['backgroundColor'] = '#e0e0e0'
+  badgeStyle3['color'] = '#1c1c1c'
   const columns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
     },
     {
-      Header: TABLE_HEADERS.subject,
-      accessor: 'subjects[0]',
-    },
-    {
       Header: TABLE_HEADERS.partner,
       accessor: 'partners[0].name',
     },
+    {
+      Header: TABLE_HEADERS.catalogs,
+      accessor: 'enterprise_catalog_query_uuids',
+
+      // Cell: ({ row }) => (
+      //   <div className='pgn__data_table_cell_wrap' style={{maxWidth: '400vw'}}>
+      //     (row.values.enterprise_catalog_query_uuids.includes(config.EDX_ONLINE_ESSENTIALS_UUID) && style={badgeStyle}>A la cart</Badge>
+      //     <Badge className={!row.values.enterprise_catalog_query_uuids.includes(config.EDX_FOR_BUSINESS_UUID) ? "d-none" : ""} style={badgeStyle2}>Business</Badge>
+      //     <Badge className={!row.values.row.values.enterprise_catalog_query_uuids.includes(config.EDX_FOR_ONLINE_EDU_UUID) ? "d-none" : ""} style={badgeStyle3}>Education</Badge>  
+      //   </div>
+      // ),
+      Cell: ({ row }) => (
+        <div className='pgn__data_table_cell_wrap' style={{maxWidth: '400vw'}}>
+          <Badge style={badgeStyle}>A la cart1</Badge>
+          <Badge style={badgeStyle2}>A la cart2</Badge>
+          <Badge style={badgeStyle3}>Education</Badge>  
+        </div>
+      ),
+    },
   ], []);
 
-  const page = refinementsFromQueryParams.page || (searchState ? searchState.page : 0);
 
+  const page = refinements.page || (searchState ? searchState.page : 0);
+  
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
+  console.log(tableData);
   return (
     <>
       <div>
@@ -120,6 +150,7 @@ export const BaseCatalogSearchResults = ({
     </>
   );
 };
+
 
 BaseCatalogSearchResults.defaultProps = {
   searchResults: { nbHits: 0, hits: [] },

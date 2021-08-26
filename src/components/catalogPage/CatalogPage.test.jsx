@@ -36,10 +36,6 @@ describe('CatalogPage', () => {
     const { container } = renderWithRouter(<CatalogPage />);
     expect(container.querySelector('.hero')).toBeInTheDocument();
   });
-  it('renders a CTA component', () => {
-    renderWithRouter(<CatalogPage />);
-    expect(screen.getByText(messages['catalogPage.cta.button.text'].defaultMessage)).toBeInTheDocument();
-  });
   it('renders the catalog search component', () => {
     renderWithRouter(<CatalogPage />);
     expect(screen.getByText('SEARCH')).toBeInTheDocument();

@@ -1,13 +1,11 @@
 import React from 'react';
-import { Hyperlink } from '@edx/paragon';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { SearchData, SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise-catalog-search';
 import { getConfig } from '@edx/frontend-platform';
 import { EnterpriseCatalogs } from '../catalogs';
+import Subheader from '../subheader/subheader'
 import Hero from '../hero/Hero';
-import CallToAction from '../callToAction/callToAction';
 import messages from './CatalogPage.messages';
-import { useMarketingSite } from '../catalogs/data/hooks';
 import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
 import {
   AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS, QUERY_UUID_REFINEMENT, TRACKING_APP_NAME,
@@ -42,35 +40,15 @@ const CatalogPage = ({ intl }) => {
         text={intl.formatMessage(messages['catalogPage.hero.text'])}
         highlight={intl.formatMessage(messages['catalogPage.hero.highlight'])}
       />
-      <CallToAction
-        buttonText={intl.formatMessage(messages['catalogPage.cta.button.text'])}
-        buttonLink={useMarketingSite()}
-        highlighted={intl.formatMessage(messages['catalogPage.cta.business.link'])}
-      >
+      <Subheader>
         <span>
           <FormattedMessage
             id="catalogPage.cta.text"
-            defaultMessage="Explore comprehensive course catalogs curated {businessLink} and {campusLink} or work with an edX representative to customize a solution for your unique needs."
+            defaultMessage="edX makes it easy to find the subjects, skills, programs, and course to meet your your learning needs. Work with our content experts to create a customized catalog for your orginization from any of our 3,000+ courses. Or, choose our subscription catalog for easy, flexibility, and scalability at a single, per-learner price. "
             description="Description of the catalog contents and navigation to other edX pages."
-            values={{
-              businessLink: (
-                <Hyperlink destination="https://business.edx.org" target="_blank" rel="noopener noreferrer">
-                  {intl.formatMessage(messages['catalogPage.cta.business.link'])}
-                </Hyperlink>
-              ),
-              campusLink: (
-                <Hyperlink destination="https://campus.edx.org" target="_blank" rel="noopener noreferrer">
-                  <FormattedMessage
-                    id="catalogPage.cta.campus.link"
-                    defaultMessage="for educational institutions"
-                    description="Hyperlink text that directs users to our online campus course page"
-                  />
-                </Hyperlink>
-              ),
-            }}
           />
         </span>
-      </CallToAction>
+      </Subheader>
       <SearchData
         trackingName={TRACKING_APP_NAME}
         searchFacetFilters={

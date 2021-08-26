@@ -14,7 +14,7 @@ import messages from '../CatalogSearchResults.messages';
 const PAGINATE_ME = 'PAGINATE ME :)';
 const PaginationComponent = () => <div>{PAGINATE_ME}</div>;
 
-const DEFAULT_SEARCH_CONTEXT_VALUE = { refinementsFromQueryParams: {} };
+const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 
 // eslint-disable-next-line react/prop-types
 const SearchDataWrapper = ({ children, searchContextValue = DEFAULT_SEARCH_CONTEXT_VALUE }) => (
