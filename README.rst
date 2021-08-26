@@ -18,6 +18,28 @@ The source for this project is organized into nested submodules according to the
 
 Build Process Notes
 -------------------
+**Local Development** 
+To run this project locally: 
+1.  Clone this repository
+2.  From repository root folder, run: 
+
+``npm install``
+1. This project requires Algolia developer keys. Once you have them, make the following local modifications to the .env.development file and replace the keys.
+
+``ALGOLIA_APP_ID=''
+ALGOLIA_SEARCH_API_KEY=''
+ALGOLIA_INDEX_NAME=''``
+
+You will also need to replace the following variables with valid Catalog Query UUIDs that are present in your Algolia index:
+``EDX_FOR_BUSINESS_UUID=''
+EDX_FOR_ONLINE_EDU_UUID=''
+EDX_ENTERPRISE_ALACARTE_UUID=''``
+
+1.  From repository root folder, run: 
+
+``npm start``
+
+to start your local server at `http://localhost:8735 <http://localhost:8735>`_.
 
 **Production Build**
 

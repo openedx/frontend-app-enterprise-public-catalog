@@ -2,36 +2,43 @@
 
 exports[`CardCheckbox is checked when uuid is included in the query param 1`] = `
 <div
-  className="pgn__form-checkbox catalog-selection-card"
+  className="pgn__form-radio catalog-selection-card"
 >
   <input
+    aria-describedby="form-field4-6"
     checked={true}
-    className="pgn__form-checkbox-input"
-    id="form-field3"
+    className="pgn__form-radio-input"
+    id="form-field4"
     onChange={[Function]}
-    type="checkbox"
+    type="radio"
   />
   <div>
     <label
       className="pgn__form-label"
-      htmlFor="form-field3"
+      htmlFor="form-field4"
     >
       foo
     </label>
+    <div
+      className="pgn__form-control-description pgn__form-text pgn__form-text-default"
+      id="form-field4-6"
+    >
+      baz
+    </div>
   </div>
 </div>
 `;
 
 exports[`CardCheckbox renders a checkbox and label 1`] = `
 <div
-  className="pgn__form-checkbox catalog-selection-card"
+  className="pgn__form-radio catalog-selection-card"
 >
   <input
     checked={false}
-    className="pgn__form-checkbox-input"
+    className="pgn__form-radio-input"
     id="form-field1"
     onChange={[Function]}
-    type="checkbox"
+    type="radio"
   />
   <div>
     <label
@@ -40,6 +47,11 @@ exports[`CardCheckbox renders a checkbox and label 1`] = `
     >
       foo
     </label>
+    <div
+      className="pgn__form-control-description pgn__form-text pgn__form-text-default"
+    >
+      baz
+    </div>
   </div>
 </div>
 `;

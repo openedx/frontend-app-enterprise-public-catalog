@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { screen } from '@testing-library/react';
+import { screen, getDefaultNormalizer } from '@testing-library/react';
 import { SEARCH_FACET_FILTERS, SearchContext } from '@edx/frontend-enterprise-catalog-search';
 import CatalogSelectionDeck from './CatalogSelectionDeck';
 import { renderWithRouter } from '../tests/testUtils';
@@ -14,6 +14,7 @@ const mockConfig = () => (
     EDX_FOR_BUSINESS_UUID: 'ayylmao',
     EDX_FOR_ONLINE_EDU_UUID: 'foo',
     EDX_ONLINE_ESSENTIALS_UUID: 'bar',
+    EDX_ENTERPRISE_ALACARTE_UUID: 'baz',
   }
 );
 
@@ -46,8 +47,16 @@ describe('CatalogSelectionDeck', () => {
       </SearchDataWrapper>,
     );
     Object.keys(messages).forEach((key) => {
-      expect(screen.getByText(messages[key].defaultMessage)).toBeInTheDocument();
-      expect(screen.getByText(messages[key].defaultMessage)).toBeInTheDocument();
+      // Note: we just pick out the first match for this basic test because some messages appear more than once
+      // e.g. both cards for Education and Business have some identical text.
+      expect(screen.getAllByText(
+        messages[key].defaultMessage,
+        {
+          normalizer:
+            getDefaultNormalizer({ trim: false, collapseWhitespace: false }),
+        },
+      )[0])
+        .toBeInTheDocument();
     });
   });
   it('renders title', () => {

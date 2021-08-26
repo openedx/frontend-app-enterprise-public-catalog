@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
-import { renderWithRouter } from '../tests/testUtils';
+import { mockWindowLocations, renderWithRouter } from '../tests/testUtils';
 import CatalogPage from './CatalogPage';
 import messages from './CatalogPage.messages';
 import selectionCardMessage from '../catalogSelectionDeck/CatalogSelectionDeck.messages';
@@ -20,6 +20,7 @@ const mockConfig = () => (
     EDX_FOR_BUSINESS_UUID: 'ayylmao',
     EDX_FOR_ONLINE_EDU_UUID: 'foo',
     EDX_ONLINE_ESSENTIALS_UUID: 'bar',
+    EDX_ENTERPRISE_ALACARTE_UUID: 'baz',
   }
 );
 
@@ -27,6 +28,8 @@ jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
   getConfig: () => mockConfig(),
 }));
+
+mockWindowLocations();
 
 describe('CatalogPage', () => {
   it('renders a catalog page component', () => {

@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { renderWithRouter } from '../../tests/testUtils';
+import { renderWithRouter, mockWindowLocations } from '../../tests/testUtils';
 import { EnterpriseCatalogsApp } from '../App';
 import { NOT_FOUND_TEXT } from '../../NotFoundPage';
 
@@ -20,12 +20,15 @@ jest.mock('react-instantsearch-dom', () => ({
   InstantSearch: () => (<div>SEARCH</div>),
 }));
 
+mockWindowLocations();
+
 const mockConfig = () => (
   {
     HUBSPOT_MARKETING_URL: 'http://bobsdooremporium.com',
     EDX_FOR_BUSINESS_UUID: 'ayylmao',
     EDX_FOR_ONLINE_EDU_UUID: 'foo',
     EDX_ONLINE_ESSENTIALS_UUID: 'bar',
+    EDX_ENTERPRISE_ALACARTE_UUID: 'baz',
   }
 );
 

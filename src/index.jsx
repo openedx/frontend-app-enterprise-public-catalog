@@ -39,6 +39,7 @@ initialize({
         EDX_FOR_BUSINESS_UUID: process.env.EDX_FOR_BUSINESS_UUID || null,
         EDX_FOR_ONLINE_EDU_UUID: process.env.EDX_FOR_ONLINE_EDU_UUID || null,
         EDX_ONLINE_ESSENTIALS_UUID: process.env.EDX_ONLINE_ESSENTIALS_UUID || null,
+        EDX_ENTERPRISE_ALACARTE_UUID: process.env.EDX_ENTERPRISE_ALACARTE_UUID || null,
       });
     },
     auth: () => {},

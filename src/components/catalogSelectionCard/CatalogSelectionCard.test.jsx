@@ -5,7 +5,6 @@ import React from 'react';
 import {
   SEARCH_FACET_FILTERS,
   SearchContext,
-  deleteRefinementAction,
   setRefinementAction,
 } from '@edx/frontend-enterprise-catalog-search';
 import { render, screen } from '@testing-library/react';
@@ -39,6 +38,7 @@ describe('CardCheckbox', () => {
         <CardCheckbox
           label="foo"
           queryUuid="bar"
+          labelDetail="baz"
         />
       </SearchDataWrapper>,
     );
@@ -54,12 +54,13 @@ describe('CardCheckbox', () => {
         <CardCheckbox
           label="foo"
           queryUuid={queryUuid}
+          labelDetail="baz"
         />
       </SearchDataWrapper>,
     );
     expect(tree).toMatchSnapshot();
   });
-  it('dispatches setRefinement action when checked', () => {
+  it('dispatches setRefinement action when radio selected', () => {
     const label = 'Check me';
     const queryUuid = 'idforyou';
     render(
@@ -67,27 +68,12 @@ describe('CardCheckbox', () => {
         <CardCheckbox
           label={label}
           queryUuid={queryUuid}
+          labelDetail="baz"
         />
       </SearchDataWrapper>,
     );
     const input = screen.getByLabelText(label);
     userEvent.click(input);
     expect(dispatchSpy).toHaveBeenLastCalledWith(setRefinementAction(QUERY_UUID_REFINEMENT, [queryUuid]));
-  });
-  it('dispatches deleteRefinement action when unchecked', () => {
-    const label = 'Uncheck me';
-    const queryUuid = 'idforyou';
-    const refinements = { refinementsFromQueryParams: { [QUERY_UUID_REFINEMENT]: [queryUuid] }, dispatch: dispatchSpy };
-    render(
-      <SearchDataWrapper searchContextValue={refinements}>
-        <CardCheckbox
-          label={label}
-          queryUuid={queryUuid}
-        />
-      </SearchDataWrapper>,
-    );
-    const input = screen.getByLabelText(label);
-    userEvent.click(input);
-    expect(dispatchSpy).toHaveBeenLastCalledWith(deleteRefinementAction(QUERY_UUID_REFINEMENT));
   });
 });
