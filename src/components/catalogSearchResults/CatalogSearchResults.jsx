@@ -80,20 +80,7 @@ export const BaseCatalogSearchResults = ({
     );
   }
 
-  const { refinements } = useContext(SearchContext);
-  let badgeStyle = {
-      margin: '3px',
-      padding: '6px',
-      maxWidth: '20vw',
-      color: '#ffffff',
-      fontWeight: 400,
-      backgroundColor: '#091221'
-    }
-  let badgeStyle2 = {...badgeStyle} 
-  let badgeStyle3 = {...badgeStyle} 
-  badgeStyle2['backgroundColor'] = '#5b5d63'
-  badgeStyle3['backgroundColor'] = '#e0e0e0'
-  badgeStyle3['color'] = '#1c1c1c'
+  const { refinementsFromQueryParams } = useContext(SearchContext);
   const columns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
@@ -107,28 +94,18 @@ export const BaseCatalogSearchResults = ({
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_uuids',
 
-      // Cell: ({ row }) => (
-      //   <div className='pgn__data_table_cell_wrap' style={{maxWidth: '400vw'}}>
-      //     (row.values.enterprise_catalog_query_uuids.includes(config.EDX_ONLINE_ESSENTIALS_UUID) && style={badgeStyle}>A la cart</Badge>
-      //     <Badge className={!row.values.enterprise_catalog_query_uuids.includes(config.EDX_FOR_BUSINESS_UUID) ? "d-none" : ""} style={badgeStyle2}>Business</Badge>
-      //     <Badge className={!row.values.row.values.enterprise_catalog_query_uuids.includes(config.EDX_FOR_ONLINE_EDU_UUID) ? "d-none" : ""} style={badgeStyle3}>Education</Badge>  
-      //   </div>
-      // ),
       Cell: ({ row }) => (
-        <div className='pgn__data_table_cell_wrap' style={{maxWidth: '400vw'}}>
-          <Badge style={badgeStyle}>A la cart1</Badge>
-          <Badge style={badgeStyle2}>A la cart2</Badge>
-          <Badge style={badgeStyle3}>Education</Badge>  
+        <div style={{ maxWidth: '400vw' }}>
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ONLINE_ESSENTIALS_UUID) && <Badge className="alacart-catalog">A la cart</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge className="business-catalog">Business</Badge>}
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge className="education-catalog">Education</Badge>}
         </div>
       ),
     },
   ], []);
 
-
-  const page = refinements.page || (searchState ? searchState.page : 0);
-  
+  const page = refinementsFromQueryParams.page || (searchState ? searchState.page : 0);
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
-  console.log(tableData);
   return (
     <>
       <div>
@@ -151,11 +128,11 @@ export const BaseCatalogSearchResults = ({
   );
 };
 
-
 BaseCatalogSearchResults.defaultProps = {
   searchResults: { nbHits: 0, hits: [] },
   error: null,
   paginationComponent: SearchPagination,
+  row: null,
 };
 
 BaseCatalogSearchResults.propTypes = {
@@ -176,6 +153,8 @@ BaseCatalogSearchResults.propTypes = {
     page: PropTypes.number,
   }).isRequired,
   paginationComponent: PropTypes.func,
+  row: PropTypes.string,
+
 };
 
 export default connectStateResults(injectIntl(BaseCatalogSearchResults));

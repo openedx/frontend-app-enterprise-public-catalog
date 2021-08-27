@@ -1,12 +1,12 @@
 import React, {
-  ListGroup, ListGroupItem, useContext,
+  useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
   SearchContext, setRefinementAction,
 } from '@edx/frontend-enterprise-catalog-search';
 import {
-  Card, Form,
+  Badge, Card, Form,
 } from '@edx/paragon';
 import { QUERY_UUID_REFINEMENT } from '../../constants';
 
@@ -33,23 +33,28 @@ CardCheckbox.propTypes = {
 };
 
 const CatalogSelectionCard = ({
-  queryUuid, label, cardBody, labelDetail,
+  queryUuid, className, badge, label, cardBody, labelDetail,
 }) => (
   <Card>
     <Card.Body>
       <Card.Title>
+        <Badge className={className}>
+          {badge}
+        </Badge>
         <CardCheckbox
           label={label}
           labelDetail={labelDetail}
           queryUuid={queryUuid}
         />
       </Card.Title>
-      <Card.Subtitle>{subtitle}</Card.Subtitle>
+      <Card.Text>{cardBody}</Card.Text>
     </Card.Body>
   </Card>
 );
 
 CatalogSelectionCard.propTypes = {
+  className: PropTypes.string.isRequired,
+  badge: PropTypes.string.isRequired,
   cardBody: PropTypes.string.isRequired,
   queryUuid: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

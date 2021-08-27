@@ -3,12 +3,12 @@ import { defineMessages } from '@edx/frontend-platform/i18n';
 const messages = defineMessages({
   'catalogPage.hero.text': {
     id: 'catalogPage.hero.text',
-    defaultMessage: 'Tailored learning for your team',
+    defaultMessage: 'World-class learning for every organization ',
     description: 'Header text tagline.',
   },
   'catalogPage.hero.highlight': {
     id: 'catalogPage.hero.highlight',
-    defaultMessage: 'Tailored learning',
+    defaultMessage: 'World-class learning',
     description: 'emphasized text of the header',
   },
   'catalogPage.catalogSelectionDeck.title': {

@@ -6,15 +6,15 @@ import { SearchContext } from '@edx/frontend-enterprise-catalog-search';
 // import { IntlProvider } from '@edx/frontend-platform/i18n';
 import {
   BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID,
-} from '../CatalogSearchResults';
-import { renderWithRouter } from '../../tests/testUtils';
-import messages from '../CatalogSearchResults.messages';
+} from './CatalogSearchResults';
+import { renderWithRouter } from '../tests/testUtils';
+import messages from './CatalogSearchResults.messages';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
 const PaginationComponent = () => <div>{PAGINATE_ME}</div>;
 
-const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
+const DEFAULT_SEARCH_CONTEXT_VALUE = { refinementsFromQueryParams: {} };
 
 // eslint-disable-next-line react/prop-types
 const SearchDataWrapper = ({ children, searchContextValue = DEFAULT_SEARCH_CONTEXT_VALUE }) => (

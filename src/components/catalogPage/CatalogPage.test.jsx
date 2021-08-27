@@ -3,7 +3,6 @@ import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
 import { mockWindowLocations, renderWithRouter } from '../tests/testUtils';
 import CatalogPage from './CatalogPage';
-import messages from './CatalogPage.messages';
 import selectionCardMessage from '../catalogSelectionDeck/CatalogSelectionDeck.messages';
 
 // all we are testing is routes, we don't need InstantSearch to work here

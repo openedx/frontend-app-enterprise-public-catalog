@@ -1,13 +1,13 @@
-.cta {
+.subtitle {
   @extend .my-5;
 
   display: flex;
   justify-content: space-between;
 
-  .cta__title {
+  .subtitle__title {
     @extend .h4
   }
-  .cta__text {
+  .subtitle__text {
     max-width: 70%;
   }
   .info {
@@ -17,12 +17,12 @@
 
 
 @include media-breakpoint-down(sm) {
-  .cta {
+  .subtitle {
     min-height: 200px;
     flex-direction: column;
     align-items: flex-start;
 
-    .cta__text {
+    .subtitle__text {
       max-width: 100%;
       margin-bottom: 2rem;
     }
