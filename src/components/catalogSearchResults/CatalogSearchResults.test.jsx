@@ -23,13 +23,27 @@ const SearchDataWrapper = ({ children, searchContextValue = DEFAULT_SEARCH_CONTE
   </SearchContext.Provider>
 );
 
+const mockConfig = () => (
+  {
+    EDX_FOR_BUSINESS_UUID: 'ayylmao',
+    EDX_FOR_ONLINE_EDU_UUID: 'foo',
+    EDX_ENTERPRISE_ALACARTE_UUID: 'baz',
+  }
+);
+
+jest.mock('@edx/frontend-platform', () => ({
+  ...jest.requireActual('@edx/frontend-platform'),
+  getConfig: () => mockConfig(),
+}));
+
+
 const TEST_COURSE_NAME = 'test course';
-const TEST_SUBJECT = 'test subject';
 const TEST_PARTNER = 'edx';
+const TEST_CATALOG = ['baz']
 
 const TEST_COURSE_NAME_2 = 'test course 2';
-const TEST_SUBJECT_2 = 'test subject 2';
 const TEST_PARTNER_2 = 'edx 2';
+const TEST_CATALOG_2 = ['ayylmao']
 
 const searchResults = {
   nbHits: 1,
@@ -40,13 +54,14 @@ const searchResults = {
   hits: [
     {
       title: TEST_COURSE_NAME,
-      subjects: [TEST_SUBJECT],
       partners: [{ name: TEST_PARTNER }],
+      enterprise_catalog_query_uuids: TEST_CATALOG,
+
     },
     {
       title: TEST_COURSE_NAME_2,
-      subjects: [TEST_SUBJECT_2],
       partners: [{ name: TEST_PARTNER_2 }],
+      enterprise_catalog_query_uuids: TEST_CATALOG_2,
     },
   ],
   page: 1,
@@ -81,13 +96,12 @@ describe('Main Catalogs view works as expected', () => {
 
     // course 1
     expect(screen.queryByText(TEST_COURSE_NAME)).toBeInTheDocument();
-    expect(screen.queryByText(TEST_SUBJECT)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER)).toBeInTheDocument();
+    expect(screen.queryByText("A la cart")).toBeInTheDocument();
 
     // course 2
     expect(screen.queryByText(TEST_COURSE_NAME_2)).toBeInTheDocument();
     expect(screen.queryByText(TEST_SUBJECT_2)).toBeInTheDocument();
-    expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
   });
   test('pagination component renders', () => {
     renderWithRouter(
@@ -152,7 +166,7 @@ describe('Main Catalogs view works as expected', () => {
       </SearchDataWrapper>,
     );
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
-    expect(screen.queryByText(messages['catalogSearchResults.table.subject'].defaultMessage)).toBeInTheDocument();
   });
 });

@@ -93,12 +93,11 @@ export const BaseCatalogSearchResults = ({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_uuids',
-
       Cell: ({ row }) => (
         <div style={{ maxWidth: '400vw' }}>
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ONLINE_ESSENTIALS_UUID) && <Badge className="alacart-catalog">A la cart</Badge> }
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge className="business-catalog">Business</Badge>}
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge className="education-catalog">Education</Badge>}
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge className="alacart-catalog">A la cart</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge className="business-catalog">Business</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge className="education-catalog">Education</Badge> }
         </div>
       ),
     },
@@ -153,8 +152,8 @@ BaseCatalogSearchResults.propTypes = {
     page: PropTypes.number,
   }).isRequired,
   paginationComponent: PropTypes.func,
+  // eslint-disable-next-line react/no-unused-prop-types
   row: PropTypes.string,
-
 };
 
 export default connectStateResults(injectIntl(BaseCatalogSearchResults));
