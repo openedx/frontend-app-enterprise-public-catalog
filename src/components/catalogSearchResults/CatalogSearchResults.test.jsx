@@ -36,14 +36,13 @@ jest.mock('@edx/frontend-platform', () => ({
   getConfig: () => mockConfig(),
 }));
 
-
 const TEST_COURSE_NAME = 'test course';
 const TEST_PARTNER = 'edx';
-const TEST_CATALOG = ['baz']
+const TEST_CATALOG = ['baz'];
 
 const TEST_COURSE_NAME_2 = 'test course 2';
 const TEST_PARTNER_2 = 'edx 2';
-const TEST_CATALOG_2 = ['ayylmao']
+const TEST_CATALOG_2 = ['ayylmao'];
 
 const searchResults = {
   nbHits: 1,
@@ -97,11 +96,10 @@ describe('Main Catalogs view works as expected', () => {
     // course 1
     expect(screen.queryByText(TEST_COURSE_NAME)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER)).toBeInTheDocument();
-    expect(screen.queryByText("A la cart")).toBeInTheDocument();
 
     // course 2
     expect(screen.queryByText(TEST_COURSE_NAME_2)).toBeInTheDocument();
-    expect(screen.queryByText(TEST_SUBJECT_2)).toBeInTheDocument();
+    expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
   });
   test('pagination component renders', () => {
     renderWithRouter(

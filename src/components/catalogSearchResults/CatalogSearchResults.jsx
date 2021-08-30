@@ -104,6 +104,7 @@ export const BaseCatalogSearchResults = ({
   ], []);
 
   const page = refinementsFromQueryParams.page || (searchState ? searchState.page : 0);
+
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (
     <>

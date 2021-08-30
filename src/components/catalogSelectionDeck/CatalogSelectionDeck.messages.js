@@ -6,10 +6,6 @@ const messages = defineMessages({
     defaultMessage: 'For businesses',
     description: 'badge for catalog',
   },
-  'catalogSelectionDeck.edxForBusiness.className': {
-    id: 'catalogSelectionDeck.edxForBusiness.className',
-    defaultMessage: 'business-catalog',
-  },
   'catalogSelectionDeck.edxForBusiness.label': {
     id: 'catalogSelectionDeck.edxForBusiness.label',
     defaultMessage: 'Business subscription',
@@ -30,10 +26,6 @@ const messages = defineMessages({
     defaultMessage: 'For educational institutions',
     description: 'badge for catalog',
   },
-  'catalogSelectionDeck.edxForOnlineEdu.className': {
-    id: 'catalogSelectionDeck.edxForOnlineEdu.className',
-    defaultMessage: 'education-catalog',
-  },
   'catalogSelectionDeck.edxForOnlineEdu.label': {
     id: 'catalogSelectionDeck.edxForOnlineEdu.label',
     defaultMessage: 'Education subscription',
@@ -53,10 +45,6 @@ const messages = defineMessages({
     id: 'catalogSelectionDeck.aLaCarte.badge',
     defaultMessage: 'For all organizations',
     description: 'badge for catalog',
-  },
-  'catalogSelectionDeck.aLaCarte.className': {
-    id: 'catalogSelectionDeck.aLaCarte.className',
-    defaultMessage: 'alacart-catalog',
   },
   'catalogSelectionDeck.aLaCarte.label': {
     id: 'catalogSelectionDeck.aLaCarte.label',

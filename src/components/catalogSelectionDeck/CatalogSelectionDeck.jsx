@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 import CatalogSelectionCard from '../catalogSelectionCard/CatalogSelectionCard';
 import messages from './CatalogSelectionDeck.messages';
 
+const aLaCarteClassName = 'alacart-catalog';
+const businessClassName = 'business-catalog';
+const educationClassName = 'education-catalog';
+
 const CatalogSelectionDeck = ({ intl, title }) => {
   const config = getConfig();
   return (
@@ -15,7 +19,7 @@ const CatalogSelectionDeck = ({ intl, title }) => {
         <CardDeck>
           <CatalogSelectionCard
             queryUuid={config.EDX_ENTERPRISE_ALACARTE_UUID}
-            className={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.className'])}
+            className={aLaCarteClassName}
             badge={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.badge'])}
             label={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.label'])}
             labelDetail={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.labelDetail'])}
@@ -23,7 +27,7 @@ const CatalogSelectionDeck = ({ intl, title }) => {
           />
           <CatalogSelectionCard
             queryUuid={config.EDX_FOR_BUSINESS_UUID}
-            className={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.className'])}
+            className={businessClassName}
             badge={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.badge'])}
             label={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.label'])}
             labelDetail={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.labelDetail'])}
@@ -31,7 +35,7 @@ const CatalogSelectionDeck = ({ intl, title }) => {
           />
           <CatalogSelectionCard
             queryUuid={config.EDX_FOR_ONLINE_EDU_UUID}
-            className={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.className'])}
+            className={educationClassName}
             badge={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.badge'])}
             label={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}
             labelDetail={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.labelDetail'])}
