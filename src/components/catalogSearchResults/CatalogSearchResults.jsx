@@ -82,7 +82,7 @@ export const BaseCatalogSearchResults = ({
 
   const { refinementsFromQueryParams } = useContext(SearchContext);
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
-  // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation. 
+  // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const columns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
