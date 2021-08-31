@@ -38,11 +38,11 @@ jest.mock('@edx/frontend-platform', () => ({
 
 const TEST_COURSE_NAME = 'test course';
 const TEST_PARTNER = 'edx';
-const TEST_CATALOG = ['baz'];
+const TEST_CATALOGS = ['baz'];
 
 const TEST_COURSE_NAME_2 = 'test course 2';
 const TEST_PARTNER_2 = 'edx 2';
-const TEST_CATALOG_2 = ['ayylmao'];
+const TEST_CATALOGS_2 = ['baz', 'ayylmao'];
 
 const searchResults = {
   nbHits: 1,
@@ -54,13 +54,13 @@ const searchResults = {
     {
       title: TEST_COURSE_NAME,
       partners: [{ name: TEST_PARTNER }],
-      enterprise_catalog_query_uuids: TEST_CATALOG,
+      enterprise_catalog_query_uuids: TEST_CATALOGS,
 
     },
     {
       title: TEST_COURSE_NAME_2,
       partners: [{ name: TEST_PARTNER_2 }],
-      enterprise_catalog_query_uuids: TEST_CATALOG_2,
+      enterprise_catalog_query_uuids: TEST_CATALOGS_2,
     },
   ],
   page: 1,

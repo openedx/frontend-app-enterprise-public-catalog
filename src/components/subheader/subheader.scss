@@ -1,8 +1,12 @@
 .subtitle {
   @extend .my-5;
-
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5555555556;
   display: flex;
+  color: #454545;
   justify-content: space-between;
+  padding: 0px 16px;
 
   .subtitle__title {
     @extend .h4

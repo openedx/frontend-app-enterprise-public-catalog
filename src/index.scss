@@ -19,8 +19,8 @@
 @import "components/catalogSelectionCard/CatalogSelectionCard";
 @import "components/catalogSelectionDeck/CatalogSelectionDeck";
 
-.alacart-catalog.badge  {
-    margin: 3px;
+.alacarte-catalog.badge  {
+    margin: 4px;
     padding: 6px;
     max-width: 20vw;
     color: #ffffff;
@@ -29,12 +29,12 @@
   }
 
 .business-catalog.badge {
-    @extend .alacart-catalog, .badge;
-    background-color: #475B65
+    @extend .alacarte-catalog, .badge;
+    background-color: #475B65;
   }
 
 .education-catalog.badge {
-    @extend .alacart-catalog, .badge;
+    @extend .alacarte-catalog, .badge;
     color: #1c1c1c;
     background-color: #e0e0e0;
   }

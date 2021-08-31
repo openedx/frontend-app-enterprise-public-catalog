@@ -81,6 +81,8 @@ export const BaseCatalogSearchResults = ({
   }
 
   const { refinementsFromQueryParams } = useContext(SearchContext);
+  // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
+  // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation. 
   const columns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
@@ -95,7 +97,7 @@ export const BaseCatalogSearchResults = ({
       accessor: 'enterprise_catalog_query_uuids',
       Cell: ({ row }) => (
         <div style={{ maxWidth: '400vw' }}>
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge className="alacart-catalog">A la cart</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge className="alacarte-catalog">A la carte</Badge> }
           { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge className="business-catalog">Business</Badge> }
           { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge className="education-catalog">Education</Badge> }
         </div>

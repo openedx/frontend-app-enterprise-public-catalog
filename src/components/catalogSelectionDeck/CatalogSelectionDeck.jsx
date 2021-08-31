@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import CatalogSelectionCard from '../catalogSelectionCard/CatalogSelectionCard';
 import messages from './CatalogSelectionDeck.messages';
 
-const aLaCarteClassName = 'alacart-catalog';
+const aLaCarteClassName = 'alacarte-catalog';
 const businessClassName = 'business-catalog';
 const educationClassName = 'education-catalog';
 
