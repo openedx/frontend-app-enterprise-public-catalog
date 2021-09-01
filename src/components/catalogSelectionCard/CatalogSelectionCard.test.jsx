@@ -12,7 +12,7 @@ import { CardCheckbox } from './CatalogSelectionCard';
 import { QUERY_UUID_REFINEMENT } from '../../constants';
 
 const dispatchSpy = jest.fn();
-const DEFAULT_SEARCH_CONTEXT_VALUE = { refinementsFromQueryParams: {}, dispatch: dispatchSpy };
+const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {}, dispatch: dispatchSpy };
 
 // eslint-disable-next-line react/prop-types
 const SearchDataWrapper = ({ children, searchContextValue }) => (
@@ -46,7 +46,7 @@ describe('CardCheckbox', () => {
   });
   it('is checked when uuid is included in the query param', () => {
     const queryUuid = 'bar';
-    const refinements = { refinementsFromQueryParams: { [QUERY_UUID_REFINEMENT]: [queryUuid] } };
+    const refinements = { refinements: { [QUERY_UUID_REFINEMENT]: [queryUuid] } };
     const tree = renderer.create(
       <SearchDataWrapper
         searchContextValue={refinements}

@@ -27,7 +27,7 @@ const CatalogPage = ({ intl }) => {
     reloadPage = true;
   }
   if ((!loadedSearchParams.get(AVAILABILITY_REFINEMENT))) {
-    loadedSearchParams.set(AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS);
+    AVAILABILITY_REFINEMENT_DEFAULTS.map(a => loadedSearchParams.append(AVAILABILITY_REFINEMENT, a));
     reloadPage = true;
   }
   if (reloadPage) {
