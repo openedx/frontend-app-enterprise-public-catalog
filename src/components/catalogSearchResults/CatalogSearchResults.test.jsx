@@ -3,12 +3,11 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise-catalog-search';
-// import { IntlProvider } from '@edx/frontend-platform/i18n';
 import {
   BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID,
-} from '../CatalogSearchResults';
-import { renderWithRouter } from '../../tests/testUtils';
-import messages from '../CatalogSearchResults.messages';
+} from './CatalogSearchResults';
+import { renderWithRouter } from '../tests/testUtils';
+import messages from './CatalogSearchResults.messages';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
@@ -23,13 +22,26 @@ const SearchDataWrapper = ({ children, searchContextValue = DEFAULT_SEARCH_CONTE
   </SearchContext.Provider>
 );
 
+const mockConfig = () => (
+  {
+    EDX_FOR_BUSINESS_UUID: 'ayylmao',
+    EDX_FOR_ONLINE_EDU_UUID: 'foo',
+    EDX_ENTERPRISE_ALACARTE_UUID: 'baz',
+  }
+);
+
+jest.mock('@edx/frontend-platform', () => ({
+  ...jest.requireActual('@edx/frontend-platform'),
+  getConfig: () => mockConfig(),
+}));
+
 const TEST_COURSE_NAME = 'test course';
-const TEST_SUBJECT = 'test subject';
 const TEST_PARTNER = 'edx';
+const TEST_CATALOGS = ['baz'];
 
 const TEST_COURSE_NAME_2 = 'test course 2';
-const TEST_SUBJECT_2 = 'test subject 2';
 const TEST_PARTNER_2 = 'edx 2';
+const TEST_CATALOGS_2 = ['baz', 'ayylmao'];
 
 const searchResults = {
   nbHits: 1,
@@ -40,13 +52,14 @@ const searchResults = {
   hits: [
     {
       title: TEST_COURSE_NAME,
-      subjects: [TEST_SUBJECT],
       partners: [{ name: TEST_PARTNER }],
+      enterprise_catalog_query_uuids: TEST_CATALOGS,
+
     },
     {
       title: TEST_COURSE_NAME_2,
-      subjects: [TEST_SUBJECT_2],
       partners: [{ name: TEST_PARTNER_2 }],
+      enterprise_catalog_query_uuids: TEST_CATALOGS_2,
     },
   ],
   page: 1,
@@ -81,12 +94,10 @@ describe('Main Catalogs view works as expected', () => {
 
     // course 1
     expect(screen.queryByText(TEST_COURSE_NAME)).toBeInTheDocument();
-    expect(screen.queryByText(TEST_SUBJECT)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER)).toBeInTheDocument();
 
     // course 2
     expect(screen.queryByText(TEST_COURSE_NAME_2)).toBeInTheDocument();
-    expect(screen.queryByText(TEST_SUBJECT_2)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
   });
   test('pagination component renders', () => {
@@ -152,7 +163,7 @@ describe('Main Catalogs view works as expected', () => {
       </SearchDataWrapper>,
     );
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
-    expect(screen.queryByText(messages['catalogSearchResults.table.subject'].defaultMessage)).toBeInTheDocument();
   });
 });

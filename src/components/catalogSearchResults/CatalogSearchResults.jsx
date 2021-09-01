@@ -5,7 +5,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import {
-  DataTable, Alert,
+  Badge, DataTable, Alert,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
 import Skeleton from 'react-loading-skeleton';
@@ -40,8 +40,8 @@ export const BaseCatalogSearchResults = ({
 }) => {
   const TABLE_HEADERS = {
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
-    subject: intl.formatMessage(messages['catalogSearchResults.table.subject']),
     partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
+    catalogs: intl.formatMessage(messages['catalogSearchResults.table.catalogs']),
   };
 
   if (isSearchStalled) {
@@ -81,18 +81,27 @@ export const BaseCatalogSearchResults = ({
   }
 
   const { refinementsFromQueryParams } = useContext(SearchContext);
+  // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
+  // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const columns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
     },
     {
-      Header: TABLE_HEADERS.subject,
-      accessor: 'subjects[0]',
-    },
-    {
       Header: TABLE_HEADERS.partner,
       accessor: 'partners[0].name',
+    },
+    {
+      Header: TABLE_HEADERS.catalogs,
+      accessor: 'enterprise_catalog_query_uuids',
+      Cell: ({ row }) => (
+        <div style={{ maxWidth: '400vw' }}>
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge className="alacarte-catalog">A la carte</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge className="business-catalog">Business</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge className="education-catalog">Education</Badge> }
+        </div>
+      ),
     },
   ], []);
 
@@ -125,6 +134,7 @@ BaseCatalogSearchResults.defaultProps = {
   searchResults: { nbHits: 0, hits: [] },
   error: null,
   paginationComponent: SearchPagination,
+  row: null,
 };
 
 BaseCatalogSearchResults.propTypes = {
@@ -145,6 +155,8 @@ BaseCatalogSearchResults.propTypes = {
     page: PropTypes.number,
   }).isRequired,
   paginationComponent: PropTypes.func,
+  // eslint-disable-next-line react/no-unused-prop-types
+  row: PropTypes.string,
 };
 
 export default connectStateResults(injectIntl(BaseCatalogSearchResults));

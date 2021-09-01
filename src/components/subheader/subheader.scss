@@ -1,19 +1,18 @@
-.cta {
+.subtitle {
   @extend .my-5;
-
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5555555556;
   display: flex;
+  color: #454545;
   justify-content: space-between;
+  padding: 0px 16px;
 
-  .cta__title {
+  .subtitle__title {
     @extend .h4
   }
-  .cta__text {
-    max-width: 50%;
-  }
-
-  .cta__button {
-    @extend .ml-0;
-    @extend .ml-md-5;
+  .subtitle__text {
+    max-width: 70%;
   }
   .info {
     color: $info-300;
@@ -22,12 +21,12 @@
 
 
 @include media-breakpoint-down(sm) {
-  .cta {
+  .subtitle {
     min-height: 200px;
     flex-direction: column;
     align-items: flex-start;
 
-    .cta__text {
+    .subtitle__text {
       max-width: 100%;
       margin-bottom: 2rem;
     }

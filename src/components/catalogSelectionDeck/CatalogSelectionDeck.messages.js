@@ -1,6 +1,11 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
 
 const messages = defineMessages({
+  'catalogSelectionDeck.edxForBusiness.badge': {
+    id: 'catalogSelectionDeck.edxForBusiness.badge',
+    defaultMessage: 'For businesses',
+    description: 'badge for catalog',
+  },
   'catalogSelectionDeck.edxForBusiness.label': {
     id: 'catalogSelectionDeck.edxForBusiness.label',
     defaultMessage: 'Business subscription',
@@ -16,6 +21,11 @@ const messages = defineMessages({
     defaultMessage: '\u2713 Unlimited access to 1,000+ courses\n\u2713 Professional certificates and select programs\n\u2713 Self-paced courses',
     description: 'description of filter',
   },
+  'catalogSelectionDeck.edxForOnlineEdu.badge': {
+    id: 'catalogSelectionDeck.edxForOnlineEdu.badge',
+    defaultMessage: 'For educational institutions',
+    description: 'badge for catalog',
+  },
   'catalogSelectionDeck.edxForOnlineEdu.label': {
     id: 'catalogSelectionDeck.edxForOnlineEdu.label',
     defaultMessage: 'Education subscription',
@@ -30,6 +40,11 @@ const messages = defineMessages({
     id: 'catalogSelectionDeck.edxForOnlineEdu.body',
     defaultMessage: '\u2713 Unlimited access to 1,000+ courses\n\u2713 Professional certificates and select programs\n\u2713 Self-paced courses',
     description: 'description of filter',
+  },
+  'catalogSelectionDeck.aLaCarte.badge': {
+    id: 'catalogSelectionDeck.aLaCarte.badge',
+    defaultMessage: 'For all organizations',
+    description: 'badge for catalog',
   },
   'catalogSelectionDeck.aLaCarte.label': {
     id: 'catalogSelectionDeck.aLaCarte.label',

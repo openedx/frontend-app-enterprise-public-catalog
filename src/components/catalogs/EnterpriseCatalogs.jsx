@@ -7,7 +7,7 @@ import { SearchHeader } from '@edx/frontend-enterprise-catalog-search';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import PageWrapper from '../PageWrapper';
 import { NUM_RESULTS_PER_PAGE } from '../../constants';
-import CatalogSearchResults from './CatalogSearchResults';
+import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
 import { useAlgoliaIndex } from './data/hooks';
 
 export default function EnterpriseCatalogs() {

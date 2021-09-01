@@ -13,7 +13,6 @@ const mockConfig = () => (
   {
     EDX_FOR_BUSINESS_UUID: 'ayylmao',
     EDX_FOR_ONLINE_EDU_UUID: 'foo',
-    EDX_ONLINE_ESSENTIALS_UUID: 'bar',
     EDX_ENTERPRISE_ALACARTE_UUID: 'baz',
   }
 );

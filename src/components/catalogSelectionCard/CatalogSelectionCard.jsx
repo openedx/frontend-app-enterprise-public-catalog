@@ -6,7 +6,7 @@ import {
   SearchContext, setRefinementAction,
 } from '@edx/frontend-enterprise-catalog-search';
 import {
-  Card, Form,
+  Badge, Card, Form,
 } from '@edx/paragon';
 import { QUERY_UUID_REFINEMENT } from '../../constants';
 
@@ -33,11 +33,14 @@ CardCheckbox.propTypes = {
 };
 
 const CatalogSelectionCard = ({
-  queryUuid, label, cardBody, labelDetail,
+  queryUuid, className, badge, label, cardBody, labelDetail,
 }) => (
   <Card>
     <Card.Body>
       <Card.Title>
+        <Badge className={className}>
+          {badge}
+        </Badge>
         <CardCheckbox
           label={label}
           labelDetail={labelDetail}
@@ -50,6 +53,8 @@ const CatalogSelectionCard = ({
 );
 
 CatalogSelectionCard.propTypes = {
+  className: PropTypes.string.isRequired,
+  badge: PropTypes.string.isRequired,
   cardBody: PropTypes.string.isRequired,
   queryUuid: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
