@@ -80,7 +80,7 @@ export const BaseCatalogSearchResults = ({
     );
   }
 
-  const { refinementsFromQueryParams } = useContext(SearchContext);
+  const { refinements } = useContext(SearchContext);
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const columns = useMemo(() => [
@@ -97,15 +97,15 @@ export const BaseCatalogSearchResults = ({
       accessor: 'enterprise_catalog_query_uuids',
       Cell: ({ row }) => (
         <div style={{ maxWidth: '400vw' }}>
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge className="alacarte-catalog">A la carte</Badge> }
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge className="business-catalog">Business</Badge> }
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge className="education-catalog">Education</Badge> }
+          {row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge className="alacarte-catalog">A la carte</Badge>}
+          {row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge className="business-catalog">Business</Badge>}
+          {row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge className="education-catalog">Education</Badge>}
         </div>
       ),
     },
   ], []);
 
-  const page = refinementsFromQueryParams.page || (searchState ? searchState.page : 0);
+  const page = refinements.page || (searchState ? searchState.page : 0);
 
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (

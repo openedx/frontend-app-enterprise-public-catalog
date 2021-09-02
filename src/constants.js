@@ -12,4 +12,4 @@ export const TRACKING_APP_NAME = 'explore-catalog';
 
 export const QUERY_UUID_REFINEMENT = 'enterprise_catalog_query_uuids';
 export const AVAILABILITY_REFINEMENT = 'availability';
-export const AVAILABILITY_REFINEMENT_DEFAULTS = 'Available Now,Upcoming';
+export const AVAILABILITY_REFINEMENT_DEFAULTS = ['Available Now', 'Upcoming'];
