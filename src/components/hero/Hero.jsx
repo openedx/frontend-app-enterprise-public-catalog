@@ -17,7 +17,7 @@ const IMAGE_CLASS = 'hero__image';
 const Hero = ({ intl, text, highlight }) => (
   <section className="hero">
     <Container size="lg" className="hero__content">
-      <h1 className="display-3"><Highlighted text={text} highlight={highlight} /></h1>
+      <h1 className="display-1"><Highlighted text={text} highlight={highlight} /></h1>
       <div>
         <Large className={IMAGE_WRAPPER_CLASS}>
           <Image

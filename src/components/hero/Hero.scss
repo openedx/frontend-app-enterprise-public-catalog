@@ -1,6 +1,7 @@
 .hero {
   background-color: $primary-700;
   padding: 0px 16px;
+  white-space: pre-line;
 }
 
 .hero__content {
@@ -9,10 +10,10 @@
   min-height: $banner-min-height;
   max-height: $hero-max-height;
 
-  .display-3 {
+  .display-1 {
     @extend .py-3;
     color: $white;
-    max-width: 50%;
+    max-width: 70%;
   }
   div {
     min-height: $banner-min-height;
@@ -25,7 +26,7 @@
     height: 100%;
   }
   .highlighted {
-    color: $brand;
+    color: $accent-b;
   }
 }
 
@@ -34,7 +35,7 @@
     min-height: 200px;
     max-height: 331px;
 
-    .display-3 {
+    .display-1 {
       max-width: 100%;
     }
   }

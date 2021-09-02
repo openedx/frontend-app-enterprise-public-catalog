@@ -97,9 +97,9 @@ export const BaseCatalogSearchResults = ({
       accessor: 'enterprise_catalog_query_uuids',
       Cell: ({ row }) => (
         <div style={{ maxWidth: '400vw' }}>
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge className="alacarte-catalog">A la carte</Badge> }
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge className="business-catalog">Business</Badge> }
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge className="education-catalog">Education</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge variant="dark" className="padded-catalog">A la carte</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge variant="secondary" className="business-catalog padded-catalog">Business</Badge> }
+          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge variant="light" className="padded-catalog">Education</Badge> }
         </div>
       ),
     },
