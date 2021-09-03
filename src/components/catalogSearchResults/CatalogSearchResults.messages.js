@@ -21,6 +21,11 @@ const messages = defineMessages({
     defaultMessage: 'Associated catalogs',
     description: 'Table column title for associated subscription catalogs',
   },
+  'catalogSearchResult.table.priceNotAvailable': {
+    id: 'catalogSearchResults.table.priceNotAvailable',
+    defaultMessage: ' Not Available',
+    description: 'When a course price is not available, notify learners that there is no data available to display.',
+  },
 });
 
 export default messages;

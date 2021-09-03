@@ -3,3 +3,131 @@
   @extend .mb-5;
   padding: 0px 16px;
 }
+
+.course-info-title {
+  position: relative;
+  width: 70% !important;
+  left: 0% !important;
+  flex-shrink: 1;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px !important;
+  line-height: 44px !important;
+  letter-spacing: -0.02em;
+}
+
+.course-info-partner {
+  position: relative;
+  height: 36px;
+  left: 0% !important;
+  margin-top: 13px;
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px !important;
+  line-height: 36px;
+}
+
+.course-info-hero {
+  width: 1140px !important;
+  height: 300px !important;
+}
+
+.partner-logo-thumbnail {
+  position: absolute;
+  z-index: 1;
+  left: 2%;
+  top: -25%;
+  width: 15%;
+  height: 39%;
+  background-color: #F9f9f9;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.25),
+              0 2px 2px rgba(0,0,0,0.20),
+              0 4px 4px rgba(0,0,0,0.15),
+              0 8px 8px rgba(0,0,0,0.10);
+}
+
+.pricing-data-header {
+  position: absolute;
+  right: 0%;
+  top: 25%;
+}
+
+.pricing-data-title {
+  font-weight: 500;
+  font-family: 'Roboto Mono';
+  font-size: 1rem !important;
+}
+
+.pricing-data-price {
+  margin-top: 0;
+  font-size: 2.4rem !important;
+}
+
+.course-info-modal {
+  position: absolute !important;
+  top: 10%;
+  height: 80%;
+}
+
+.course-info-modal-header {
+  min-height: 250px;
+  display: flex;
+}
+
+.associated-catalogs-text {
+  font-weight: 400;
+  font-family: 'Roboto Mono';
+  font-size: 1.4rem !important;
+  margin-bottom: 4px;
+}
+
+.course-info-associated-catalog-header {
+  margin-top: 3%;
+}
+
+.associated-catalog-badges-container {
+  padding: 0.4rem 0.4rem !important;
+  font-size: 0.6rem !important;
+  font-weight: 300 !important;
+  margin-right: 6px;
+}
+
+.course-info-description-body {
+  overflow-y: scroll;
+  white-space: pre-wrap;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px !important;
+}
+
+.course-info-description-title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-weight: 700;
+  font-size: 22px !important;
+}
+
+.pgn__modal-close-container {
+  background-color: #F2F3F3 !important;
+  border-radius: 50% !important;
+  border: solid 1px #000000;
+}
+
+.course-info-footer-button {
+  border-radius: 0px !important;
+}
+
+.catalog-search-result-column-title {
+  text-align: left;
+}
+
+.course-info-title-container {
+  position: absolute;
+  top: 20%;
+  width: 90%;
+}

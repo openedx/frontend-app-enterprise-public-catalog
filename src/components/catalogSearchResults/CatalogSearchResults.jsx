@@ -1,16 +1,18 @@
 import React, {
   useContext,
   useMemo,
+  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import {
-  Badge, DataTable, Alert,
+  Badge, DataTable, Alert, Button, useToggle,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
 import Skeleton from 'react-loading-skeleton';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
+import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import messages from './CatalogSearchResults.messages';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
@@ -18,7 +20,7 @@ export const NO_DATA_MESSAGE = 'There are no course results';
 
 export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
 /**
- * The core search resultss rendering component.
+ * The core search results rendering component.
  *
  * Wrapping this in `connectStateResults()` will inject the first few props.
  *
@@ -82,12 +84,44 @@ export const BaseCatalogSearchResults = ({
   }
 
   const { refinements } = useContext(SearchContext);
+  const [isOpen, open, close] = useToggle(false);
+
+  const [title, setTitle] = useState();
+  const [provider, setProvider] = useState();
+  const [price, setPrice] = useState();
+  const [description, setDescription] = useState();
+  const [partnerLogoImageUrl, setPartnerLogoImageUrl] = useState();
+  const [bannerImageUrl, setBannerImageUrl] = useState();
+  const [associatedCatalogs, setAssociatedCatalogs] = useState();
+  const [marketingUrl, setMarketingUrl] = useState();
+
+  const rowClicked = (row) => {
+    const rowPrice = row.original.first_enrollable_paid_seat_price;
+    const priceText = (rowPrice != null) ? rowPrice.toString() : intl.formatMessage(
+      messages['catalogSearchResult.table.priceNotAvailable'],
+    );
+    setPrice(priceText);
+    setAssociatedCatalogs(row.original.enterprise_catalog_query_uuids);
+    setTitle(row.values.title);
+    setProvider(row.values['partners[0].name']);
+    setPartnerLogoImageUrl(row.original.partners[0].logo_image_url);
+    setDescription(row.original.full_description);
+    setBannerImageUrl(row.original.original_image_url);
+    setMarketingUrl(row.original.marketing_url);
+    open();
+  };
+
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const columns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
+      Cell: ({ row }) => (
+        <Button className="catalog-search-result-column-title" variant="link" onClick={() => rowClicked(row)}>
+          {row.values.title}
+        </Button>
+      ),
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -116,6 +150,19 @@ export const BaseCatalogSearchResults = ({
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (
     <>
+      <CatalogCourseInfoModal
+        isOpen={isOpen}
+        onClose={close}
+        courseTitle={title}
+        courseProvider={provider}
+        coursePrice={price}
+        courseDescription={description}
+        partnerLogoImageUrl={partnerLogoImageUrl}
+        setBannerImageUrl={setBannerImageUrl}
+        bannerImageUrl={bannerImageUrl}
+        courseAssociatedCatalogs={associatedCatalogs}
+        marketingUrl={marketingUrl}
+      />
       <div>
         <DataTable
           columns={columns}
