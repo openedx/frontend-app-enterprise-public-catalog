@@ -11,9 +11,14 @@ const messages = defineMessages({
     defaultMessage: 'Partner',
     description: 'The partner institution providing/authoring the course (ie Harvard, MIT, etc.)',
   },
+  'catalogSearchResults.table.price': {
+    id: 'catalogSearchResults.table.price',
+    defaultMessage: 'A la carte course price',
+    description: 'Table column A La Carte price for the course',
+  },
   'catalogSearchResults.table.catalogs': {
     id: 'catalogSearchResults.table.catalogs',
-    defaultMessage: 'Associated Catalogs',
+    defaultMessage: 'Associated catalogs',
     description: 'Table column title for associated subscription catalogs',
   },
 });

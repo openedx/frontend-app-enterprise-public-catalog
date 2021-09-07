@@ -41,6 +41,7 @@ export const BaseCatalogSearchResults = ({
   const TABLE_HEADERS = {
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
     partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
+    price: intl.formatMessage(messages['catalogSearchResults.table.price']),
     catalogs: intl.formatMessage(messages['catalogSearchResults.table.catalogs']),
   };
 
@@ -91,6 +92,11 @@ export const BaseCatalogSearchResults = ({
     {
       Header: TABLE_HEADERS.partner,
       accessor: 'partners[0].name',
+    },
+    {
+      Header: TABLE_HEADERS.price,
+      accessor: 'first_enrollable_paid_seat_price',
+      Cell: ({ row }) => (row.values.first_enrollable_paid_seat_price ? `$${row.values.first_enrollable_paid_seat_price}` : null),
     },
     {
       Header: TABLE_HEADERS.catalogs,
