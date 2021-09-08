@@ -50,7 +50,7 @@ describe('Course info modal works as expected', () => {
   });
 
   test('modal is hidden when expected', () => {
-    let defaultPropsCopy = {};
+    const defaultPropsCopy = {};
     Object.assign(defaultPropsCopy, defaultProps);
     defaultPropsCopy.isOpen = false;
     render(
@@ -61,7 +61,7 @@ describe('Course info modal works as expected', () => {
     expect(screen.queryByText(defaultProps.courseTitle)).not.toBeInTheDocument();
   });
   test('modal displays appropriate associated catalog badges', () => {
-    let defaultPropsCopy = {};
+    const defaultPropsCopy = {};
     Object.assign(defaultPropsCopy, defaultProps);
 
     const educationQueryUuid = 'test-business-query-uuid';

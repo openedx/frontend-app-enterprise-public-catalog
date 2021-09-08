@@ -46,46 +46,42 @@ const CatalogCourseInfoModal = ({
 
           <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
 
-          <div className="course-info-title-container">
-            <ModalDialog.Title as="h1" className="course-info-title">
-              {courseTitle}
-            </ModalDialog.Title>
-            <ModalDialog.Title as="h6" className="course-info-partner">
-              {courseProvider}
-            </ModalDialog.Title>
-
-            <div className="course-info-associated-catalog-header">
-              <ModalDialog.Title className="associated-catalogs-text">
-                {intl.formatMessage(messages['catalogCourseInfoModal.associatedCatalogsTitle'])}
-              </ModalDialog.Title>
-              <Badge className="associated-catalog-badges-container" variant="dark">
-                {intl.formatMessage(messages['catalogCourseInfoModal.aLaCarteBadge'])}
-              </Badge>
-              { courseAssociatedCatalogs.includes(process.env.EDX_FOR_BUSINESS_UUID) && (
-                <Badge className="associated-catalog-badges-container" variant="secondary">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.businessBadge'])}
-                </Badge>
-              )}
-              { courseAssociatedCatalogs.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && (
-                <Badge className="associated-catalog-badges-container" variant="secondary">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.educationBadge'])}
-                </Badge>
-              )}
-            </div>
-          </div>
+          <ModalDialog.Title as="h1" className="course-info-title">
+            {courseTitle}
+          </ModalDialog.Title>
+          <ModalDialog.Title as="h6" className="course-info-partner">
+            {courseProvider}
+          </ModalDialog.Title>
 
           <div className="pricing-data-header">
             <ModalDialog.Title className="pricing-data-title">
               {intl.formatMessage(messages['catalogCourseInfoModal.pricingTitle'])}
             </ModalDialog.Title>
             <ModalDialog.Title className="pricing-data-price">
-              $
               {coursePrice}
             </ModalDialog.Title>
           </div>
         </ModalDialog.Header>
 
         <ModalDialog.Body>
+          <div className="course-info-associated-catalog-header">
+            <ModalDialog.Title className="associated-catalogs-text">
+              {intl.formatMessage(messages['catalogCourseInfoModal.associatedCatalogsTitle'])}
+            </ModalDialog.Title>
+            <Badge className="padded-catalog" variant="dark">
+              {intl.formatMessage(messages['catalogCourseInfoModal.aLaCarteBadge'])}
+            </Badge>
+            { courseAssociatedCatalogs.includes(process.env.EDX_FOR_BUSINESS_UUID) && (
+              <Badge className="business-catalog padded-catalog" variant="secondary">
+                {intl.formatMessage(messages['catalogCourseInfoModal.businessBadge'])}
+              </Badge>
+            )}
+            { courseAssociatedCatalogs.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && (
+              <Badge className="padded-catalog" variant="light">
+                {intl.formatMessage(messages['catalogCourseInfoModal.educationBadge'])}
+              </Badge>
+            )}
+          </div>
           <p className="course-info-description-title">
             {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
           </p>

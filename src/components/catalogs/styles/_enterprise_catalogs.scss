@@ -9,8 +9,6 @@
   width: 70% !important;
   left: 0% !important;
   flex-shrink: 1;
-  font-family: Inter;
-  font-style: normal;
   font-weight: 700;
   font-size: 40px !important;
   line-height: 44px !important;
@@ -23,8 +21,6 @@
   left: 0% !important;
   margin-top: 13px;
 
-  font-family: Inter;
-  font-style: normal;
   font-weight: bold;
   font-size: 32px !important;
   line-height: 36px;
@@ -39,14 +35,15 @@
   position: absolute;
   z-index: 1;
   left: 2%;
-  top: -25%;
+  top: -75px;
   width: 15%;
-  height: 39%;
-  background-color: #F9f9f9;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.25),
-              0 2px 2px rgba(0,0,0,0.20),
-              0 4px 4px rgba(0,0,0,0.15),
-              0 8px 8px rgba(0,0,0,0.10);
+  height: 70%;
+  max-height: 90px;
+  background-color: $light-300;
+  box-shadow: 0 1px 1px rgba(128,128,128,.1),
+              0 1px 1px rgba(128,128,128,.1),
+              0 2px 2px rgba(128,128,128,.1),
+              0 2px 2px rgba(128,128,128,.1);
 }
 
 .pricing-data-header {
@@ -69,12 +66,6 @@
 .course-info-modal {
   position: absolute !important;
   top: 10%;
-  height: 80%;
-}
-
-.course-info-modal-header {
-  min-height: 250px;
-  display: flex;
 }
 
 .associated-catalogs-text {
@@ -85,37 +76,19 @@
 }
 
 .course-info-associated-catalog-header {
-  margin-top: 3%;
-}
-
-.associated-catalog-badges-container {
-  padding: 0.4rem 0.4rem !important;
-  font-size: 0.6rem !important;
-  font-weight: 300 !important;
-  margin-right: 6px;
-}
-
-.course-info-description-body {
-  overflow-y: scroll;
-  white-space: pre-wrap;
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 22px !important;
+  margin-bottom: 3%;
 }
 
 .course-info-description-title {
-  font-family: Inter;
-  font-style: normal;
   font-weight: bold;
   font-weight: 700;
   font-size: 22px !important;
 }
 
 .pgn__modal-close-container {
-  background-color: #F2F3F3 !important;
+  background-color: $gray-100 !important;
   border-radius: 50% !important;
-  border: solid 1px #000000;
+  border: solid 1px $black;
 }
 
 .course-info-footer-button {
@@ -126,8 +99,7 @@
   text-align: left;
 }
 
-.course-info-title-container {
-  position: absolute;
-  top: 20%;
-  width: 90%;
+.course-info-modal-header {
+  display: flex;
+  height: auto !important;
 }

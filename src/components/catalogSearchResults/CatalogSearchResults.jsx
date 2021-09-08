@@ -97,7 +97,7 @@ export const BaseCatalogSearchResults = ({
 
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
-    const priceText = (rowPrice != null) ? rowPrice.toString() : intl.formatMessage(
+    const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
       messages['catalogSearchResult.table.priceNotAvailable'],
     );
     setPrice(priceText);
