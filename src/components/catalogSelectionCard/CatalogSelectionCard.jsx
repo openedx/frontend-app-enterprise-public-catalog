@@ -33,12 +33,12 @@ CardCheckbox.propTypes = {
 };
 
 const CatalogSelectionCard = ({
-  queryUuid, className, badge, label, cardBody, labelDetail,
+  queryUuid, className, badgeVariant, badge, label, cardBody, labelDetail,
 }) => (
   <Card>
     <Card.Body>
       <Card.Title>
-        <Badge className={className}>
+        <Badge className={className} variant={badgeVariant}>
           {badge}
         </Badge>
         <CardCheckbox
@@ -52,8 +52,13 @@ const CatalogSelectionCard = ({
   </Card>
 );
 
+CatalogSelectionCard.defaultProps = {
+  className: '',
+};
+
 CatalogSelectionCard.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  badgeVariant: PropTypes.string.isRequired,
   badge: PropTypes.string.isRequired,
   cardBody: PropTypes.string.isRequired,
   queryUuid: PropTypes.string.isRequired,

@@ -19,22 +19,11 @@
 @import "components/catalogSelectionCard/CatalogSelectionCard";
 @import "components/catalogSelectionDeck/CatalogSelectionDeck";
 
-.alacarte-catalog.badge  {
+.padded-catalog.badge  {
     margin: 4px;
-    padding: 6px;
-    max-width: 20vw;
-    color: #ffffff;
-    font-weight: 300;
-    background-color: #202020;
-  }
+}
 
+// NOTE: customization needed because Paragon doesn't have the same colors Figma is using
 .business-catalog.badge {
-    @extend .alacarte-catalog, .badge;
-    background-color: #475B65;
-  }
-
-.education-catalog.badge {
-    @extend .alacarte-catalog, .badge;
-    color: #1c1c1c;
-    background-color: #e0e0e0;
-  }
+    background-color: $dark-200;
+}
