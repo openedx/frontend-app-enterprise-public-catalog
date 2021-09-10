@@ -41,7 +41,7 @@
     "@edx/frontend-component-header": "2.2.4",
     "@edx/frontend-enterprise-catalog-search": "^2.0.7",
     "@edx/frontend-platform": "1.12.5",
-    "@edx/paragon": "14.14.1",
+    "@edx/paragon": "16.10.0",
     "@fortawesome/fontawesome-svg-core": "1.2.35",
     "@fortawesome/free-brands-svg-icons": "5.15.3",
     "@fortawesome/free-regular-svg-icons": "5.15.3",

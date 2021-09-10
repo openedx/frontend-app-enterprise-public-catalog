@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise-catalog-search';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import {
   BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID,
 } from './CatalogSearchResults';
@@ -88,7 +89,9 @@ describe('Main Catalogs view works as expected', () => {
   test('all courses rendered when search results available', () => {
     render(
       <SearchDataWrapper>
-        <BaseCatalogSearchResults {...defaultProps} />
+        <IntlProvider locale="en">
+          <BaseCatalogSearchResults {...defaultProps} />
+        </IntlProvider>,
       </SearchDataWrapper>,
     );
 
