@@ -19,7 +19,7 @@ const CatalogSelectionDeck = ({ intl, title }) => {
         <h2>{title}</h2>
         <CardDeck>
           <CatalogSelectionCard
-            queryUuid={config.EDX_ENTERPRISE_ALACARTE_UUID}
+            queryTitle={config.EDX_ENTERPRISE_ALACARTE_TITLE}
             badgeVariant={aLaCarteVariant}
             badge={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.badge'])}
             label={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.label'])}
@@ -27,7 +27,7 @@ const CatalogSelectionDeck = ({ intl, title }) => {
             cardBody={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.body'])}
           />
           <CatalogSelectionCard
-            queryUuid={config.EDX_FOR_BUSINESS_UUID}
+            queryTitle={config.EDX_FOR_BUSINESS_TITLE}
             className={businessClassName}
             badgeVariant={businessVariant}
             badge={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.badge'])}
@@ -36,7 +36,7 @@ const CatalogSelectionDeck = ({ intl, title }) => {
             cardBody={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.body'])}
           />
           <CatalogSelectionCard
-            queryUuid={config.EDX_FOR_ONLINE_EDU_UUID}
+            queryTitle={config.EDX_FOR_ONLINE_EDU_TITLE}
             badgeVariant={educationVariant}
             badge={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.badge'])}
             label={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}

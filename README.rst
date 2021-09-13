@@ -30,10 +30,10 @@ To run this project locally:
 ALGOLIA_SEARCH_API_KEY=''
 ALGOLIA_INDEX_NAME=''``
 
-You will also need to replace the following variables with valid Catalog Query UUIDs that are present in your Algolia index:
-``EDX_FOR_BUSINESS_UUID=''
-EDX_FOR_ONLINE_EDU_UUID=''
-EDX_ENTERPRISE_ALACARTE_UUID=''``
+You will also need to replace the following variables with valid Catalog Query Titles that are present in your Algolia index:
+``EDX_FOR_BUSINESS_TITLE=''
+EDX_FOR_ONLINE_EDU_TITLE=''
+EDX_ENTERPRISE_ALACARTE_TITLE=''``
 
 1.  From repository root folder, run: 
 

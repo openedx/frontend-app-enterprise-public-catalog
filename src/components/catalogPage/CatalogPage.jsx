@@ -8,7 +8,7 @@ import Hero from '../hero/Hero';
 import messages from './CatalogPage.messages';
 import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
 import {
-  AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS, QUERY_UUID_REFINEMENT, TRACKING_APP_NAME,
+  AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS, QUERY_TITLE_REFINEMENT, TRACKING_APP_NAME,
 } from '../../constants';
 
 const CatalogPage = ({ intl }) => {
@@ -22,8 +22,8 @@ const CatalogPage = ({ intl }) => {
   // is cohesive with those Url params the rest of the time.
   const loadedSearchParams = new URLSearchParams(window.location.search);
   let reloadPage = false;
-  if (config.EDX_ENTERPRISE_ALACARTE_UUID && (!loadedSearchParams.get(QUERY_UUID_REFINEMENT))) {
-    loadedSearchParams.set(QUERY_UUID_REFINEMENT, config.EDX_ENTERPRISE_ALACARTE_UUID);
+  if (config.EDX_ENTERPRISE_ALACARTE_TITLE && (!loadedSearchParams.get(QUERY_TITLE_REFINEMENT))) {
+    loadedSearchParams.set(QUERY_TITLE_REFINEMENT, config.EDX_ENTERPRISE_ALACARTE_TITLE);
     reloadPage = true;
   }
   if ((!loadedSearchParams.get(AVAILABILITY_REFINEMENT))) {
@@ -52,7 +52,7 @@ const CatalogPage = ({ intl }) => {
       <SearchData
         trackingName={TRACKING_APP_NAME}
         searchFacetFilters={
-        [...SEARCH_FACET_FILTERS, { attribute: QUERY_UUID_REFINEMENT, title: 'Catalog Uuids', noDisplay: true }]
+        [...SEARCH_FACET_FILTERS, { attribute: QUERY_TITLE_REFINEMENT, title: 'Catalog Titles', noDisplay: true }]
       }
       >
         <CatalogSelectionDeck title={intl.formatMessage(messages['catalogPage.catalogSelectionDeck.title'])} />

@@ -8,17 +8,17 @@ import {
 import {
   Badge, Card, Form,
 } from '@edx/paragon';
-import { QUERY_UUID_REFINEMENT } from '../../constants';
+import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
 export const CardCheckbox = ({
-  label, queryUuid, labelDetail,
+  label, queryTitle, labelDetail,
 }) => {
   const { refinements, dispatch } = useContext(SearchContext);
-  const isChecked = refinements[QUERY_UUID_REFINEMENT]?.includes(queryUuid) || false;
+  const isChecked = refinements[QUERY_TITLE_REFINEMENT]?.includes(queryTitle) || false;
 
   const setChecked = () => {
     if (!isChecked) {
-      dispatch(setRefinementAction(QUERY_UUID_REFINEMENT, [queryUuid]));
+      dispatch(setRefinementAction(QUERY_TITLE_REFINEMENT, [queryTitle]));
     }
   };
   return (
@@ -27,13 +27,13 @@ export const CardCheckbox = ({
 };
 
 CardCheckbox.propTypes = {
-  queryUuid: PropTypes.string.isRequired,
+  queryTitle: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   labelDetail: PropTypes.string.isRequired,
 };
 
 const CatalogSelectionCard = ({
-  queryUuid, className, badgeVariant, badge, label, cardBody, labelDetail,
+  queryTitle, className, badgeVariant, badge, label, cardBody, labelDetail,
 }) => (
   <Card>
     <Card.Body>
@@ -44,7 +44,7 @@ const CatalogSelectionCard = ({
         <CardCheckbox
           label={label}
           labelDetail={labelDetail}
-          queryUuid={queryUuid}
+          queryTitle={queryTitle}
         />
       </Card.Title>
       <Card.Text>{cardBody}</Card.Text>
@@ -61,7 +61,7 @@ CatalogSelectionCard.propTypes = {
   badgeVariant: PropTypes.string.isRequired,
   badge: PropTypes.string.isRequired,
   cardBody: PropTypes.string.isRequired,
-  queryUuid: PropTypes.string.isRequired,
+  queryTitle: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   labelDetail: PropTypes.string.isRequired,
 };

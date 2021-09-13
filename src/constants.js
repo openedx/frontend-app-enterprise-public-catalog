@@ -9,7 +9,6 @@ export const NUM_RESULTS_PER_PAGE = 40;
  */
 export const TRACKING_APP_NAME = 'explore-catalog';
 // end: tracking related
-
-export const QUERY_UUID_REFINEMENT = 'enterprise_catalog_query_uuids';
+export const QUERY_TITLE_REFINEMENT = 'enterprise_catalog_query_titles';
 export const AVAILABILITY_REFINEMENT = 'availability';
 export const AVAILABILITY_REFINEMENT_DEFAULTS = ['Available Now', 'Upcoming'];

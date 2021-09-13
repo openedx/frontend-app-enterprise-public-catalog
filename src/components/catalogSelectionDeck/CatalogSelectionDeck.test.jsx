@@ -5,15 +5,15 @@ import { SEARCH_FACET_FILTERS, SearchContext } from '@edx/frontend-enterprise-ca
 import CatalogSelectionDeck from './CatalogSelectionDeck';
 import { renderWithRouter } from '../tests/testUtils';
 import messages from './CatalogSelectionDeck.messages';
-import QUERY_UUID_REFINEMENT from '../../constants';
+import QUERY_TITLE_REFINEMENT from '../../constants';
 
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 
 const mockConfig = () => (
   {
-    EDX_FOR_BUSINESS_UUID: 'ayylmao',
-    EDX_FOR_ONLINE_EDU_UUID: 'foo',
-    EDX_ENTERPRISE_ALACARTE_UUID: 'baz',
+    EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+    EDX_FOR_ONLINE_EDU_TITLE: 'foo',
+    EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
   }
 );
 
@@ -27,7 +27,7 @@ const SearchDataWrapper = ({ children, searchContextValue }) => (
   <SearchContext.Provider
     value={searchContextValue}
     searchFacetFilters={
-        [...SEARCH_FACET_FILTERS, { attribute: QUERY_UUID_REFINEMENT, title: 'Uuids' }]
+        [...SEARCH_FACET_FILTERS, { attribute: QUERY_TITLE_REFINEMENT, title: 'Titles' }]
       }
   >
     {children}

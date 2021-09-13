@@ -26,6 +26,21 @@ const messages = defineMessages({
     defaultMessage: ' Not Available',
     description: 'When a course price is not available, notify learners that there is no data available to display.',
   },
+  'catalogSearchResults.aLaCarteBadge': {
+    id: 'catalogSearchResults.aLaCarteBadge',
+    defaultMessage: 'A la carte',
+    description: 'Badge text for the `A La Carte` catalog badge.',
+  },
+  'catalogSearchResults.businessBadge': {
+    id: 'catalogSearchResults.businessBadge',
+    defaultMessage: 'Business',
+    description: 'Badge text for the `Business` catalog badge.',
+  },
+  'catalogSearchResults.educationBadge': {
+    id: 'catalogSearchResults.educationBadge',
+    defaultMessage: 'Education',
+    description: 'Badge text for the `Education` catalog badge.',
+  },
 });
 
 export default messages;
