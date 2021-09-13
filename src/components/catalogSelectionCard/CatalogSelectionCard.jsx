@@ -13,8 +13,8 @@ import { QUERY_UUID_REFINEMENT } from '../../constants';
 export const CardCheckbox = ({
   label, queryUuid, labelDetail,
 }) => {
-  const { refinementsFromQueryParams, dispatch } = useContext(SearchContext);
-  const isChecked = refinementsFromQueryParams[QUERY_UUID_REFINEMENT]?.includes(queryUuid) || false;
+  const { refinements, dispatch } = useContext(SearchContext);
+  const isChecked = refinements[QUERY_UUID_REFINEMENT]?.includes(queryUuid) || false;
 
   const setChecked = () => {
     if (!isChecked) {

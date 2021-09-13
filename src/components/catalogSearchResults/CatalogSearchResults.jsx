@@ -80,7 +80,7 @@ export const BaseCatalogSearchResults = ({
     );
   }
 
-  const { refinementsFromQueryParams } = useContext(SearchContext);
+  const { refinements } = useContext(SearchContext);
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const columns = useMemo(() => [
@@ -105,7 +105,7 @@ export const BaseCatalogSearchResults = ({
     },
   ], []);
 
-  const page = refinementsFromQueryParams.page || (searchState ? searchState.page : 0);
+  const page = refinements.page || (searchState ? searchState.page : 0);
 
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (

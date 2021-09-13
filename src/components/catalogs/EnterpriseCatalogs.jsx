@@ -24,6 +24,7 @@ export default function EnterpriseCatalogs() {
             tagName="h2"
           />
           <InstantSearch
+            className="enterprise-catalogs-search"
             indexName={algoliaIndexName}
             searchClient={searchClient}
           >
