@@ -58,7 +58,7 @@ const messages = defineMessages({
   },
   'catalogSelectionDeck.aLaCarte.body': {
     id: 'aLaCarte.body',
-    defaultMessage: '\u2713 Select from all 3,000+ courses available on edX including all programs and certificates\n\u2713 Self-paced instructor led courses',
+    defaultMessage: '\u2713 Select from all 3,000+ courses available on edX including all programs and certificates\n\u2713 Self-paced and instructor-paced courses',
     description: 'description of filter',
   },
 });
