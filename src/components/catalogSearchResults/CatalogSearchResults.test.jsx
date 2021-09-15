@@ -25,9 +25,9 @@ const SearchDataWrapper = ({ children, searchContextValue = DEFAULT_SEARCH_CONTE
 
 const mockConfig = () => (
   {
-    EDX_FOR_BUSINESS_UUID: 'ayylmao',
-    EDX_FOR_ONLINE_EDU_UUID: 'foo',
-    EDX_ENTERPRISE_ALACARTE_UUID: 'baz',
+    EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+    EDX_FOR_ONLINE_EDU_TITLE: 'foo',
+    EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
   }
 );
 
@@ -54,13 +54,13 @@ const searchResults = {
     {
       title: TEST_COURSE_NAME,
       partners: [{ name: TEST_PARTNER }],
-      enterprise_catalog_query_uuids: TEST_CATALOGS,
+      enterprise_catalog_query_titles: TEST_CATALOGS,
 
     },
     {
       title: TEST_COURSE_NAME_2,
       partners: [{ name: TEST_PARTNER_2 }],
-      enterprise_catalog_query_uuids: TEST_CATALOGS_2,
+      enterprise_catalog_query_titles: TEST_CATALOGS_2,
     },
   ],
   page: 1,

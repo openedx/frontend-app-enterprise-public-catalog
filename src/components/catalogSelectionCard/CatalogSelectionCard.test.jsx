@@ -9,7 +9,7 @@ import {
 } from '@edx/frontend-enterprise-catalog-search';
 import { render, screen } from '@testing-library/react';
 import { CardCheckbox } from './CatalogSelectionCard';
-import { QUERY_UUID_REFINEMENT } from '../../constants';
+import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
 const dispatchSpy = jest.fn();
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {}, dispatch: dispatchSpy };
@@ -19,7 +19,7 @@ const SearchDataWrapper = ({ children, searchContextValue }) => (
   <SearchContext.Provider
     value={searchContextValue}
     searchFacetFilters={
-        [...SEARCH_FACET_FILTERS, { attribute: QUERY_UUID_REFINEMENT, title: 'Uuids' }]
+        [...SEARCH_FACET_FILTERS, { attribute: QUERY_TITLE_REFINEMENT, title: 'Titles' }]
       }
   >
     {children}
@@ -37,23 +37,23 @@ describe('CardCheckbox', () => {
       >
         <CardCheckbox
           label="foo"
-          queryUuid="bar"
+          queryTitle="bar"
           labelDetail="baz"
         />
       </SearchDataWrapper>,
     );
     expect(tree).toMatchSnapshot();
   });
-  it('is checked when uuid is included in the query param', () => {
-    const queryUuid = 'bar';
-    const refinements = { refinements: { [QUERY_UUID_REFINEMENT]: [queryUuid] } };
+  it('is checked when title is included in the query param', () => {
+    const queryTitle = 'bar';
+    const refinements = { refinements: { [QUERY_TITLE_REFINEMENT]: [queryTitle] } };
     const tree = renderer.create(
       <SearchDataWrapper
         searchContextValue={refinements}
       >
         <CardCheckbox
           label="foo"
-          queryUuid={queryUuid}
+          queryTitle={queryTitle}
           labelDetail="baz"
         />
       </SearchDataWrapper>,
@@ -62,18 +62,18 @@ describe('CardCheckbox', () => {
   });
   it('dispatches setRefinement action when radio selected', () => {
     const label = 'Check me';
-    const queryUuid = 'idforyou';
+    const queryTitle = 'titleforyou';
     render(
       <SearchDataWrapper searchContextValue={DEFAULT_SEARCH_CONTEXT_VALUE}>
         <CardCheckbox
           label={label}
-          queryUuid={queryUuid}
+          queryTitle={queryTitle}
           labelDetail="baz"
         />
       </SearchDataWrapper>,
     );
     const input = screen.getByLabelText(label);
     userEvent.click(input);
-    expect(dispatchSpy).toHaveBeenLastCalledWith(setRefinementAction(QUERY_UUID_REFINEMENT, [queryUuid]));
+    expect(dispatchSpy).toHaveBeenLastCalledWith(setRefinementAction(QUERY_TITLE_REFINEMENT, [queryTitle]));
   });
 });

@@ -71,12 +71,12 @@ const CatalogCourseInfoModal = ({
             <Badge className="padded-catalog" variant="dark">
               {intl.formatMessage(messages['catalogCourseInfoModal.aLaCarteBadge'])}
             </Badge>
-            { courseAssociatedCatalogs.includes(process.env.EDX_FOR_BUSINESS_UUID) && (
+            { courseAssociatedCatalogs.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
               <Badge className="business-catalog padded-catalog" variant="secondary">
                 {intl.formatMessage(messages['catalogCourseInfoModal.businessBadge'])}
               </Badge>
             )}
-            { courseAssociatedCatalogs.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && (
+            { courseAssociatedCatalogs.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
               <Badge className="padded-catalog" variant="light">
                 {intl.formatMessage(messages['catalogCourseInfoModal.educationBadge'])}
               </Badge>

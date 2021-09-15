@@ -101,7 +101,7 @@ export const BaseCatalogSearchResults = ({
       messages['catalogSearchResult.table.priceNotAvailable'],
     );
     setPrice(priceText);
-    setAssociatedCatalogs(row.original.enterprise_catalog_query_uuids);
+    setAssociatedCatalogs(row.original.enterprise_catalog_query_titles);
     setTitle(row.values.title);
     setProvider(row.values['partners[0].name']);
     setPartnerLogoImageUrl(row.original.partners[0].logo_image_url);
@@ -134,12 +134,21 @@ export const BaseCatalogSearchResults = ({
     },
     {
       Header: TABLE_HEADERS.catalogs,
-      accessor: 'enterprise_catalog_query_uuids',
+      accessor: 'enterprise_catalog_query_titles',
       Cell: ({ row }) => (
         <div style={{ maxWidth: '400vw' }}>
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_ENTERPRISE_ALACARTE_UUID) && <Badge variant="dark" className="padded-catalog">A la carte</Badge> }
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_BUSINESS_UUID) && <Badge variant="secondary" className="business-catalog padded-catalog">Business</Badge> }
-          { row.values.enterprise_catalog_query_uuids.includes(process.env.EDX_FOR_ONLINE_EDU_UUID) && <Badge variant="light" className="padded-catalog">Education</Badge> }
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
+              && <Badge variant="dark" className="padded-catalog">{intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}</Badge>
+          }
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
+              && <Badge variant="secondary" className="business-catalog padded-catalog">{intl.formatMessage(messages['catalogSearchResults.businessBadge'])}</Badge>
+          }
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
+              && <Badge variant="light" className="padded-catalog">{intl.formatMessage(messages['catalogSearchResults.educationBadge'])}</Badge>
+          }
         </div>
       ),
     },

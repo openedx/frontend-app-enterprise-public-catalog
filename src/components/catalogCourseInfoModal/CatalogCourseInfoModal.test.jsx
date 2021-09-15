@@ -64,9 +64,9 @@ describe('Course info modal works as expected', () => {
     const defaultPropsCopy = {};
     Object.assign(defaultPropsCopy, defaultProps);
 
-    const educationQueryUuid = 'test-business-query-uuid';
-    process.env.EDX_FOR_ONLINE_EDU_UUID = educationQueryUuid;
-    defaultPropsCopy.courseAssociatedCatalogs = [educationQueryUuid];
+    const educationQueryTitle = 'test-business-query-title';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = educationQueryTitle;
+    defaultPropsCopy.courseAssociatedCatalogs = [educationQueryTitle];
 
     render(
       <IntlProvider locale="en">
