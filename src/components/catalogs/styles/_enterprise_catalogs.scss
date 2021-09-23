@@ -4,6 +4,14 @@
   padding: 0px 16px;
 }
 
+.full-body {
+  padding: 0px !important;
+}
+
+.padded-body {
+  margin: 180px 0 0 24px;
+}
+
 .course-info-title {
   position: relative;
   width: 70% !important;
@@ -27,6 +35,7 @@
 }
 
 .course-info-hero {
+  background-position: center;
   width: 1140px !important;
   height: 300px !important;
 }
@@ -35,7 +44,7 @@
   position: absolute;
   z-index: 1;
   left: 2%;
-  top: -75px;
+  top: 230px;
   width: 15%;
   height: 70%;
   max-height: 90px;
@@ -48,8 +57,8 @@
 
 .pricing-data-header {
   position: absolute;
-  right: 0%;
-  top: 25%;
+  right: 5%;
+  top: 52%;
 }
 
 .pricing-data-title {
@@ -83,6 +92,7 @@
   font-weight: bold;
   font-weight: 700;
   font-size: 22px !important;
+  margin-bottom: 0;
 }
 
 .pgn__modal-close-container {
