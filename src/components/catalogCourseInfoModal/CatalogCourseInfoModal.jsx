@@ -14,6 +14,12 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Launch } from '@edx/paragon/icons';
 import messages from './CatalogCourseInfoModal.messages';
 
+function formatDate(start, end) {
+  const startDate = (new Date(start)).toLocaleDateString();
+  const endDate = (new Date(end)).toLocaleDateString();
+  return `${startDate} - ${endDate}`;
+}
+
 const CatalogCourseInfoModal = ({
   intl,
   isOpen,
@@ -26,7 +32,10 @@ const CatalogCourseInfoModal = ({
   partnerLogoImageUrl,
   bannerImageUrl,
   marketingUrl,
+  startDate,
+  endDate,
 }) => (
+
   <>
     <div>
       <ModalDialog
@@ -38,55 +47,56 @@ const CatalogCourseInfoModal = ({
         isFullscreenOnMobile
         className="course-info-modal"
       >
-        <ModalDialog.Hero className="course-info-hero">
-          <ModalDialog.Hero.Background backgroundSrc={bannerImageUrl} />
-        </ModalDialog.Hero>
-
-        <ModalDialog.Header className="course-info-modal-header">
-
+        <ModalDialog.Body className="full-body">
+          <ModalDialog.Hero>
+            <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
+          </ModalDialog.Hero>
           <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
-
-          <ModalDialog.Title as="h1" className="course-info-title">
-            {courseTitle}
-          </ModalDialog.Title>
-          <ModalDialog.Title as="h6" className="course-info-partner">
-            {courseProvider}
-          </ModalDialog.Title>
-
-          <div className="pricing-data-header">
-            <ModalDialog.Title className="pricing-data-title">
-              {intl.formatMessage(messages['catalogCourseInfoModal.pricingTitle'])}
+          <div className="padded-body">
+            <ModalDialog.Title as="h1" className="course-info-title">
+              {courseTitle}
             </ModalDialog.Title>
-            <ModalDialog.Title className="pricing-data-price">
-              {coursePrice}
+            <ModalDialog.Title as="h6" className="course-info-partner">
+              {courseProvider}
             </ModalDialog.Title>
-          </div>
-        </ModalDialog.Header>
 
-        <ModalDialog.Body>
-          <div className="course-info-associated-catalog-header">
-            <ModalDialog.Title className="associated-catalogs-text">
-              {intl.formatMessage(messages['catalogCourseInfoModal.associatedCatalogsTitle'])}
-            </ModalDialog.Title>
-            <Badge className="padded-catalog" variant="dark">
-              {intl.formatMessage(messages['catalogCourseInfoModal.aLaCarteBadge'])}
-            </Badge>
-            { courseAssociatedCatalogs.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
-              <Badge className="business-catalog padded-catalog" variant="secondary">
-                {intl.formatMessage(messages['catalogCourseInfoModal.businessBadge'])}
+            <div className="pricing-data-header">
+              <ModalDialog.Title className="pricing-data-title">
+                {intl.formatMessage(messages['catalogCourseInfoModal.pricingTitle'])}
+              </ModalDialog.Title>
+              <ModalDialog.Title className="pricing-data-price">
+                {coursePrice}
+              </ModalDialog.Title>
+            </div>
+
+            <div className="course-info-associated-catalog-header">
+              <ModalDialog.Title className="associated-catalogs-text">
+                {intl.formatMessage(messages['catalogCourseInfoModal.associatedCatalogsTitle'])}
+              </ModalDialog.Title>
+              <Badge className="padded-catalog" variant="dark">
+                {intl.formatMessage(messages['catalogCourseInfoModal.aLaCarteBadge'])}
               </Badge>
-            )}
-            { courseAssociatedCatalogs.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
-              <Badge className="padded-catalog" variant="light">
-                {intl.formatMessage(messages['catalogCourseInfoModal.educationBadge'])}
-              </Badge>
-            )}
+              { courseAssociatedCatalogs.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
+                <Badge className="business-catalog padded-catalog" variant="secondary">
+                  {intl.formatMessage(messages['catalogCourseInfoModal.businessBadge'])}
+                </Badge>
+              )}
+              { courseAssociatedCatalogs.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
+                <Badge className="padded-catalog" variant="light">
+                  {intl.formatMessage(messages['catalogCourseInfoModal.educationBadge'])}
+                </Badge>
+              )}
+            </div>
+            <p className="course-info-description-title">
+              {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
+            </p>
+            <p className="course-info-description-subtitle">
+              {intl.formatMessage(messages['catalogCourseInfoModal.availabilityMessage'])}
+              {formatDate(startDate, endDate)}
+            </p>
+            {/* eslint-disable-next-line react/no-danger */}
+            <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
           </div>
-          <p className="course-info-description-title">
-            {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
-          </p>
-          {/* eslint-disable-next-line react/no-danger */}
-          <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
         </ModalDialog.Body>
 
         <ModalDialog.Footer>
@@ -124,6 +134,8 @@ CatalogCourseInfoModal.defaultProps = {
   partnerLogoImageUrl: '',
   bannerImageUrl: '',
   marketingUrl: '',
+  startDate: '',
+  endDate: '',
   onClose: () => {},
 };
 
@@ -139,6 +151,8 @@ CatalogCourseInfoModal.propTypes = {
   partnerLogoImageUrl: PropTypes.string,
   bannerImageUrl: PropTypes.string,
   marketingUrl: PropTypes.string,
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
 };
 
 export default injectIntl(CatalogCourseInfoModal);

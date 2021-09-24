@@ -17,6 +17,8 @@ const defaultProps = {
   courseDescription: descriptionHtml,
   partnerLogoImageUrl: '',
   bannerImageUrl: '',
+  startDate: '2021-09-15T16:00:00Z',
+  endDate: '2022-04-06T16:00:00Z',
   intl: {
     formatMessage: (header) => header.defaultMessage,
     formatDate: () => {},
@@ -47,6 +49,15 @@ describe('Course info modal works as expected', () => {
     expect(screen.queryByText(defaultProps.courseTitle)).toBeInTheDocument();
     expect(screen.queryByText(defaultProps.courseProvider)).toBeInTheDocument();
     expect(screen.queryByText(descriptionText)).toBeInTheDocument();
+  });
+
+  test('test dates format correctly', () => {
+    render(
+      <IntlProvider locale="en">
+        <CatalogCourseInfoModal {...defaultProps} />
+      </IntlProvider>,
+    );
+    expect(screen.getByText('Availability period: 9/15/2021 - 4/6/2022')).toBeInTheDocument();
   });
 
   test('modal is hidden when expected', () => {

@@ -26,6 +26,11 @@ const messages = defineMessages({
     defaultMessage: 'A la carte course price',
     description: 'Title text for the course pricing display.',
   },
+  'catalogCourseInfoModal.availabilityMessage': {
+    id: 'catalogCourseInfoModal.availabilityMessage',
+    defaultMessage: 'Availability period: ',
+    description: 'Start and end dates for course term.',
+  },
   'catalogCourseInfoModal.moreInfoButton': {
     id: 'catalogCourseInfoModal.moreInfoButton',
     defaultMessage: 'View course details',

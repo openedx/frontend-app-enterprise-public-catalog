@@ -94,6 +94,8 @@ export const BaseCatalogSearchResults = ({
   const [bannerImageUrl, setBannerImageUrl] = useState();
   const [associatedCatalogs, setAssociatedCatalogs] = useState();
   const [marketingUrl, setMarketingUrl] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
@@ -108,6 +110,8 @@ export const BaseCatalogSearchResults = ({
     setDescription(row.original.full_description);
     setBannerImageUrl(row.original.original_image_url);
     setMarketingUrl(row.original.marketing_url);
+    setStartDate(row.original.advertised_course_run.start);
+    setEndDate(row.original.advertised_course_run.end);
     open();
   };
 
@@ -171,6 +175,8 @@ export const BaseCatalogSearchResults = ({
         bannerImageUrl={bannerImageUrl}
         courseAssociatedCatalogs={associatedCatalogs}
         marketingUrl={marketingUrl}
+        startDate={startDate}
+        endDate={endDate}
       />
       <div>
         <DataTable
