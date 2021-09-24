@@ -5,7 +5,6 @@ import '@testing-library/jest-dom/extend-expect';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import CatalogCourseInfoModal from './CatalogCourseInfoModal';
 
-
 const descriptionText = 'this is a description';
 // course descriptions are injected into the DOM with dangerouslySetInnerHTML
 const descriptionHtml = `<p>${descriptionText}</p>`;
