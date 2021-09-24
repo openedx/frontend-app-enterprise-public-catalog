@@ -15,9 +15,9 @@ import { Launch } from '@edx/paragon/icons';
 import messages from './CatalogCourseInfoModal.messages';
 
 function formatDate(start, end) {
-  const startDate = (new Date(start.startDate)).toLocaleDateString();
-  const endDate = (new Date(end.endDate)).toLocaleDateString();
-  return ((` ${startDate} - ${endDate}`));
+  const startDate = (new Date(start)).toLocaleDateString();
+  const endDate = (new Date(end)).toLocaleDateString();
+  return `${startDate} - ${endDate}`;
 }
 
 const CatalogCourseInfoModal = ({
@@ -92,7 +92,7 @@ const CatalogCourseInfoModal = ({
             </p>
             <p className="course-info-description-subtitle">
               {intl.formatMessage(messages['catalogCourseInfoModal.availabilityMessage'])}
-              {formatDate({ startDate }, { endDate })}
+              {formatDate(startDate, endDate)}
             </p>
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
