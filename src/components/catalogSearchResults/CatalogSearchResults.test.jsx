@@ -9,6 +9,7 @@ import {
 } from './CatalogSearchResults';
 import { renderWithRouter } from '../tests/testUtils';
 import messages from './CatalogSearchResults.messages';
+import { HIDE_PRICE_REFINEMENT } from '../../constants';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
@@ -168,5 +169,22 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.price'].defaultMessage)).toBeInTheDocument();
+  });
+  test('refinements hide price column and show availability', () => {
+    const refinements = { refinements: { [HIDE_PRICE_REFINEMENT]: 'true' } };
+    renderWithRouter(
+      <SearchDataWrapper
+        searchContextValue={refinements}
+      >
+        <BaseCatalogSearchResults
+          {...defaultProps}
+        />
+      </SearchDataWrapper>,
+    );
+    expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.availability'].defaultMessage)).toBeInTheDocument();
   });
 });

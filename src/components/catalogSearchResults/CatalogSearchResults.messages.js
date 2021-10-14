@@ -14,7 +14,12 @@ const messages = defineMessages({
   'catalogSearchResults.table.price': {
     id: 'catalogSearchResults.table.price',
     defaultMessage: 'A la carte course price',
-    description: 'Table column A La Carte price for the course',
+    description: 'Table column A La Carte price for the course - optional column',
+  },
+  'catalogSearchResults.table.availability': {
+    id: 'catalogSearchResults.table.availability',
+    defaultMessage: 'Course Availability',
+    description: 'Table column form course availability dates - optional column',
   },
   'catalogSearchResults.table.catalogs': {
     id: 'catalogSearchResults.table.catalogs',
