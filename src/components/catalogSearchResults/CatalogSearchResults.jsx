@@ -14,11 +14,23 @@ import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/
 
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import messages from './CatalogSearchResults.messages';
+import { HIDE_PRICE_REFINEMENT } from '../../constants';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 export const NO_DATA_MESSAGE = 'There are no course results';
 
 export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
+
+function formatDate(courseRun) {
+  if (courseRun) {
+    if (courseRun.start && courseRun.end) {
+      const startDate = (new Date(courseRun.start)).toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' });
+      const endDate = (new Date(courseRun.end)).toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' });
+      return `${startDate} - ${endDate}`;
+    }
+  }
+  return null;
+}
 /**
  * The core search results rendering component.
  *
@@ -44,6 +56,7 @@ export const BaseCatalogSearchResults = ({
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
     partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
     price: intl.formatMessage(messages['catalogSearchResults.table.price']),
+    availability: intl.formatMessage(messages['catalogSearchResults.table.availability']),
     catalogs: intl.formatMessage(messages['catalogSearchResults.table.catalogs']),
   };
 
@@ -157,9 +170,17 @@ export const BaseCatalogSearchResults = ({
       ),
     },
   ], []);
+  const availabilityColumn = {
+    Header: TABLE_HEADERS.availability,
+    accessor: 'advertised_course_run',
+    Cell: ({ row }) => (formatDate(row.values.advertised_course_run)),
+  };
 
+  // substituting the price column with the availability dates per customer request ENT-5041
   const page = refinements.page || (searchState ? searchState.page : 0);
-
+  if (HIDE_PRICE_REFINEMENT in refinements) {
+    columns[2] = availabilityColumn;
+  }
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   return (
     <>

@@ -8,7 +8,8 @@ import Hero from '../hero/Hero';
 import messages from './CatalogPage.messages';
 import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
 import {
-  AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS, QUERY_TITLE_REFINEMENT, TRACKING_APP_NAME,
+  AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS, QUERY_TITLE_REFINEMENT,
+  HIDE_CARDS_REFINEMENT, TRACKING_APP_NAME,
 } from '../../constants';
 
 const CatalogPage = ({ intl }) => {
@@ -22,6 +23,7 @@ const CatalogPage = ({ intl }) => {
   // is cohesive with those Url params the rest of the time.
   const loadedSearchParams = new URLSearchParams(window.location.search);
   let reloadPage = false;
+  let hideCards = false;
   if (config.EDX_ENTERPRISE_ALACARTE_TITLE && (!loadedSearchParams.get(QUERY_TITLE_REFINEMENT))) {
     loadedSearchParams.set(QUERY_TITLE_REFINEMENT, config.EDX_ENTERPRISE_ALACARTE_TITLE);
     reloadPage = true;
@@ -32,6 +34,9 @@ const CatalogPage = ({ intl }) => {
   }
   if (reloadPage) {
     window.location.search = loadedSearchParams.toString();
+  }
+  if (loadedSearchParams.get(HIDE_CARDS_REFINEMENT) === 'true') {
+    hideCards = true;
   }
 
   return (
@@ -55,7 +60,7 @@ const CatalogPage = ({ intl }) => {
         [...SEARCH_FACET_FILTERS, { attribute: QUERY_TITLE_REFINEMENT, title: 'Catalog Titles', noDisplay: true }]
       }
       >
-        <CatalogSelectionDeck title={intl.formatMessage(messages['catalogPage.catalogSelectionDeck.title'])} />
+        <CatalogSelectionDeck hide={hideCards} title={intl.formatMessage(messages['catalogPage.catalogSelectionDeck.title'])} />
         <EnterpriseCatalogs />
       </SearchData>
     </main>

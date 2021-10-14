@@ -11,10 +11,10 @@ const aLaCarteVariant = 'dark';
 const businessVariant = 'secondary';
 const educationVariant = 'light';
 
-const CatalogSelectionDeck = ({ intl, title }) => {
+const CatalogSelectionDeck = ({ intl, title, hide }) => {
   const config = getConfig();
   return (
-    <section className="catalog-selection-deck">
+    <section className="catalog-selection-deck" style={{ display: hide ? 'none' : 'block' }}>
       <Container size="lg">
         <h2>{title}</h2>
         <CardDeck>
@@ -49,9 +49,14 @@ const CatalogSelectionDeck = ({ intl, title }) => {
   );
 };
 
+CatalogSelectionDeck.defaultProps = {
+  hide: false,
+};
+
 CatalogSelectionDeck.propTypes = {
   title: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
+  hide: PropTypes.bool,
 };
 
 export default injectIntl(CatalogSelectionDeck);
