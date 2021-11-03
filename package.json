@@ -7,13 +7,11 @@
     "url": "git+https://github.com/edx/frontend-app-enterprise-public-catalog.git"
   },
   "browserslist": [
-    "last 2 versions",
-    "ie 11"
+    "extends @edx/browserslist-config"
   ],
   "scripts": {
     "build": "fedx-scripts webpack",
     "i18n_extract": "BABEL_ENV=i18n fedx-scripts babel src --quiet > /dev/null",
-    "is-es5": "es-check es5 ./dist/*.js",
     "lint": "fedx-scripts eslint --ext .js --ext .jsx .",
     "lint:fix": "fedx-scripts eslint --ext .js --ext .jsx . --fix",
     "snapshot": "fedx-scripts jest --updateSnapshot",
@@ -70,13 +68,13 @@
     "regenerator-runtime": "0.13.9"
   },
   "devDependencies": {
+    "@edx/browserslist-config": "1.0.0",
     "@edx/frontend-build": "5.6.14",
     "@testing-library/jest-dom": "5.15.0",
     "@testing-library/react": "11.2.7",
     "@testing-library/react-hooks": "5.1.0",
     "@testing-library/user-event": "13.5.0",
     "codecov": "3.8.3",
-    "es-check": "5.1.4",
     "glob": "7.2.0",
     "husky": "6.0.0",
     "jest": "24.9.0",
