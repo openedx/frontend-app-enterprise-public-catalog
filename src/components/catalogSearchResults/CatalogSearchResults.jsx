@@ -6,7 +6,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import {
-  Badge, DataTable, Alert, Button, useToggle,
+  Badge, DataTable, Alert, Button, useToggle, CardView, Card,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
 import Skeleton from 'react-loading-skeleton';
@@ -31,6 +31,34 @@ function formatDate(courseRun) {
   }
   return null;
 }
+
+const CourseCard = ({ className, course }) => {
+  const title = 'abc';
+
+  return (
+    <Card className={className}>
+      <Card.Img
+        variant="top"
+        src="https://source.unsplash.com/360x200/?nature,flower"
+      />
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+        <dl>
+          <dt>Director</dt>
+          <dd>{title}</dd>
+          <dt>Release Date</dt>
+          <dd>{title}</dd>
+        </dl>
+      </Card.Body>
+    </Card>
+  );
+};
+
+CourseCard.propTypes = {
+  className: PropTypes.string.isRequired,
+  course: PropTypes.shape({ title: PropTypes.string }).isRequired,
+};
+
 /**
  * The core search results rendering component.
  *
@@ -109,6 +137,7 @@ export const BaseCatalogSearchResults = ({
   const [marketingUrl, setMarketingUrl] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [cardView, setCardView] = useState(true);
 
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
@@ -208,7 +237,7 @@ export const BaseCatalogSearchResults = ({
           pageSize={searchResults?.hitsPerPage || 0}
         >
           <DataTable.TableControlBar />
-          <DataTable.Table />
+          { cardView ? <CardView CardComponent={CourseCard} /> : <DataTable.Table /> }
           <DataTable.TableFooter>
             <DataTable.RowStatus />
             <PaginationComponent defaultRefinement={page} />
