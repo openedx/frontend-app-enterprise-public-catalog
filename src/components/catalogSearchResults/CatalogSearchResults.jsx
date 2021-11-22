@@ -6,15 +6,26 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
+import Skeleton from 'react-loading-skeleton';
+import classNames from 'classnames';
+
 import {
-  Badge, DataTable, Alert, Button, useToggle, CardView, Card, Icon, IconButton,
+  Alert,
+  Badge,
+  Button,
+  Card,
+  CardView,
+  DataTable,
+  Icon,
+  IconButton,
+  useToggle,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
-import Skeleton from 'react-loading-skeleton';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { getConfig } from '@edx/frontend-platform';
 import { GridView, ListView } from '@edx/paragon/icons';
+
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import messages from './CatalogSearchResults.messages';
 import { HIDE_PRICE_REFINEMENT } from '../../constants';
@@ -35,6 +46,40 @@ function formatDate(courseRun) {
   return null;
 }
 
+// TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
+const ViewToggle = ({ cardView, setCardView }) => {
+  // TODO: This class switch to 'hover' is a hack to try and use the hover style
+  //       once the item is selected. However, the correct implementation would need to come
+  //       from IconButton. Once IconButton is updated, just update this to use the correct style variation
+  const selectedClassCardView = cardView ? 'hover' : '';
+  const selectedClassListView = !cardView ? 'hover' : '';
+  return (
+    <div className="float-right">
+      <IconButton
+        src={GridView}
+        iconAs={Icon}
+        alt="Card view"
+        onClick={() => { setCardView(true); }}
+        variant="dark"
+        className={classNames('mr-2', selectedClassCardView)}
+      />
+      <IconButton
+        src={ListView}
+        iconAs={Icon}
+        alt="List view"
+        onClick={() => { setCardView(false); }}
+        variant="dark"
+        className={classNames('mr-2', selectedClassListView)}
+      />
+    </div>
+  );
+};
+
+ViewToggle.propTypes = {
+  cardView: PropTypes.bool.isRequired,
+  setCardView: PropTypes.func.isRequired,
+};
+
 const CourseCard = ({ className, original }) => {
   const { title, card_image_url, partners } = original;
 
@@ -53,8 +98,12 @@ const CourseCard = ({ className, original }) => {
   );
 };
 
+CourseCard.defaultProps = {
+  className: '',
+};
+
 CourseCard.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   original: PropTypes.shape({
     title: PropTypes.string,
     card_image_url: PropTypes.string,
@@ -140,33 +189,11 @@ export const BaseCatalogSearchResults = ({
   const [marketingUrl, setMarketingUrl] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [cardView, setCardView] = useState(true);
+  const [cardView, setCardView] = useState(false);
 
   // TODO: Feature control for Card view. Remove once cards are finalized
   const config = getConfig();
   const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'True';
-
-  // TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
-  const ViewToggle = () => (
-    <div className="float-right">
-      <IconButton
-        src={GridView}
-        iconAs={Icon}
-        alt="Card view"
-        onClick={() => { setCardView(true); }}
-        variant={cardView ? 'dark' : 'light'}
-        className="mr-2"
-      />
-      <IconButton
-        src={ListView}
-        iconAs={Icon}
-        alt="Card view"
-        onClick={() => { setCardView(false); }}
-        variant={!cardView ? 'dark' : 'light'}
-        className="mr-2"
-      />
-    </div>
-  );
 
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
@@ -259,7 +286,7 @@ export const BaseCatalogSearchResults = ({
         endDate={endDate}
       />
       <div>
-        { cardViewEnabled && <ViewToggle /> }
+        { cardViewEnabled && <ViewToggle cardView={cardView} setCardView={setCardView} /> }
         <DataTable
           columns={columns}
           data={tableData}
