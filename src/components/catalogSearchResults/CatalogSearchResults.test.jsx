@@ -99,6 +99,7 @@ describe('Main Catalogs view works as expected', () => {
       </SearchDataWrapper>,
     );
 
+    // switch to table view instead of card
     const listViewToggleButton = screen.getByLabelText('List view');
     userEvent.click(listViewToggleButton);
 
@@ -197,6 +198,7 @@ describe('Main Catalogs view works as expected', () => {
       </SearchDataWrapper>,
     );
 
+    // switch to table view instead of card
     const listViewToggleButton = screen.getByLabelText('List view');
     userEvent.click(listViewToggleButton);
 
