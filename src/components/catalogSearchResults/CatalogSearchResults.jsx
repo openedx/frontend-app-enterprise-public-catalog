@@ -89,6 +89,7 @@ const CourseCard = ({ className, original }) => {
         variant="top"
         src={card_image_url}
         style={{ width: '40vh', maxWidth: '100%', height: '26vh' }}
+        alt={title}
       />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
@@ -189,11 +190,11 @@ export const BaseCatalogSearchResults = ({
   const [marketingUrl, setMarketingUrl] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [cardView, setCardView] = useState(false);
 
   // TODO: Feature control for Card view. Remove once cards are finalized
   const config = getConfig();
   const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'True';
+  const [cardView, setCardView] = useState(cardViewEnabled);
 
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;

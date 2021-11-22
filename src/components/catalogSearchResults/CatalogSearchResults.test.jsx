@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise-catalog-search';
@@ -29,6 +30,7 @@ const mockConfig = () => (
     EDX_FOR_BUSINESS_TITLE: 'ayylmao',
     EDX_FOR_ONLINE_EDU_TITLE: 'foo',
     EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
+    FEATURE_CARD_VIEW_ENABLED: 'True',
   }
 );
 
@@ -56,12 +58,13 @@ const searchResults = {
       title: TEST_COURSE_NAME,
       partners: [{ name: TEST_PARTNER }],
       enterprise_catalog_query_titles: TEST_CATALOGS,
-
+      card_image_url: 'http://url.test.location',
     },
     {
       title: TEST_COURSE_NAME_2,
       partners: [{ name: TEST_PARTNER_2 }],
       enterprise_catalog_query_titles: TEST_CATALOGS_2,
+      card_image_url: 'http://url.test2.location',
     },
   ],
   page: 1,
@@ -96,6 +99,9 @@ describe('Main Catalogs view works as expected', () => {
       </SearchDataWrapper>,
     );
 
+    const listViewToggleButton = screen.getByLabelText('List view');
+    userEvent.click(listViewToggleButton);
+
     // course 1
     expect(screen.queryByText(TEST_COURSE_NAME)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER)).toBeInTheDocument();
@@ -103,6 +109,30 @@ describe('Main Catalogs view works as expected', () => {
     // course 2
     expect(screen.queryByText(TEST_COURSE_NAME_2)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
+  });
+  test('all courses rendered in card view when search results available', () => {
+    render(
+      <SearchDataWrapper>
+        <IntlProvider locale="en">
+          <BaseCatalogSearchResults {...defaultProps} />
+        </IntlProvider>,
+      </SearchDataWrapper>,
+    );
+
+    // view selection toggle buttons
+    expect(screen.getByLabelText('Card view')).toBeVisible();
+    expect(screen.getByLabelText('List view')).toBeVisible();
+
+    // since card view feature is on, card view should be the default!
+    const table = screen.queryByRole('table');
+    expect(table).not.toBeInTheDocument();
+
+    // expect at least one of the course cards is rendered correctly
+    const courseTitleInCard = screen.queryByText(TEST_COURSE_NAME);
+    expect(courseTitleInCard).toBeVisible();
+
+    // course 1 image with the correct alt text
+    expect(screen.getByAltText(TEST_COURSE_NAME)).toBeVisible();
   });
   test('pagination component renders', () => {
     renderWithRouter(
@@ -166,6 +196,10 @@ describe('Main Catalogs view works as expected', () => {
         />
       </SearchDataWrapper>,
     );
+
+    const listViewToggleButton = screen.getByLabelText('List view');
+    userEvent.click(listViewToggleButton);
+
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
@@ -182,6 +216,9 @@ describe('Main Catalogs view works as expected', () => {
         />
       </SearchDataWrapper>,
     );
+    const listViewToggleButton = screen.getByLabelText('List view');
+    userEvent.click(listViewToggleButton);
+
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
