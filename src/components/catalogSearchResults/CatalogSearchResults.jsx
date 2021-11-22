@@ -144,7 +144,7 @@ export const BaseCatalogSearchResults = ({
 
   // TODO: Feature control for Card view. Remove once cards are finalized
   const config = getConfig();
-  const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'true';
+  const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'True';
 
   // TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
   const ViewToggle = () => (
