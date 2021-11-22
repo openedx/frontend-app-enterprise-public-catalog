@@ -43,7 +43,7 @@ const CourseCard = ({ className, original }) => {
       <Card.Img
         variant="top"
         src={card_image_url}
-        style={{ width: '48vh', height: '26vh' }}
+        style={{ width: '40vh', maxWidth: '100%', height: '26vh' }}
       />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
@@ -268,7 +268,18 @@ export const BaseCatalogSearchResults = ({
           pageSize={searchResults?.hitsPerPage || 0}
         >
           <DataTable.TableControlBar />
-          { cardViewEnabled && cardView ? <CardView CardComponent={CourseCard} /> : <DataTable.Table /> }
+          { cardViewEnabled && cardView ? (
+            <CardView
+              columnSizes={{
+                xs: 12,
+                sm: 6,
+                md: 6,
+                lg: 3,
+                xl: 3,
+              }}
+              CardComponent={CourseCard}
+            />
+          ) : <DataTable.Table /> }
           <DataTable.TableFooter>
             <DataTable.RowStatus />
             <PaginationComponent defaultRefinement={page} />
