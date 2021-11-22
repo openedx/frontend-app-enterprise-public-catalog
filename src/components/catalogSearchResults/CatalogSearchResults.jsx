@@ -154,7 +154,7 @@ export const BaseCatalogSearchResults = ({
         iconAs={Icon}
         alt="Card view"
         onClick={() => { setCardView(true); }}
-        variant="dark"
+        variant={cardView ? 'dark' : 'light'}
         className="mr-2"
       />
       <IconButton
@@ -162,7 +162,7 @@ export const BaseCatalogSearchResults = ({
         iconAs={Icon}
         alt="Card view"
         onClick={() => { setCardView(false); }}
-        variant="dark"
+        variant={!cardView ? 'dark' : 'light'}
         className="mr-2"
       />
     </div>
