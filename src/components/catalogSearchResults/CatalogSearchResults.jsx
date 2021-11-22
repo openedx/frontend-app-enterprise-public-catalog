@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {
   useContext,
   useMemo,
@@ -6,12 +7,14 @@ import React, {
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import {
-  Badge, DataTable, Alert, Button, useToggle, CardView, Card,
+  Badge, DataTable, Alert, Button, useToggle, CardView, Card, Icon, IconButton,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
 import Skeleton from 'react-loading-skeleton';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
+import { getConfig } from '@edx/frontend-platform';
+import { GridView, ListView } from '@edx/paragon/icons';
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import messages from './CatalogSearchResults.messages';
 import { HIDE_PRICE_REFINEMENT } from '../../constants';
@@ -32,23 +35,19 @@ function formatDate(courseRun) {
   return null;
 }
 
-const CourseCard = ({ className, course }) => {
-  const title = 'abc';
+const CourseCard = ({ className, original }) => {
+  const { title, card_image_url, partners } = original;
 
   return (
     <Card className={className}>
       <Card.Img
         variant="top"
-        src="https://source.unsplash.com/360x200/?nature,flower"
+        src={card_image_url}
+        style={{ width: '48vh', height: '26vh' }}
       />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <dl>
-          <dt>Director</dt>
-          <dd>{title}</dd>
-          <dt>Release Date</dt>
-          <dd>{title}</dd>
-        </dl>
+        <Card.Subtitle>{ partners[0].name } </Card.Subtitle>
       </Card.Body>
     </Card>
   );
@@ -56,7 +55,11 @@ const CourseCard = ({ className, course }) => {
 
 CourseCard.propTypes = {
   className: PropTypes.string.isRequired,
-  course: PropTypes.shape({ title: PropTypes.string }).isRequired,
+  original: PropTypes.shape({
+    title: PropTypes.string,
+    card_image_url: PropTypes.string,
+    partners: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
+  }).isRequired,
 };
 
 /**
@@ -139,6 +142,32 @@ export const BaseCatalogSearchResults = ({
   const [endDate, setEndDate] = useState();
   const [cardView, setCardView] = useState(true);
 
+  // TODO: Feature control for Card view. Remove once cards are finalized
+  const config = getConfig();
+  const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'true';
+
+  // TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
+  const ViewToggle = () => (
+    <div className="float-right">
+      <IconButton
+        src={GridView}
+        iconAs={Icon}
+        alt="Card view"
+        onClick={() => { setCardView(true); }}
+        variant="dark"
+        className="mr-2"
+      />
+      <IconButton
+        src={ListView}
+        iconAs={Icon}
+        alt="Card view"
+        onClick={() => { setCardView(false); }}
+        variant="dark"
+        className="mr-2"
+      />
+    </div>
+  );
+
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
     const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
@@ -211,6 +240,22 @@ export const BaseCatalogSearchResults = ({
     columns[2] = availabilityColumn;
   }
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
+  tableData.push({ ...tableData[0], title: 'new course 2' });
+  tableData.push({ ...tableData[0], title: 'new course 3', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 4', card_image_url: 'https://source.unsplash.com/category/nature' });
+  tableData.push({ ...tableData[0], title: 'new course 5', card_image_url: 'https://source.unsplash.com/category/food' });
+  tableData.push({ ...tableData[0], title: 'new course 6', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 7', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 8', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 9', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 10', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 11', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 12', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 13', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 6', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 6', card_image_url: 'https://picsum.photos/200/300' });
+  tableData.push({ ...tableData[0], title: 'new course 6', card_image_url: 'https://picsum.photos/200/300' });
+
   return (
     <>
       <CatalogCourseInfoModal
@@ -229,6 +274,7 @@ export const BaseCatalogSearchResults = ({
         endDate={endDate}
       />
       <div>
+        { cardViewEnabled && <ViewToggle /> }
         <DataTable
           columns={columns}
           data={tableData}
@@ -237,7 +283,7 @@ export const BaseCatalogSearchResults = ({
           pageSize={searchResults?.hitsPerPage || 0}
         >
           <DataTable.TableControlBar />
-          { cardView ? <CardView CardComponent={CourseCard} /> : <DataTable.Table /> }
+          { cardViewEnabled && cardView ? <CardView CardComponent={CourseCard} /> : <DataTable.Table /> }
           <DataTable.TableFooter>
             <DataTable.RowStatus />
             <PaginationComponent defaultRefinement={page} />
