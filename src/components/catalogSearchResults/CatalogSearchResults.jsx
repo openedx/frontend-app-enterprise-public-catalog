@@ -240,21 +240,6 @@ export const BaseCatalogSearchResults = ({
     columns[2] = availabilityColumn;
   }
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
-  tableData.push({ ...tableData[0], title: 'new course 2' });
-  tableData.push({ ...tableData[0], title: 'new course 3', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 4', card_image_url: 'https://source.unsplash.com/category/nature' });
-  tableData.push({ ...tableData[0], title: 'new course 5', card_image_url: 'https://source.unsplash.com/category/food' });
-  tableData.push({ ...tableData[0], title: 'new course 6', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 7', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 8', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 9', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 10', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 11', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 12', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 13', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 6', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 6', card_image_url: 'https://picsum.photos/200/300' });
-  tableData.push({ ...tableData[0], title: 'new course 6', card_image_url: 'https://picsum.photos/200/300' });
 
   return (
     <>
