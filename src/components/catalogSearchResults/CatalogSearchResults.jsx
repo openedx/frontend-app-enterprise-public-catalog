@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {
   useContext,
   useMemo,
@@ -5,12 +6,25 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
+import Skeleton from 'react-loading-skeleton';
+import classNames from 'classnames';
+
 import {
-  Badge, DataTable, Alert, Button, useToggle,
+  Alert,
+  Badge,
+  Button,
+  Card,
+  CardView,
+  DataTable,
+  Icon,
+  IconButton,
+  useToggle,
 } from '@edx/paragon';
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
-import Skeleton from 'react-loading-skeleton';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+
+import { getConfig } from '@edx/frontend-platform';
+import { GridView, ListView } from '@edx/paragon/icons';
 
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import messages from './CatalogSearchResults.messages';
@@ -31,6 +45,73 @@ function formatDate(courseRun) {
   }
   return null;
 }
+
+// TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
+const ViewToggle = ({ cardView, setCardView }) => {
+  // TODO: This class switch to 'hover' is a hack to try and use the hover style
+  //       once the item is selected. However, the correct implementation would need to come
+  //       from IconButton. Once IconButton is updated, just update this to use the correct style variation
+  const selectedClassCardView = cardView ? 'hover' : '';
+  const selectedClassListView = !cardView ? 'hover' : '';
+  return (
+    <div className="float-right">
+      <IconButton
+        src={GridView}
+        iconAs={Icon}
+        alt="Card view"
+        onClick={() => { setCardView(true); }}
+        variant="dark"
+        className={classNames('mr-2', selectedClassCardView)}
+      />
+      <IconButton
+        src={ListView}
+        iconAs={Icon}
+        alt="List view"
+        onClick={() => { setCardView(false); }}
+        variant="dark"
+        className={classNames('mr-2', selectedClassListView)}
+      />
+    </div>
+  );
+};
+
+ViewToggle.propTypes = {
+  cardView: PropTypes.bool.isRequired,
+  setCardView: PropTypes.func.isRequired,
+};
+
+const CourseCard = ({ className, original }) => {
+  const { title, card_image_url, partners } = original;
+
+  return (
+    <Card className={className}>
+      <Card.Img
+        variant="top"
+        src={card_image_url}
+        style={{ width: '40vh', maxWidth: '100%', height: '26vh' }}
+        alt={title}
+      />
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+        <Card.Subtitle>{ partners[0].name } </Card.Subtitle>
+      </Card.Body>
+    </Card>
+  );
+};
+
+CourseCard.defaultProps = {
+  className: '',
+};
+
+CourseCard.propTypes = {
+  className: PropTypes.string,
+  original: PropTypes.shape({
+    title: PropTypes.string,
+    card_image_url: PropTypes.string,
+    partners: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
+  }).isRequired,
+};
+
 /**
  * The core search results rendering component.
  *
@@ -110,6 +191,11 @@ export const BaseCatalogSearchResults = ({
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
+  // TODO: Feature control for Card view. Remove once cards are finalized
+  const config = getConfig();
+  const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'True';
+  const [cardView, setCardView] = useState(cardViewEnabled);
+
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
     const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
@@ -182,6 +268,7 @@ export const BaseCatalogSearchResults = ({
     columns[2] = availabilityColumn;
   }
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
+
   return (
     <>
       <CatalogCourseInfoModal
@@ -200,6 +287,7 @@ export const BaseCatalogSearchResults = ({
         endDate={endDate}
       />
       <div>
+        { cardViewEnabled && <ViewToggle cardView={cardView} setCardView={setCardView} /> }
         <DataTable
           columns={columns}
           data={tableData}
@@ -208,7 +296,18 @@ export const BaseCatalogSearchResults = ({
           pageSize={searchResults?.hitsPerPage || 0}
         >
           <DataTable.TableControlBar />
-          <DataTable.Table />
+          { cardViewEnabled && cardView ? (
+            <CardView
+              columnSizes={{
+                xs: 12,
+                sm: 6,
+                md: 6,
+                lg: 3,
+                xl: 3,
+              }}
+              CardComponent={CourseCard}
+            />
+          ) : <DataTable.Table /> }
           <DataTable.TableFooter>
             <DataTable.RowStatus />
             <PaginationComponent defaultRefinement={page} />
