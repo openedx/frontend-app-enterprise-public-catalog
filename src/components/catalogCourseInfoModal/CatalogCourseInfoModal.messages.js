@@ -31,6 +31,11 @@ const messages = defineMessages({
     defaultMessage: 'Availability period: ',
     description: 'Start and end dates for course term.',
   },
+  'catalogCourseInfoModal.relatedSkillsHeading': {
+    id: 'catalogCourseInfoModal.relatedSkillsHeading',
+    defaultMessage: 'Related skills',
+    description: 'Heading of related skills section',
+  },
   'catalogCourseInfoModal.moreInfoButton': {
     id: 'catalogCourseInfoModal.moreInfoButton',
     defaultMessage: 'View course details',
