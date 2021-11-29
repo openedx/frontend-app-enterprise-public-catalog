@@ -22,7 +22,7 @@ function formatDate(start, end) {
 
 const SkillsListing = ({ skillNames }) => (
   <ul className="course-info-skills-list">
-    {skillNames.map(s => <li>{s}</li>)}
+    {skillNames.slice(0, 5).map(s => <li key={`skill-name-${s}`}>{s}</li>)}
   </ul>
 );
 
