@@ -21,7 +21,7 @@ function formatDate(start, end) {
 }
 
 const SkillsListing = ({ skillNames }) => (
-  <ul className="course-info-skills-list">
+  <ul className="ms-0 course-info-skills-list">
     {skillNames.slice(0, 5).map(s => <li key={`skill-name-${s}`}>{s}</li>)}
   </ul>
 );
@@ -108,7 +108,7 @@ const CatalogCourseInfoModal = ({
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
             {(skillNames.length > 0) && (
-            <div className="course-info-skills bg-light px-2 pt-2">
+            <div className="course-info-skills px-2 pb-1 pt-2">
               <h4>{intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}</h4>
               <SkillsListing skillNames={skillNames} />
             </div>

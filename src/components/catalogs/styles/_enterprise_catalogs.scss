@@ -114,11 +114,14 @@
 
 .course-info-skills {
   opacity: 80%;
+  background-color: $light-300;
 }
 
 .course-info-skills-list {
   display: flex;
   align-items: flex-start;
+  padding-inline-start: 0;
+  font-size: medium;
 
   li {
     display: inline-block;
