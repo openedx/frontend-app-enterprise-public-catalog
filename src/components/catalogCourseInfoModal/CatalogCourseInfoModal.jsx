@@ -20,6 +20,16 @@ function formatDate(start, end) {
   return `${startDate} - ${endDate}`;
 }
 
+const SkillsListing = ({ skillNames }) => (
+  <ul className="course-info-skills-list">
+    {skillNames.map(s => <li>{s}</li>)}
+  </ul>
+);
+
+SkillsListing.propTypes = {
+  skillNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
 const CatalogCourseInfoModal = ({
   intl,
   isOpen,
@@ -34,6 +44,7 @@ const CatalogCourseInfoModal = ({
   marketingUrl,
   startDate,
   endDate,
+  skillNames,
 }) => (
 
   <>
@@ -96,13 +107,12 @@ const CatalogCourseInfoModal = ({
             </p>
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
+            {(skillNames.length > 0) && (
             <div className="course-info-skills bg-light px-2 pt-2">
-              <h4>Related Skills</h4>
-              <ul className="course-info-skills-list">
-                <li>skill 1</li>
-                <li>skill 2</li>
-              </ul>
+              <h4>{intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}</h4>
+              <SkillsListing skillNames={skillNames} />
             </div>
+            )}
           </div>
         </ModalDialog.Body>
 
@@ -143,6 +153,7 @@ CatalogCourseInfoModal.defaultProps = {
   marketingUrl: '',
   startDate: '',
   endDate: '',
+  skillNames: [],
   onClose: () => {},
 };
 
@@ -160,6 +171,7 @@ CatalogCourseInfoModal.propTypes = {
   marketingUrl: PropTypes.string,
   startDate: PropTypes.string,
   endDate: PropTypes.string,
+  skillNames: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default injectIntl(CatalogCourseInfoModal);
