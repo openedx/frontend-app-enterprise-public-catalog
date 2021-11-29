@@ -96,6 +96,13 @@ const CatalogCourseInfoModal = ({
             </p>
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
+            <div className="course-info-skills bg-light px-2 pt-2">
+              <h4>Related Skills</h4>
+              <ul className="course-info-skills-list">
+                <li>skill 1</li>
+                <li>skill 2</li>
+              </ul>
+            </div>
           </div>
         </ModalDialog.Body>
 
