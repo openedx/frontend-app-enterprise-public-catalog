@@ -99,6 +99,8 @@ describe('Course info modal works as expected', () => {
         <CatalogCourseInfoModal {...defaultPropsCopy} />
       </IntlProvider>,
     );
+    expect(screen.queryByText('Related skills')).toBeInTheDocument();
+
     expect(screen.queryByText('skill-0')).toBeInTheDocument();
     expect(screen.queryByText('skill-1')).toBeInTheDocument();
     expect(screen.queryByText('skill-2')).toBeInTheDocument();
@@ -106,5 +108,17 @@ describe('Course info modal works as expected', () => {
     expect(screen.queryByText('skill-4')).toBeInTheDocument();
     expect(screen.queryByText('skill-5')).not.toBeInTheDocument();
     expect(screen.queryByText('skill-10')).not.toBeInTheDocument();
+  });
+  test('modal displays no skills listing if skills not found', () => {
+    const defaultPropsCopy = {
+      ...defaultProps,
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <CatalogCourseInfoModal {...defaultPropsCopy} />
+      </IntlProvider>,
+    );
+    expect(screen.queryByText('Related skills')).not.toBeInTheDocument();
   });
 });
