@@ -1,36 +1,6 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
 
 const messages = defineMessages({
-  'catalogCourseInfoModal.associatedCatalogsTitle': {
-    id: 'catalogCourseInfoModal.associatedCatalogsTitle',
-    defaultMessage: 'Associated catalogs',
-    description: 'Title text for the associated catalog badges.',
-  },
-  'catalogCourseInfoModal.aLaCarteBadge': {
-    id: 'catalogCourseInfoModal.aLaCarteBadge',
-    defaultMessage: 'A la carte',
-    description: 'Badge text for the `A La Carte` catalog badge.',
-  },
-  'catalogCourseInfoModal.businessBadge': {
-    id: 'catalogCourseInfoModal.businessBadge',
-    defaultMessage: 'Business',
-    description: 'Badge text for the `Business` catalog badge.',
-  },
-  'catalogCourseInfoModal.educationBadge': {
-    id: 'catalogCourseInfoModal.educationBadge',
-    defaultMessage: 'Education',
-    description: 'Badge text for the `Education` catalog badge.',
-  },
-  'catalogCourseInfoModal.pricingTitle': {
-    id: 'catalogCourseInfoModal.pricingTitle',
-    defaultMessage: 'A la carte course price',
-    description: 'Title text for the course pricing display.',
-  },
-  'catalogCourseInfoModal.availabilityMessage': {
-    id: 'catalogCourseInfoModal.availabilityMessage',
-    defaultMessage: 'Availability period: ',
-    description: 'Start and end dates for course term.',
-  },
   'catalogCourseInfoModal.moreInfoButton': {
     id: 'catalogCourseInfoModal.moreInfoButton',
     defaultMessage: 'View course details',

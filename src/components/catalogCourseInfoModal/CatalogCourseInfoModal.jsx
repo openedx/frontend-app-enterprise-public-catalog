@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   ActionRow,
-  Badge,
   Button,
   Hyperlink,
   Image,
@@ -13,6 +12,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { Launch } from '@edx/paragon/icons';
 import messages from './CatalogCourseInfoModal.messages';
+import CatalogCourseModalBanner from '../catalogCourseModalBanner/CatalogCourseModalBanner';
 
 function formatDate(start, end) {
   const startDate = (new Date(start)).toLocaleDateString();
@@ -34,6 +34,7 @@ const CatalogCourseInfoModal = ({
   marketingUrl,
   startDate,
   endDate,
+  upcomingRuns,
 }) => (
 
   <>
@@ -59,40 +60,15 @@ const CatalogCourseInfoModal = ({
             <ModalDialog.Title as="h6" className="course-info-partner">
               {courseProvider}
             </ModalDialog.Title>
-
-            <div className="pricing-data-header">
-              <ModalDialog.Title className="pricing-data-title">
-                {intl.formatMessage(messages['catalogCourseInfoModal.pricingTitle'])}
-              </ModalDialog.Title>
-              <ModalDialog.Title className="pricing-data-price">
-                {coursePrice}
-              </ModalDialog.Title>
-            </div>
-
-            <div className="course-info-associated-catalog-header">
-              <ModalDialog.Title className="associated-catalogs-text">
-                {intl.formatMessage(messages['catalogCourseInfoModal.associatedCatalogsTitle'])}
-              </ModalDialog.Title>
-              <Badge className="padded-catalog" variant="dark">
-                {intl.formatMessage(messages['catalogCourseInfoModal.aLaCarteBadge'])}
-              </Badge>
-              { courseAssociatedCatalogs.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
-                <Badge className="business-catalog padded-catalog" variant="secondary">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.businessBadge'])}
-                </Badge>
-              )}
-              { courseAssociatedCatalogs.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
-                <Badge className="padded-catalog" variant="light">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.educationBadge'])}
-                </Badge>
-              )}
-            </div>
+            <CatalogCourseModalBanner
+              coursePrice={coursePrice}
+              courseAssociatedCatalogs={courseAssociatedCatalogs}
+              startDate={startDate}
+              endDate={endDate}
+              upcomingRuns={upcomingRuns}
+            />
             <p className="course-info-description-title">
               {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
-            </p>
-            <p className="course-info-description-subtitle">
-              {intl.formatMessage(messages['catalogCourseInfoModal.availabilityMessage'])}
-              {formatDate(startDate, endDate)}
             </p>
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
@@ -136,6 +112,7 @@ CatalogCourseInfoModal.defaultProps = {
   marketingUrl: '',
   startDate: '',
   endDate: '',
+  upcomingRuns: 0,
   onClose: () => {},
 };
 
@@ -153,6 +130,7 @@ CatalogCourseInfoModal.propTypes = {
   marketingUrl: PropTypes.string,
   startDate: PropTypes.string,
   endDate: PropTypes.string,
+  upcomingRuns: PropTypes.number,
 };
 
 export default injectIntl(CatalogCourseInfoModal);

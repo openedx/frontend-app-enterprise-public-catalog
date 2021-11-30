@@ -109,6 +109,7 @@ export const BaseCatalogSearchResults = ({
   const [marketingUrl, setMarketingUrl] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [upcomingRuns, setUpcomingRuns] = useState();
 
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
@@ -125,6 +126,7 @@ export const BaseCatalogSearchResults = ({
     setMarketingUrl(row.original.marketing_url);
     setStartDate(row.original.advertised_course_run.start);
     setEndDate(row.original.advertised_course_run.end);
+    setUpcomingRuns(row.original.upcoming_course_runs);
     open();
   };
 
@@ -198,6 +200,7 @@ export const BaseCatalogSearchResults = ({
         marketingUrl={marketingUrl}
         startDate={startDate}
         endDate={endDate}
+        upcomingRuns={upcomingRuns}
       />
       <div>
         <DataTable
