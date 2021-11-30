@@ -14,12 +14,6 @@ import { Launch } from '@edx/paragon/icons';
 import messages from './CatalogCourseInfoModal.messages';
 import CatalogCourseModalBanner from '../catalogCourseModalBanner/CatalogCourseModalBanner';
 
-function formatDate(start, end) {
-  const startDate = (new Date(start)).toLocaleDateString();
-  const endDate = (new Date(end)).toLocaleDateString();
-  return `${startDate} - ${endDate}`;
-}
-
 const CatalogCourseInfoModal = ({
   intl,
   isOpen,
