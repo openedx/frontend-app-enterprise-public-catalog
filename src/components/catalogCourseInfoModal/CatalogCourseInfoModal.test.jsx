@@ -102,4 +102,37 @@ describe('Course info modal works as expected', () => {
     );
     expect(screen.queryByText('Included with subscription')).not.toBeInTheDocument();
   });
+  test('modal displays upto 5 skills list', () => {
+    const defaultPropsCopy = {
+      ...defaultProps,
+      skillNames: [...Array(20).keys()].map(i => `skill-${i}`),
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <CatalogCourseInfoModal {...defaultPropsCopy} />
+      </IntlProvider>,
+    );
+    expect(screen.queryByText('Related skills')).toBeInTheDocument();
+
+    expect(screen.queryByText('skill-0')).toBeInTheDocument();
+    expect(screen.queryByText('skill-1')).toBeInTheDocument();
+    expect(screen.queryByText('skill-2')).toBeInTheDocument();
+    expect(screen.queryByText('skill-3')).toBeInTheDocument();
+    expect(screen.queryByText('skill-4')).toBeInTheDocument();
+    expect(screen.queryByText('skill-5')).not.toBeInTheDocument();
+    expect(screen.queryByText('skill-10')).not.toBeInTheDocument();
+  });
+  test('modal displays no skills listing if skills not found', () => {
+    const defaultPropsCopy = {
+      ...defaultProps,
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <CatalogCourseInfoModal {...defaultPropsCopy} />
+      </IntlProvider>,
+    );
+    expect(screen.queryByText('Related skills')).not.toBeInTheDocument();
+  });
 });
