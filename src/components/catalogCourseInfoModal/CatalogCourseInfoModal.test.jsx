@@ -19,6 +19,7 @@ const defaultProps = {
   bannerImageUrl: '',
   startDate: '2021-09-15T16:00:00Z',
   endDate: '2022-04-06T16:00:00Z',
+  upcomingRuns: 2,
   intl: {
     formatMessage: (header) => header.defaultMessage,
     formatDate: () => {},
@@ -70,7 +71,6 @@ describe('Course info modal works as expected', () => {
         <CatalogCourseInfoModal {...defaultPropsCopy} />
       </IntlProvider>,
     );
-    screen.debug();
     expect(screen.queryByText('A la carte course price')).toBeInTheDocument();
     expect(screen.queryByText('Session ends Apr 6, 2022 • 2 additional session(s)')).toBeInTheDocument();
     expect(screen.queryByText('Included with subscription')).not.toBeInTheDocument();
@@ -102,7 +102,7 @@ describe('Course info modal works as expected', () => {
     );
     expect(screen.queryByText('Included with subscription')).not.toBeInTheDocument();
   });
-  test('modal displays upto 5 skills list', () => {
+  test('modal displays up to 5 skills list', () => {
     const defaultPropsCopy = {
       ...defaultProps,
       skillNames: [...Array(20).keys()].map(i => `skill-${i}`),

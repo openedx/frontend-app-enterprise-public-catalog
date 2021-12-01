@@ -1,6 +1,11 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
 
 const messages = defineMessages({
+  'catalogCourseInfoModal.relatedSkillsHeading': {
+    id: 'catalogCourseInfoModal.relatedSkillsHeading',
+    defaultMessage: 'Related skills',
+    description: 'Heading of related skills section',
+  },
   'catalogCourseInfoModal.moreInfoButton': {
     id: 'catalogCourseInfoModal.moreInfoButton',
     defaultMessage: 'View course details',
