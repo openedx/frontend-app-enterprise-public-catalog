@@ -53,22 +53,38 @@
     0 2px 2px rgba(128, 128, 128, 0.1);
 }
 
-.pricing-data-header {
-  position: absolute;
-  right: 5%;
-  top: 66%;
+.banner {
+  display: flex;
+  margin: 38px 0px 38px 0px;
 }
 
-.pricing-data-title {
-  font-weight: 500;
-  font-family: "Roboto Mono";
-  font-size: 1rem !important;
+.banner-section {
+  margin-right: 16px;
+  line-height: 24px;
 }
 
-.pricing-data-price {
-  margin-top: 0;
-  font-size: 2.4rem !important;
+.slash {
+  font-size: 60px;
+  color: $gray-100;
 }
+
+.banner-title {
+  display: flex;
+  font-weight: 700;
+  font-size: 18px;
+  color: $gray-700;
+}
+
+.banner-title .pgn__icon {
+  margin-right: 6px;
+}
+
+.banner-subtitle {
+  margin-left: 30px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
 
 .course-info-modal {
   position: absolute !important;
@@ -129,5 +145,17 @@
   li:not(:last-child):after {
     content: "\2022";
     margin: 0 10px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .slash {
+    display: none;
+  }
+  .banner {
+    display: block;
+  } 
+  .banner-section {
+    margin-bottom: 16px;
   }
 }

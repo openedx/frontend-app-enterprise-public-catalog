@@ -19,6 +19,7 @@ const defaultProps = {
   bannerImageUrl: '',
   startDate: '2021-09-15T16:00:00Z',
   endDate: '2022-04-06T16:00:00Z',
+  upcomingRuns: 2,
   intl: {
     formatMessage: (header) => header.defaultMessage,
     formatDate: () => {},
@@ -50,16 +51,6 @@ describe('Course info modal works as expected', () => {
     expect(screen.queryByText(defaultProps.courseProvider)).toBeInTheDocument();
     expect(screen.queryByText(descriptionText)).toBeInTheDocument();
   });
-
-  test('test dates format correctly', () => {
-    render(
-      <IntlProvider locale="en">
-        <CatalogCourseInfoModal {...defaultProps} />
-      </IntlProvider>,
-    );
-    expect(screen.getByText('Availability period: 9/15/2021 - 4/6/2022')).toBeInTheDocument();
-  });
-
   test('modal is hidden when expected', () => {
     const defaultPropsCopy = {};
     Object.assign(defaultPropsCopy, defaultProps);
@@ -71,7 +62,20 @@ describe('Course info modal works as expected', () => {
     );
     expect(screen.queryByText(defaultProps.courseTitle)).not.toBeInTheDocument();
   });
-  test('modal displays appropriate associated catalog badges', () => {
+  test('Renders modal banner', () => {
+    const defaultPropsCopy = {};
+    Object.assign(defaultPropsCopy, defaultProps);
+
+    render(
+      <IntlProvider locale="en">
+        <CatalogCourseInfoModal {...defaultPropsCopy} />
+      </IntlProvider>,
+    );
+    expect(screen.queryByText('A la carte course price')).toBeInTheDocument();
+    expect(screen.queryByText('Session ends Apr 6, 2022 • 2 additional session(s)')).toBeInTheDocument();
+    expect(screen.queryByText('Included with subscription')).not.toBeInTheDocument();
+  });
+  test('Renders modal with correct catalogs', () => {
     const defaultPropsCopy = {};
     Object.assign(defaultPropsCopy, defaultProps);
 
@@ -84,11 +88,21 @@ describe('Course info modal works as expected', () => {
         <CatalogCourseInfoModal {...defaultPropsCopy} />
       </IntlProvider>,
     );
-    expect(screen.queryByText('Education')).toBeInTheDocument();
-    expect(screen.queryByText('A la carte')).toBeInTheDocument();
-    expect(screen.queryByText('Business')).not.toBeInTheDocument();
+    expect(screen.queryByText('Included in education catalog')).toBeInTheDocument();
+    expect(screen.queryByText('Included in business catalog')).not.toBeInTheDocument();
   });
-  test('modal displays upto 5 skills list', () => {
+  test('Renders modal with no catalogs', () => {
+    const defaultPropsCopy = {};
+    Object.assign(defaultPropsCopy, defaultProps);
+
+    render(
+      <IntlProvider locale="en">
+        <CatalogCourseInfoModal {...defaultPropsCopy} />
+      </IntlProvider>,
+    );
+    expect(screen.queryByText('Included with subscription')).not.toBeInTheDocument();
+  });
+  test('modal displays up to 5 skills list', () => {
     const defaultPropsCopy = {
       ...defaultProps,
       skillNames: [...Array(20).keys()].map(i => `skill-${i}`),

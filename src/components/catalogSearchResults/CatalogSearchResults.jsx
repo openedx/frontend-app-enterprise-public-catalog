@@ -190,6 +190,7 @@ export const BaseCatalogSearchResults = ({
   const [marketingUrl, setMarketingUrl] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [upcomingRuns, setUpcomingRuns] = useState();
   const [skillNames, setSkillNames] = useState([]);
 
   // TODO: Feature control for Card view. Remove once cards are finalized
@@ -212,6 +213,7 @@ export const BaseCatalogSearchResults = ({
     setMarketingUrl(row.original.marketing_url);
     setStartDate(row.original.advertised_course_run.start);
     setEndDate(row.original.advertised_course_run.end);
+    setUpcomingRuns(row.original.upcoming_course_runs);
     setSkillNames(row.original.skill_names);
     open();
   };
@@ -287,6 +289,7 @@ export const BaseCatalogSearchResults = ({
         marketingUrl={marketingUrl}
         startDate={startDate}
         endDate={endDate}
+        upcomingRuns={upcomingRuns}
         skillNames={skillNames}
       />
       <div>
