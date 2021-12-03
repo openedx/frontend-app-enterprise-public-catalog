@@ -6,6 +6,7 @@
 
 .full-body {
   padding: 0px !important;
+  overflow-x: hidden; /* avoid horizontal scrollbar */
 }
 
 .padded-body {
