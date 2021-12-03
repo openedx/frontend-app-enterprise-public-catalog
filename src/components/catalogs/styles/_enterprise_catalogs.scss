@@ -85,7 +85,6 @@
   font-size: 14px;
 }
 
-
 .course-info-modal {
   position: absolute !important;
   top: 10%;
@@ -134,8 +133,7 @@
 }
 
 .course-info-skills-list {
-  display: flex;
-  align-items: flex-start;
+  display: block;
   padding-inline-start: 0;
   font-size: medium;
 
@@ -154,7 +152,7 @@
   }
   .banner {
     display: block;
-  } 
+  }
   .banner-section {
     margin-bottom: 16px;
   }
