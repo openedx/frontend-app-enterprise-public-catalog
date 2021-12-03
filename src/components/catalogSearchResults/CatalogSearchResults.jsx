@@ -54,7 +54,7 @@ const ViewToggle = ({ cardView, setCardView }) => {
   const selectedClassCardView = cardView ? 'hover' : '';
   const selectedClassListView = !cardView ? 'hover' : '';
   return (
-    <div className="float-right">
+    <div className="float-right pt-1">
       <IconButton
         src={GridView}
         iconAs={Icon}
