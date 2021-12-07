@@ -53,6 +53,48 @@
     0 2px 2px rgba(128, 128, 128, 0.1);
 }
 
+.card {
+  width: 300px;
+  line-height: 24px;
+}
+
+// cc - course card 
+.cc-partner-logo {
+  left: 5%;
+  height: auto; 
+  object-fit: cover;
+  position: absolute;
+  z-index: 1;
+  top: 60px;
+  max-width: 100px;
+  background-color: $light-300;
+  box-shadow: 0 1px 1px rgba(128, 128, 128, 0.1), 0 1px 1px rgba(128, 128, 128, 0.1), 0 2px 2px rgba(128, 128, 128, 0.1),
+    0 2px 2px rgba(128, 128, 128, 0.1);
+}
+.cc-course-image {
+  height: 100px; 
+  object-fit: cover;
+  width: auto;
+}
+
+.cc-title {
+  margin: 25px 16px 25px 16px;
+}
+.cc-spacing {
+  flex-grow: 3;
+}
+.cc-body {
+  margin: 25px 16px 25px 16px;
+
+}
+
+
+// }
+
+
+
+
+
 .banner {
   display: flex;
   margin: 38px 0px 38px 0px;
@@ -61,6 +103,7 @@
 .banner-section {
   margin-right: 16px;
   line-height: 24px;
+  color: $primary-300
 }
 
 .slash {
@@ -72,7 +115,6 @@
   display: flex;
   font-weight: 700;
   font-size: 18px;
-  color: $gray-700;
 }
 
 .banner-title .pgn__icon {
