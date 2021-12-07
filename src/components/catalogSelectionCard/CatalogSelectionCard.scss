@@ -1,10 +1,12 @@
-.catalog-selection-card{
-  flex-direction: row-reverse;
+.catalog-selection-card-checkbox {
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-between;
-  .pgn__form-checkbox-input{
-    margin: 0;
+  overflow-wrap: anywhere; /* this allows word breaking to avoid weird layout in certain sizes */
+
+  & .pgn__form-radio-input {
+    /* disables the dynamic resizing of the radio boxes */
+    flex-grow: 0;
+    flex-shrink: 0;
   }
 }
-
-
