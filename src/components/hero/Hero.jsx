@@ -46,12 +46,6 @@ const Hero = ({ intl, text, highlight }) => {
       <Container size="lg" className="hero__content">
         <h1 className="display-1"><Highlighted text={text} highlight={highlight} /></h1>
         <div>
-          <ExtraSmall>
-            <SmallImage alt={alt} />
-          </ExtraSmall>
-          <Small>
-            <SmallImage alt={alt} />
-          </Small>
           <Large>
             <SmallImage alt={alt} />
           </Large>
