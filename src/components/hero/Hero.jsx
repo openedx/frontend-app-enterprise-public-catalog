@@ -1,6 +1,6 @@
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
-  Container, ExtraExtraLarge, ExtraLarge, ExtraSmall, Image, Large, Medium, Small,
+  Container, ExtraExtraLarge, ExtraLarge, Image, Large, Medium,
 } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import React from 'react';
