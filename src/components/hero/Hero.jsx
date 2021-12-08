@@ -1,46 +1,74 @@
-import {
-  ExtraLarge, Image, Large, Container,
-} from '@edx/paragon';
-import React from 'react';
-import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import SmallHeroImageLoRes from '../../assets/hero-image-small-lo-res.png';
-import LargeHeroImageLoRes from '../../assets/hero-image-large-lo-res.png';
-import SmallHeroImageHiRes from '../../assets/hero-image-hi-res.png';
+import {
+  Container, ExtraExtraLarge, ExtraLarge, ExtraSmall, Image, Large, Medium, Small,
+} from '@edx/paragon';
+import PropTypes from 'prop-types';
+import React from 'react';
 import LargeHeroImageHiRes from '../../assets/hero-image-144px-hi-res.png';
+import SmallHeroImageHiRes from '../../assets/hero-image-hi-res.png';
+import LargeHeroImageLoRes from '../../assets/hero-image-large-lo-res.png';
+import SmallHeroImageLoRes from '../../assets/hero-image-small-lo-res.png';
 import { Highlighted } from '../helperComponents';
 import messages from './Hero.messages';
 
-const IMAGE_WRAPPER_CLASS = 'hero__image-wrapper';
 const IMAGE_CLASS = 'hero__image';
 
-const Hero = ({ intl, text, highlight }) => (
-  <section className="hero">
-    <Container size="lg" className="hero__content">
-      <h1 className="display-1"><Highlighted text={text} highlight={highlight} /></h1>
-      <div>
-        <Large className={IMAGE_WRAPPER_CLASS}>
-          <Image
-            className={IMAGE_CLASS}
-            srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
-            src={SmallHeroImageLoRes}
-            alt={intl.formatMessage(messages['hero.image.alt'])}
-            size="33vw"
-          />
-        </Large>
-        <ExtraLarge className={IMAGE_WRAPPER_CLASS}>
-          <Image
-            className={IMAGE_CLASS}
-            srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
-            src={LargeHeroImageLoRes}
-            alt={intl.formatMessage(messages['hero.image.alt'])}
-            size="33vw"
-          />
-        </ExtraLarge>
-      </div>
-    </Container>
-  </section>
+const SmallImage = ({ alt }) => (
+  <Image
+    className={IMAGE_CLASS}
+    srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
+    src={SmallHeroImageLoRes}
+    alt={alt}
+    sizes="23vw"
+  />
 );
+SmallImage.propTypes = {
+  alt: PropTypes.string.isRequired,
+};
+
+const LargeImage = ({ alt }) => (
+  <Image
+    className={IMAGE_CLASS}
+    srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
+    src={LargeHeroImageLoRes}
+    alt={alt}
+    sizes="33vw"
+  />
+);
+LargeImage.propTypes = {
+  alt: PropTypes.string.isRequired,
+};
+
+const Hero = ({ intl, text, highlight }) => {
+  const alt = intl.formatMessage(messages['hero.image.alt']);
+  return (
+    <section className="hero">
+      <Container size="lg" className="hero__content">
+        <h1 className="display-1"><Highlighted text={text} highlight={highlight} /></h1>
+        <div>
+          <ExtraSmall>
+            <SmallImage alt={alt} />
+          </ExtraSmall>
+          <Small>
+            <SmallImage alt={alt} />
+          </Small>
+          <Large>
+            <SmallImage alt={alt} />
+          </Large>
+          <Medium>
+            <SmallImage alt={alt} />
+          </Medium>
+          <ExtraExtraLarge>
+            <LargeImage alt={alt} />
+          </ExtraExtraLarge>
+          <ExtraLarge>
+            <LargeImage alt={alt} />
+          </ExtraLarge>
+        </div>
+      </Container>
+    </section>
+  );
+};
 
 Hero.defaultProps = {
   highlight: '',
