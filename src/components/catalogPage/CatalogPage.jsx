@@ -49,7 +49,7 @@ const CatalogPage = ({ intl }) => {
         <span>
           <FormattedMessage
             id="catalogPage.subtitle.text"
-            defaultMessage="edX makes it easy to find the subjects, skills, programs, and course to meet your your learning needs. Work with our content experts to create a customized catalog for your orginization from any of our 3,000+ courses. Or, choose our subscription catalog for easy, flexibility, and scalability at a single, per-learner price. "
+            defaultMessage="edX makes it easy to find the subjects, skills, programs, and course to meet your your learning needs. Work with our content experts to create a customized catalog for your organization from any of our 3,000+ courses. Or, choose our subscription catalog for ease, flexibility, and scalability at a single, per-learner price. "
             description="Description of the catalog contents and navigation to other edX pages."
           />
         </span>

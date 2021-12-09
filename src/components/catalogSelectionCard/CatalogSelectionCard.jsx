@@ -22,7 +22,14 @@ export const CardCheckbox = ({
     }
   };
   return (
-    <Form.Radio className="catalog-selection-card" checked={isChecked} onChange={setChecked} description={labelDetail}>{label}</Form.Radio>
+    <Form.Radio
+      className="catalog-selection-card-checkbox"
+      checked={isChecked}
+      onChange={setChecked}
+      description={labelDetail}
+    >
+      {label}
+    </Form.Radio>
   );
 };
 

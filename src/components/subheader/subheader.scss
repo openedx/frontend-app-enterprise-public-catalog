@@ -9,16 +9,12 @@
   padding: 0px 16px;
 
   .subtitle__title {
-    @extend .h4
-  }
-  .subtitle__text {
-    max-width: 70%;
+    @extend .h4;
   }
   .info {
     color: $info-300;
   }
 }
-
 
 @include media-breakpoint-down(sm) {
   .subtitle {
