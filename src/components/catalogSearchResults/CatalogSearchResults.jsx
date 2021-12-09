@@ -164,7 +164,6 @@ export const BaseCatalogSearchResults = ({
   // TODO: Feature control for Card view. Remove once cards are finalized
   const config = getConfig();
   const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'True';
-  // eslint-disable-next-line no-unused-vars
   const [cardView, setCardView] = useState(cardViewEnabled);
 
   const rowClicked = (row) => {
