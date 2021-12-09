@@ -164,6 +164,7 @@ export const BaseCatalogSearchResults = ({
   // TODO: Feature control for Card view. Remove once cards are finalized
   const config = getConfig();
   const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'True';
+  // eslint-disable-next-line no-unused-vars
   const [cardView, setCardView] = useState(cardViewEnabled);
 
   const rowClicked = (row) => {
@@ -183,6 +184,26 @@ export const BaseCatalogSearchResults = ({
     setEndDate(row.original.advertised_course_run.end);
     setUpcomingRuns(row.original.upcoming_course_runs);
     setSkillNames(row.original.skill_names);
+    open();
+  };
+
+  const cardClicked = (card) => {
+    const rowPrice = card.first_enrollable_paid_seat_price;
+    const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
+      messages['catalogSearchResult.table.priceNotAvailable'],
+    );
+    setPrice(priceText);
+    setAssociatedCatalogs(card.enterprise_catalog_query_titles);
+    setTitle(card.title);
+    setProvider(card.partners[0].name);
+    setPartnerLogoImageUrl(card.partners[0].logo_image_url);
+    setDescription(card.full_description);
+    setBannerImageUrl(card.original_image_url);
+    setMarketingUrl(card.marketing_url);
+    setStartDate(card.advertised_course_run.start);
+    setEndDate(card.advertised_course_run.end);
+    setUpcomingRuns(card.upcoming_course_runs);
+    setSkillNames(card.skill_names);
     open();
   };
 
@@ -260,31 +281,32 @@ export const BaseCatalogSearchResults = ({
         upcomingRuns={upcomingRuns}
         skillNames={skillNames}
       />
-        <DataTable
-          columns={columns}
-          data={tableData}
-          itemCount={searchResults?.nbHits}
-          pageCount={searchResults?.nbPages || 1}
-          pageSize={searchResults?.hitsPerPage || 0}
-        >
-          <DataTable.TableControlBar />
-          { cardViewEnabled && cardView ? (
-            <CardView
-              columnSizes={{
-                xs: 12,
-                sm: 6,
-                md: 4,
-                lg: 3,
-                xl: 3,
-              }}
-              CardComponent={CourseCard}
-            />
-          ) : <DataTable.Table /> }
-          <DataTable.TableFooter>
-            <DataTable.RowStatus />
-            <PaginationComponent defaultRefinement={page} />
-          </DataTable.TableFooter>
-        </DataTable>
+      { cardViewEnabled && <ViewToggle cardView={cardView} setCardView={setCardView} /> }
+      <DataTable
+        columns={columns}
+        data={tableData}
+        itemCount={searchResults?.nbHits}
+        pageCount={searchResults?.nbPages || 1}
+        pageSize={searchResults?.hitsPerPage || 0}
+      >
+        <DataTable.TableControlBar />
+        { cardViewEnabled && cardView ? (
+          <CardView
+            columnSizes={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              lg: 3,
+              xl: 3,
+            }}
+            CardComponent={(props) => <CourseCard {...props} onClick={cardClicked} />}
+          />
+        ) : <DataTable.Table /> }
+        <DataTable.TableFooter>
+          <DataTable.RowStatus />
+          <PaginationComponent defaultRefinement={page} />
+        </DataTable.TableFooter>
+      </DataTable>
     </>
   );
 };

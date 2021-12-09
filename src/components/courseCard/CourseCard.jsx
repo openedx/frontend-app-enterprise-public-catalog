@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+// variables taken from algolia not in camelcase
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,24 +11,21 @@ import {
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
 
-const CourseCard = ({ intl, className, original }) => {
+const CourseCard = ({
+  intl, onClick, className, original,
+}) => {
   const {
     title,
     card_image_url,
     partners,
     first_enrollable_paid_seat_price,
     enterprise_catalog_query_titles,
-    // full_description,
-    // marketing_url,
-    // advertised_course_run,
-    // upcoming_course_runs,
-    // skill_names,
     availability,
   } = original;
   const rowPrice = first_enrollable_paid_seat_price;
   const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : 'N/A';
   return (
-    <Card className={className}>
+    <Card className={className} tabIndex="0" onClick={() => onClick(original)}>
       <Card.Img
         className="cc-course-image"
         variant="top"
@@ -67,22 +66,20 @@ const CourseCard = ({ intl, className, original }) => {
 
 CourseCard.defaultProps = {
   className: '',
+  onClick: () => {},
 };
 
 CourseCard.propTypes = {
   intl: intlShape.isRequired,
   className: PropTypes.string,
+  onClick: PropTypes.func,
   original: PropTypes.shape({
     title: PropTypes.string,
     card_image_url: PropTypes.string,
     partners: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string, logo_image_url: PropTypes.string })),
     first_enrollable_paid_seat_price: PropTypes.number,
     enterprise_catalog_query_titles: PropTypes.arrayOf(PropTypes.string),
-    // full_description: PropTypes.string,
-    // marketing_url: PropTypes.string,
-    // advertised_course_run: PropTypes.object,
-    // upcoming_course_runs: PropTypes.number,
-    // skill_names: PropTypes.arrayOf(PropTypes.string),
+    original_image_url: PropTypes.string,
     availability: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
