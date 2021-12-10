@@ -12,6 +12,23 @@
   margin: 180px 0 0 24px;
 }
 
+// custom formatting to be removed with the paragon addition of "chip" component
+.enterprise-catalogs-header {
+  .fe__refinement-badge {
+    border-radius: 6px;
+    border: 1px solid $light-300;
+    background-color: $white;
+  }
+  .fe__current-refinement-button {
+    color: $gray-700;
+    padding: 2px !important;
+  }
+  .fe__current-refinement-button:hover {
+    background: $gray-200;
+    text-decoration: none;
+  }
+}
+
 .course-info-title {
   position: relative;
   width: 70% !important;
