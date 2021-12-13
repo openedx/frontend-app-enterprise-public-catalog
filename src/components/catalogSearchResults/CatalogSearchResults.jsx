@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import Skeleton from 'react-loading-skeleton';
 import classNames from 'classnames';
+import queryString from 'query-string';
 
 import {
   Alert,
@@ -27,6 +28,7 @@ import { GridView, ListView } from '@edx/paragon/icons';
 
 import CourseCard from '../courseCard/CourseCard';
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
+import DownloadCsvButton from './buttons/downloadCsvButton/DownloadCsvButton';
 import messages from './CatalogSearchResults.messages';
 import { HIDE_PRICE_REFINEMENT } from '../../constants';
 
@@ -260,7 +262,8 @@ export const BaseCatalogSearchResults = ({
     columns[2] = availabilityColumn;
   }
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
-
+  const query = queryString.parse(window.location.search.substring(1));
+  const inputQuery = query.q;
   return (
     <>
       <CatalogCourseInfoModal
@@ -287,6 +290,13 @@ export const BaseCatalogSearchResults = ({
         itemCount={searchResults?.nbHits}
         pageCount={searchResults?.nbPages || 1}
         pageSize={searchResults?.hitsPerPage || 0}
+
+        // eslint-disable-next-line no-unused-vars
+        tableActions={(i) => (
+          // Algolia returns a list of applied filters under the search result's `_state` value
+          // eslint-disable-next-line no-underscore-dangle
+          <DownloadCsvButton facets={searchResults._state.disjunctiveFacetsRefinements} query={inputQuery} />
+        )}
       >
         <DataTable.TableControlBar />
         { cardViewEnabled && cardView ? (
@@ -321,6 +331,9 @@ BaseCatalogSearchResults.propTypes = {
   intl: intlShape.isRequired,
   // from Algolia
   searchResults: PropTypes.shape({
+    _state: PropTypes.shape({
+      disjunctiveFacetsRefinements: PropTypes.shape({}),
+    }),
     nbHits: PropTypes.number,
     hits: PropTypes.arrayOf(PropTypes.shape({})),
     nbPages: PropTypes.number,

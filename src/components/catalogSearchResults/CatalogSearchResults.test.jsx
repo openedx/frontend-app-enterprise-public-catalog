@@ -74,6 +74,7 @@ const searchResults = {
     },
   ],
   page: 1,
+  _state: { disjunctiveFacetsRefinements: { foo: 'bar' } },
 };
 
 const defaultProps = {
@@ -214,7 +215,9 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.price'].defaultMessage)).toBeInTheDocument();
   });
   test('refinements hide price column and show availability', () => {
-    const refinements = { refinements: { [HIDE_PRICE_REFINEMENT]: 'true' } };
+    const refinements = {
+      refinements: { [HIDE_PRICE_REFINEMENT]: 'true' },
+    };
     renderWithRouter(
       <SearchDataWrapper
         searchContextValue={refinements}
