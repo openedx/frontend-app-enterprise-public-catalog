@@ -56,15 +56,21 @@ const searchResults = {
   hits: [
     {
       title: TEST_COURSE_NAME,
-      partners: [{ name: TEST_PARTNER }],
+      partners: [{ name: TEST_PARTNER, logo_image_url: '' }],
       enterprise_catalog_query_titles: TEST_CATALOGS,
       card_image_url: 'http://url.test.location',
+      first_enrollable_paid_seat_price: 100,
+      original_image_url: '',
+      availability: ['Available Now'],
     },
     {
       title: TEST_COURSE_NAME_2,
-      partners: [{ name: TEST_PARTNER_2 }],
+      partners: [{ name: TEST_PARTNER_2, logo_image_url: '' }],
       enterprise_catalog_query_titles: TEST_CATALOGS_2,
       card_image_url: 'http://url.test2.location',
+      first_enrollable_paid_seat_price: 99,
+      original_image_url: '',
+      availability: ['Available Now'],
     },
   ],
   page: 1,

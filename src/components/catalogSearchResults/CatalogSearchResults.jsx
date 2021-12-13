@@ -13,7 +13,6 @@ import {
   Alert,
   Badge,
   Button,
-  Card,
   CardView,
   DataTable,
   Icon,
@@ -26,6 +25,7 @@ import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/
 import { getConfig } from '@edx/frontend-platform';
 import { GridView, ListView } from '@edx/paragon/icons';
 
+import CourseCard from '../courseCard/CourseCard';
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import messages from './CatalogSearchResults.messages';
 import { HIDE_PRICE_REFINEMENT } from '../../constants';
@@ -78,38 +78,6 @@ const ViewToggle = ({ cardView, setCardView }) => {
 ViewToggle.propTypes = {
   cardView: PropTypes.bool.isRequired,
   setCardView: PropTypes.func.isRequired,
-};
-
-const CourseCard = ({ className, original }) => {
-  const { title, card_image_url, partners } = original;
-
-  return (
-    <Card className={className}>
-      <Card.Img
-        variant="top"
-        src={card_image_url}
-        style={{ width: '40vh', maxWidth: '100%', height: '26vh' }}
-        alt={title}
-      />
-      <Card.Body>
-        <Card.Title>{title}</Card.Title>
-        <Card.Subtitle>{ partners[0].name } </Card.Subtitle>
-      </Card.Body>
-    </Card>
-  );
-};
-
-CourseCard.defaultProps = {
-  className: '',
-};
-
-CourseCard.propTypes = {
-  className: PropTypes.string,
-  original: PropTypes.shape({
-    title: PropTypes.string,
-    card_image_url: PropTypes.string,
-    partners: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
-  }).isRequired,
 };
 
 /**
@@ -218,6 +186,26 @@ export const BaseCatalogSearchResults = ({
     open();
   };
 
+  const cardClicked = (card) => {
+    const rowPrice = card.first_enrollable_paid_seat_price;
+    const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
+      messages['catalogSearchResult.table.priceNotAvailable'],
+    );
+    setPrice(priceText);
+    setAssociatedCatalogs(card.enterprise_catalog_query_titles);
+    setTitle(card.title);
+    setProvider(card.partners[0].name);
+    setPartnerLogoImageUrl(card.partners[0].logo_image_url);
+    setDescription(card.full_description);
+    setBannerImageUrl(card.original_image_url);
+    setMarketingUrl(card.marketing_url);
+    setStartDate(card.advertised_course_run.start);
+    setEndDate(card.advertised_course_run.end);
+    setUpcomingRuns(card.upcoming_course_runs);
+    setSkillNames(card.skill_names);
+    open();
+  };
+
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const columns = useMemo(() => [
@@ -292,34 +280,32 @@ export const BaseCatalogSearchResults = ({
         upcomingRuns={upcomingRuns}
         skillNames={skillNames}
       />
-      <div>
-        { cardViewEnabled && <ViewToggle cardView={cardView} setCardView={setCardView} /> }
-        <DataTable
-          columns={columns}
-          data={tableData}
-          itemCount={searchResults?.nbHits}
-          pageCount={searchResults?.nbPages || 1}
-          pageSize={searchResults?.hitsPerPage || 0}
-        >
-          <DataTable.TableControlBar />
-          { cardViewEnabled && cardView ? (
-            <CardView
-              columnSizes={{
-                xs: 12,
-                sm: 6,
-                md: 6,
-                lg: 3,
-                xl: 3,
-              }}
-              CardComponent={CourseCard}
-            />
-          ) : <DataTable.Table /> }
-          <DataTable.TableFooter>
-            <DataTable.RowStatus />
-            <PaginationComponent defaultRefinement={page} />
-          </DataTable.TableFooter>
-        </DataTable>
-      </div>
+      { cardViewEnabled && <ViewToggle cardView={cardView} setCardView={setCardView} /> }
+      <DataTable
+        columns={columns}
+        data={tableData}
+        itemCount={searchResults?.nbHits}
+        pageCount={searchResults?.nbPages || 1}
+        pageSize={searchResults?.hitsPerPage || 0}
+      >
+        <DataTable.TableControlBar />
+        { cardViewEnabled && cardView ? (
+          <CardView
+            columnSizes={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              lg: 3,
+              xl: 3,
+            }}
+            CardComponent={(props) => <CourseCard {...props} onClick={cardClicked} />}
+          />
+        ) : <DataTable.Table /> }
+        <DataTable.TableFooter>
+          <DataTable.RowStatus />
+          <PaginationComponent defaultRefinement={page} />
+        </DataTable.TableFooter>
+      </DataTable>
     </>
   );
 };
