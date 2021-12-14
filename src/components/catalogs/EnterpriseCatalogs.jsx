@@ -28,7 +28,7 @@ export default function EnterpriseCatalogs() {
             searchClient={searchClient}
           >
             <Configure hitsPerPage={NUM_RESULTS_PER_PAGE} facetingAfterDistinct />
-            <div className="enterprise-catalogs-header"><SearchHeader variant="default" /></div>
+            <div className="enterprise-catalogs-header"><SearchHeader hideTitle variant="default" /></div>
             <CatalogSearchResults />
           </InstantSearch>
         </section>
