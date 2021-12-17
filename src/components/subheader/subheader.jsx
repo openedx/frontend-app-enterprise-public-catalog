@@ -8,7 +8,7 @@ const Subheader = ({
   title, children,
 }) => (
   <section>
-    <Container className="subtitle" size="lg">
+    <Container className="page-width subtitle">
       <div className="subtitle__text">
         {title && <h2 className="subtitle__title">{title}</h2>}
         <div>{children}</div>

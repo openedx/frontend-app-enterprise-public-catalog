@@ -20,11 +20,18 @@
 @import "components/catalogSearchResults/buttons/downloadCsvButton/DownloadCsvButton";
 @import "components/catalogSelectionDeck/CatalogSelectionDeck";
 
-.padded-catalog.badge  {
-    margin: 4px;
+.page-width {
+    max-width: 1350px;
 }
 
-// NOTE: customization needed because Paragon doesn't have the same colors Figma is using
-.business-catalog.badge {
-    background-color: $dark-200;
+.padded-catalog.badge {
+  margin: 4px;
+}
+
+.bright.badge {
+  color: $black;
+}
+
+.program.badge {
+  font-family: $font-family-monospace;
 }

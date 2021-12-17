@@ -8,7 +8,7 @@ export const DATA_TEST_ID = 'enterprise-catalogs-content';
 
 // eslint-disable-next-line react/prop-types
 const PageWrapper = ({ children, className }) => (
-  <Container size="lg" className={className}>
+  <Container className={className}>
     <Helmet title={PAGE_TITLE} />
     <div data-testid={DATA_TEST_ID}>
       {children}

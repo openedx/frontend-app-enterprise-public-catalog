@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+// variables taken from algolia not in camelcase
 import React from 'react';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { SearchData, SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise-catalog-search';
@@ -8,9 +10,15 @@ import Hero from '../hero/Hero';
 import messages from './CatalogPage.messages';
 import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
 import {
-  AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS, QUERY_TITLE_REFINEMENT,
-  HIDE_CARDS_REFINEMENT, TRACKING_APP_NAME,
+  AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS, CONTENT_TYPE_REFINEMENT,
+  QUERY_TITLE_REFINEMENT, HIDE_CARDS_REFINEMENT, TRACKING_APP_NAME,
 } from '../../constants';
+
+const content_type = {
+  attribute: 'content_type',
+  title: 'Type',
+};
+SEARCH_FACET_FILTERS.push(content_type);
 
 const CatalogPage = ({ intl }) => {
   const config = getConfig();
@@ -24,11 +32,13 @@ const CatalogPage = ({ intl }) => {
   const loadedSearchParams = new URLSearchParams(window.location.search);
   let reloadPage = false;
   let hideCards = false;
-  if (config.EDX_ENTERPRISE_ALACARTE_TITLE && (!loadedSearchParams.get(QUERY_TITLE_REFINEMENT))) {
+  if (config.EDX_ENTERPRISE_ALACARTE_TITLE
+    && (!loadedSearchParams.get(CONTENT_TYPE_REFINEMENT))
+    && (!loadedSearchParams.get(QUERY_TITLE_REFINEMENT))) {
     loadedSearchParams.set(QUERY_TITLE_REFINEMENT, config.EDX_ENTERPRISE_ALACARTE_TITLE);
     reloadPage = true;
   }
-  if ((!loadedSearchParams.get(AVAILABILITY_REFINEMENT))) {
+  if ((!loadedSearchParams.get(AVAILABILITY_REFINEMENT) && (!loadedSearchParams.get(CONTENT_TYPE_REFINEMENT)))) {
     AVAILABILITY_REFINEMENT_DEFAULTS.map(a => loadedSearchParams.append(AVAILABILITY_REFINEMENT, a));
     reloadPage = true;
   }
