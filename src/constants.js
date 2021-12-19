@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise-catalog-search';
-import { getConfig } from '@edx/frontend-platform';
+import { features } from './config';
 
 export const PAGE_TITLE = 'edX Enterprise Catalogs';
 
@@ -19,11 +19,8 @@ export const CONTENT_TYPE_REFINEMENT = 'content_type';
 export const HIDE_CARDS_REFINEMENT = 'hide_cards';
 export const HIDE_PRICE_REFINEMENT = 'hide_price';
 
-const config = getConfig();
-const programsEnabled = config.PROGRAM_TYPE_FACET === 'True';
-
 const OVERRIDE_FACET_FILTERS = [];
-if (programsEnabled) {
+if (features.PROGRAM_TYPE_FACET) {
   const PROGRAM_TYPE_FACET_OVERRIDE = {
     overrideSearchKey: 'title',
     overrideSearchValue: 'Program',
