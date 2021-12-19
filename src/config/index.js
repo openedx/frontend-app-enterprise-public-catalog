@@ -14,4 +14,4 @@ const features = {
   PROGRAM_TYPE_FACET: (process.env.FEATURE_PROGRAM_TYPE_FACET === 'true') || hasFeatureFlagEnabled(FEATURE_PROGRAM_TYPE_FACET),
 };
 
-export { features };
+export default features;
