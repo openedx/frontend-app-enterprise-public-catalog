@@ -47,14 +47,6 @@ const Tablet = ({ children }) => {
   const isTablet = useMediaQuery({ minWidth: breakpoints.medium.minWidth, maxWidth: breakpoints.medium.maxWidth });
   return isTablet ? children : null;
 };
-const Mobile = ({ children }) => {
-  const isMobile = useMediaQuery({ maxWidth: breakpoints.small.maxWidth });
-  return isMobile ? children : null;
-};
-const Default = ({ children }) => {
-  const isNotMobile = useMediaQuery({ minWidth: breakpoints.medium.minWidth });
-  return isNotMobile ? children : null;
-};
 
 const Hero = ({ intl, text, highlight }) => {
   const alt = intl.formatMessage(messages['hero.image.alt']);
