@@ -1,6 +1,6 @@
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
-  Container, ExtraExtraLarge, ExtraLarge, Image, Large, Medium,
+  Container, Image, useMediaQuery, breakpoints,
 } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -39,25 +39,29 @@ LargeImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
+const Desktop = ({ children }) => {
+  const isDesktop = useMediaQuery({ minWidth: breakpoints.large.minWidth });
+  return isDesktop ? children : null;
+};
+const Tablet = ({ children }) => {
+  const isTablet = useMediaQuery({ minWidth: breakpoints.medium.minWidth, maxWidth: breakpoints.medium.maxWidth });
+  return isTablet ? children : null;
+};
+
 const Hero = ({ intl, text, highlight }) => {
   const alt = intl.formatMessage(messages['hero.image.alt']);
+
   return (
     <section className="hero">
       <Container size="lg" className="hero__content">
         <h1 className="display-1"><Highlighted text={text} highlight={highlight} /></h1>
         <div>
-          <Large>
-            <SmallImage alt={alt} />
-          </Large>
-          <Medium>
-            <SmallImage alt={alt} />
-          </Medium>
-          <ExtraExtraLarge>
+          <Desktop>
             <LargeImage alt={alt} />
-          </ExtraExtraLarge>
-          <ExtraLarge>
+          </Desktop>
+          <Tablet>
             <LargeImage alt={alt} />
-          </ExtraLarge>
+          </Tablet>
         </div>
       </Container>
     </section>
