@@ -71,7 +71,7 @@ const DownloadCsvButton = ({ facets, query }) => {
        )}
       <StatefulButton
         state={buttonState}
-        className="download-button"
+        className="ml-2 download-button"
         labels={{
           default: 'Download results',
           pending: 'Downloading',

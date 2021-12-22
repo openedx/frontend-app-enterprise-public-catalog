@@ -283,8 +283,13 @@ export const BaseCatalogSearchResults = ({
         upcomingRuns={upcomingRuns}
         skillNames={skillNames}
       />
-      { cardViewEnabled && <ViewToggle cardView={cardView} setCardView={setCardView} /> }
       <DataTable
+        dataViewToggleOptions={{
+          isDataViewToggleEnabled: cardViewEnabled,
+          onDataViewToggle: val => setCardView(val === 'card'),
+          togglePlacement: 'left',
+          defaultActiveStateValue: 'card',
+        }}
         columns={columns}
         data={tableData}
         itemCount={searchResults?.nbHits}
@@ -299,7 +304,7 @@ export const BaseCatalogSearchResults = ({
         )}
       >
         <DataTable.TableControlBar />
-        { cardViewEnabled && cardView ? (
+        { cardViewEnabled && cardView && (
           <CardView
             columnSizes={{
               xs: 12,
@@ -310,7 +315,9 @@ export const BaseCatalogSearchResults = ({
             }}
             CardComponent={(props) => <CourseCard {...props} onClick={cardClicked} />}
           />
-        ) : <DataTable.Table /> }
+        )}
+        { !cardView && <DataTable.Table /> }
+
         <DataTable.TableFooter>
           <DataTable.RowStatus />
           <PaginationComponent defaultRefinement={page} />
