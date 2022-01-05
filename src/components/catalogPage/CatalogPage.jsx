@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-// variables taken from algolia not in camelcase
 import React from 'react';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { SearchData, SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise-catalog-search';
@@ -14,11 +12,11 @@ import {
   QUERY_TITLE_REFINEMENT, HIDE_CARDS_REFINEMENT, TRACKING_APP_NAME,
 } from '../../constants';
 
-const content_type = {
+const contentType = {
   attribute: 'content_type',
   title: 'Type',
 };
-SEARCH_FACET_FILTERS.push(content_type);
+SEARCH_FACET_FILTERS.push(contentType);
 
 const CatalogPage = ({ intl }) => {
   const config = getConfig();

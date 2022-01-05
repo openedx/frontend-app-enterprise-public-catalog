@@ -92,6 +92,7 @@
   box-shadow: 0 1px 1px rgba(128, 128, 128, 0.1), 0 1px 1px rgba(128, 128, 128, 0.1), 0 2px 2px rgba(128, 128, 128, 0.1),
     0 2px 2px rgba(128, 128, 128, 0.1);
 }
+
 .cards-course-image {
   height: 100px; 
   object-fit: cover;
@@ -101,14 +102,15 @@
 .cards-title {
   margin: 25px 16px 25px 16px;
 }
+
 .cards-spacing {
   flex-grow: 3;
 }
+
 .cards-body {
   margin: 25px 16px 25px 16px;
 }
 
-// pc - program card
 .program-card {
   background: $primary-500;
   border: 0px;

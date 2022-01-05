@@ -20,7 +20,7 @@ function makePlural(num, string) {
   return (`${num} ${string}`);
 }
 
-const programCard = ({
+const ProgramCard = ({
   intl, onClick, className, original,
 }) => {
   const {
@@ -63,17 +63,17 @@ const programCard = ({
         <div style={{ maxWidth: '400vw' }}>
           {
               enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
-                && <Badge variant="info" className="ml-0 bright padded-catalog">{intl.formatMessage(messages['programCard.aLaCarteBadge'])}</Badge>
+                && <Badge variant="info" className="ml-0 bright padded-catalog">{intl.formatMessage(messages['ProgramCard.aLaCarteBadge'])}</Badge>
             }
           {
               enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
-                && <Badge variant="secondary" className="padded-catalog">{intl.formatMessage(messages['programCard.businessBadge'])}</Badge>
+                && <Badge variant="secondary" className="padded-catalog">{intl.formatMessage(messages['ProgramCard.businessBadge'])}</Badge>
             }
           {
               enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
                 && (
                 <Badge className="padded-catalog" variant="light">
-                  {intl.formatMessage(messages['programCard.educationBadge'])}
+                  {intl.formatMessage(messages['ProgramCard.educationBadge'])}
                 </Badge>
                 )
             }
@@ -84,12 +84,12 @@ const programCard = ({
   );
 };
 
-programCard.defaultProps = {
+ProgramCard.defaultProps = {
   className: '',
   onClick: () => {},
 };
 
-programCard.propTypes = {
+ProgramCard.propTypes = {
   intl: intlShape.isRequired,
   className: PropTypes.string,
   onClick: PropTypes.func,
@@ -103,4 +103,4 @@ programCard.propTypes = {
   }).isRequired,
 };
 
-export default injectIntl(programCard);
+export default injectIntl(ProgramCard);
