@@ -106,8 +106,8 @@ describe('Main Catalogs view works as expected', () => {
       </SearchDataWrapper>,
     );
 
-    // switch to table view instead of card
-    const listViewToggleButton = screen.getByLabelText('List view');
+    // Card view should be default
+    const listViewToggleButton = screen.getByLabelText('Card');
     userEvent.click(listViewToggleButton);
 
     // course 1
@@ -128,8 +128,8 @@ describe('Main Catalogs view works as expected', () => {
     );
 
     // view selection toggle buttons
-    expect(screen.getByLabelText('Card view')).toBeVisible();
-    expect(screen.getByLabelText('List view')).toBeVisible();
+    expect(screen.getByLabelText('Card')).toBeVisible();
+    expect(screen.getByLabelText('List')).toBeVisible();
 
     // since card view feature is on, card view should be the default!
     const table = screen.queryByRole('table');
@@ -206,7 +206,7 @@ describe('Main Catalogs view works as expected', () => {
     );
 
     // switch to table view instead of card
-    const listViewToggleButton = screen.getByLabelText('List view');
+    const listViewToggleButton = screen.getByLabelText('List');
     userEvent.click(listViewToggleButton);
 
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
@@ -227,7 +227,7 @@ describe('Main Catalogs view works as expected', () => {
         />
       </SearchDataWrapper>,
     );
-    const listViewToggleButton = screen.getByLabelText('List view');
+    const listViewToggleButton = screen.getByLabelText('List');
     userEvent.click(listViewToggleButton);
 
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
