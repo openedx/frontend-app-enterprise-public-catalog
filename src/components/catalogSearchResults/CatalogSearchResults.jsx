@@ -23,7 +23,6 @@ import {
 import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
-import { getConfig } from '@edx/frontend-platform';
 import { GridView, ListView } from '@edx/paragon/icons';
 
 import CourseCard from '../courseCard/CourseCard';
@@ -163,10 +162,7 @@ export const BaseCatalogSearchResults = ({
   const [upcomingRuns, setUpcomingRuns] = useState();
   const [skillNames, setSkillNames] = useState([]);
 
-  // TODO: Feature control for Card view. Remove once cards are finalized
-  const config = getConfig();
-  const cardViewEnabled = config.FEATURE_CARD_VIEW_ENABLED === 'True';
-  const [cardView, setCardView] = useState(cardViewEnabled);
+  const [cardView, setCardView] = useState(true);
 
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
@@ -285,7 +281,7 @@ export const BaseCatalogSearchResults = ({
       />
       <DataTable
         dataViewToggleOptions={{
-          isDataViewToggleEnabled: cardViewEnabled,
+          isDataViewToggleEnabled: true,
           onDataViewToggle: val => setCardView(val === 'card'),
           togglePlacement: 'left',
           defaultActiveStateValue: 'card',
@@ -304,7 +300,7 @@ export const BaseCatalogSearchResults = ({
         )}
       >
         <DataTable.TableControlBar />
-        { cardViewEnabled && cardView && (
+        { cardView && (
           <CardView
             columnSizes={{
               xs: 12,
