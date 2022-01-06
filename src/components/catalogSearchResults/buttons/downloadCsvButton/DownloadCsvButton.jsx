@@ -46,7 +46,7 @@ const DownloadCsvButton = ({ facets, query }) => {
     EnterpriseCatalogApiService.fetchContentMetadataWithFacets(facets, query)
       .then(response => {
         // download CSV
-        const blob = new Blob([response.csv_data], {
+        const blob = new Blob([String.fromCharCode(0xFEFF), response.csv_data], {
           type: 'text/plain;charset=utf-8',
         });
         saveAs(blob, getCsvFileName(facets.enterprise_catalog_query_titles[0]), { autoBom: true });
