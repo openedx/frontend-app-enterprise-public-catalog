@@ -47,7 +47,7 @@ const DownloadCsvButton = ({ facets, query }) => {
       .then(response => {
         // download CSV
         const blob = new Blob([response.csv_data], {
-          type: 'text/csv',
+          type: 'text/plain;charset=utf-8',
         });
         saveAs(blob, getCsvFileName(facets.enterprise_catalog_query_titles[0]));
         formatFilterText(facets);
