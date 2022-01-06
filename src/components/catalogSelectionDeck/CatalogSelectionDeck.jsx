@@ -15,7 +15,7 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
   const config = getConfig();
   return (
     <section className="catalog-selection-deck" style={{ display: hide ? 'none' : 'block' }}>
-      <Container size="lg">
+      <Container className="page-width">
         <h2>{title}</h2>
         <CardDeck>
           <CatalogSelectionCard

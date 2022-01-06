@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, {
   useContext,
   useMemo,
@@ -26,6 +25,7 @@ import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/
 import { GridView, ListView } from '@edx/paragon/icons';
 
 import CourseCard from '../courseCard/CourseCard';
+
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import DownloadCsvButton from './buttons/downloadCsvButton/DownloadCsvButton';
 import messages from './CatalogSearchResults.messages';
@@ -306,7 +306,7 @@ export const BaseCatalogSearchResults = ({
               xs: 12,
               sm: 6,
               md: 4,
-              lg: 3,
+              lg: 4,
               xl: 3,
             }}
             CardComponent={(props) => <CourseCard {...props} onClick={cardClicked} />}

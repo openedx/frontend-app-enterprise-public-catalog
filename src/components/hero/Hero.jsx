@@ -53,7 +53,7 @@ const Hero = ({ intl, text, highlight }) => {
 
   return (
     <section className="hero">
-      <Container size="lg" className="hero__content">
+      <Container className="page-width hero__content">
         <h1 className="display-1"><Highlighted text={text} highlight={highlight} /></h1>
         <div>
           <Desktop>

@@ -40,6 +40,7 @@ initialize({
         EDX_FOR_ONLINE_EDU_TITLE: process.env.EDX_FOR_ONLINE_EDU_TITLE || null,
         EDX_ENTERPRISE_ALACARTE_TITLE: process.env.EDX_ENTERPRISE_ALACARTE_TITLE || null,
         FEATURE_CARD_VIEW_ENABLED: process.env.FEATURE_CARD_VIEW_ENABLED || false,
+        FEATURE_PROGRAM_TYPE_FACET: process.env.FEATURE_PROGRAM_TYPE_FACET || false,
       });
     },
     auth: () => {},
