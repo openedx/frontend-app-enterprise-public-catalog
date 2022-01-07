@@ -15,7 +15,7 @@ export default function EnterpriseCatalogs() {
 
   return (
     <>
-      <PageWrapper className="enterprise-catalogs page-width">
+      <PageWrapper className="mt-3 mb-5 page-width">
         <section>
           <FormattedMessage
             id="catalogs.enterpriseCatalogs.header"
