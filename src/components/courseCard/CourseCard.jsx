@@ -33,12 +33,12 @@ const CourseCard = ({
         alt={title}
       />
       <Image className="mr-2 cards-partner-logo" src={partners[0].logo_image_url} rounded />
-      <div className="cards-title">
+      <div className="mx-3 my-4">
         <p className="h4">{title}</p>
         <p className="small">{ partners[0].name }</p>
       </div>
       <span className="cards-spacing" />
-      <div className="cards-body">
+      <div className="mx-3 my-4">
         <p className="x-small mb-3">{ priceText } • {availability[0]}</p>
 
         <div style={{ maxWidth: '400vw' }}>

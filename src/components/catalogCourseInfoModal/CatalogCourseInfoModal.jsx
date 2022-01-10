@@ -15,7 +15,7 @@ import messages from './CatalogCourseInfoModal.messages';
 import CatalogCourseModalBanner from '../catalogCourseModalBanner/CatalogCourseModalBanner';
 
 const SkillsListing = ({ skillNames }) => (
-  <ul className="ms-0 course-info-skills-list">
+  <ul className="mx-2 course-info-skills-list">
     {skillNames.slice(0, 5).map(s => <li key={`skill-name-${s}`}>{s}</li>)}
   </ul>
 );
@@ -53,16 +53,16 @@ const CatalogCourseInfoModal = ({
         isFullscreenOnMobile
         className="course-info-modal"
       >
-        <ModalDialog.Body className="full-body">
+        <ModalDialog.Body className="full-body p-0">
           <ModalDialog.Hero>
             <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
           </ModalDialog.Hero>
           <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
           <div className="padded-body">
-            <ModalDialog.Title as="h1" className="course-info-title">
+            <ModalDialog.Title className="h1 course-info-title">
               {courseTitle}
             </ModalDialog.Title>
-            <ModalDialog.Title as="h6" className="course-info-partner">
+            <ModalDialog.Title className="h2 course-info-partner">
               {courseProvider}
             </ModalDialog.Title>
             <CatalogCourseModalBanner
@@ -72,14 +72,16 @@ const CatalogCourseInfoModal = ({
               endDate={endDate}
               upcomingRuns={upcomingRuns}
             />
-            <p className="course-info-description-title">
+            <p className="h3">
               {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
             </p>
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
             {(skillNames.length > 0) && (
-            <div className="course-info-skills px-2 pb-1 pt-2">
-              <h4>{intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}</h4>
+            <div className="course-info-skills px-2 py-1">
+              <h4 className="mx-2 my-3">
+                {intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}
+              </h4>
               <SkillsListing skillNames={skillNames} />
             </div>
             )}

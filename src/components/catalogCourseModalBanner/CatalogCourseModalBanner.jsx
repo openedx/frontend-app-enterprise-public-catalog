@@ -58,36 +58,36 @@ const CatalogCourseModalBanner = ({
   endDate,
   upcomingRuns,
 }) => (
-  <div className="banner">
-    <div className="banner-section">
-      <div className="banner-title">
-        <Icon src={MoneyOutline} />
+  <div className="my-4.5 d-flex">
+    <div className="banner-section mx-3">
+      <div className="d-flex h4 mb-0">
+        <Icon className="mr-1" src={MoneyOutline} />
         {coursePrice}
       </div>
-      <div className="banner-subtitle">
+      <div className="banner-subtitle small">
         {intl.formatMessage(messages['CatalogCourseModalBanner.bannerPriceText'])}
       </div>
 
     </div>
     <div className="banner-section slash">/</div>
     {checkSubscriptions(courseAssociatedCatalogs) && (
-      <div className="banner-section">
-        <div className="banner-title">
-          <Icon src={BookOpen} />
+      <div className="banner-section mx-3">
+        <div className="d-flex h4 mb-0">
+          <Icon className="mr-1" src={BookOpen} />
           {intl.formatMessage(messages['CatalogCourseModalBanner.bannerCatalogText'])}
         </div>
-        <div className="banner-subtitle">{checkSubscriptions(courseAssociatedCatalogs)}</div>
+        <div className="banner-subtitle small">{checkSubscriptions(courseAssociatedCatalogs)}</div>
       </div>
     )}
     {checkSubscriptions(courseAssociatedCatalogs) && (
       <div className="banner-section slash">/</div>
     )}
-    <div className="banner-section">
-      <div className="banner-title">
-        <Icon src={EventNote} />
+    <div className="banner-section mx-3">
+      <div className="d-flex h4 mb-0">
+        <Icon className="mr-1" src={EventNote} />
         {checkAvailability(startDate, endDate)}
       </div>
-      <div className="banner-subtitle">{availabilitySubtitle(startDate, endDate, upcomingRuns)} </div>
+      <div className="banner-subtitle small">{availabilitySubtitle(startDate, endDate, upcomingRuns)} </div>
     </div>
   </div>
 
