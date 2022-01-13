@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import algoliasearch from 'algoliasearch/lite';
 
@@ -21,7 +21,15 @@ const useMarketingSite = () => {
   return config.HUBSPOT_MARKETING_URL;
 };
 
+const useSelectedCourse = () => {
+  const [course, setCourse] = useState(null);
+  const isProgram = useMemo(() => course && course.programTitle !== undefined, [course]);
+  const isCourse = useMemo(() => (course && course.courseTitle !== undefined), [course]);
+  return [course, setCourse, isProgram, isCourse];
+};
+
 export {
   useAlgoliaIndex,
   useMarketingSite,
+  useSelectedCourse,
 };

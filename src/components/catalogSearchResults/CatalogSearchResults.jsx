@@ -6,7 +6,6 @@ import React, {
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import Skeleton from 'react-loading-skeleton';
-import classNames from 'classnames';
 import queryString from 'query-string';
 
 import {
@@ -17,7 +16,7 @@ import {
 } from '@edx/frontend-enterprise-catalog-search';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
-import { GridView, ListView } from '@edx/paragon/icons';
+import ProgramCard from '../programCard/ProgramCard';
 
 import CourseCard from '../courseCard/CourseCard';
 import ProgramCard from '../programCard/ProgramCard';
@@ -36,40 +35,6 @@ import { formatDate, makePlural } from '../../utils';
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 
 export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
-
-// TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
-const ViewToggle = ({ cardView, setCardView }) => {
-  // TODO: This class switch to 'hover' is a hack to try and use the hover style
-  //       once the item is selected. However, the correct implementation would need to come
-  //       from IconButton. Once IconButton is updated, just update this to use the correct style variation
-  const selectedClassCardView = cardView ? 'hover' : '';
-  const selectedClassListView = !cardView ? 'hover' : '';
-  return (
-    <div className="float-right pt-1">
-      <IconButton
-        src={GridView}
-        iconAs={Icon}
-        alt="Card view"
-        onClick={() => { setCardView(true); }}
-        variant="dark"
-        className={classNames('mr-2', selectedClassCardView)}
-      />
-      <IconButton
-        src={ListView}
-        iconAs={Icon}
-        alt="List view"
-        onClick={() => { setCardView(false); }}
-        variant="dark"
-        className={classNames('mr-2', selectedClassListView)}
-      />
-    </div>
-  );
-};
-
-ViewToggle.propTypes = {
-  cardView: PropTypes.bool.isRequired,
-  setCardView: PropTypes.func.isRequired,
-};
 
 /**
  * The core search results rendering component.
@@ -98,6 +63,8 @@ export const BaseCatalogSearchResults = ({
   setNoPrograms,
   preview,
 }) => {
+  const isProgramType = true; // TODO How do we determine this?
+
   const TABLE_HEADERS = {
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
     partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
@@ -139,18 +106,7 @@ export const BaseCatalogSearchResults = ({
 
   const [isOpen, open, close] = useToggle(false);
 
-  const [title, setTitle] = useState();
-  const [provider, setProvider] = useState();
-  const [price, setPrice] = useState();
-  const [description, setDescription] = useState();
-  const [partnerLogoImageUrl, setPartnerLogoImageUrl] = useState();
-  const [bannerImageUrl, setBannerImageUrl] = useState();
-  const [associatedCatalogs, setAssociatedCatalogs] = useState();
-  const [marketingUrl, setMarketingUrl] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [upcomingRuns, setUpcomingRuns] = useState();
-  const [skillNames, setSkillNames] = useState([]);
+  const [selectedCourse, setSelectedCourse, isProgram, isCourse] = useSelectedCourse();
 
   const [cardView, setCardView] = useState(true);
 
@@ -159,19 +115,19 @@ export const BaseCatalogSearchResults = ({
     const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
       messages['catalogSearchResult.table.priceNotAvailable'],
     );
-    setPrice(priceText);
-    setAssociatedCatalogs(row.original.enterprise_catalog_query_titles);
-    setTitle(row.values.title);
-    setProvider(row.values['partners[0].name']);
-    setPartnerLogoImageUrl(row.original.partners[0].logo_image_url);
-    setDescription(row.original.full_description);
-    setBannerImageUrl(row.original.original_image_url);
-    setMarketingUrl(row.original.marketing_url);
-    setStartDate(row.original.advertised_course_run.start);
-    setEndDate(row.original.advertised_course_run.end);
-    setUpcomingRuns(row.original.upcoming_course_runs);
-    setSkillNames(row.original.skill_names);
-    open();
+    if (isProgramType) {
+      setSelectedCourse({
+        programTitle: row.values.title,
+        programProvider: row.values['partners[0].name'],
+      });
+    } else {
+      setSelectedCourse({
+        ...row.original,
+        price: priceText,
+        title: row.values.title,
+        provider: row.values['partners[0].name'],
+      });
+    }
   };
 
   const cardClicked = (card) => {
@@ -179,19 +135,14 @@ export const BaseCatalogSearchResults = ({
     const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
       messages['catalogSearchResult.table.priceNotAvailable'],
     );
-    setPrice(priceText);
-    setAssociatedCatalogs(card.enterprise_catalog_query_titles);
-    setTitle(card.title);
-    setProvider(card.partners[0].name);
-    setPartnerLogoImageUrl(card.partners[0].logo_image_url);
-    setDescription(card.full_description);
-    setBannerImageUrl(card.original_image_url);
-    setMarketingUrl(card.marketing_url);
-    setStartDate(card.advertised_course_run.start);
-    setEndDate(card.advertised_course_run.end);
-    setUpcomingRuns(card.upcoming_course_runs);
-    setSkillNames(card.skill_names);
-    open();
+    if (isProgramType) {
+      setSelectedCourse({
+        programTitle: card.title,
+        programProvider: card.partner,
+      });
+    } else {
+      setSelectedCourse({ ...card, price: priceText });
+    }
   };
 
   const refinementClick = (content) => {
@@ -351,24 +302,22 @@ export const BaseCatalogSearchResults = ({
   const inputQuery = query.q;
   return (
     <>
-      <CatalogCourseInfoModal
-        isOpen={isOpen}
-        onClose={close}
-        courseTitle={title}
-        courseProvider={provider}
-        coursePrice={price}
-        courseDescription={description}
-        partnerLogoImageUrl={partnerLogoImageUrl}
-        setBannerImageUrl={setBannerImageUrl}
-        bannerImageUrl={bannerImageUrl}
-        courseAssociatedCatalogs={associatedCatalogs}
-        marketingUrl={marketingUrl}
-        startDate={startDate}
-        endDate={endDate}
-        upcomingRuns={upcomingRuns}
-        skillNames={skillNames}
-      />
-      {preview && contentType === CONTENT_TYPE_COURSE && (searchResults?.nbHits !== 0) && (
+      { isCourseType && (
+        <CatalogCourseInfoModal
+          isOpen={isCourse}
+          onClose={() => setSelectedCourse(null)}
+          selectedCourse={selectedCourse}
+        />
+        )}
+        { isProgramType && (
+        <CatalogCourseInfoModal
+          isOpen={isProgram}
+          onClose={() => setSelectedCourse(null)}
+          selectedProgram={selectedCourse}
+          renderProgram
+        />
+      )}
+      {preview && isCourseType && (searchResults?.nbHits !== 0) && (
         <span className="landing-page-download">
           <DownloadCsvButton
             facets={searchResults?.disjunctiveFacetsRefinements}
