@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { SearchData, SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise-catalog-search';
 import { getConfig } from '@edx/frontend-platform';
-import { EnterpriseCatalogs } from '../catalogs';
+import { CatalogSearch } from '../catalogs';
 import Subheader from '../subheader/subheader';
 import Hero from '../hero/Hero';
 import messages from './CatalogPage.messages';
@@ -57,7 +57,7 @@ const CatalogPage = ({ intl }) => {
         <span>
           <FormattedMessage
             id="catalogPage.subtitle.text"
-            defaultMessage="edX makes it easy to find the subjects, skills, programs, and course to meet your your learning needs. Work with our content experts to create a customized catalog for your organization from any of our 3,000+ courses. Or, choose our subscription catalog for ease, flexibility, and scalability at a single, per-learner price. "
+            defaultMessage="edX makes it easy to find the subjects, skills, programs, and courses to meet your learning needs. Work with our content experts to create a customized catalog for your organization from any of our 3,000+ courses. Or, choose our subscription catalog for ease, flexibility, and scalability at a single, per-learner price. "
             description="Description of the catalog contents and navigation to other edX pages."
           />
         </span>
@@ -69,7 +69,7 @@ const CatalogPage = ({ intl }) => {
       }
       >
         <CatalogSelectionDeck hide={hideCards} title={intl.formatMessage(messages['catalogPage.catalogSelectionDeck.title'])} />
-        <EnterpriseCatalogs />
+        <CatalogSearch />
       </SearchData>
     </main>
   );

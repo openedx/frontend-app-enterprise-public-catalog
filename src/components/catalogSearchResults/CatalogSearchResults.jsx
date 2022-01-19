@@ -10,26 +10,25 @@ import classNames from 'classnames';
 import queryString from 'query-string';
 
 import {
-  Alert,
-  Badge,
-  Button,
-  CardView,
-  DataTable,
-  Icon,
-  IconButton,
-  useToggle,
+  Alert, Badge, Button, CardView, DataTable, Icon, IconButton, useToggle,
 } from '@edx/paragon';
-import { SearchContext, SearchPagination } from '@edx/frontend-enterprise-catalog-search';
+import {
+  SearchContext, SearchPagination, setRefinementAction, useNbHitsFromSearchResults,
+} from '@edx/frontend-enterprise-catalog-search';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { GridView, ListView } from '@edx/paragon/icons';
 
 import CourseCard from '../courseCard/CourseCard';
+import ProgramCard from '../programCard/ProgramCard';
 
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import DownloadCsvButton from './buttons/downloadCsvButton/DownloadCsvButton';
 import messages from './CatalogSearchResults.messages';
-import { HIDE_PRICE_REFINEMENT } from '../../constants';
+import {
+  CONTENT_TYPE_REFINEMENT, CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM,
+  COURSE_TITLE, HIDE_PRICE_REFINEMENT, PROGRAM_TITLE,
+} from '../../constants';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 export const NO_DATA_MESSAGE = 'There are no course results';
@@ -92,6 +91,7 @@ ViewToggle.propTypes = {
  * @param {object} args.searchState contents of search state, like `page` (see: `connectStateResults``)
  * @param {object} args.error Error with `message` field if available (see: `connectStateResults``)
  * @param {object} args.paginationComponent Defaults to <SearchPagination> but can be injected
+ * @param {object} args.contentType Whether the search is for courses or programs
  */
 export const BaseCatalogSearchResults = ({
   intl,
@@ -101,6 +101,8 @@ export const BaseCatalogSearchResults = ({
   searchState,
   error,
   paginationComponent: PaginationComponent,
+  contentType,
+  preview,
 }) => {
   const TABLE_HEADERS = {
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
@@ -108,6 +110,9 @@ export const BaseCatalogSearchResults = ({
     price: intl.formatMessage(messages['catalogSearchResults.table.price']),
     availability: intl.formatMessage(messages['catalogSearchResults.table.availability']),
     catalogs: intl.formatMessage(messages['catalogSearchResults.table.catalogs']),
+    programName: intl.formatMessage(messages['catalogSearchResults.table.programName']),
+    numCourses: intl.formatMessage(messages['catalogSearchResults.table.numCourses']),
+    programType: intl.formatMessage(messages['catalogSearchResults.table.programType']),
   };
 
   if (isSearchStalled) {
@@ -146,7 +151,9 @@ export const BaseCatalogSearchResults = ({
     );
   }
 
-  const { refinements } = useContext(SearchContext);
+  const { refinements, dispatch } = useContext(SearchContext);
+  const nbHits = useNbHitsFromSearchResults(searchResults);
+  const linkText = `Show (${nbHits}) >`;
   const [isOpen, open, close] = useToggle(false);
 
   const [title, setTitle] = useState();
@@ -204,9 +211,22 @@ export const BaseCatalogSearchResults = ({
     open();
   };
 
+  const refinementClick = (content) => {
+    if (content === CONTENT_TYPE_COURSE) {
+      dispatch(setRefinementAction(CONTENT_TYPE_REFINEMENT, [CONTENT_TYPE_COURSE]));
+    } else {
+      dispatch(setRefinementAction(CONTENT_TYPE_REFINEMENT, [CONTENT_TYPE_PROGRAM]));
+    }
+  };
+
+  function cardType(props) {
+    if (contentType === CONTENT_TYPE_COURSE) { return <CourseCard {...props} onClick={cardClicked} />; }
+    return <ProgramCard {...props} onClick={cardClicked} />;
+  }
+
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
-  const columns = useMemo(() => [
+  const courseColumns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
@@ -246,6 +266,57 @@ export const BaseCatalogSearchResults = ({
       ),
     },
   ], []);
+
+  const programColumns = useMemo(() => [
+    {
+      Header: TABLE_HEADERS.programName,
+      accessor: 'title',
+      Cell: ({ row }) => (
+        <Button className="catalog-search-result-column-title" variant="link" onClick={() => rowClicked(row)}>
+          {row.values.title}
+        </Button>
+      ),
+    },
+    {
+      Header: TABLE_HEADERS.partner,
+      accessor: 'authoring_organizations[0].name',
+    },
+    {
+      Header: TABLE_HEADERS.numCourses,
+      accessor: 'course_keys',
+      Cell: ({ row }) => (row.values.course_keys.length > 0 ? `${row.values.course_keys.length}` : 'Available upon request'),
+    },
+    {
+      Header: TABLE_HEADERS.programType,
+      accessor: 'program_type',
+    },
+
+    // TODO: Badges commented out until Algolia bug is resolved ENT-5338)
+    // {
+    //   Header: TABLE_HEADERS.catalogs,
+    //   accessor: 'enterprise_catalog_query_titles',
+    //   Cell: ({ row }) => (
+    //     <div style={{ maxWidth: '400vw' }}>
+    //       {
+    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
+    //           && <Badge variant="dark" className="padded-catalog">{
+    //             intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}</Badge>
+    //       }
+    //       {
+    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
+    //           && <Badge variant="secondary" className="business-catalog padded-catalog">{
+    //             intl.formatMessage(messages['catalogSearchResults.businessBadge'])}</Badge>
+    //       }
+    //       {
+    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
+    //           && <Badge variant="light" className="padded-catalog">{
+    //             intl.formatMessage(messages['catalogSearchResults.educationBadge'])}</Badge>
+    //       }
+    //     </div>
+    //   ),
+    // },
+  ], []);
+
   const availabilityColumn = {
     Header: TABLE_HEADERS.availability,
     accessor: 'advertised_course_run',
@@ -255,10 +326,18 @@ export const BaseCatalogSearchResults = ({
   // substituting the price column with the availability dates per customer request ENT-5041
   const page = refinements.page || (searchState ? searchState.page : 0);
   if (HIDE_PRICE_REFINEMENT in refinements) {
-    columns[2] = availabilityColumn;
+    courseColumns[2] = availabilityColumn;
   }
   const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   const query = queryString.parse(window.location.search.substring(1));
+  const toggleOptions = preview ? {} : {
+    isDataViewToggleEnabled: true,
+    onDataViewToggle: val => setCardView(val === 'card'),
+    togglePlacement: 'left',
+    defaultActiveStateValue: 'card',
+  };
+  const contentTitle = (contentType === CONTENT_TYPE_COURSE) ? COURSE_TITLE : PROGRAM_TITLE;
+
   const inputQuery = query.q;
   return (
     <>
@@ -279,25 +358,36 @@ export const BaseCatalogSearchResults = ({
         upcomingRuns={upcomingRuns}
         skillNames={skillNames}
       />
+      {preview && contentType === CONTENT_TYPE_COURSE && (
+        <span className="landing-page-download">
+          <DownloadCsvButton
+            facets={searchResults?.disjunctiveFacetsRefinements}
+            query={inputQuery}
+          />
+        </span>
+      )}
+      <div className="clearfix" />
+      {preview && (
+      <div className="preview-title">
+        <p className="h2 mt-4">{contentTitle}</p>
+        <Button variant="link" onClick={() => refinementClick(contentType)}>{linkText}</Button>
+      </div>
+      )}
       <DataTable
-        dataViewToggleOptions={{
-          isDataViewToggleEnabled: true,
-          onDataViewToggle: val => setCardView(val === 'card'),
-          togglePlacement: 'left',
-          defaultActiveStateValue: 'card',
-        }}
-        columns={columns}
+        isSortable
+        dataViewToggleOptions={toggleOptions}
+        columns={contentType === CONTENT_TYPE_COURSE ? courseColumns : programColumns}
         data={tableData}
         itemCount={searchResults?.nbHits}
         pageCount={searchResults?.nbPages || 1}
         pageSize={searchResults?.hitsPerPage || 0}
-
-        // eslint-disable-next-line no-unused-vars
-        tableActions={(i) => (
-          // Algolia returns a list of applied filters under the search result's `_state` value
+        tableActions={() => {
+          if (preview) {
+            return null;
+          }
           // eslint-disable-next-line no-underscore-dangle
-          <DownloadCsvButton facets={searchResults._state.disjunctiveFacetsRefinements} query={inputQuery} />
-        )}
+          return <DownloadCsvButton facets={searchResults?._state.disjunctiveFacetsRefinements} query={inputQuery} />;
+        }}
       >
         <DataTable.TableControlBar />
         { cardView && (
@@ -309,25 +399,28 @@ export const BaseCatalogSearchResults = ({
               lg: 4,
               xl: 3,
             }}
-            CardComponent={(props) => <CourseCard {...props} onClick={cardClicked} />}
+            CardComponent={(props) => cardType(props)}
           />
         )}
         { !cardView && <DataTable.Table /> }
 
+        {!preview && (
         <DataTable.TableFooter>
           <DataTable.RowStatus />
           <PaginationComponent defaultRefinement={page} />
         </DataTable.TableFooter>
+        ) }
       </DataTable>
     </>
   );
 };
 
 BaseCatalogSearchResults.defaultProps = {
-  searchResults: { nbHits: 0, hits: [] },
+  searchResults: { disjunctiveFacetsRefinements: [], nbHits: 0, hits: [] },
   error: null,
   paginationComponent: SearchPagination,
   row: null,
+  preview: false,
 };
 
 BaseCatalogSearchResults.propTypes = {
@@ -337,6 +430,7 @@ BaseCatalogSearchResults.propTypes = {
     _state: PropTypes.shape({
       disjunctiveFacetsRefinements: PropTypes.shape({}),
     }),
+    disjunctiveFacetsRefinements: PropTypes.shape({}),
     nbHits: PropTypes.number,
     hits: PropTypes.arrayOf(PropTypes.shape({})),
     nbPages: PropTypes.number,
@@ -353,6 +447,8 @@ BaseCatalogSearchResults.propTypes = {
   paginationComponent: PropTypes.func,
   // eslint-disable-next-line react/no-unused-prop-types
   row: PropTypes.string,
+  contentType: PropTypes.string.isRequired,
+  preview: PropTypes.bool,
 };
 
 export default connectStateResults(injectIntl(BaseCatalogSearchResults));

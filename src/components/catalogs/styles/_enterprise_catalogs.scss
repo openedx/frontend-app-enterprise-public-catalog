@@ -27,6 +27,16 @@
   height: 300px !important;
 }
 
+.landing-page-download {
+  float: right;
+}
+
+.preview-title {
+  justify-content: space-between;
+  display: flex;
+  clear: right;
+}
+
 .partner-logo-thumbnail {
   position: absolute;
   z-index: 1;
@@ -73,6 +83,9 @@
   background: $primary-500;
   border: 0px;
   color: $white;
+  .h4 {
+    color: $white;
+  }
 }
 
 .banner-section {
