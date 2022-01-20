@@ -24,105 +24,120 @@ SkillsListing.propTypes = {
   skillNames: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-const CatalogCourseInfoModal = ({
-  intl,
-  isOpen,
-  onClose,
-  selectedCourse,
-  selectedProgram,
-  renderProgram,
+const CourseModal = ({
+  intl, isOpen, onClose, selectedCourse,
 }) => {
-  if (!selectedCourse && !renderProgram) { return null; }
-  if (!selectedProgram && renderProgram) { return null; }
-  if (!renderProgram) {
-    const {
-      courseTitle,
-      courseProvider,
-      coursePrice,
-      courseAssociatedCatalogs,
-      courseDescription,
-      partnerLogoImageUrl,
-      bannerImageUrl,
-      marketingUrl,
-      startDate,
-      endDate,
-      upcomingRuns,
-      skillNames,
-    } = selectedCourse;
+  const {
+    courseTitle,
+    courseProvider,
+    coursePrice,
+    courseAssociatedCatalogs,
+    courseDescription,
+    partnerLogoImageUrl,
+    bannerImageUrl,
+    marketingUrl,
+    startDate,
+    endDate,
+    upcomingRuns,
+    skillNames,
+  } = selectedCourse;
 
-    return (
-      <>
-        <div>
-          <ModalDialog
-            title="Course Info Dialog"
-            isOpen={isOpen}
-            onClose={onClose}
-            size="xl"
-            hasCloseButton
-            isFullscreenOnMobile
-            className="course-info-modal"
-          >
-            <ModalDialog.Body className="full-body p-0">
-              <ModalDialog.Hero>
-                <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
-              </ModalDialog.Hero>
-              <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
-              <div className="padded-body">
-                <ModalDialog.Title className="h1 course-info-title">
-                  {courseTitle}
-                </ModalDialog.Title>
-                <ModalDialog.Title className="h2 course-info-partner">
-                  {courseProvider}
-                </ModalDialog.Title>
-                <CatalogCourseModalBanner
-                  coursePrice={coursePrice}
-                  courseAssociatedCatalogs={courseAssociatedCatalogs}
-                  startDate={startDate}
-                  endDate={endDate}
-                  upcomingRuns={upcomingRuns}
-                />
-                <p className="h3">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
-                </p>
-                {/* eslint-disable-next-line react/no-danger */}
-                <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
-                {(skillNames.length > 0) && (
-                <div className="course-info-skills px-2 py-1">
-                  <h4 className="mx-2 my-3">
-                    {intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}
-                  </h4>
-                  <SkillsListing skillNames={skillNames} />
-                </div>
-                )}
+  return (
+    <>
+      <div>
+        <ModalDialog
+          title="Course Info Dialog"
+          isOpen={isOpen}
+          onClose={onClose}
+          size="xl"
+          hasCloseButton
+          isFullscreenOnMobile
+          className="course-info-modal"
+        >
+          <ModalDialog.Body className="full-body p-0">
+            <ModalDialog.Hero>
+              <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
+            </ModalDialog.Hero>
+            <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
+            <div className="padded-body">
+              <ModalDialog.Title className="h1 course-info-title">
+                {courseTitle}
+              </ModalDialog.Title>
+              <ModalDialog.Title className="h2 course-info-partner">
+                {courseProvider}
+              </ModalDialog.Title>
+              <CatalogCourseModalBanner
+                coursePrice={coursePrice}
+                courseAssociatedCatalogs={courseAssociatedCatalogs}
+                startDate={startDate}
+                endDate={endDate}
+                upcomingRuns={upcomingRuns}
+              />
+              <p className="h3">
+                {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
+              </p>
+              {/* eslint-disable-next-line react/no-danger */}
+              <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
+              {(skillNames.length > 0) && (
+              <div className="course-info-skills px-2 py-1">
+                <h4 className="mx-2 my-3">
+                  {intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}
+                </h4>
+                <SkillsListing skillNames={skillNames} />
               </div>
-            </ModalDialog.Body>
+              )}
+            </div>
+          </ModalDialog.Body>
 
-            <ModalDialog.Footer>
-              <ActionRow>
-                <Hyperlink
-                  showLaunchIcon={false}
-                  varient="muted"
-                  destination={marketingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button className="course-info-footer-button" variant="outline-primary">
-                    {intl.formatMessage(messages['catalogCourseInfoModal.moreInfoButton'])}
-                    {/* Paragon Button's `iconAfter` throws errors so the icon is manually added */}
-                    <Icon className="btn-icon-after" src={Launch} />
-                  </Button>
-                </Hyperlink>
-                <ModalDialog.CloseButton className="course-info-footer-button" variant="dark">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.closeButton'])}
-                </ModalDialog.CloseButton>
-              </ActionRow>
-            </ModalDialog.Footer>
-          </ModalDialog>
-        </div>
-      </>
-    );
-  }
+          <ModalDialog.Footer>
+            <ActionRow>
+              <Hyperlink
+                showLaunchIcon={false}
+                varient="muted"
+                destination={marketingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button className="course-info-footer-button" variant="outline-primary">
+                  {intl.formatMessage(messages['catalogCourseInfoModal.moreInfoButton'])}
+                  {/* Paragon Button's `iconAfter` throws errors so the icon is manually added */}
+                  <Icon className="btn-icon-after" src={Launch} />
+                </Button>
+              </Hyperlink>
+              <ModalDialog.CloseButton className="course-info-footer-button" variant="dark">
+                {intl.formatMessage(messages['catalogCourseInfoModal.closeButton'])}
+              </ModalDialog.CloseButton>
+            </ActionRow>
+          </ModalDialog.Footer>
+        </ModalDialog>
+      </div>
+    </>
+  );
+};
 
+CourseModal.propTypes = {
+  intl: intlShape.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  selectedCourse: PropTypes.shape({
+    courseTitle: PropTypes.string,
+    courseProvider: PropTypes.string,
+    coursePrice: PropTypes.string,
+    courseAssociatedCatalogs: PropTypes.arrayOf(PropTypes.string),
+    courseDescription: PropTypes.string,
+    partnerLogoImageUrl: PropTypes.string,
+    bannerImageUrl: PropTypes.string,
+    marketingUrl: PropTypes.string,
+    startDate: PropTypes.string,
+    endDate: PropTypes.string,
+    upcomingRuns: PropTypes.number,
+    skillNames: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+};
+
+const ProgramModal = ({
+  intl, isOpen, onClose, selectedProgram,
+}) => {
   /**
    * aggregation_key: "program:3cd8108c-a881-47fd-84ae-74d82ccc38a8"
 authoring_organizations: [{uuid: "4f8cb2c9-589b-4d1e-88c1-b01a02db3a9c", key: "edx", name: "edX",…}]
@@ -176,25 +191,25 @@ type: "XSeries"
                 {programProvider}
               </ModalDialog.Title>
               {/* <CatalogCourseModalBanner
-                coursePrice={coursePrice}
-                courseAssociatedCatalogs={courseAssociatedCatalogs}
-                startDate={startDate}
-                endDate={endDate}
-                upcomingRuns={upcomingRuns}
-              /> */}
+              coursePrice={coursePrice}
+              courseAssociatedCatalogs={courseAssociatedCatalogs}
+              startDate={startDate}
+              endDate={endDate}
+              upcomingRuns={upcomingRuns}
+            /> */}
               <p className="h3">
                 {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
               </p>
               {/* eslint-disable-next-line react/no-danger */}
               {/* <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
-              {(skillNames.length > 0) && (
-                <div className="course-info-skills px-2 py-1">
-                  <h4 className="mx-2 my-3">
-                    {intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}
-                  </h4>
-                  <SkillsListing skillNames={skillNames} />
-                </div>
-              )} */}
+            {(skillNames.length > 0) && (
+              <div className="course-info-skills px-2 py-1">
+                <h4 className="mx-2 my-3">
+                  {intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}
+                </h4>
+                <SkillsListing skillNames={skillNames} />
+              </div>
+            )} */}
             </div>
           </ModalDialog.Body>
 
@@ -224,27 +239,38 @@ type: "XSeries"
   );
 };
 
+ProgramModal.propTypes = {
+  intl: intlShape.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  selectedProgram: PropTypes.shape({
+    programTitle: PropTypes.string,
+    programProvider: PropTypes.string,
+  }).isRequired,
+};
+
+const CatalogCourseInfoModal = ({
+  intl,
+  isOpen,
+  onClose,
+  selectedCourse,
+  selectedProgram,
+  renderProgram,
+}) => {
+  if (!selectedCourse && !renderProgram) { return null; }
+  if (!selectedProgram && renderProgram) { return null; }
+  if (!renderProgram) {
+    return <CourseModal selectedCourse={selectedCourse} intl={intl} isOpen={isOpen} onClose={onClose} />;
+  }
+
+  return <ProgramModal selectedProgram={selectedProgram} intl={intl} isOpen={isOpen} onClose={onClose} />;
+};
+
 CatalogCourseInfoModal.defaultProps = {
   isOpen: false,
   renderProgram: false,
-  selectedCourse: {
-    courseTitle: '',
-    courseProvider: '',
-    coursePrice: '0',
-    courseAssociatedCatalogs: [],
-    courseDescription: '',
-    partnerLogoImageUrl: '',
-    bannerImageUrl: '',
-    marketingUrl: '',
-    startDate: '',
-    endDate: '',
-    upcomingRuns: 0,
-    skillNames: [],
-  },
-  selectedProgram: {
-    programTitle: '',
-    programProvider: '',
-  },
+  selectedCourse: {},
+  selectedProgram: {},
   onClose: () => {},
 };
 
