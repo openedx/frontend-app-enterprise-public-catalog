@@ -110,6 +110,9 @@ export const BaseCatalogSearchResults = ({
 
   const [cardView, setCardView] = useState(true);
 
+  // TODO this is very naive, and needs a bit of defensiveness
+  const extractUuid = aggregationKey => aggregationKey.split(':')[1];
+
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
     const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
@@ -117,6 +120,7 @@ export const BaseCatalogSearchResults = ({
     );
     if (isProgramType) {
       setSelectedCourse({
+        programUuid: extractUuid(row.values.aggregation_key),
         programTitle: row.values.title,
         programProvider: row.values['partners[0].name'],
         programSubtitles: row.values.subtitle,
@@ -138,6 +142,7 @@ export const BaseCatalogSearchResults = ({
     );
     if (isProgramType) {
       setSelectedCourse({
+        programUuid: extractUuid(card.aggregation_key),
         programTitle: card.title,
         programProvider: card.partner,
         programSubtitles: card.subtitle,

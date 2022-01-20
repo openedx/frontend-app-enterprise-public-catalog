@@ -13,6 +13,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Launch } from '@edx/paragon/icons';
 import messages from './CatalogCourseInfoModal.messages';
 import CatalogCourseModalBanner from '../catalogCourseModalBanner/CatalogCourseModalBanner';
+import useProgramInfo from './hooks';
 
 const SkillsListing = ({ skillNames }) => (
   <ul className="mx-2 course-info-skills-list">
@@ -166,7 +167,10 @@ type: "XSeries"
     programTitle,
     programProvider,
     programSubtitles,
+    programUuid,
   } = selectedProgram;
+
+  const { courses } = useProgramInfo(programUuid);
 
   const bulletedList = strInput => {
     const splits = strInput.split('.');
@@ -213,7 +217,7 @@ type: "XSeries"
               </div>
               <div className="mt-8">
                 <h3>Courses in this program:</h3>
-                <p>{programSubtitles}</p>
+                <p>{courses}</p>
               </div>
 
               {/* eslint-disable-next-line react/no-danger */}
@@ -260,6 +264,7 @@ ProgramModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedProgram: PropTypes.shape({
+    programUuid: PropTypes.string,
     programTitle: PropTypes.string,
     programProvider: PropTypes.string,
     programSubtitles: PropTypes.string,
@@ -311,6 +316,7 @@ CatalogCourseInfoModal.propTypes = {
     skillNames: PropTypes.arrayOf(PropTypes.string),
   }),
   selectedProgram: {
+    programUuid: PropTypes.string,
     programTitle: PropTypes.string,
     programProvider: PropTypes.string,
     programSubtitles: PropTypes.string,
