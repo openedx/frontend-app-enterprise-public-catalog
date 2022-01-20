@@ -165,7 +165,14 @@ type: "XSeries"
   const {
     programTitle,
     programProvider,
+    programSubtitles,
   } = selectedProgram;
+
+  const bulletedList = strInput => {
+    const splits = strInput.split('.');
+    const items = splits.map(item => <li key={item}>{item}</li>);
+    return <ul>{items}</ul>;
+  };
   return (
     <>
       <div>
@@ -200,6 +207,15 @@ type: "XSeries"
               <p className="h3">
                 {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
               </p>
+              <div className="mt-8">
+                <h3>What you will learn:</h3>
+                <p>{bulletedList(programSubtitles)}</p>
+              </div>
+              <div className="mt-8">
+                <h3>Courses in this program:</h3>
+                <p>{programSubtitles}</p>
+              </div>
+
               {/* eslint-disable-next-line react/no-danger */}
               {/* <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
             {(skillNames.length > 0) && (
@@ -246,6 +262,7 @@ ProgramModal.propTypes = {
   selectedProgram: PropTypes.shape({
     programTitle: PropTypes.string,
     programProvider: PropTypes.string,
+    programSubtitles: PropTypes.string,
   }).isRequired,
 };
 
@@ -296,6 +313,7 @@ CatalogCourseInfoModal.propTypes = {
   selectedProgram: {
     programTitle: PropTypes.string,
     programProvider: PropTypes.string,
+    programSubtitles: PropTypes.string,
   },
 };
 

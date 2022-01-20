@@ -28,9 +28,9 @@ const ProgramCard = ({
     program_type,
   } = original;
 
-  const alaCarteRequested = enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE);
-  const businessCatalogRequested = enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE);
-  const eduCatalogRequested = enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE);
+  const alaCarteRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE);
+  const businessCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_BUSINESS_TITLE);
+  const eduCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE);
 
   return (
     <Card className="program-card" tabIndex="0" onClick={() => onClick(original)}>

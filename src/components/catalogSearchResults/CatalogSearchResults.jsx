@@ -119,6 +119,7 @@ export const BaseCatalogSearchResults = ({
       setSelectedCourse({
         programTitle: row.values.title,
         programProvider: row.values['partners[0].name'],
+        programSubtitles: row.values.subtitle,
       });
     } else {
       setSelectedCourse({
@@ -139,6 +140,7 @@ export const BaseCatalogSearchResults = ({
       setSelectedCourse({
         programTitle: card.title,
         programProvider: card.partner,
+        programSubtitles: card.subtitle,
       });
     } else {
       setSelectedCourse({ ...card, price: priceText });
