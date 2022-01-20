@@ -1,5 +1,5 @@
 /* eslint eqeqeq: "off" */
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { Configure, Index, InstantSearch } from 'react-instantsearch-dom';
@@ -18,6 +18,8 @@ export default function CatalogSearch() {
   const courseFilter = `content_type:${CONTENT_TYPE_COURSE}`;
   const programFilter = `content_type:${CONTENT_TYPE_PROGRAM}`;
   const showProgram = !!((programBool && programBool[0] === 'true'));
+  const [noCourseResults, setNoCourseResults] = useState(false);
+  const [noProgramResults, setNoProgramResults] = useState(false);
   return (
     <>
       <PageWrapper className="mt-3 mb-5 page-width">
@@ -35,7 +37,8 @@ export default function CatalogSearch() {
             <div className="enterprise-catalogs-header"><SearchHeader hideTitle variant="default" /></div>
             {showProgram && (
             <>
-              {(!contentType || contentType.length === 2) && (
+              {(!contentType || contentType.length === 2)
+              && (noCourseResults === noProgramResults || !noCourseResults) && (
               <>
                 <Index indexName={algoliaIndexName} indexId="search-courses">
                   <Configure
@@ -43,7 +46,7 @@ export default function CatalogSearch() {
                     filters={courseFilter}
                     facetingAfterDistinct
                   />
-                  <CatalogSearchResults preview contentType={CONTENT_TYPE_COURSE} />
+                  <CatalogSearchResults preview contentType={CONTENT_TYPE_COURSE} setNoCourses={setNoCourseResults} />
                 </Index>
                 <Index indexName={algoliaIndexName} indexId="search-program">
                   <Configure
@@ -51,11 +54,39 @@ export default function CatalogSearch() {
                     filters={programFilter}
                     facetingAfterDistinct
                   />
-                  <CatalogSearchResults preview contentType={CONTENT_TYPE_PROGRAM} />
+                  <CatalogSearchResults
+                    preview
+                    contentType={CONTENT_TYPE_PROGRAM}
+                    setNoPrograms={setNoProgramResults}
+                  />
                 </Index>
               </>
               )}
-              {(contentType == CONTENT_TYPE_PROGRAM) && (
+              {(!contentType || contentType.length === 2) && (noCourseResults && !noProgramResults) && (
+                <>
+                  <Index indexName={algoliaIndexName} indexId="search-program">
+                    <Configure
+                      hitsPerPage={NUM_RESULTS_PROGRAM}
+                      filters={programFilter}
+                      facetingAfterDistinct
+                    />
+                    <CatalogSearchResults
+                      preview
+                      contentType={CONTENT_TYPE_PROGRAM}
+                      setNoPrograms={setNoProgramResults}
+                    />
+                  </Index>
+                  <Index indexName={algoliaIndexName} indexId="search-courses">
+                    <Configure
+                      hitsPerPage={NUM_RESULTS_COURSE}
+                      filters={courseFilter}
+                      facetingAfterDistinct
+                    />
+                    <CatalogSearchResults preview contentType={CONTENT_TYPE_COURSE} setNoCourses={setNoCourseResults} />
+                  </Index>
+                </>
+              )}
+              {(contentType === CONTENT_TYPE_PROGRAM) && (
               <>
                 <Index indexName={algoliaIndexName} indexId="search-program">
                   <Configure
@@ -69,7 +100,7 @@ export default function CatalogSearch() {
               )}
             </>
             )}
-            {(contentType == CONTENT_TYPE_COURSE || !showProgram) && (
+            {(contentType === CONTENT_TYPE_COURSE || !showProgram) && (
             <>
               <Index indexName={algoliaIndexName} indexId="search-courses">
                 <Configure

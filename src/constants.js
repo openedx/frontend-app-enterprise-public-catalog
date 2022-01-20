@@ -23,6 +23,9 @@ export const NUM_RESULTS_PROGRAM = 4;
 export const NUM_RESULTS_COURSE = 8;
 export const COURSE_TITLE = 'Courses';
 export const PROGRAM_TITLE = 'Programs';
+export const NO_RESULTS_DECK_ITEM_COUNT = 4;
+export const NO_RESULTS_PAGE_ITEM_COUNT = 1;
+export const NO_RESULTS_PAGE_SIZE = 4;
 
 const OVERRIDE_FACET_FILTERS = [];
 if (features.PROGRAM_TYPE_FACET) {

@@ -61,6 +61,11 @@ const messages = defineMessages({
     defaultMessage: 'Education',
     description: 'Badge text for the `Education` catalog badge.',
   },
+  'catalogSearchResults.popularCourses': {
+    id: 'catalogSearchResults.popularCourses',
+    defaultMessage: 'Popular Courses',
+    description: 'Popular Courses table header.',
+  },
 });
 
 export default messages;

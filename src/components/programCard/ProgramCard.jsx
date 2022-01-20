@@ -14,17 +14,7 @@ import { Program } from '@edx/paragon/icons';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './ProgramCard.messages';
-
-function getCourses(numCourses, string) {
-  if (numCourses === 0) {
-    return 'Courses available upon enrollment';
-  }
-  if (numCourses > 1) {
-    return (`${numCourses} ${string}s`);
-  }
-
-  return (`${numCourses} ${string}`);
-}
+import { getCourses } from '../../utils';
 
 const ProgramCard = ({
   intl, onClick, original,

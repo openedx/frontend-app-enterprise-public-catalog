@@ -26,6 +26,19 @@ class EnterpriseCatalogApiService {
         return data;
       });
   }
+
+  static fetchDefaultCoursesInCatalog(options) {
+    const enterpriseListUrl = `${EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl}/default_course_set/?${qs.stringify(options)}`;
+    return EnterpriseCatalogApiService.apiClient().get(enterpriseListUrl);
+  }
+
+  static fetchDefaultCoursesInCatalogWithFacets(facets) {
+    return this.fetchDefaultCoursesInCatalog(facets)
+      .then((response) => {
+        const { data } = response;
+        return data;
+      });
+  }
 }
 
 export default EnterpriseCatalogApiService;
