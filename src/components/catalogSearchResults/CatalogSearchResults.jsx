@@ -45,6 +45,10 @@ function formatDate(courseRun) {
   }
   return null;
 }
+function makePlural(num, string) {
+  if (num > 1 || num === 0) { return (`${num} ${string}s`); }
+  return (`${num} ${string}`);
+}
 
 // TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
 const ViewToggle = ({ cardView, setCardView }) => {
@@ -92,7 +96,8 @@ ViewToggle.propTypes = {
  * @param {object} args.error Error with `message` field if available (see: `connectStateResults``)
  * @param {object} args.paginationComponent Defaults to <SearchPagination> but can be injected
  * @param {object} args.contentType Whether the search is for courses or programs
- */
+ * @param {object} args.preview Whether we are on the split screen landing page or regular
+*/
 export const BaseCatalogSearchResults = ({
   intl,
   searchResults,
@@ -219,7 +224,7 @@ export const BaseCatalogSearchResults = ({
     }
   };
 
-  function cardType(props) {
+  function renderCardComponent(props) {
     if (contentType === CONTENT_TYPE_COURSE) { return <CourseCard {...props} onClick={cardClicked} />; }
     return <ProgramCard {...props} onClick={cardClicked} />;
   }
@@ -291,7 +296,7 @@ export const BaseCatalogSearchResults = ({
       accessor: 'program_type',
     },
 
-    // TODO: Badges commented out until Algolia bug is resolved ENT-5338)
+    // TODO: Badges commented out until Algolia bug is resolved (ENT-5338)
     // {
     //   Header: TABLE_HEADERS.catalogs,
     //   accessor: 'enterprise_catalog_query_titles',
@@ -336,7 +341,14 @@ export const BaseCatalogSearchResults = ({
     togglePlacement: 'left',
     defaultActiveStateValue: 'card',
   };
-  const contentTitle = (contentType === CONTENT_TYPE_COURSE) ? COURSE_TITLE : PROGRAM_TITLE;
+
+  function contentTitle() {
+    let subTitle = (contentType === CONTENT_TYPE_COURSE) ? COURSE_TITLE : PROGRAM_TITLE;
+    if (refinements.q) {
+      subTitle = `"${refinements.q}" ${subTitle} (${makePlural(nbHits, 'result')})`;
+    }
+    return subTitle;
+  }
 
   const inputQuery = query.q;
   return (
@@ -369,7 +381,7 @@ export const BaseCatalogSearchResults = ({
       <div className="clearfix" />
       {preview && (
       <div className="preview-title">
-        <p className="h2 mt-4">{contentTitle}</p>
+        <p className="h2 mt-4">{contentTitle()}</p>
         <Button variant="link" onClick={() => refinementClick(contentType)}>{linkText}</Button>
       </div>
       )}
@@ -399,7 +411,7 @@ export const BaseCatalogSearchResults = ({
               lg: 4,
               xl: 3,
             }}
-            CardComponent={(props) => cardType(props)}
+            CardComponent={(props) => renderCardComponent(props)}
           />
         )}
         { !cardView && <DataTable.Table /> }
@@ -430,7 +442,7 @@ BaseCatalogSearchResults.propTypes = {
     _state: PropTypes.shape({
       disjunctiveFacetsRefinements: PropTypes.shape({}),
     }),
-    disjunctiveFacetsRefinements: PropTypes.shape({}),
+    disjunctiveFacetsRefinements: PropTypes.array,
     nbHits: PropTypes.number,
     hits: PropTypes.arrayOf(PropTypes.shape({})),
     nbPages: PropTypes.number,

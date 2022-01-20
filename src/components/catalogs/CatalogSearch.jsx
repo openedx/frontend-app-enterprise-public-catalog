@@ -1,3 +1,4 @@
+/* eslint eqeqeq: "off" */
 import React, { useContext } from 'react';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 
@@ -16,7 +17,6 @@ export default function CatalogSearch() {
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
   const courseFilter = `content_type:${CONTENT_TYPE_COURSE}`;
   const programFilter = `content_type:${CONTENT_TYPE_PROGRAM}`;
-
   return (
     <>
       <PageWrapper className="mt-3 mb-5 page-width">
@@ -52,7 +52,7 @@ export default function CatalogSearch() {
               </Index>
             </>
             )}
-            {(contentType === CONTENT_TYPE_PROGRAM) && (
+            {(contentType == CONTENT_TYPE_PROGRAM) && (
             <>
               <Index indexName={algoliaIndexName} indexId="search-program">
                 <Configure
@@ -64,7 +64,7 @@ export default function CatalogSearch() {
               </Index>
             </>
             )}
-            {(contentType === CONTENT_TYPE_COURSE) && (
+            {(contentType == CONTENT_TYPE_COURSE) && (
             <>
               <Index indexName={algoliaIndexName} indexId="search-courses">
                 <Configure

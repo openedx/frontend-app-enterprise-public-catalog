@@ -10,7 +10,9 @@ import {
 } from './CatalogSearchResults';
 import { renderWithRouter } from '../tests/testUtils';
 import messages from './CatalogSearchResults.messages';
-import { HIDE_PRICE_REFINEMENT } from '../../constants';
+import {
+  CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM, HIDE_PRICE_REFINEMENT,
+} from '../../constants';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
@@ -47,8 +49,10 @@ const TEST_COURSE_NAME_2 = 'test course 2';
 const TEST_PARTNER_2 = 'edx 2';
 const TEST_CATALOGS_2 = ['baz', 'ayylmao'];
 
+const TEST_PROGRAM_NAME = 'test program';
+
 const searchResults = {
-  nbHits: 1,
+  nbHits: 2,
   hitsPerPage: 10,
   pageIndex: 10,
   pageCount: 5,
@@ -62,6 +66,7 @@ const searchResults = {
       first_enrollable_paid_seat_price: 100,
       original_image_url: '',
       availability: ['Available Now'],
+      content_type: CONTENT_TYPE_COURSE,
     },
     {
       title: TEST_COURSE_NAME_2,
@@ -71,6 +76,28 @@ const searchResults = {
       first_enrollable_paid_seat_price: 99,
       original_image_url: '',
       availability: ['Available Now'],
+      content_type: CONTENT_TYPE_COURSE,
+    },
+  ],
+  page: 1,
+  _state: { disjunctiveFacetsRefinements: { foo: 'bar' } },
+};
+
+const searchResultsPrograms = {
+  nbHits: 1,
+  hitsPerPage: 10,
+  pageIndex: 10,
+  pageCount: 5,
+  nbPages: 6,
+  hits: [
+    {
+      title: TEST_PROGRAM_NAME,
+      authoring_organizations: [{ name: TEST_PARTNER, logo_image_url: '' }],
+      enterprise_catalog_query_titles: TEST_CATALOGS,
+      card_image_url: 'http://url.test2.location',
+      availability: ['Available Now'],
+      course_keys: [],
+      content_type: CONTENT_TYPE_PROGRAM,
     },
   ],
   page: 1,
@@ -83,6 +110,27 @@ const defaultProps = {
   isSearchStalled: false,
   searchState: { page: 1 },
   error: null,
+  contentType: CONTENT_TYPE_COURSE,
+  // mock i18n requirements
+  intl: {
+    formatMessage: (header) => header.defaultMessage,
+    formatDate: () => {},
+    formatTime: () => {},
+    formatRelative: () => {},
+    formatNumber: () => {},
+    formatPlural: () => {},
+    formatHTMLMessage: () => {},
+    now: () => {},
+  },
+};
+
+const programProps = {
+  paginationComponent: PaginationComponent,
+  searchResults,
+  isSearchStalled: false,
+  searchState: { page: 1 },
+  error: null,
+  contentType: CONTENT_TYPE_PROGRAM,
   // mock i18n requirements
   intl: {
     formatMessage: (header) => header.defaultMessage,
@@ -234,5 +282,41 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.availability'].defaultMessage)).toBeInTheDocument();
+  });
+
+  test('all programs rendered when search results available', () => {
+    renderWithRouter(
+      <SearchDataWrapper>
+        <BaseCatalogSearchResults
+          {...programProps}
+          searchResults={searchResultsPrograms}
+        />
+      </SearchDataWrapper>,
+    );
+
+    expect(screen.queryByText(TEST_PROGRAM_NAME)).toBeInTheDocument();
+    expect(screen.queryByText(TEST_PARTNER)).toBeInTheDocument();
+    expect(screen.queryByText('0 Courses')).toBeInTheDocument();
+    // TODO: Badges commented out until Algolia bug is resolved (ENT-5338)
+    // expect(screen.queryByText(TEST_CATALOGS[0])).toBeInTheDocument();
+  });
+  test('testing program switch to table view ', () => {
+    renderWithRouter(
+      <SearchDataWrapper>
+        <BaseCatalogSearchResults
+          {...programProps}
+          searchResults={searchResultsPrograms}
+        />
+      </SearchDataWrapper>,
+    );
+
+    // switch to table view instead of card
+    const listViewToggleButton = screen.getByLabelText('List');
+    userEvent.click(listViewToggleButton);
+
+    expect(screen.queryByText(messages['catalogSearchResults.table.programName'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.numCourses'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.programType'].defaultMessage)).toBeInTheDocument();
+    expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
   });
 });
