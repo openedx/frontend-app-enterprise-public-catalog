@@ -24,13 +24,6 @@ const facets = {
 };
 const defaultProps = { facets, query: 'foo' };
 
-const newFacets = {
-  skill_names: ['Not Research'],
-  partners_names: ['Not Australian National University'],
-  enterprise_catalog_query_titles: ['not foo'],
-  availability: ['Not Available Now', 'Not Upcoming'],
-};
-
 const assignMock = jest.fn();
 delete global.location;
 global.location = { href: assignMock };
