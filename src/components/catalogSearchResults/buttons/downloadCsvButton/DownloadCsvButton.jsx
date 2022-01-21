@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { saveAs } from 'file-saver';
 import PropTypes from 'prop-types';
 
 import { logError } from '@edx/frontend-platform/logging';
 import {
-  Toast, StatefulButton, Icon, Spinner, useToggle,
+  Toast, Button, Icon, Spinner, useToggle,
 } from '@edx/paragon';
 import { Download, Check } from '@edx/paragon/icons';
 
@@ -20,14 +19,6 @@ const DownloadCsvButton = ({ facets, query }) => {
     }
   }, [facets, query]);
 
-  const getCsvFileName = (catalogTitle) => {
-    const currentDate = new Date();
-    const year = currentDate.getUTCFullYear();
-    const month = currentDate.getUTCMonth() + 1;
-    const day = currentDate.getUTCDate();
-    return `${year}-${month}-${day}-filtered-${catalogTitle.replace(/\s/g, '-')}.csv`;
-  };
-
   const [isOpen, open, close] = useToggle(false);
   const [filters, setFilters] = useState();
 
@@ -42,23 +33,11 @@ const DownloadCsvButton = ({ facets, query }) => {
   };
 
   const handleClick = () => {
-    setButtonState('pending');
-    EnterpriseCatalogApiService.fetchContentMetadataWithFacets(facets, query)
-      .then(response => {
-        // download CSV
-        const blob = new Blob([String.fromCharCode(0xFEFF), response.csv_data], {
-          type: 'text/plain;charset=utf-8',
-        });
-        saveAs(blob, getCsvFileName(facets.enterprise_catalog_query_titles[0]), { autoBom: true });
-        formatFilterText(facets);
-        open();
-        setButtonState('complete');
-      })
-      .catch(err => {
-        setButtonState('default');
-        logError(err);
-        // TODO: what should the UX be for error here?
-      });
+    formatFilterText(facets);
+    open();
+    // https://enterprise-catalog.edx.org/api/v1/enterprise-catalogs/catalog_csv/?availability=Available%20Now&availability=Upcoming&enterprise_catalog_query_titles=A%20la%20carte
+    let downloadUrl = EnterpriseCatalogApiService.generateCsvDownloadLink(facets, query);
+    global.location.href = downloadUrl;
   };
   const toastText = `Downloaded with filters: ${filters}. Check website for the most up-to-date information on courses.`;
   return (
@@ -69,22 +48,12 @@ const DownloadCsvButton = ({ facets, query }) => {
          {toastText}
        </Toast>
        )}
-      <StatefulButton
-        state={buttonState}
+      <Button
         className="ml-2 download-button"
-        labels={{
-          default: 'Download results',
-          pending: 'Downloading',
-          complete: 'Downloaded',
-        }}
-        icons={{
-          default: <Icon src={Download} />,
-          pending: <Spinner animation="border" variant="light" size="sm" />,
-          complete: <Icon src={Check} />,
-        }}
-        disabledStates={['pending']}
-        onClick={handleClick}
-      />
+        iconBefore={Download}
+        onClick={handleClick}>
+        Download results
+      </Button>
     </>
   );
 };
