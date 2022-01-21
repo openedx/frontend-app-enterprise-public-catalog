@@ -40,6 +40,7 @@ const CourseCard = ({
       <span className="cards-spacing" />
       <div className="mx-3 my-4">
         <p className="x-small mb-3">{ priceText } • {availability[0]}</p>
+
         <div style={{ maxWidth: '400vw' }}>
           {
               enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)

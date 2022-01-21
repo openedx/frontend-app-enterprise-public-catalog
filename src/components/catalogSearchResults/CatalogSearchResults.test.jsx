@@ -67,6 +67,11 @@ const searchResults = {
       original_image_url: '',
       availability: ['Available Now'],
       content_type: CONTENT_TYPE_COURSE,
+      advertised_course_run: {
+        start: '2020-01-24T05:00:00Z',
+        end: '2080-01-01T17:00:00Z',
+        upgrade_deadline: 1892678399,
+      },
     },
     {
       title: TEST_COURSE_NAME_2,
@@ -146,6 +151,9 @@ const programProps = {
 
 describe('Main Catalogs view works as expected', () => {
   test('all courses rendered when search results available', () => {
+    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
+    process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <SearchDataWrapper>
         <IntlProvider locale="en">
@@ -165,6 +173,9 @@ describe('Main Catalogs view works as expected', () => {
     // course 2
     expect(screen.queryByText(TEST_COURSE_NAME_2)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
+
+    expect(screen.queryAllByText('A la carte').length === 2);
+    expect(screen.queryByText('Business')).toBeInTheDocument();
   });
   test('all courses rendered in card view when search results available', () => {
     render(
@@ -283,8 +294,28 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.availability'].defaultMessage)).toBeInTheDocument();
   });
+  test('testing course modal pops up ', () => {
+    renderWithRouter(
+      <SearchDataWrapper>
+        <IntlProvider locale="en">
+          <BaseCatalogSearchResults {...defaultProps} />
+        </IntlProvider>,
+      </SearchDataWrapper>,
+    );
 
+    // click course card
+    const courseTitle = screen.getByText('test course');
+    userEvent.click(courseTitle);
+
+    expect(screen.queryByText('A la carte course price')).toBeInTheDocument();
+    expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument();
+    expect(screen.queryByText('About this course')).toBeInTheDocument();
+  });
   test('all programs rendered when search results available', () => {
+    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
+    process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
+
     renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
