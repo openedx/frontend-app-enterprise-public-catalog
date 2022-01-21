@@ -30,7 +30,6 @@ const newFacets = {
   enterprise_catalog_query_titles: ['not foo'],
   availability: ['Not Available Now', 'Not Upcoming'],
 };
-const changedProps = { newFacets, query: 'bar' };
 
 const assignMock = jest.fn();
 delete global.location;
