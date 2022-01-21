@@ -170,9 +170,12 @@ type: "XSeries"
     programUuid,
   } = selectedProgram;
 
-  const { courses } = useProgramInfo(programUuid);
+  const { courses, price_ranges: prices } = useProgramInfo(programUuid);
+
+  const usdPrice = prices?.filter(item => item.currency === 'USD')[0].total;
 
   const bulletedList = strInput => {
+    if (!strInput) { return <></>; }
     const splits = strInput.split('.');
     const items = splits.map(item => <li key={item}>{item}</li>);
     return <ul>{items}</ul>;
@@ -201,13 +204,9 @@ type: "XSeries"
               <ModalDialog.Title className="h2 course-info-partner">
                 {programProvider}
               </ModalDialog.Title>
-              {/* <CatalogCourseModalBanner
-              coursePrice={coursePrice}
-              courseAssociatedCatalogs={courseAssociatedCatalogs}
-              startDate={startDate}
-              endDate={endDate}
-              upcomingRuns={upcomingRuns}
-            /> */}
+              <CatalogCourseModalBanner
+                coursePrice={usdPrice}
+              />
               <p className="h3">
                 {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
               </p>
