@@ -18,6 +18,7 @@ getAuthenticatedUser.mockReturnValue({ username: 'test-username' });
 jest.mock('react-instantsearch-dom', () => ({
   ...jest.requireActual('react-instantsearch-dom'),
   InstantSearch: () => (<div>SEARCH</div>),
+  Index: () => (<div>SEARCH</div>),
 }));
 
 mockWindowLocations();

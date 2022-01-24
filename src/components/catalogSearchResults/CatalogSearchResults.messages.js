@@ -26,10 +26,25 @@ const messages = defineMessages({
     defaultMessage: 'Associated catalogs',
     description: 'Table column title for associated subscription catalogs',
   },
-  'catalogSearchResult.table.priceNotAvailable': {
+  'catalogSearchResults.table.priceNotAvailable': {
     id: 'catalogSearchResults.table.priceNotAvailable',
-    defaultMessage: ' Not Available',
+    defaultMessage: 'Not Available',
     description: 'When a course price is not available, notify learners that there is no data available to display.',
+  },
+  'catalogSearchResults.table.programName': {
+    id: 'catalogSearchResults.table.programName',
+    defaultMessage: 'Program Name',
+    description: 'Table column title for course names',
+  },
+  'catalogSearchResults.table.numCourses': {
+    id: 'catalogSearchResults.table.numCourses',
+    defaultMessage: 'Number of Courses',
+    description: 'Table column for number of courses associated with program',
+  },
+  'catalogSearchResults.table.programType': {
+    id: 'catalogSearchResults.table.programType',
+    defaultMessage: 'Program Type',
+    description: 'Table column for the type of program.',
   },
   'catalogSearchResults.aLaCarteBadge': {
     id: 'catalogSearchResults.aLaCarteBadge',

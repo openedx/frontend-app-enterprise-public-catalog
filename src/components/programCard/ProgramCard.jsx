@@ -15,34 +15,40 @@ import { Program } from '@edx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './ProgramCard.messages';
 
-function makePlural(num, string) {
-  if (num > 1) { return (`${num} ${string}s`); }
-  return (`${num} ${string}`);
+function getCourses(numCourses, string) {
+  if (numCourses === 0) {
+    return 'Courses available upon enrollment';
+  }
+  if (numCourses > 1) {
+    return (`${numCourses} ${string}s`);
+  }
+
+  return (`${numCourses} ${string}`);
 }
 
 const ProgramCard = ({
-  intl, onClick, className, original,
+  intl, onClick, original,
 }) => {
   const {
     title,
     card_image_url,
     course_keys,
-    partners,
     enterprise_catalog_query_titles,
+    authoring_organizations,
     program_type,
   } = original;
   return (
-    <Card className={className} tabIndex="0" onClick={() => onClick(original)}>
+    <Card className="program-card" tabIndex="0" onClick={() => onClick(original)}>
       <Card.Img
         className="cards-course-image"
         variant="top"
         src={card_image_url}
         alt={title}
       />
-      {(partners.length !== 0) && <Image className="mr-2 cards-partner-logo" src={partners[0].logo_image_url} rounded />}
+      <Image className="mr-2 cards-partner-logo" src={authoring_organizations[0].logo_image_url} rounded />
       <div className="mx-3 my-4">
         <p className="h4">{title}</p>
-        {(partners.length !== 0) && <p className="small">{ partners[0].name }</p>}
+        {(authoring_organizations.length !== 0) && <p className="small">{ authoring_organizations[0].name }</p>}
       </div>
       <span className="cards-spacing" />
 
@@ -58,7 +64,7 @@ const ProgramCard = ({
             <span className="badge-text"> {program_type} </span>
           </Badge>
         </div>
-        <p className="x-small mb-2 mt-2">{makePlural(course_keys.length, 'Course')}</p>
+        <p className="x-small mb-2 mt-2">{getCourses(course_keys.length, 'Course')}</p>
         {enterprise_catalog_query_titles && (
         <div style={{ maxWidth: '400vw' }}>
           {
@@ -85,19 +91,19 @@ const ProgramCard = ({
 };
 
 ProgramCard.defaultProps = {
-  className: '',
   onClick: () => {},
 };
 
 ProgramCard.propTypes = {
   intl: intlShape.isRequired,
-  className: PropTypes.string,
   onClick: PropTypes.func,
   original: PropTypes.shape({
     title: PropTypes.string,
     card_image_url: PropTypes.string,
     course_keys: PropTypes.arrayOf(PropTypes.string),
-    partners: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string, logo_image_url: PropTypes.string })),
+    authoring_organizations: PropTypes.arrayOf(
+      PropTypes.shape({ name: PropTypes.string, logo_image_url: PropTypes.string }),
+    ),
     enterprise_catalog_query_titles: PropTypes.arrayOf(PropTypes.string),
     program_type: PropTypes.string,
   }).isRequired,

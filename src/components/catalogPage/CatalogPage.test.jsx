@@ -9,6 +9,7 @@ import selectionCardMessage from '../catalogSelectionDeck/CatalogSelectionDeck.m
 jest.mock('react-instantsearch-dom', () => ({
   ...jest.requireActual('react-instantsearch-dom'),
   InstantSearch: () => (<div>SEARCH</div>),
+  Index: () => (<div>SEARCH</div>),
 }));
 
 // Catalog Page loads the CTA button link which expects a config value.
