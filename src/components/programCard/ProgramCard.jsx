@@ -15,9 +15,15 @@ import { Program } from '@edx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './ProgramCard.messages';
 
-function makePlural(num, string) {
-  if (num > 1 || num === 0) { return (`${num} ${string}s`); }
-  return (`${num} ${string}`);
+function getCourses(numCourses, string) {
+  if (numCourses === 0) {
+    return 'Courses available upon enrollment';
+  }
+  if (numCourses > 1) {
+    return (`${numCourses} ${string}s`);
+  }
+
+  return (`${numCourses} ${string}`);
 }
 
 const ProgramCard = ({
@@ -58,7 +64,7 @@ const ProgramCard = ({
             <span className="badge-text"> {program_type} </span>
           </Badge>
         </div>
-        <p className="x-small mb-2 mt-2">{makePlural(course_keys.length, 'Course')}</p>
+        <p className="x-small mb-2 mt-2">{getCourses(course_keys.length, 'Course')}</p>
         {enterprise_catalog_query_titles && (
         <div style={{ maxWidth: '400vw' }}>
           {

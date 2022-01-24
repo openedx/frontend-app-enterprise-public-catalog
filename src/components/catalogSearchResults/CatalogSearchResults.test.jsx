@@ -327,7 +327,7 @@ describe('Main Catalogs view works as expected', () => {
 
     expect(screen.queryByText(TEST_PROGRAM_NAME)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER)).toBeInTheDocument();
-    expect(screen.queryByText('0 Courses')).toBeInTheDocument();
+    expect(screen.queryByText('Courses available upon enrollment')).toBeInTheDocument();
     // TODO: Badges commented out until Algolia bug is resolved (ENT-5338)
     // expect(screen.queryByText(TEST_CATALOGS[0])).toBeInTheDocument();
   });
