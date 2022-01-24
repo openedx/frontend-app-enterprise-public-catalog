@@ -13,9 +13,8 @@ jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 global.Blob = function (content, options) { return ({ content, options }); };
 
 // Enterprise catalog API mocks
-const csvData = [{ csv_data: 'foobar' }];
-const mockGetCatalogApi = jest.spyOn(EnterpriseCatalogApiService, 'fetchContentMetadataWithFacets');
-mockGetCatalogApi.mockResolvedValue(csvData);
+const mockGetCatalogApi = jest.spyOn(EnterpriseCatalogApiService, 'generateCsvDownloadLink');
+mockGetCatalogApi.mockResolvedValue('https://example.com/download');
 
 const facets = {
   skill_names: ['Research'],
@@ -25,13 +24,9 @@ const facets = {
 };
 const defaultProps = { facets, query: 'foo' };
 
-const newFacets = {
-  skill_names: ['Not Research'],
-  partners_names: ['Not Australian National University'],
-  enterprise_catalog_query_titles: ['not foo'],
-  availability: ['Not Available Now', 'Not Upcoming'],
-};
-const changedProps = { newFacets, query: 'bar' };
+const assignMock = jest.fn();
+delete global.location;
+global.location = { href: assignMock };
 
 describe('Course card works as expected', () => {
   test('card renders as expected', async () => {
@@ -47,14 +42,5 @@ describe('Course card works as expected', () => {
       const input = screen.getByText('Download results');
       userEvent.click(input);
     });
-    // Expect to have updated the state to complete
-    expect(screen.queryByText('Downloaded')).toBeInTheDocument();
-
-    // Re-rendering will update the component with new props, ie facets
-    render(
-      <DownloadCsvButton {...changedProps} />,
-    );
-    // Assert that the button state has reset to default
-    expect(screen.queryByText('Download results')).toBeInTheDocument();
   });
 });

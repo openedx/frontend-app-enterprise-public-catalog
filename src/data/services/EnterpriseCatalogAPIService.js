@@ -13,6 +13,12 @@ class EnterpriseCatalogApiService {
     return EnterpriseCatalogApiService.apiClient().get(enterpriseListUrl);
   }
 
+  static generateCsvDownloadLink(options, query) {
+    const facetQuery = query ? `&query=${query}` : '';
+    const enterpriseListUrl = `${EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl}/catalog_csv/?${qs.stringify(options)}${facetQuery}`;
+    return enterpriseListUrl;
+  }
+
   static fetchContentMetadataWithFacets(facets, query) {
     return this.fetchIndexedContentMetadata(facets, query)
       .then((response) => {
