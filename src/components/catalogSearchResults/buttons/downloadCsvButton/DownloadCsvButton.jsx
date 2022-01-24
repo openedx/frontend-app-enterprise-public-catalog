@@ -34,7 +34,6 @@ const DownloadCsvButton = ({ facets, query }) => {
   const handleClick = () => {
     formatFilterText(facets);
     open();
-    // https://enterprise-catalog.edx.org/api/v1/enterprise-catalogs/catalog_csv/?availability=Available%20Now&availability=Upcoming&enterprise_catalog_query_titles=A%20la%20carte
     const downloadUrl = EnterpriseCatalogApiService.generateCsvDownloadLink(facets, query);
     global.location.href = downloadUrl;
   };
