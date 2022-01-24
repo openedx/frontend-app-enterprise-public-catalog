@@ -1,33 +1,30 @@
+import {
+  SearchContext, SearchPagination, setRefinementAction, useNbHitsFromSearchResults,
+} from '@edx/frontend-enterprise-catalog-search';
+import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import {
+  Alert, Badge, Button, CardView, DataTable,
+} from '@edx/paragon';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React, {
   useContext,
   useMemo,
   useState,
 } from 'react';
-import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import Skeleton from 'react-loading-skeleton';
-import queryString from 'query-string';
-
 import {
-  Alert, Badge, Button, CardView, DataTable, Icon, IconButton, useToggle,
-} from '@edx/paragon';
-import {
-  SearchContext, SearchPagination, setRefinementAction, useNbHitsFromSearchResults,
-} from '@edx/frontend-enterprise-catalog-search';
-import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-
-import ProgramCard from '../programCard/ProgramCard';
-
-import CourseCard from '../courseCard/CourseCard';
-import ProgramCard from '../programCard/ProgramCard';
+  CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM, CONTENT_TYPE_REFINEMENT, COURSE_TITLE, HIDE_PRICE_REFINEMENT, PROGRAM_TITLE,
+} from '../../constants';
+import { extractUuid, mapAlgoliaObjectToCourse, mapAlgoliaObjectToProgram } from '../../utils/algoliaUtils';
 
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
+import { useSelectedCourse } from '../catalogs/data/hooks';
+import CourseCard from '../courseCard/CourseCard';
+import ProgramCard from '../programCard/ProgramCard';
 import DownloadCsvButton from './buttons/downloadCsvButton/DownloadCsvButton';
 import messages from './CatalogSearchResults.messages';
-import {
-  CONTENT_TYPE_REFINEMENT, CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM,
-  COURSE_TITLE, HIDE_PRICE_REFINEMENT, PROGRAM_TITLE,
-} from '../../constants';
 
 import CatalogNoResultsDeck from '../catalogNoResultsDeck/CatalogNoResultsDeck';
 import { formatDate, makePlural } from '../../utils';
@@ -63,7 +60,7 @@ export const BaseCatalogSearchResults = ({
   setNoPrograms,
   preview,
 }) => {
-  const isProgramType = true; // TODO How do we determine this?
+  const isProgramType = contentType === CONTENT_TYPE_PROGRAM;
 
   const TABLE_HEADERS = {
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
@@ -104,22 +101,18 @@ export const BaseCatalogSearchResults = ({
   const nbHits = useNbHitsFromSearchResults(searchResults);
   const linkText = `Show (${nbHits}) >`;
 
-  const [isOpen, open, close] = useToggle(false);
-
   const [selectedCourse, setSelectedCourse, isProgram, isCourse] = useSelectedCourse();
 
   const [cardView, setCardView] = useState(true);
 
-  // TODO this is very naive, and needs a bit of defensiveness
-  const extractUuid = aggregationKey => aggregationKey.split(':')[1];
-
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
-    const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
+    const priceText = rowPrice ? `$${rowPrice.toString()}` : intl.formatMessage(
       messages['catalogSearchResult.table.priceNotAvailable'],
     );
     if (isProgramType) {
       setSelectedCourse({
+        contentType: row.values.content_type,
         programUuid: extractUuid(row.values.aggregation_key),
         programTitle: row.values.title,
         programProvider: row.values['partners[0].name'],
@@ -128,27 +121,20 @@ export const BaseCatalogSearchResults = ({
     } else {
       setSelectedCourse({
         ...row.original,
+        contentType: row.values.content_type,
         price: priceText,
         title: row.values.title,
+        skillNames: row.values.skill_names,
         provider: row.values['partners[0].name'],
       });
     }
   };
 
   const cardClicked = (card) => {
-    const rowPrice = card.first_enrollable_paid_seat_price;
-    const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
-      messages['catalogSearchResult.table.priceNotAvailable'],
-    );
     if (isProgramType) {
-      setSelectedCourse({
-        programUuid: extractUuid(card.aggregation_key),
-        programTitle: card.title,
-        programProvider: card.partner,
-        programSubtitles: card.subtitle,
-      });
+      setSelectedCourse(mapAlgoliaObjectToProgram(card));
     } else {
-      setSelectedCourse({ ...card, price: priceText });
+      setSelectedCourse(mapAlgoliaObjectToCourse(card, intl));
     }
   };
 
@@ -315,8 +301,8 @@ export const BaseCatalogSearchResults = ({
           onClose={() => setSelectedCourse(null)}
           selectedCourse={selectedCourse}
         />
-        )}
-        { isProgramType && (
+      )}
+      { isProgramType && (
         <CatalogCourseInfoModal
           isOpen={isProgram}
           onClose={() => setSelectedCourse(null)}

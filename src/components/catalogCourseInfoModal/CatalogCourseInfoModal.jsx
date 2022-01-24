@@ -168,6 +168,7 @@ type: "XSeries"
     programProvider,
     programSubtitles,
     programUuid,
+    bannerImageUrl,
   } = selectedProgram;
 
   const { courses, price_ranges: prices } = useProgramInfo(programUuid);
@@ -194,7 +195,7 @@ type: "XSeries"
         >
           <ModalDialog.Body className="full-body p-0">
             <ModalDialog.Hero>
-              <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc="" />
+              <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
             </ModalDialog.Hero>
             <Image className="mr-2 partner-logo-thumbnail" src="" rounded />
             <div className="padded-body">
@@ -267,6 +268,7 @@ ProgramModal.propTypes = {
     programTitle: PropTypes.string,
     programProvider: PropTypes.string,
     programSubtitles: PropTypes.string,
+    bannerImageUrl: PropTypes.string,
   }).isRequired,
 };
 
@@ -314,12 +316,12 @@ CatalogCourseInfoModal.propTypes = {
     upcomingRuns: PropTypes.number,
     skillNames: PropTypes.arrayOf(PropTypes.string),
   }),
-  selectedProgram: {
+  selectedProgram: PropTypes.shape({
     programUuid: PropTypes.string,
     programTitle: PropTypes.string,
     programProvider: PropTypes.string,
     programSubtitles: PropTypes.string,
-  },
+  }),
 };
 
 export default injectIntl(CatalogCourseInfoModal);
