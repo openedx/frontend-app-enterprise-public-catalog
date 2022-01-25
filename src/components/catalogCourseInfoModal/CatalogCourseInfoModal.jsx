@@ -14,6 +14,7 @@ import { Launch } from '@edx/paragon/icons';
 import messages from './CatalogCourseInfoModal.messages';
 import CatalogCourseModalBanner from '../catalogCourseModalBanner/CatalogCourseModalBanner';
 import useProgramInfo from './hooks';
+import CatalogProgramModalBanner from '../catalogCourseModalBanner/CatalogProgramModalBanner';
 
 const SkillsListing = ({ skillNames }) => (
   <ul className="mx-2 course-info-skills-list">
@@ -210,11 +211,10 @@ const ProgramModal = ({
               <ModalDialog.Title className="h2 course-info-partner">
                 {programProvider}
               </ModalDialog.Title>
-              <CatalogCourseModalBanner
+              <CatalogProgramModalBanner
                 coursePrice={usdPrice}
                 courseAssociatedCatalogs={programAssociatedCatalogs}
-                // startDate={startDate}
-                // endDate={endDate}
+                courses={courses}
               />
               <div className="mt-8">
                 <h3>What you will learn:</h3>

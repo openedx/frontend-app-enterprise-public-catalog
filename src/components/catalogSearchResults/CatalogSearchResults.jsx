@@ -18,7 +18,6 @@ import {
   CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM, CONTENT_TYPE_REFINEMENT, COURSE_TITLE, HIDE_PRICE_REFINEMENT, PROGRAM_TITLE,
 } from '../../constants';
 import { extractUuid, mapAlgoliaObjectToCourse, mapAlgoliaObjectToProgram } from '../../utils/algoliaUtils';
-
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import { useSelectedCourse } from '../catalogs/data/hooks';
 import CourseCard from '../courseCard/CourseCard';
@@ -135,7 +134,7 @@ export const BaseCatalogSearchResults = ({
     if (isProgramType) {
       setSelectedCourse(mapAlgoliaObjectToProgram(card));
     } else {
-      setSelectedCourse(mapAlgoliaObjectToCourse(card, intl));
+      setSelectedCourse(mapAlgoliaObjectToCourse(card, intl, messages));
     }
   };
 
