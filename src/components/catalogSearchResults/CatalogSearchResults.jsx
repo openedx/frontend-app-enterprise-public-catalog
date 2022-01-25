@@ -116,7 +116,6 @@ export const BaseCatalogSearchResults = ({
         programUuid: extractUuid(row.values.aggregation_key),
         programTitle: row.values.title,
         programProvider: row.values['partners[0].name'],
-        programSubtitles: row.values.subtitle,
       });
     } else {
       setSelectedCourse({

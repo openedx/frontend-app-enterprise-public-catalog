@@ -168,24 +168,27 @@ const ProgramModal = ({
   const {
     programTitle,
     programProvider,
-    programSubtitles,
     programUuid,
     programDescription,
     programAssociatedCatalogs,
     partnerLogoImageUrl,
   } = selectedProgram;
 
-  const { courses, price_ranges: prices, banner_image: bannerImageUrls } = useProgramInfo(programUuid);
+  const {
+    courses,
+    price_ranges: prices,
+    banner_image: bannerImageUrls,
+    expected_learning_items: programExpectedLearningItems,
+  } = useProgramInfo(programUuid);
 
   const bannerImageUrl = bannerImageUrls ? bannerImageUrls.large.url : '';
 
   const usdPrice = prices?.filter(item => item.currency === 'USD')[0].total;
 
-  const bulletedList = strInput => {
-    if (!strInput) { return <></>; }
-    const splits = strInput.split('.');
-    const items = splits.map(item => <li key={item}>{item}</li>);
-    return <ul>{items}</ul>;
+  const bulletedList = items => {
+    if (!items) { return <></>; }
+    const itemsList = items.map(item => <li key={item}>{item}</li>);
+    return <ul>{itemsList}</ul>;
   };
   return (
     <>
@@ -218,7 +221,7 @@ const ProgramModal = ({
               />
               <div className="mt-8">
                 <h3>What you will learn:</h3>
-                <p>{bulletedList(programSubtitles)}</p>
+                <p>{bulletedList(programExpectedLearningItems)}</p>
               </div>
               <div className="mt-8">
                 <h3>Courses in this program:</h3>
@@ -265,7 +268,6 @@ ProgramModal.propTypes = {
     programTitle: PropTypes.string,
     programDescription: PropTypes.string,
     programProvider: PropTypes.string,
-    programSubtitles: PropTypes.string,
     bannerImageUrl: PropTypes.string,
     programAssociatedCatalogs: PropTypes.string,
     partnerLogoImageUrl: PropTypes.string,

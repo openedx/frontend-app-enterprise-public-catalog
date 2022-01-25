@@ -46,7 +46,6 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
   const {
     title,
     partners,
-    subtitle,
     full_description: programDescription,
     aggregation_key: aggregationKey,
     card_image_url: bannerImageUrl,
@@ -58,7 +57,6 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
     programTitle: title,
     programProvider: partners[0].name,
     programDescription,
-    programSubtitles: subtitle,
     programAssociatedCatalogs,
     partnerLogoImageUrl: partners[0].logo_image_url,
     bannerImageUrl,
