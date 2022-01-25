@@ -136,42 +136,47 @@ CourseModal.propTypes = {
   }).isRequired,
 };
 
+const CourseDisplayForProgram = ({ course }) => {
+  const { image, title, short_description: desc } = course;
+  return (
+    <div className="d-flex">
+      <div className="ml-2">
+        <Image className="mr-2 partner-logo-thumbnail" src={image} rounded />
+      </div>
+      <div>
+        {title}
+        <p>
+          {desc}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+CourseDisplayForProgram.propTypes = {
+  course: PropTypes.shape({
+    image: PropTypes.string,
+    title: PropTypes.string,
+    short_description: PropTypes.string,
+  }).isRequired,
+};
+
 const ProgramModal = ({
   intl, isOpen, onClose, selectedProgram,
 }) => {
-  /**
-   * aggregation_key: "program:3cd8108c-a881-47fd-84ae-74d82ccc38a8"
-authoring_organizations: [{uuid: "4f8cb2c9-589b-4d1e-88c1-b01a02db3a9c", key: "edx", name: "edX",…}]
-availability: ["Archived"]
-content_type: "program"
-course_keys: ["edx+H100", "edx+H200"]
-enterprise_catalog_query_titles: ["A la carte", "string"]
-enterprise_catalog_query_uuids: ["067c8c2f-e3fc-45ea-aaf9-52aed5f103b4", "09d4d0b3-55d9-49ce-809e-aba6f7c95dab",…]
-language: ["English"]
-level_type: "Introductory"
-marketing_url: "https://stage.edx.org/xseries/happiness-program"
-objectID: "program-3cd8108c-a881-47fd-84ae-74d82ccc38a8-catalog-query-uuids-0"
-partner: "edx"
-partners: [{name: "edX",…}]
-program_titles: ["Diane Program (old)"]
-program_type: "XSeries Program"
-programs: ["XSeries Program"]
-recent_enrollment_count: 26
-skill_names: []
-subjects: ["Computer Science"]
-subtitle: "testing with happiness courses"
-title: "Diane Program (old)"
-type: "XSeries"
-   */
   const {
     programTitle,
     programProvider,
     programSubtitles,
     programUuid,
-    bannerImageUrl,
+    programDescription,
+    programAssociatedCatalogs,
+    partnerLogoImageUrl,
   } = selectedProgram;
 
-  const { courses, price_ranges: prices } = useProgramInfo(programUuid);
+  const { courses, price_ranges: prices, banner_image: bannerImageUrls } = useProgramInfo(programUuid);
+
+  const bannerImageUrl = bannerImageUrls ? bannerImageUrls.large.url : '';
 
   const usdPrice = prices?.filter(item => item.currency === 'USD')[0].total;
 
@@ -185,7 +190,7 @@ type: "XSeries"
     <>
       <div>
         <ModalDialog
-          title="Progream Info Dialog"
+          title="Program Info Dialog"
           isOpen={isOpen}
           onClose={onClose}
           size="xl"
@@ -197,7 +202,7 @@ type: "XSeries"
             <ModalDialog.Hero>
               <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
             </ModalDialog.Hero>
-            <Image className="mr-2 partner-logo-thumbnail" src="" rounded />
+            <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
             <div className="padded-body">
               <ModalDialog.Title className="h1 course-info-title">
                 {programTitle}
@@ -207,29 +212,21 @@ type: "XSeries"
               </ModalDialog.Title>
               <CatalogCourseModalBanner
                 coursePrice={usdPrice}
+                courseAssociatedCatalogs={programAssociatedCatalogs}
+                // startDate={startDate}
+                // endDate={endDate}
               />
-              <p className="h3">
-                {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
-              </p>
               <div className="mt-8">
                 <h3>What you will learn:</h3>
                 <p>{bulletedList(programSubtitles)}</p>
               </div>
               <div className="mt-8">
                 <h3>Courses in this program:</h3>
-                <p>{courses}</p>
+                <p>{(courses || []).map(course => <CourseDisplayForProgram course={course} />)}</p>
               </div>
 
               {/* eslint-disable-next-line react/no-danger */}
-              {/* <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
-            {(skillNames.length > 0) && (
-              <div className="course-info-skills px-2 py-1">
-                <h4 className="mx-2 my-3">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}
-                </h4>
-                <SkillsListing skillNames={skillNames} />
-              </div>
-            )} */}
+              <div dangerouslySetInnerHTML={{ __html: programDescription }} />
             </div>
           </ModalDialog.Body>
 
@@ -266,9 +263,12 @@ ProgramModal.propTypes = {
   selectedProgram: PropTypes.shape({
     programUuid: PropTypes.string,
     programTitle: PropTypes.string,
+    programDescription: PropTypes.string,
     programProvider: PropTypes.string,
     programSubtitles: PropTypes.string,
     bannerImageUrl: PropTypes.string,
+    programAssociatedCatalogs: PropTypes.string,
+    partnerLogoImageUrl: PropTypes.string,
   }).isRequired,
 };
 

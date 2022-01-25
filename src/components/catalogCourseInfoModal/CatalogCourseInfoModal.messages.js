@@ -21,6 +21,11 @@ const messages = defineMessages({
     defaultMessage: 'About this course',
     description: 'Modal course description title',
   },
+  'catalogCourseInfoModal.programDescriptionTitle': {
+    id: 'catalogCourseInfoModal.programDescriptionTitle',
+    defaultMessage: 'About this program',
+    description: 'Modal program description title',
+  },
   'catalogCourseInfoModal.programMoreInfoButton': {
     id: 'catalogCourseInfoModal.programMoreInfoButton',
     defaultMessage: 'View program details',

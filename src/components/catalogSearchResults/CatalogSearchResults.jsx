@@ -61,6 +61,7 @@ export const BaseCatalogSearchResults = ({
   preview,
 }) => {
   const isProgramType = contentType === CONTENT_TYPE_PROGRAM;
+  const isCourseType = contentType === CONTENT_TYPE_COURSE;
 
   const TABLE_HEADERS = {
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
@@ -147,7 +148,7 @@ export const BaseCatalogSearchResults = ({
   };
 
   function renderCardComponent(props) {
-    if (contentType === CONTENT_TYPE_COURSE) { return <CourseCard {...props} onClick={cardClicked} />; }
+    if (isCourseType) { return <CourseCard {...props} onClick={cardClicked} />; }
     return <ProgramCard {...props} onClick={cardClicked} />;
   }
 
