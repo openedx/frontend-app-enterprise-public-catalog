@@ -172,6 +172,7 @@ const ProgramModal = ({
     programDescription,
     programAssociatedCatalogs,
     partnerLogoImageUrl,
+    marketingUrl,
   } = selectedProgram;
 
   const {
@@ -238,7 +239,7 @@ const ProgramModal = ({
               <Hyperlink
                 showLaunchIcon={false}
                 varient="muted"
-                destination=""
+                destination={marketingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -271,6 +272,7 @@ ProgramModal.propTypes = {
     bannerImageUrl: PropTypes.string,
     programAssociatedCatalogs: PropTypes.string,
     partnerLogoImageUrl: PropTypes.string,
+    marketingUrl: PropTypes.string,
   }).isRequired,
 };
 

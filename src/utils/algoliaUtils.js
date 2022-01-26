@@ -50,6 +50,7 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
     aggregation_key: aggregationKey,
     card_image_url: bannerImageUrl,
     enterprise_catalog_query_titles: programAssociatedCatalogs,
+    marketing_url: marketingUrl,
   } = algoliaProgramObject;
   return {
     contentType: CONTENT_TYPE_PROGRAM,
@@ -60,6 +61,7 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
     programAssociatedCatalogs,
     partnerLogoImageUrl: partners[0].logo_image_url,
     bannerImageUrl,
+    marketingUrl,
   };
 }
 
