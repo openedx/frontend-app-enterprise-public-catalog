@@ -13,8 +13,9 @@ jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 global.Blob = function (content, options) { return ({ content, options }); };
 
 // Enterprise catalog API mocks
-const mockGetCatalogApi = jest.spyOn(EnterpriseCatalogApiService, 'generateCsvDownloadLink');
-mockGetCatalogApi.mockResolvedValue('https://example.com/download');
+jest.spyOn(EnterpriseCatalogApiService, 'generateCsvDownloadLink').mockResolvedValue(
+  'https://example.com/download',
+);
 
 const facets = {
   skill_names: ['Research'],

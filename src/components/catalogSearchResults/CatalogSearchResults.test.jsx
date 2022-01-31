@@ -5,18 +5,22 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise-catalog-search';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
-import {
-  BaseCatalogSearchResults, NO_DATA_MESSAGE, ERROR_MESSAGE, SKELETON_DATA_TESTID,
-} from './CatalogSearchResults';
+import { BaseCatalogSearchResults, ERROR_MESSAGE, SKELETON_DATA_TESTID } from './CatalogSearchResults';
 import { renderWithRouter } from '../tests/testUtils';
 import messages from './CatalogSearchResults.messages';
 import {
   CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM, HIDE_PRICE_REFINEMENT,
 } from '../../constants';
+import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
 const PaginationComponent = () => <div>{PAGINATE_ME}</div>;
+
+const csvData = [{ csv_data: 'foobar' }];
+jest.spyOn(
+  EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets',
+).mockResolvedValue(csvData);
 
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 
@@ -150,6 +154,15 @@ const programProps = {
 };
 
 describe('Main Catalogs view works as expected', () => {
+  const OLD_ENV = process.env;
+  beforeEach(() => {
+    jest.resetModules(); // Most important - it clears the cache
+    process.env = { ...OLD_ENV }; // Make a copy
+  });
+  afterEach(() => {
+    process.env = OLD_ENV; // Restore old environment
+  });
+
   test('all courses rendered when search results available', () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
     process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
@@ -210,18 +223,6 @@ describe('Main Catalogs view works as expected', () => {
       </SearchDataWrapper>,
     );
     expect(screen.queryByText(PAGINATE_ME)).toBeInTheDocument();
-  });
-  test('no search results displays NO_DATA_MESSAGE', () => {
-    const emptySearchResults = { ...searchResults, nbHits: 0 };
-    renderWithRouter(
-      <SearchDataWrapper>
-        <BaseCatalogSearchResults
-          {...defaultProps}
-          searchResults={emptySearchResults}
-        />
-      </SearchDataWrapper>,
-    );
-    expect(screen.queryByText(NO_DATA_MESSAGE)).toBeInTheDocument();
   });
   test('error if present is rendered instead of table', () => {
     const ERRMSG = 'something ain\'t right here';
@@ -349,5 +350,35 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.numCourses'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.programType'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+  });
+  test('no program search results displays popular programs text', () => {
+    const emptySearchResults = { ...searchResults, nbHits: 0 };
+    renderWithRouter(
+      <IntlProvider locale="en">
+        <SearchDataWrapper>
+          <BaseCatalogSearchResults
+            {...programProps}
+            searchResults={emptySearchResults}
+          />
+        </SearchDataWrapper>
+      </IntlProvider>,
+    );
+    expect(screen.getByTestId('noResultsAlertTestId')).toBeInTheDocument();
+    expect(screen.getByText('Popular Programs')).toBeInTheDocument();
+  });
+  test('no course search results displays popular programs text', () => {
+    const emptySearchResults = { ...searchResults, nbHits: 0 };
+    renderWithRouter(
+      <IntlProvider locale="en">
+        <SearchDataWrapper>
+          <BaseCatalogSearchResults
+            {...defaultProps}
+            searchResults={emptySearchResults}
+          />
+        </SearchDataWrapper>
+      </IntlProvider>,
+    );
+    expect(screen.getByTestId('noResultsAlertTestId')).toBeInTheDocument();
+    expect(screen.getByText('Popular Courses')).toBeInTheDocument();
   });
 });

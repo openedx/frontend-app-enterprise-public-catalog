@@ -30,25 +30,12 @@ import {
   COURSE_TITLE, HIDE_PRICE_REFINEMENT, PROGRAM_TITLE,
 } from '../../constants';
 
+import CatalogNoResultsDeck from '../catalogNoResultsDeck/CatalogNoResultsDeck';
+import { formatDate, makePlural } from '../../utils';
+
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
-export const NO_DATA_MESSAGE = 'There are no course results';
 
 export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
-
-function formatDate(courseRun) {
-  if (courseRun) {
-    if (courseRun.start && courseRun.end) {
-      const startDate = (new Date(courseRun.start)).toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' });
-      const endDate = (new Date(courseRun.end)).toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' });
-      return `${startDate} - ${endDate}`;
-    }
-  }
-  return null;
-}
-function makePlural(num, string) {
-  if (num > 1 || num === 0) { return (`${num} ${string}s`); }
-  return (`${num} ${string}`);
-}
 
 // TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
 const ViewToggle = ({ cardView, setCardView }) => {
@@ -107,6 +94,8 @@ export const BaseCatalogSearchResults = ({
   error,
   paginationComponent: PaginationComponent,
   contentType,
+  setNoCourses,
+  setNoPrograms,
   preview,
 }) => {
   const TABLE_HEADERS = {
@@ -144,21 +133,10 @@ export const BaseCatalogSearchResults = ({
     );
   }
 
-  if (searchResults?.nbHits === 0) {
-    return (
-      <Alert className="mt-2" variant="warning">
-        <FormattedMessage
-          id="catalogs.catalogSearchResults.data"
-          defaultMessage={NO_DATA_MESSAGE}
-          description="Message is displayed when no data is returned (but no error occurs)."
-        />
-      </Alert>
-    );
-  }
-
   const { refinements, dispatch } = useContext(SearchContext);
   const nbHits = useNbHitsFromSearchResults(searchResults);
   const linkText = `Show (${nbHits}) >`;
+
   const [isOpen, open, close] = useToggle(false);
 
   const [title, setTitle] = useState();
@@ -256,16 +234,25 @@ export const BaseCatalogSearchResults = ({
       Cell: ({ row }) => (
         <div style={{ maxWidth: '400vw' }}>
           {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
-              && <Badge variant="dark" className="padded-catalog">{intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}</Badge>
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE) && (
+              <Badge variant="dark" className="padded-catalog">
+                {intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}
+              </Badge>
+            )
           }
           {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
-              && <Badge variant="secondary" className="business-catalog padded-catalog">{intl.formatMessage(messages['catalogSearchResults.businessBadge'])}</Badge>
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
+              <Badge variant="secondary" className="business-catalog padded-catalog">
+                {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
+              </Badge>
+            )
           }
           {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
-              && <Badge variant="light" className="padded-catalog">{intl.formatMessage(messages['catalogSearchResults.educationBadge'])}</Badge>
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
+              <Badge variant="light" className="padded-catalog">
+                {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
+              </Badge>
+            )
           }
         </div>
       ),
@@ -344,12 +331,23 @@ export const BaseCatalogSearchResults = ({
 
   function contentTitle() {
     let subTitle = (contentType === CONTENT_TYPE_COURSE) ? COURSE_TITLE : PROGRAM_TITLE;
-    if (refinements.q) {
+    if (refinements.q && refinements.q !== '') {
       subTitle = `"${refinements.q}" ${subTitle} (${makePlural(nbHits, 'result')})`;
     }
     return subTitle;
   }
 
+  if (contentType === CONTENT_TYPE_COURSE) {
+    if (searchResults?.nbHits === 0) {
+      setNoCourses(true);
+    } else {
+      setNoCourses(false);
+    }
+  } else if (searchResults?.nbHits === 0) {
+    setNoPrograms(true);
+  } else {
+    setNoPrograms(false);
+  }
   const inputQuery = query.q;
   return (
     <>
@@ -370,7 +368,7 @@ export const BaseCatalogSearchResults = ({
         upcomingRuns={upcomingRuns}
         skillNames={skillNames}
       />
-      {preview && contentType === CONTENT_TYPE_COURSE && (
+      {preview && contentType === CONTENT_TYPE_COURSE && (searchResults?.nbHits !== 0) && (
         <span className="landing-page-download">
           <DownloadCsvButton
             facets={searchResults?.disjunctiveFacetsRefinements}
@@ -382,47 +380,59 @@ export const BaseCatalogSearchResults = ({
       {preview && (
       <div className="preview-title">
         <p className="h2 mt-4">{contentTitle()}</p>
-        <Button variant="link" onClick={() => refinementClick(contentType)}>{linkText}</Button>
+        { (searchResults?.nbHits !== 0) && (
+          <Button variant="link" onClick={() => refinementClick(contentType)}>{linkText}</Button>
+        )}
       </div>
       )}
-      <DataTable
-        isSortable
-        dataViewToggleOptions={toggleOptions}
-        columns={contentType === CONTENT_TYPE_COURSE ? courseColumns : programColumns}
-        data={tableData}
-        itemCount={searchResults?.nbHits}
-        pageCount={searchResults?.nbPages || 1}
-        pageSize={searchResults?.hitsPerPage || 0}
-        tableActions={() => {
-          if (preview) {
-            return null;
-          }
-          // eslint-disable-next-line no-underscore-dangle
-          return <DownloadCsvButton facets={searchResults?._state.disjunctiveFacetsRefinements} query={inputQuery} />;
-        }}
-      >
-        <DataTable.TableControlBar />
-        { cardView && (
-          <CardView
-            columnSizes={{
-              xs: 12,
-              sm: 6,
-              md: 4,
-              lg: 4,
-              xl: 3,
-            }}
-            CardComponent={(props) => renderCardComponent(props)}
-          />
-        )}
-        { !cardView && <DataTable.Table /> }
+      { (searchResults?.nbHits === 0) && (
+        <CatalogNoResultsDeck
+          setCardView={setCardView}
+          columns={contentType === CONTENT_TYPE_COURSE ? courseColumns : programColumns}
+          renderCardComponent={renderCardComponent}
+          contentType={contentType}
+        />
+      )}
+      {(searchResults?.nbHits !== 0) && (
+        <DataTable
+          isSortable
+          dataViewToggleOptions={toggleOptions}
+          columns={contentType === CONTENT_TYPE_COURSE ? courseColumns : programColumns}
+          data={tableData}
+          itemCount={searchResults?.nbHits}
+          pageCount={searchResults?.nbPages || 1}
+          pageSize={searchResults?.hitsPerPage || 0}
+          tableActions={() => {
+            if (preview || (searchResults?.nbHits === 0)) {
+              return null;
+            }
+            // eslint-disable-next-line no-underscore-dangle
+            return <DownloadCsvButton facets={searchResults?._state.disjunctiveFacetsRefinements} query={inputQuery} />;
+          }}
+        >
+          <DataTable.TableControlBar />
+          { cardView && (
+            <CardView
+              columnSizes={{
+                xs: 12,
+                sm: 6,
+                md: 4,
+                lg: 4,
+                xl: 3,
+              }}
+              CardComponent={(props) => renderCardComponent(props)}
+            />
+          )}
+          { !cardView && <DataTable.Table /> }
 
-        {!preview && (
-        <DataTable.TableFooter>
-          <DataTable.RowStatus />
-          <PaginationComponent defaultRefinement={page} />
-        </DataTable.TableFooter>
-        ) }
-      </DataTable>
+          {!preview && (
+          <DataTable.TableFooter>
+            <DataTable.RowStatus />
+            <PaginationComponent defaultRefinement={page} />
+          </DataTable.TableFooter>
+          )}
+        </DataTable>
+      )}
     </>
   );
 };
@@ -433,6 +443,8 @@ BaseCatalogSearchResults.defaultProps = {
   paginationComponent: SearchPagination,
   row: null,
   preview: false,
+  setNoCourses: () => {},
+  setNoPrograms: () => {},
 };
 
 BaseCatalogSearchResults.propTypes = {
@@ -461,6 +473,8 @@ BaseCatalogSearchResults.propTypes = {
   row: PropTypes.string,
   contentType: PropTypes.string.isRequired,
   preview: PropTypes.bool,
+  setNoCourses: PropTypes.func,
+  setNoPrograms: PropTypes.func,
 };
 
 export default connectStateResults(injectIntl(BaseCatalogSearchResults));
