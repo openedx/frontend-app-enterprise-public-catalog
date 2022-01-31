@@ -95,7 +95,7 @@ const CourseModal = ({
             <ActionRow>
               <Hyperlink
                 showLaunchIcon={false}
-                varient="muted"
+                variant="muted"
                 destination={marketingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -141,10 +141,10 @@ const CourseDisplayForProgram = ({ course }) => {
   const { image, title, short_description: desc } = course;
   return (
     <div className="d-flex">
-      <div className="ml-2">
+      <div className="mr-2">
         <Image className="mr-2 partner-logo-thumbnail" src={image} rounded />
       </div>
-      <div>
+      <div className="ml-1 mr-1">
         {title}
         <p>
           {desc}
@@ -178,11 +178,9 @@ const ProgramModal = ({
   const {
     courses,
     price_ranges: prices,
-    banner_image: bannerImageUrls,
-    expected_learning_items: programExpectedLearningItems,
+    banner_image_url: bannerImageUrl,
+    learning_items: programExpectedLearningItems,
   } = useProgramInfo(programUuid);
-
-  const bannerImageUrl = bannerImageUrls ? bannerImageUrls.large.url : '';
 
   const usdPrice = prices?.filter(item => item.currency === 'USD')[0].total;
 
@@ -238,7 +236,7 @@ const ProgramModal = ({
             <ActionRow>
               <Hyperlink
                 showLaunchIcon={false}
-                varient="muted"
+                variant="muted"
                 destination={marketingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
