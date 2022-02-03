@@ -42,7 +42,10 @@ export default function CatalogSearch() {
             indexName={algoliaIndexName}
             searchClient={searchClient}
           >
-            <div className="enterprise-catalogs-header"><SearchHeader hideTitle variant="default" /></div>
+            <div className="enterprise-catalogs-header">
+              <Configure facetingAfterDistinct />
+              <SearchHeader hideTitle variant="default" />
+            </div>
             {showProgram && (
             <>
               {(!contentType || contentType.length === 2)
