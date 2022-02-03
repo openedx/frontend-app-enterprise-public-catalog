@@ -349,7 +349,7 @@ export const BaseCatalogSearchResults = ({
         <DataTable
           isSortable
           dataViewToggleOptions={toggleOptions}
-          columns={contentType === CONTENT_TYPE_COURSE ? courseColumns : programColumns}
+          columns={isCourseType ? courseColumns : programColumns}
           data={tableData}
           itemCount={searchResults?.nbHits}
           pageCount={searchResults?.nbPages || 1}
