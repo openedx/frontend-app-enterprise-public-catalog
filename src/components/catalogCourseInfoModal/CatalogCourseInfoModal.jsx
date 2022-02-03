@@ -13,7 +13,6 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Launch } from '@edx/paragon/icons';
 import messages from './CatalogCourseInfoModal.messages';
 import CatalogCourseModalBanner from '../catalogCourseModalBanner/CatalogCourseModalBanner';
-import useProgramInfo from './hooks';
 import CatalogProgramModalBanner from '../catalogCourseModalBanner/CatalogProgramModalBanner';
 
 const SkillsListing = ({ skillNames }) => (
@@ -168,21 +167,18 @@ const ProgramModal = ({
   const {
     programTitle,
     programProvider,
-    programUuid,
     programDescription,
     programAssociatedCatalogs,
     partnerLogoImageUrl,
     marketingUrl,
+    learningItems,
+    programPrices,
+    bannerImageUrl,
+    programCourses,
   } = selectedProgram;
 
-  const {
-    courses,
-    price_ranges: prices,
-    banner_image_url: bannerImageUrl,
-    learning_items: programExpectedLearningItems,
-  } = useProgramInfo(programUuid);
-
-  const usdPrice = prices?.filter(item => item.currency === 'USD')[0].total;
+  const prices = programPrices?.filter(item => item.currency === 'USD');
+  const usdPrice = prices && prices.length > 0 ? prices[0].total : '';
 
   const bulletedList = items => {
     if (!items) { return <></>; }
@@ -216,15 +212,15 @@ const ProgramModal = ({
               <CatalogProgramModalBanner
                 coursePrice={usdPrice}
                 courseAssociatedCatalogs={programAssociatedCatalogs}
-                courses={courses}
+                courses={programCourses}
               />
               <div className="mt-8">
                 <h3>What you will learn:</h3>
-                <p>{bulletedList(programExpectedLearningItems)}</p>
+                <p>{bulletedList(learningItems)}</p>
               </div>
               <div className="mt-8">
                 <h3>Courses in this program:</h3>
-                <p>{(courses || []).map(course => <CourseDisplayForProgram course={course} />)}</p>
+                <p>{(programCourses || []).map(course => <CourseDisplayForProgram course={course} />)}</p>
               </div>
 
               {/* eslint-disable-next-line react/no-danger */}
@@ -263,7 +259,6 @@ ProgramModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedProgram: PropTypes.shape({
-    programUuid: PropTypes.string,
     programTitle: PropTypes.string,
     programDescription: PropTypes.string,
     programProvider: PropTypes.string,
@@ -271,6 +266,9 @@ ProgramModal.propTypes = {
     programAssociatedCatalogs: PropTypes.string,
     partnerLogoImageUrl: PropTypes.string,
     marketingUrl: PropTypes.string,
+    learningItems: PropTypes.arrayOf(PropTypes.string),
+    programPrices: PropTypes.arrayOf(PropTypes.shape({})),
+    programCourses: PropTypes.arrayOf(PropTypes.shape({})),
   }).isRequired,
 };
 

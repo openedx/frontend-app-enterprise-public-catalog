@@ -48,9 +48,13 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
     partners,
     full_description: programDescription,
     aggregation_key: aggregationKey,
-    card_image_url: bannerImageUrl,
+    card_image_url: cardImageUrl,
+    banner_image_url: bannerImageUrl,
     enterprise_catalog_query_titles: programAssociatedCatalogs,
     marketing_url: marketingUrl,
+    prices: programPrices,
+    expected_learning_items: learningItems,
+    courses,
   } = algoliaProgramObject;
   return {
     contentType: CONTENT_TYPE_PROGRAM,
@@ -60,8 +64,12 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
     programDescription,
     programAssociatedCatalogs,
     partnerLogoImageUrl: partners[0].logo_image_url,
-    bannerImageUrl,
+    cardImageUrl,
     marketingUrl,
+    programPrices,
+    learningItems,
+    bannerImageUrl,
+    programCourses: courses,
   };
 }
 
