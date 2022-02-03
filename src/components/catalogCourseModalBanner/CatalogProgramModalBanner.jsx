@@ -58,7 +58,7 @@ const CatalogProgramModalBanner = ({
 );
 
 CatalogProgramModalBanner.defaultProps = {
-  coursePrice: '0',
+  coursePrice: 0,
   courseAssociatedCatalogs: [],
   courses: [],
   subtitle: '',
@@ -66,7 +66,7 @@ CatalogProgramModalBanner.defaultProps = {
 
 CatalogProgramModalBanner.propTypes = {
   intl: intlShape.isRequired,
-  coursePrice: PropTypes.string,
+  coursePrice: PropTypes.number,
   courseAssociatedCatalogs: PropTypes.arrayOf(PropTypes.string),
   courses: PropTypes.arrayOf(PropTypes.shape({})),
   subtitle: PropTypes.string,

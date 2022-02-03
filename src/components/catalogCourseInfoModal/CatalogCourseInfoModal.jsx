@@ -141,10 +141,10 @@ const CourseDisplayForProgram = ({ course }) => {
   return (
     <div className="d-flex">
       <div className="mr-2">
-        <Image className="mr-2 partner-logo-thumbnail" src={image} rounded />
+        <Image className="mr-2 course-info-modal-course-thumbnail" src={image} rounded />
       </div>
       <div className="ml-1 mr-1">
-        {title}
+        <h3>{title}</h3>
         <p>
           {desc}
         </p>
@@ -216,11 +216,11 @@ const ProgramModal = ({
               />
               <div className="mt-8">
                 <h3>What you will learn:</h3>
-                <p>{bulletedList(learningItems)}</p>
+                {bulletedList(learningItems)}
               </div>
               <div className="mt-8">
                 <h3>Courses in this program:</h3>
-                <p>{(programCourses || []).map(course => <CourseDisplayForProgram course={course} />)}</p>
+                <div className="mt-4">{(programCourses || []).map(course => <CourseDisplayForProgram key={course.courseKey} course={course} />)}</div>
               </div>
 
               {/* eslint-disable-next-line react/no-danger */}
@@ -263,7 +263,7 @@ ProgramModal.propTypes = {
     programDescription: PropTypes.string,
     programProvider: PropTypes.string,
     bannerImageUrl: PropTypes.string,
-    programAssociatedCatalogs: PropTypes.string,
+    programAssociatedCatalogs: PropTypes.arrayOf(PropTypes.string),
     partnerLogoImageUrl: PropTypes.string,
     marketingUrl: PropTypes.string,
     learningItems: PropTypes.arrayOf(PropTypes.string),
