@@ -20,30 +20,34 @@ const CatalogProgramModalBanner = ({
   subtitle,
 }) => (
   <div className="my-4.5 d-flex">
-    <div className="banner-section mx-3">
-      <div className="d-flex h4 mb-0">
-        <Icon className="mr-1" src={MoneyOutline} />
-        {coursePrice}
-      </div>
-      <div className="banner-subtitle small">
-        {intl.formatMessage(messages['CatalogCourseModalBanner.bannerPriceText'])}
-      </div>
-
-    </div>
-    <div className="banner-section slash">/</div>
-    {checkSubscriptions(courseAssociatedCatalogs) && (
+    { (coursePrice !== undefined) && (
+    <>
       <div className="banner-section mx-3">
         <div className="d-flex h4 mb-0">
-          <Icon className="mr-1" src={Assignment} />
-          {courses.length} courses
+          <Icon className="mr-1" src={MoneyOutline} />
+          {coursePrice}
         </div>
-        <div className="banner-subtitle small">{subtitle}</div>
+        <div className="banner-subtitle small">
+          {intl.formatMessage(messages['CatalogCourseModalBanner.bannerPriceText'])}
+        </div>
       </div>
+      <div className="banner-section slash">/</div>
+    </>
+    )}
+    { (courses && courses.length > 0) && (
+      <>
+        <div className="banner-section mx-3">
+          <div className="d-flex h4 mb-0">
+            <Icon className="mr-1" src={Assignment} />
+            {courses.length} courses
+          </div>
+          <div className="banner-subtitle small">{subtitle}</div>
+        </div>
+        <div className="banner-section slash">/</div>
+      </>
     )}
     {checkSubscriptions(courseAssociatedCatalogs) && (
       <>
-        <div className="banner-section slash">/</div>
-
         <div className="banner-section mx-3">
           <div className="d-flex h4 mb-0">
             <Icon className="mr-1" src={Assignment} />

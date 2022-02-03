@@ -31,6 +31,16 @@ const messages = defineMessages({
     defaultMessage: 'View program details',
     description: 'Button text for the programs more info footer button.',
   },
+  'catalogCourseInfoModal.programCourseListingTitle': {
+    id: 'catalogCourseInfoModal.programCourseListingTitle',
+    defaultMessage: 'Courses in this program',
+    description: 'Title text for courses listing section',
+  },
+  'catalogCourseInfoModal.programLearningItemsHeader': {
+    id: 'catalogCourseInfoModal.programLearningItemsHeader',
+    defaultMessage: 'What you\'ll learn',
+    description: 'Header text for learning items section',
+  },
 });
 
 export default messages;

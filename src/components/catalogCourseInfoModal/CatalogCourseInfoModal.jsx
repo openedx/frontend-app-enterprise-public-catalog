@@ -214,14 +214,18 @@ const ProgramModal = ({
                 courseAssociatedCatalogs={programAssociatedCatalogs}
                 courses={programCourses}
               />
+              {(learningItems && learningItems.length > 0) && (
               <div className="mt-8">
-                <h3>What you will learn:</h3>
+                <h3>{intl.formatMessage(messages['catalogCourseInfoModal.programLearningItemsHeader'])}</h3>
                 {bulletedList(learningItems)}
               </div>
+              )}
+              {(programCourses && programCourses.length > 0) && (
               <div className="mt-8">
-                <h3>Courses in this program:</h3>
+                <h3>{intl.formatMessage(messages['catalogCourseInfoModal.programCourseListingTitle'])}</h3>
                 <div className="mt-4">{(programCourses || []).map(course => <CourseDisplayForProgram key={course.courseKey} course={course} />)}</div>
               </div>
+              )}
 
               {/* eslint-disable-next-line react/no-danger */}
               <div dangerouslySetInnerHTML={{ __html: programDescription }} />
@@ -317,10 +321,16 @@ CatalogCourseInfoModal.propTypes = {
     skillNames: PropTypes.arrayOf(PropTypes.string),
   }),
   selectedProgram: PropTypes.shape({
-    programUuid: PropTypes.string,
     programTitle: PropTypes.string,
+    programDescription: PropTypes.string,
     programProvider: PropTypes.string,
-    programSubtitles: PropTypes.string,
+    bannerImageUrl: PropTypes.string,
+    programAssociatedCatalogs: PropTypes.arrayOf(PropTypes.string),
+    partnerLogoImageUrl: PropTypes.string,
+    marketingUrl: PropTypes.string,
+    learningItems: PropTypes.arrayOf(PropTypes.string),
+    programPrices: PropTypes.arrayOf(PropTypes.shape({})),
+    programCourses: PropTypes.arrayOf(PropTypes.shape({})),
   }),
 };
 
