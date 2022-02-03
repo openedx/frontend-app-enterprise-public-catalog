@@ -15,7 +15,12 @@ import React, {
 import { connectStateResults } from 'react-instantsearch-dom';
 import Skeleton from 'react-loading-skeleton';
 import {
-  CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM, CONTENT_TYPE_REFINEMENT, COURSE_TITLE, HIDE_PRICE_REFINEMENT, PROGRAM_TITLE,
+  CONTENT_TYPE_COURSE,
+  CONTENT_TYPE_PROGRAM,
+  CONTENT_TYPE_REFINEMENT,
+  COURSE_TITLE,
+  HIDE_PRICE_REFINEMENT,
+  PROGRAM_TITLE,
 } from '../../constants';
 import { extractUuid, mapAlgoliaObjectToCourse, mapAlgoliaObjectToProgram } from '../../utils/algoliaUtils';
 import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
