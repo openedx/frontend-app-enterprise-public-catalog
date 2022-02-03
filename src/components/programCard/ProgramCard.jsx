@@ -14,7 +14,7 @@ import { Program } from '@edx/paragon/icons';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './ProgramCard.messages';
-import { getCourses } from '../../utils';
+import { getCourses } from '../../utils/common';
 
 const ProgramCard = ({
   intl, onClick, original,

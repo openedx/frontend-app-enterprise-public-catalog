@@ -13,11 +13,11 @@ import {
 import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
 
 export default function CatalogSearch() {
-  const { refinements: { content_type: contentType } } = useContext(SearchContext);
+  const { refinements: { content_type: contentType, show_programs: programBool } } = useContext(SearchContext);
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
   const courseFilter = `content_type:${CONTENT_TYPE_COURSE}`;
   const programFilter = `content_type:${CONTENT_TYPE_PROGRAM}`;
-  const showProgram = true;
+  const showProgram = !!((programBool && programBool[0] === 'true'));
   const [noCourseResults, setNoCourseResults] = useState(false);
   const [noProgramResults, setNoProgramResults] = useState(false);
 

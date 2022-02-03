@@ -31,7 +31,7 @@ import DownloadCsvButton from './buttons/downloadCsvButton/DownloadCsvButton';
 import messages from './CatalogSearchResults.messages';
 
 import CatalogNoResultsDeck from '../catalogNoResultsDeck/CatalogNoResultsDeck';
-import { formatDate, makePlural } from '../../utils';
+import { formatDate, makePlural } from '../../utils/common';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 

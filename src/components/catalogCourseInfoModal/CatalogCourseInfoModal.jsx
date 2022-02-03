@@ -178,7 +178,7 @@ const ProgramModal = ({
   } = selectedProgram;
 
   const prices = programPrices?.filter(item => item.currency === 'USD');
-  const usdPrice = prices && prices.length > 0 ? prices[0].total : '';
+  const usdPrice = prices && prices.length > 0 ? prices[0].total : 0;
 
   const bulletedList = items => {
     if (!items) { return <></>; }

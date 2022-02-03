@@ -13,7 +13,7 @@ import {
 } from '../../constants';
 import messages from './CatalogNoResultsDeck.messages';
 import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
-import { getSelectedCatalogFromURL } from '../../utils';
+import { getSelectedCatalogFromURL } from '../../utils/common';
 
 const BASE_APP_URL = process.env.BASE_URL;
 
