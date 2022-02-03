@@ -6,7 +6,7 @@ import { logError } from '@edx/frontend-platform/logging';
 
 import CatalogNoResultsDeck from './CatalogNoResultsDeck';
 import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
-import { getSelectedCatalogFromURL } from '../../utils';
+import { getSelectedCatalogFromURL } from '../../utils/common';
 
 const TEST_COURSE_NAME = 'test course';
 const TEST_PARTNER = 'edx';
