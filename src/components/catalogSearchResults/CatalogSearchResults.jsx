@@ -226,30 +226,41 @@ export const BaseCatalogSearchResults = ({
       accessor: 'program_type',
     },
 
-    // TODO: Badges commented out until Algolia bug is resolved (ENT-5338)
-    // {
-    //   Header: TABLE_HEADERS.catalogs,
-    //   accessor: 'enterprise_catalog_query_titles',
-    //   Cell: ({ row }) => (
-    //     <div style={{ maxWidth: '400vw' }}>
-    //       {
-    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
-    //           && <Badge variant="dark" className="padded-catalog">{
-    //             intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}</Badge>
-    //       }
-    //       {
-    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
-    //           && <Badge variant="secondary" className="business-catalog padded-catalog">{
-    //             intl.formatMessage(messages['catalogSearchResults.businessBadge'])}</Badge>
-    //       }
-    //       {
-    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
-    //           && <Badge variant="light" className="padded-catalog">{
-    //             intl.formatMessage(messages['catalogSearchResults.educationBadge'])}</Badge>
-    //       }
-    //     </div>
-    //   ),
-    // },
+    {
+      Header: TABLE_HEADERS.catalogs,
+      accessor: 'enterprise_catalog_query_titles',
+      Cell: ({ row }) => (
+        <div style={{ maxWidth: '400vw' }}>
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
+              && (
+              <Badge variant="dark" className="padded-catalog">{
+                intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])
+              }
+              </Badge>
+              )
+          }
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
+              && (
+              <Badge variant="secondary" className="business-catalog padded-catalog">{
+                intl.formatMessage(messages['catalogSearchResults.businessBadge'])
+              }
+              </Badge>
+              )
+          }
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
+              && (
+              <Badge variant="light" className="padded-catalog">{
+                intl.formatMessage(messages['catalogSearchResults.educationBadge'])
+              }
+              </Badge>
+              )
+          }
+        </div>
+      ),
+    },
   ], []);
 
   const availabilityColumn = {
