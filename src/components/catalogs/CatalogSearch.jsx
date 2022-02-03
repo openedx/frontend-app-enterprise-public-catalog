@@ -20,6 +20,14 @@ export default function CatalogSearch() {
   const showProgram = !!((programBool && programBool[0] === 'true'));
   const [noCourseResults, setNoCourseResults] = useState(false);
   const [noProgramResults, setNoProgramResults] = useState(false);
+
+  let specifiedContentType;
+  if (contentType) {
+    if (contentType.length === 1) {
+      [specifiedContentType] = contentType;
+    }
+  }
+
   return (
     <>
       <PageWrapper className="mt-3 mb-5 page-width">
@@ -86,7 +94,7 @@ export default function CatalogSearch() {
                   </Index>
                 </>
               )}
-              {(contentType === CONTENT_TYPE_PROGRAM) && (
+              {(specifiedContentType === CONTENT_TYPE_PROGRAM) && (
               <>
                 <Index indexName={algoliaIndexName} indexId="search-program">
                   <Configure
@@ -100,7 +108,7 @@ export default function CatalogSearch() {
               )}
             </>
             )}
-            {(contentType === CONTENT_TYPE_COURSE || !showProgram) && (
+            {(specifiedContentType === CONTENT_TYPE_COURSE || !showProgram) && (
             <>
               <Index indexName={algoliaIndexName} indexId="search-courses">
                 <Configure
