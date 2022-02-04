@@ -46,7 +46,7 @@ const csvData = {
 const mockCatalogApiService = jest.spyOn(EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets');
 // fetching catalog from query params mock
 jest.mock('../../utils/common', () => ({
-  ...(jest.requireActual('../../utils')),
+  ...(jest.requireActual('../../utils/common')),
   getSelectedCatalogFromURL: jest.fn(),
 }));
 
