@@ -79,7 +79,7 @@ const CourseModal = ({
               </p>
               {/* eslint-disable-next-line react/no-danger */}
               <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
-              {(skillNames.length > 0) && (
+              {(skillNames && skillNames.length > 0) && (
               <div className="course-info-skills px-2 py-1">
                 <h4 className="mx-2 my-3">
                   {intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}
@@ -92,6 +92,7 @@ const CourseModal = ({
 
           <ModalDialog.Footer>
             <ActionRow>
+              {marketingUrl && (
               <Hyperlink
                 showLaunchIcon={false}
                 variant="muted"
@@ -105,6 +106,7 @@ const CourseModal = ({
                   <Icon className="btn-icon-after" src={Launch} />
                 </Button>
               </Hyperlink>
+              )}
               <ModalDialog.CloseButton className="course-info-footer-button" variant="dark">
                 {intl.formatMessage(messages['catalogCourseInfoModal.closeButton'])}
               </ModalDialog.CloseButton>
