@@ -53,8 +53,8 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
     enterprise_catalog_query_titles: programAssociatedCatalogs,
     marketing_url: marketingUrl,
     prices: programPrices,
-    expected_learning_items: learningItems,
-    courses,
+    learning_items: learningItems,
+    course_details: courseDetails,
   } = algoliaProgramObject;
   return {
     contentType: CONTENT_TYPE_PROGRAM,
@@ -69,7 +69,7 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
     programPrices,
     learningItems,
     bannerImageUrl,
-    programCourses: courses,
+    programCourses: courseDetails,
   };
 }
 
