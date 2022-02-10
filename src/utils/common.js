@@ -1,3 +1,6 @@
+/**
+ * Place all common utils here. Catalog or algolia specific utils go to the respective adjacent utils files.
+ */
 export function getSelectedCatalogFromURL() {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const params = Object.fromEntries(urlSearchParams.entries());

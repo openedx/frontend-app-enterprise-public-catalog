@@ -14,7 +14,7 @@ import { Program } from '@edx/paragon/icons';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './ProgramCard.messages';
-import { getCourses } from '../../utils';
+import { getCourses } from '../../utils/common';
 
 const ProgramCard = ({
   intl, onClick, original,
@@ -27,6 +27,11 @@ const ProgramCard = ({
     authoring_organizations,
     program_type,
   } = original;
+
+  const alaCarteRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE);
+  const businessCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_BUSINESS_TITLE);
+  const eduCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE);
+
   return (
     <Card className="program-card" tabIndex="0" onClick={() => onClick(original)}>
       <Card.Img
@@ -58,15 +63,23 @@ const ProgramCard = ({
         {enterprise_catalog_query_titles && (
         <div style={{ maxWidth: '400vw' }}>
           {
-              enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
-                && <Badge variant="info" className="ml-0 bright padded-catalog">{intl.formatMessage(messages['ProgramCard.aLaCarteBadge'])}</Badge>
+              alaCarteRequested
+                && (
+                <Badge variant="info" className="ml-0 bright padded-catalog">
+                  {intl.formatMessage(messages['ProgramCard.aLaCarteBadge'])}
+                </Badge>
+                )
+          }
+          {
+              businessCatalogRequested
+                && (
+                <Badge variant="secondary" className="padded-catalog">
+                  {intl.formatMessage(messages['ProgramCard.businessBadge'])}
+                </Badge>
+                )
             }
           {
-              enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
-                && <Badge variant="secondary" className="padded-catalog">{intl.formatMessage(messages['ProgramCard.businessBadge'])}</Badge>
-            }
-          {
-              enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
+              eduCatalogRequested
                 && (
                 <Badge className="padded-catalog" variant="light">
                   {intl.formatMessage(messages['ProgramCard.educationBadge'])}

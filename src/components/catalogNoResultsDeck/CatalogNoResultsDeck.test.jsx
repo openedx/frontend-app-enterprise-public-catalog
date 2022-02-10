@@ -6,7 +6,7 @@ import { logError } from '@edx/frontend-platform/logging';
 
 import CatalogNoResultsDeck from './CatalogNoResultsDeck';
 import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
-import { getSelectedCatalogFromURL } from '../../utils';
+import { getSelectedCatalogFromURL } from '../../utils/common';
 
 const TEST_COURSE_NAME = 'test course';
 const TEST_PARTNER = 'edx';
@@ -45,8 +45,8 @@ const csvData = {
 // Enterprise catalog API mock
 const mockCatalogApiService = jest.spyOn(EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets');
 // fetching catalog from query params mock
-jest.mock('../../utils', () => ({
-  ...(jest.requireActual('../../utils')),
+jest.mock('../../utils/common', () => ({
+  ...(jest.requireActual('../../utils/common')),
   getSelectedCatalogFromURL: jest.fn(),
 }));
 

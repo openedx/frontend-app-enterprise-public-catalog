@@ -1,75 +1,41 @@
+import {
+  SearchContext, SearchPagination, setRefinementAction, useNbHitsFromSearchResults,
+} from '@edx/frontend-enterprise-catalog-search';
+import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import {
+  Alert, Badge, Button, CardView, DataTable,
+} from '@edx/paragon';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React, {
   useContext,
   useMemo,
   useState,
 } from 'react';
-import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 import Skeleton from 'react-loading-skeleton';
-import classNames from 'classnames';
-import queryString from 'query-string';
-
 import {
-  Alert, Badge, Button, CardView, DataTable, Icon, IconButton, useToggle,
-} from '@edx/paragon';
-import {
-  SearchContext, SearchPagination, setRefinementAction, useNbHitsFromSearchResults,
-} from '@edx/frontend-enterprise-catalog-search';
-import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-
-import { GridView, ListView } from '@edx/paragon/icons';
-
+  CONTENT_TYPE_COURSE,
+  CONTENT_TYPE_PROGRAM,
+  CONTENT_TYPE_REFINEMENT,
+  COURSE_TITLE,
+  HIDE_PRICE_REFINEMENT,
+  PROGRAM_TITLE,
+} from '../../constants';
+import { extractUuid, mapAlgoliaObjectToCourse, mapAlgoliaObjectToProgram } from '../../utils/algoliaUtils';
+import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
+import { useSelectedCourse } from '../catalogs/data/hooks';
 import CourseCard from '../courseCard/CourseCard';
 import ProgramCard from '../programCard/ProgramCard';
-
-import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
 import DownloadCsvButton from './buttons/downloadCsvButton/DownloadCsvButton';
 import messages from './CatalogSearchResults.messages';
-import {
-  CONTENT_TYPE_REFINEMENT, CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM,
-  COURSE_TITLE, HIDE_PRICE_REFINEMENT, PROGRAM_TITLE,
-} from '../../constants';
 
 import CatalogNoResultsDeck from '../catalogNoResultsDeck/CatalogNoResultsDeck';
-import { formatDate, makePlural } from '../../utils';
+import { formatDate, makePlural } from '../../utils/common';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 
 export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
-
-// TODO: local view toggle compoent. To be replaced by IconButtonToggle from Paragon
-const ViewToggle = ({ cardView, setCardView }) => {
-  // TODO: This class switch to 'hover' is a hack to try and use the hover style
-  //       once the item is selected. However, the correct implementation would need to come
-  //       from IconButton. Once IconButton is updated, just update this to use the correct style variation
-  const selectedClassCardView = cardView ? 'hover' : '';
-  const selectedClassListView = !cardView ? 'hover' : '';
-  return (
-    <div className="float-right pt-1">
-      <IconButton
-        src={GridView}
-        iconAs={Icon}
-        alt="Card view"
-        onClick={() => { setCardView(true); }}
-        variant="dark"
-        className={classNames('mr-2', selectedClassCardView)}
-      />
-      <IconButton
-        src={ListView}
-        iconAs={Icon}
-        alt="List view"
-        onClick={() => { setCardView(false); }}
-        variant="dark"
-        className={classNames('mr-2', selectedClassListView)}
-      />
-    </div>
-  );
-};
-
-ViewToggle.propTypes = {
-  cardView: PropTypes.bool.isRequired,
-  setCardView: PropTypes.func.isRequired,
-};
 
 /**
  * The core search results rendering component.
@@ -98,6 +64,9 @@ export const BaseCatalogSearchResults = ({
   setNoPrograms,
   preview,
 }) => {
+  const isProgramType = contentType === CONTENT_TYPE_PROGRAM;
+  const isCourseType = contentType === CONTENT_TYPE_COURSE;
+
   const TABLE_HEADERS = {
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
     partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
@@ -137,61 +106,40 @@ export const BaseCatalogSearchResults = ({
   const nbHits = useNbHitsFromSearchResults(searchResults);
   const linkText = `Show (${nbHits}) >`;
 
-  const [isOpen, open, close] = useToggle(false);
-
-  const [title, setTitle] = useState();
-  const [provider, setProvider] = useState();
-  const [price, setPrice] = useState();
-  const [description, setDescription] = useState();
-  const [partnerLogoImageUrl, setPartnerLogoImageUrl] = useState();
-  const [bannerImageUrl, setBannerImageUrl] = useState();
-  const [associatedCatalogs, setAssociatedCatalogs] = useState();
-  const [marketingUrl, setMarketingUrl] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [upcomingRuns, setUpcomingRuns] = useState();
-  const [skillNames, setSkillNames] = useState([]);
+  const [selectedCourse, setSelectedCourse, isProgram, isCourse] = useSelectedCourse();
 
   const [cardView, setCardView] = useState(true);
 
   const rowClicked = (row) => {
     const rowPrice = row.original.first_enrollable_paid_seat_price;
-    const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
+    const priceText = rowPrice ? `$${rowPrice.toString()}` : intl.formatMessage(
       messages['catalogSearchResult.table.priceNotAvailable'],
     );
-    setPrice(priceText);
-    setAssociatedCatalogs(row.original.enterprise_catalog_query_titles);
-    setTitle(row.values.title);
-    setProvider(row.values['partners[0].name']);
-    setPartnerLogoImageUrl(row.original.partners[0].logo_image_url);
-    setDescription(row.original.full_description);
-    setBannerImageUrl(row.original.original_image_url);
-    setMarketingUrl(row.original.marketing_url);
-    setStartDate(row.original.advertised_course_run.start);
-    setEndDate(row.original.advertised_course_run.end);
-    setUpcomingRuns(row.original.upcoming_course_runs);
-    setSkillNames(row.original.skill_names);
-    open();
+    if (isProgramType) {
+      setSelectedCourse({
+        contentType: row.values.content_type,
+        programUuid: extractUuid(row.values.aggregation_key),
+        programTitle: row.values.title,
+        programProvider: row.values['partners[0].name'],
+      });
+    } else {
+      setSelectedCourse({
+        ...row.original,
+        contentType: row.values.content_type,
+        price: priceText,
+        title: row.values.title,
+        skillNames: row.values.skill_names,
+        provider: row.values['partners[0].name'],
+      });
+    }
   };
 
   const cardClicked = (card) => {
-    const rowPrice = card.first_enrollable_paid_seat_price;
-    const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : intl.formatMessage(
-      messages['catalogSearchResult.table.priceNotAvailable'],
-    );
-    setPrice(priceText);
-    setAssociatedCatalogs(card.enterprise_catalog_query_titles);
-    setTitle(card.title);
-    setProvider(card.partners[0].name);
-    setPartnerLogoImageUrl(card.partners[0].logo_image_url);
-    setDescription(card.full_description);
-    setBannerImageUrl(card.original_image_url);
-    setMarketingUrl(card.marketing_url);
-    setStartDate(card.advertised_course_run.start);
-    setEndDate(card.advertised_course_run.end);
-    setUpcomingRuns(card.upcoming_course_runs);
-    setSkillNames(card.skill_names);
-    open();
+    if (isProgramType) {
+      setSelectedCourse(mapAlgoliaObjectToProgram(card));
+    } else {
+      setSelectedCourse(mapAlgoliaObjectToCourse(card, intl, messages));
+    }
   };
 
   const refinementClick = (content) => {
@@ -203,7 +151,7 @@ export const BaseCatalogSearchResults = ({
   };
 
   function renderCardComponent(props) {
-    if (contentType === CONTENT_TYPE_COURSE) { return <CourseCard {...props} onClick={cardClicked} />; }
+    if (isCourseType) { return <CourseCard {...props} onClick={cardClicked} />; }
     return <ProgramCard {...props} onClick={cardClicked} />;
   }
 
@@ -283,30 +231,41 @@ export const BaseCatalogSearchResults = ({
       accessor: 'program_type',
     },
 
-    // TODO: Badges commented out until Algolia bug is resolved (ENT-5338)
-    // {
-    //   Header: TABLE_HEADERS.catalogs,
-    //   accessor: 'enterprise_catalog_query_titles',
-    //   Cell: ({ row }) => (
-    //     <div style={{ maxWidth: '400vw' }}>
-    //       {
-    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
-    //           && <Badge variant="dark" className="padded-catalog">{
-    //             intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}</Badge>
-    //       }
-    //       {
-    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
-    //           && <Badge variant="secondary" className="business-catalog padded-catalog">{
-    //             intl.formatMessage(messages['catalogSearchResults.businessBadge'])}</Badge>
-    //       }
-    //       {
-    //         row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
-    //           && <Badge variant="light" className="padded-catalog">{
-    //             intl.formatMessage(messages['catalogSearchResults.educationBadge'])}</Badge>
-    //       }
-    //     </div>
-    //   ),
-    // },
+    {
+      Header: TABLE_HEADERS.catalogs,
+      accessor: 'enterprise_catalog_query_titles',
+      Cell: ({ row }) => (
+        <div style={{ maxWidth: '400vw' }}>
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
+              && (
+              <Badge variant="dark" className="padded-catalog">{
+                intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])
+              }
+              </Badge>
+              )
+          }
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
+              && (
+              <Badge variant="secondary" className="business-catalog padded-catalog">{
+                intl.formatMessage(messages['catalogSearchResults.businessBadge'])
+              }
+              </Badge>
+              )
+          }
+          {
+            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
+              && (
+              <Badge variant="light" className="padded-catalog">{
+                intl.formatMessage(messages['catalogSearchResults.educationBadge'])
+              }
+              </Badge>
+              )
+          }
+        </div>
+      ),
+    },
   ], []);
 
   const availabilityColumn = {
@@ -351,24 +310,22 @@ export const BaseCatalogSearchResults = ({
   const inputQuery = query.q;
   return (
     <>
-      <CatalogCourseInfoModal
-        isOpen={isOpen}
-        onClose={close}
-        courseTitle={title}
-        courseProvider={provider}
-        coursePrice={price}
-        courseDescription={description}
-        partnerLogoImageUrl={partnerLogoImageUrl}
-        setBannerImageUrl={setBannerImageUrl}
-        bannerImageUrl={bannerImageUrl}
-        courseAssociatedCatalogs={associatedCatalogs}
-        marketingUrl={marketingUrl}
-        startDate={startDate}
-        endDate={endDate}
-        upcomingRuns={upcomingRuns}
-        skillNames={skillNames}
-      />
-      {preview && contentType === CONTENT_TYPE_COURSE && (searchResults?.nbHits !== 0) && (
+      { isCourseType && (
+        <CatalogCourseInfoModal
+          isOpen={isCourse}
+          onClose={() => setSelectedCourse(null)}
+          selectedCourse={selectedCourse}
+        />
+      )}
+      { isProgramType && (
+        <CatalogCourseInfoModal
+          isOpen={isProgram}
+          onClose={() => setSelectedCourse(null)}
+          selectedProgram={selectedCourse}
+          renderProgram
+        />
+      )}
+      {preview && isCourseType && (searchResults?.nbHits !== 0) && (
         <span className="landing-page-download">
           <DownloadCsvButton
             facets={searchResults?.disjunctiveFacetsRefinements}
@@ -397,7 +354,7 @@ export const BaseCatalogSearchResults = ({
         <DataTable
           isSortable
           dataViewToggleOptions={toggleOptions}
-          columns={contentType === CONTENT_TYPE_COURSE ? courseColumns : programColumns}
+          columns={isCourseType ? courseColumns : programColumns}
           data={tableData}
           itemCount={searchResults?.nbHits}
           pageCount={searchResults?.nbPages || 1}
