@@ -140,10 +140,12 @@ CourseModal.propTypes = {
 
 const CourseDisplayForProgram = ({ course }) => {
   const { image, title, short_description: desc } = course;
+  // TODO: we can change it to just image once catalog server is updated
+  // currently image is coming out as { src: 'url' }, instead  we can just go with image: 'url'
   return (
     <div className="d-flex">
       <div className="mr-2">
-        <Image className="mr-2 course-info-modal-course-thumbnail" src={image} rounded />
+        <Image className="mr-2 course-info-modal-course-thumbnail" src={image.src} rounded />
       </div>
       <div className="ml-1 mr-1">
         <h3>{title}</h3>
