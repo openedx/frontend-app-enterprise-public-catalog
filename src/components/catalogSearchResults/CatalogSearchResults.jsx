@@ -23,7 +23,7 @@ import {
   PROGRAM_TITLE,
 } from '../../constants';
 import { extractUuid, mapAlgoliaObjectToCourse, mapAlgoliaObjectToProgram } from '../../utils/algoliaUtils';
-import CatalogCourseInfoModal from '../catalogCourseInfoModal/CatalogCourseInfoModal';
+import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
 import { useSelectedCourse } from '../catalogs/data/hooks';
 import CourseCard from '../courseCard/CourseCard';
 import ProgramCard from '../programCard/ProgramCard';
@@ -311,14 +311,14 @@ export const BaseCatalogSearchResults = ({
   return (
     <>
       { isCourseType && (
-        <CatalogCourseInfoModal
+        <CatalogInfoModal
           isOpen={isCourse}
           onClose={() => setSelectedCourse(null)}
           selectedCourse={selectedCourse}
         />
       )}
       { isProgramType && (
-        <CatalogCourseInfoModal
+        <CatalogInfoModal
           isOpen={isProgram}
           onClose={() => setSelectedCourse(null)}
           selectedProgram={selectedCourse}

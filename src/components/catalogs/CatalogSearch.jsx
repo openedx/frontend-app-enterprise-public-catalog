@@ -13,11 +13,10 @@ import {
 import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
 
 export default function CatalogSearch() {
-  const { refinements: { content_type: contentType, show_programs: programBool } } = useContext(SearchContext);
+  const { refinements: { content_type: contentType } } = useContext(SearchContext);
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
   const courseFilter = `content_type:${CONTENT_TYPE_COURSE}`;
   const programFilter = `content_type:${CONTENT_TYPE_PROGRAM}`;
-  const showProgram = !!((programBool && programBool[0] === 'true'));
   const [noCourseResults, setNoCourseResults] = useState(false);
   const [noProgramResults, setNoProgramResults] = useState(false);
 
@@ -46,7 +45,6 @@ export default function CatalogSearch() {
               <Configure facetingAfterDistinct />
               <SearchHeader hideTitle variant="default" />
             </div>
-            {showProgram && (
             <>
               {(!contentType || contentType.length === 2)
               && (noCourseResults === noProgramResults || !noCourseResults) && (
@@ -110,8 +108,7 @@ export default function CatalogSearch() {
               </>
               )}
             </>
-            )}
-            {(specifiedContentType === CONTENT_TYPE_COURSE || !showProgram) && (
+            {(specifiedContentType === CONTENT_TYPE_COURSE) && (
             <>
               <Index indexName={algoliaIndexName} indexId="search-courses">
                 <Configure
