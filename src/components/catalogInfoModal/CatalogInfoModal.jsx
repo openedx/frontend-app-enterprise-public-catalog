@@ -11,9 +11,9 @@ import {
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { Launch } from '@edx/paragon/icons';
-import messages from './CatalogCourseInfoModal.messages';
-import CatalogCourseModalBanner from '../catalogCourseModalBanner/CatalogCourseModalBanner';
-import CatalogProgramModalBanner from '../catalogCourseModalBanner/CatalogProgramModalBanner';
+import messages from './CatalogInfoModal.messages';
+import CatalogCourseModalBanner from '../catalogModalBanner/CatalogCourseModalBanner';
+import CatalogProgramModalBanner from '../catalogModalBanner/CatalogProgramModalBanner';
 
 const SkillsListing = ({ skillNames }) => (
   <ul className="mx-2 course-info-skills-list">
@@ -75,14 +75,14 @@ const CourseModal = ({
                 upcomingRuns={upcomingRuns}
               />
               <p className="h3">
-                {intl.formatMessage(messages['catalogCourseInfoModal.courseDescriptionTitle'])}
+                {intl.formatMessage(messages['catalogInfoModal.courseDescriptionTitle'])}
               </p>
               {/* eslint-disable-next-line react/no-danger */}
               <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
               {(skillNames && skillNames.length > 0) && (
               <div className="course-info-skills px-2 py-1">
                 <h4 className="mx-2 my-3">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.relatedSkillsHeading'])}
+                  {intl.formatMessage(messages['catalogInfoModal.relatedSkillsHeading'])}
                 </h4>
                 <SkillsListing skillNames={skillNames} />
               </div>
@@ -100,16 +100,13 @@ const CourseModal = ({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="course-info-footer-button" variant="outline-primary">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.moreInfoButton'])}
+                <Button className="course-info-footer-button" variant="primary">
+                  {intl.formatMessage(messages['catalogInfoModal.moreInfoButton'])}
                   {/* Paragon Button's `iconAfter` throws errors so the icon is manually added */}
                   <Icon className="btn-icon-after" src={Launch} />
                 </Button>
               </Hyperlink>
               )}
-              <ModalDialog.CloseButton className="course-info-footer-button" variant="dark">
-                {intl.formatMessage(messages['catalogCourseInfoModal.closeButton'])}
-              </ModalDialog.CloseButton>
             </ActionRow>
           </ModalDialog.Footer>
         </ModalDialog>
@@ -140,6 +137,9 @@ CourseModal.propTypes = {
 
 const CourseDisplayForProgram = ({ course }) => {
   const { image, title, short_description: desc } = course;
+  // removing html tags in description
+  const regex = /(<([^>]+)>)/ig;
+  const newDesc = desc.replace(regex, '');
   // TODO: we can change it to just image once catalog server is updated
   // currently image is coming out as { src: 'url' }, instead  we can just go with image: 'url'
   // the following hack can go away after that.
@@ -149,13 +149,13 @@ const CourseDisplayForProgram = ({ course }) => {
   }
   return (
     <div className="d-flex">
-      <div className="mr-2">
+      <div className="mb-2 mr-2">
         <Image className="mr-2 course-info-modal-course-thumbnail" src={imageSrc} rounded />
       </div>
       <div className="ml-1 mr-1">
         <h3>{title}</h3>
         <p>
-          {desc}
+          {newDesc}
         </p>
       </div>
     </div>
@@ -187,7 +187,7 @@ const ProgramModal = ({
   } = selectedProgram;
 
   const prices = programPrices?.filter(item => item.currency === 'USD');
-  const usdPrice = prices && prices.length > 0 ? prices[0].total : 0;
+  const usdPrice = prices && prices.length > 0 ? `$${prices[0].total}` : '$0';
 
   const bulletedList = items => {
     if (!items) { return <></>; }
@@ -225,13 +225,13 @@ const ProgramModal = ({
               />
               {(learningItems && learningItems.length > 0) && (
               <div className="mt-8">
-                <h3>{intl.formatMessage(messages['catalogCourseInfoModal.programLearningItemsHeader'])}</h3>
+                <h3>{intl.formatMessage(messages['catalogInfoModal.programLearningItemsHeader'])}</h3>
                 {bulletedList(learningItems)}
               </div>
               )}
               {(programCourses && programCourses.length > 0) && (
               <div className="mt-8">
-                <h3>{intl.formatMessage(messages['catalogCourseInfoModal.programCourseListingTitle'])}</h3>
+                <h3>{intl.formatMessage(messages['catalogInfoModal.programCourseListingTitle'])}</h3>
                 <div className="mt-4">{(programCourses || []).map(course => <CourseDisplayForProgram key={course.courseKey} course={course} />)}</div>
               </div>
               )}
@@ -250,15 +250,13 @@ const ProgramModal = ({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="course-info-footer-button" variant="outline-primary">
-                  {intl.formatMessage(messages['catalogCourseInfoModal.programMoreInfoButton'])}
+                <Button className="course-info-footer-button" variant="primary">
+                  {intl.formatMessage(messages['catalogInfoModal.programMoreInfoButton'])}
                   {/* Paragon Button's `iconAfter` throws errors so the icon is manually added */}
                   <Icon className="btn-icon-after" src={Launch} />
                 </Button>
               </Hyperlink>
-              <ModalDialog.CloseButton className="course-info-footer-button" variant="dark">
-                {intl.formatMessage(messages['catalogCourseInfoModal.closeButton'])}
-              </ModalDialog.CloseButton>
+
             </ActionRow>
           </ModalDialog.Footer>
         </ModalDialog>

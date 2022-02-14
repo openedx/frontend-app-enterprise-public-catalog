@@ -7,6 +7,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import {
   Assignment,
+  BookOpen,
   MoneyOutline,
 } from '@edx/paragon/icons';
 import messages from './CatalogCourseModalBanner.messages';
@@ -17,7 +18,6 @@ const CatalogProgramModalBanner = ({
   coursePrice,
   courseAssociatedCatalogs,
   courses,
-  subtitle,
 }) => (
   <div className="my-4.5 d-flex">
     { (coursePrice !== undefined) && (
@@ -41,7 +41,9 @@ const CatalogProgramModalBanner = ({
             <Icon className="mr-1" src={Assignment} />
             {courses.length} courses
           </div>
-          <div className="banner-subtitle small">{subtitle}</div>
+          <div className="banner-subtitle small">
+            {intl.formatMessage(messages['CatalogCourseModalBanner.bannerCourseText'])}
+          </div>
         </div>
         <div className="banner-section slash">/</div>
       </>
@@ -50,7 +52,7 @@ const CatalogProgramModalBanner = ({
       <>
         <div className="banner-section mx-3">
           <div className="d-flex h4 mb-0">
-            <Icon className="mr-1" src={Assignment} />
+            <Icon className="mr-1" src={BookOpen} />
             {intl.formatMessage(messages['CatalogCourseModalBanner.bannerCatalogText'])}
           </div>
           <div className="banner-subtitle small">{checkSubscriptions(courseAssociatedCatalogs)}</div>
@@ -58,22 +60,19 @@ const CatalogProgramModalBanner = ({
       </>
     )}
   </div>
-
 );
 
 CatalogProgramModalBanner.defaultProps = {
-  coursePrice: 0,
+  coursePrice: '$0',
   courseAssociatedCatalogs: [],
   courses: [],
-  subtitle: '',
 };
 
 CatalogProgramModalBanner.propTypes = {
   intl: intlShape.isRequired,
-  coursePrice: PropTypes.number,
+  coursePrice: PropTypes.string,
   courseAssociatedCatalogs: PropTypes.arrayOf(PropTypes.string),
   courses: PropTypes.arrayOf(PropTypes.shape({})),
-  subtitle: PropTypes.string,
 };
 
 export default injectIntl(CatalogProgramModalBanner);
