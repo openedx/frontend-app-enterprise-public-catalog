@@ -328,7 +328,7 @@ export const BaseCatalogSearchResults = ({
       {preview && isCourseType && (searchResults?.nbHits !== 0) && (
         <span className="landing-page-download">
           <DownloadCsvButton
-            facets={searchResults?.disjunctiveFacetsRefinements}
+            facets={searchResults?._state.disjunctiveFacetsRefinements}
             query={inputQuery}
           />
         </span>
