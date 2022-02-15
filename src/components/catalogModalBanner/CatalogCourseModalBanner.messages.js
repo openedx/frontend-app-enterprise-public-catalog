@@ -11,6 +11,11 @@ const messages = defineMessages({
     defaultMessage: 'A la carte course price',
     description: 'Text for modal subheader banner for a la carte price.',
   },
+  'CatalogCourseModalBanner.bannerPriceTextProgram': {
+    id: 'CatalogCourseModalBanner.bannerPriceTextProgram',
+    defaultMessage: 'A la carte program price',
+    description: 'Text for modal subheader banner for a la carte price.',
+  },
   'CatalogCourseModalBanner.bannerCourseText': {
     id: 'CatalogCourseModalBanner.bannerCourseText',
     defaultMessage: 'Skill-building selection',
