@@ -295,7 +295,25 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.availability'].defaultMessage)).toBeInTheDocument();
   });
-  test('testing course modal pops up ', () => {
+  test('testing list course modal pops up ', () => {
+    renderWithRouter(
+      <SearchDataWrapper>
+        <IntlProvider locale="en">
+          <BaseCatalogSearchResults {...defaultProps} />
+        </IntlProvider>,
+      </SearchDataWrapper>,
+    );
+
+    const listViewToggleButton = screen.getByLabelText('List');
+    userEvent.click(listViewToggleButton);
+
+    const courseTitle = screen.getByText('test course');
+    userEvent.click(courseTitle);
+
+    expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument();
+    expect(screen.queryByText('About this course')).toBeInTheDocument();
+  });
+  test('testing card course modal pops up ', () => {
     renderWithRouter(
       <SearchDataWrapper>
         <IntlProvider locale="en">

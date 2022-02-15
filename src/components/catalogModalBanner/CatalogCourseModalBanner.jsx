@@ -39,9 +39,9 @@ const CatalogCourseModalBanner = ({
   endDate,
   upcomingRuns,
 }) => (
-  <div className="my-4.5 d-flex">
+  <div className="my-4.5 banner">
     <div className="banner-section mx-3">
-      <div className="d-flex h4 mb-0">
+      <div className="banner h4 mb-0">
         <Icon className="mr-1" src={MoneyOutline} />
         {coursePrice}
       </div>
@@ -53,7 +53,7 @@ const CatalogCourseModalBanner = ({
     <div className="banner-section slash">/</div>
     {checkSubscriptions(courseAssociatedCatalogs) && (
       <div className="banner-section mx-3">
-        <div className="d-flex h4 mb-0">
+        <div className="banner h4 mb-0">
           <Icon className="mr-1" src={BookOpen} />
           {intl.formatMessage(messages['CatalogCourseModalBanner.bannerCatalogText'])}
         </div>
@@ -64,7 +64,7 @@ const CatalogCourseModalBanner = ({
       <div className="banner-section slash">/</div>
     )}
     <div className="banner-section mx-3">
-      <div className="d-flex h4 mb-0">
+      <div className="banner h4 mb-0">
         <Icon className="mr-1" src={EventNote} />
         {checkAvailability(startDate, endDate)}
       </div>

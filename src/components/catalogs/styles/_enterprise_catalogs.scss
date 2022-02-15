@@ -88,6 +88,10 @@
   }
 }
 
+.banner {
+  display: flex;
+}
+
 .banner-section {
   line-height: 24px;
   color: $primary-300;
@@ -158,5 +162,8 @@
   }
   .banner-section {
     margin-bottom: 16px;
+  }
+  .banner-subtitle {
+    margin-left: 0px;
   }
 }

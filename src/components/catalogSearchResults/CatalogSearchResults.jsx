@@ -22,7 +22,7 @@ import {
   HIDE_PRICE_REFINEMENT,
   PROGRAM_TITLE,
 } from '../../constants';
-import { extractUuid, mapAlgoliaObjectToCourse, mapAlgoliaObjectToProgram } from '../../utils/algoliaUtils';
+import { mapAlgoliaObjectToCourse, mapAlgoliaObjectToProgram } from '../../utils/algoliaUtils';
 import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
 import { useSelectedCourse } from '../catalogs/data/hooks';
 import CourseCard from '../courseCard/CourseCard';
@@ -111,26 +111,12 @@ export const BaseCatalogSearchResults = ({
   const [cardView, setCardView] = useState(true);
 
   const rowClicked = (row) => {
-    const rowPrice = row.original.first_enrollable_paid_seat_price;
-    const priceText = rowPrice ? `$${rowPrice.toString()}` : intl.formatMessage(
-      messages['catalogSearchResult.table.priceNotAvailable'],
-    );
     if (isProgramType) {
-      setSelectedCourse({
-        contentType: row.values.content_type,
-        programUuid: extractUuid(row.values.aggregation_key),
-        programTitle: row.values.title,
-        programProvider: row.values['partners[0].name'],
-      });
+      setSelectedCourse(
+        mapAlgoliaObjectToProgram(row.original),
+      );
     } else {
-      setSelectedCourse({
-        ...row.original,
-        contentType: row.values.content_type,
-        price: priceText,
-        title: row.values.title,
-        skillNames: row.values.skill_names,
-        provider: row.values['partners[0].name'],
-      });
+      setSelectedCourse(mapAlgoliaObjectToCourse(row.original, intl, messages));
     }
   };
 
@@ -308,6 +294,7 @@ export const BaseCatalogSearchResults = ({
     setNoPrograms(false);
   }
   const inputQuery = query.q;
+
   return (
     <>
       { isCourseType && (
