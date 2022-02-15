@@ -327,10 +327,10 @@ export const BaseCatalogSearchResults = ({
       )}
       {preview && isCourseType && (searchResults?.nbHits !== 0) && (
         <span className="landing-page-download">
-          <DownloadCsvButton
-            facets={searchResults?._state.disjunctiveFacetsRefinements}
-            query={inputQuery}
-          />
+          {
+            // eslint-disable-next-line no-underscore-dangle
+            <DownloadCsvButton facets={searchResults?._state.disjunctiveFacetsRefinements} query={inputQuery} />
+          }
         </span>
       )}
       <div className="clearfix" />
