@@ -15,7 +15,7 @@ class EnterpriseCatalogApiService {
 
   static generateCsvDownloadLink(options, query) {
     const facetQuery = query ? `&query=${query}` : '';
-    const enterpriseListUrl = `${EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl}/catalog_workbook/?${qs.stringify(options)}${facetQuery}`;
+    const enterpriseListUrl = `${EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl}/catalog_workbook?${qs.stringify(options)}${facetQuery}`;
     return enterpriseListUrl;
   }
 
