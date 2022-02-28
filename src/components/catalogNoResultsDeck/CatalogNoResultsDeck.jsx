@@ -38,7 +38,7 @@ const CatalogNoResultsDeck = ({
   useEffect(() => {
     const defaultCoursesRefinements = { enterprise_catalog_query_titles: selectedCatalog, content_type: contentType };
     EnterpriseCatalogApiService.fetchDefaultCoursesInCatalogWithFacets(defaultCoursesRefinements).then(response => {
-      setDefaultData(response.default_content);
+      setDefaultData(response.default_content || []);
       setApiError(false);
     }).catch(err => {
       setApiError(true);
