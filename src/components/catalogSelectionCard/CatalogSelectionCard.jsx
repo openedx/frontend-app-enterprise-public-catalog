@@ -1,20 +1,15 @@
-import React, {
-  useContext,
-} from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   SearchContext, setRefinementAction,
 } from '@edx/frontend-enterprise-catalog-search';
-import {
-  Badge, Card, Form,
-} from '@edx/paragon';
+import { Badge, Card, Form } from '@edx/paragon';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
-export const CardCheckbox = ({
-  label, queryTitle, labelDetail,
-}) => {
+export const CardCheckbox = ({ queryTitle }) => {
   const { refinements, dispatch } = useContext(SearchContext);
-  const isChecked = refinements[QUERY_TITLE_REFINEMENT]?.includes(queryTitle) || false;
+  const isChecked =
+    refinements[QUERY_TITLE_REFINEMENT]?.includes(queryTitle) || false;
 
   const setChecked = () => {
     if (!isChecked) {
@@ -23,44 +18,46 @@ export const CardCheckbox = ({
   };
   return (
     <Form.Radio
-      className="catalog-selection-card-checkbox"
+      className="mt-3 mr-3"
       checked={isChecked}
       onChange={setChecked}
-      description={labelDetail}
     >
-      {label}
     </Form.Radio>
   );
 };
 
 CardCheckbox.propTypes = {
   queryTitle: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  labelDetail: PropTypes.string.isRequired,
 };
 
 const CatalogSelectionCard = ({
-  queryTitle, className, badgeVariant, badge, label, cardBody, labelDetail,
+  queryTitle,
+  className,
+  badgeVariant,
+  badge,
+  label,
+  cardBody,
+  labelDetail,
 }) => (
   <Card>
-    <Card.Body>
-      <Card.Title>
-        <Badge className={className} variant={badgeVariant}>
-          {badge}
-        </Badge>
-        <CardCheckbox
-          label={label}
-          labelDetail={labelDetail}
-          queryTitle={queryTitle}
-        />
-      </Card.Title>
-      <Card.Text>{cardBody}</Card.Text>
-    </Card.Body>
+    <Card.Header
+      title={
+        <span>
+          <Badge className={className} variant={badgeVariant}>
+            {badge}
+          </Badge>
+          <div>{label}</div>
+        </span>
+      }
+      subtitle={labelDetail}
+      actions={<CardCheckbox queryTitle={queryTitle} />}
+    />
+    <Card.Section>{cardBody}</Card.Section>
   </Card>
 );
 
 CatalogSelectionCard.defaultProps = {
-  className: '',
+  className: "",
 };
 
 CatalogSelectionCard.propTypes = {

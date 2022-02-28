@@ -33,8 +33,8 @@ const ProgramCard = ({
   const eduCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE);
 
   return (
-    <Card className="program-card" tabIndex="0" onClick={() => onClick(original)}>
-      <Card.Img
+    <Card isClickable className="program-card" tabIndex="0" onClick={() => onClick(original)}>
+      {/* <Card.Img
         className="cards-course-image"
         variant="top"
         src={card_image_url}
@@ -88,7 +88,7 @@ const ProgramCard = ({
             }
         </div>
         )}
-      </div>
+      </div> */}
     </Card>
   );
 };

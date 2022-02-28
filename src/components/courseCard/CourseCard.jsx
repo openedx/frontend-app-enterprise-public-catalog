@@ -26,7 +26,7 @@ const CourseCard = ({
   const priceText = (rowPrice != null) ? `$${rowPrice.toString()}` : 'N/A';
   return (
     <Card className={className} tabIndex="0" onClick={() => onClick(original)}>
-      <Card.Img
+      {/* <Card.Img
         className="cards-course-image"
         variant="top"
         src={card_image_url}
@@ -59,7 +59,7 @@ const CourseCard = ({
                 )
             }
         </div>
-      </div>
+      </div> */}
     </Card>
   );
 };
