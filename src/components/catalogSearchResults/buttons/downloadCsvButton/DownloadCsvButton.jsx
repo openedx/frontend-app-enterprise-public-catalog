@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -9,15 +9,6 @@ import { Download } from '@edx/paragon/icons';
 import EnterpriseCatalogApiService from '../../../../data/services/EnterpriseCatalogAPIService';
 
 const DownloadCsvButton = ({ facets, query }) => {
-  const [buttonState, setButtonState] = useState('default');
-
-  // If the facets ever change, reset the state of the button
-  useEffect(() => {
-    if (buttonState !== 'defualt') {
-      setButtonState('defualt');
-    }
-  }, [facets, query]);
-
   const [isOpen, open, close] = useToggle(false);
   const [filters, setFilters] = useState();
 
