@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { IntlProvider } from '@edx/frontend-platform/i18n';
@@ -49,5 +49,14 @@ describe('Program card works as expected', () => {
     expect(screen.queryByText(defaultProps.original.program_type)).toBeInTheDocument();
     expect(screen.queryByText('2 Courses')).toBeInTheDocument();
     expect(screen.queryByText('Business'));
+  });
+  test('test card renders default image', () => {
+    render(
+      <IntlProvider locale="en">
+        <ProgramCard {...defaultProps} />
+      </IntlProvider>,
+    );
+    fireEvent.error(screen.getByAltText(originalData.title));
+    expect(screen.getByAltText(originalData.title).src).toEqual('http://localhost/test-file-stub');
   });
 });

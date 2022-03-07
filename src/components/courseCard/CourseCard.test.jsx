@@ -1,22 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import CourseCard from './CourseCard';
 
-const mockConfig = () => (
-  {
-    EDX_FOR_BUSINESS_TITLE: 'ayylmao',
-    EDX_FOR_ONLINE_EDU_TITLE: 'foo',
-    EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
-    FEATURE_CARD_VIEW_ENABLED: 'True',
-  }
-);
-
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
-  getConfig: () => mockConfig(),
 }));
 
 const TEST_CATALOG = ['ayylmao'];
@@ -37,6 +27,9 @@ const defaultProps = {
 
 describe('Course card works as expected', () => {
   test('card renders as expected', () => {
+    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
+    process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <IntlProvider locale="en">
         <CourseCard {...defaultProps} />
@@ -45,7 +38,15 @@ describe('Course card works as expected', () => {
     expect(screen.queryByText(defaultProps.original.title)).toBeInTheDocument();
     expect(screen.queryByText(defaultProps.original.partners[0].name)).toBeInTheDocument();
     expect(screen.queryByText('$100 • Available Now')).toBeInTheDocument();
-    // TODO: Badges commented out until Algolia bug is resolved (ENT-5338)
-    // expect(screen.queryByText(TEST_CATALOGS[0]));
+    expect(screen.queryByText('Business')).toBeInTheDocument();
+  });
+  test('test card renders default image', () => {
+    render(
+      <IntlProvider locale="en">
+        <CourseCard {...defaultProps} />
+      </IntlProvider>,
+    );
+    fireEvent.error(screen.getByAltText(originalData.title));
+    expect(screen.getByAltText(originalData.title).src).toEqual('http://localhost/test-file-stub');
   });
 });
