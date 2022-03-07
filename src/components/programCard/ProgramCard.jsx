@@ -15,6 +15,7 @@ import { Program } from '@edx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './ProgramCard.messages';
 import { getCourses } from '../../utils/common';
+import defaultCardHeader from '../../static/default-card-header-dark.png';
 
 const ProgramCard = ({
   intl, onClick, original,
@@ -39,6 +40,9 @@ const ProgramCard = ({
         variant="top"
         src={card_image_url}
         alt={title}
+        onError={(e) => {
+          e.target.src = defaultCardHeader;
+        }}
       />
       <Image className="mr-2 cards-partner-logo" src={authoring_organizations[0].logo_image_url} rounded />
       <div className="mx-3 my-4">

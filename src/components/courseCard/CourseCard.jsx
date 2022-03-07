@@ -10,6 +10,7 @@ import {
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
+import defaultCardHeader from '../../static/default-card-header-light.png';
 
 const CourseCard = ({
   intl, onClick, className, original,
@@ -31,6 +32,9 @@ const CourseCard = ({
         variant="top"
         src={card_image_url}
         alt={title}
+        onError={(e) => {
+          e.target.src = defaultCardHeader;
+        }}
       />
       <Image className="mr-2 cards-partner-logo" src={partners[0].logo_image_url} rounded />
       <div className="mx-3 my-4">
@@ -40,7 +44,6 @@ const CourseCard = ({
       <span className="cards-spacing" />
       <div className="mx-3 my-4">
         <p className="x-small mb-3">{ priceText } • {availability[0]}</p>
-
         <div style={{ maxWidth: '400vw' }}>
           {
               enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
