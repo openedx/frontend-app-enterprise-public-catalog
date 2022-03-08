@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -163,7 +163,7 @@ describe('Main Catalogs view works as expected', () => {
     process.env = OLD_ENV; // Restore old environment
   });
 
-  test('all courses rendered when search results available', () => {
+  test('all courses rendered when search results available', async () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
     process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
@@ -188,6 +188,7 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
 
     expect(screen.queryAllByText('A la carte').length === 2);
+    await act(() => screen.findByText('Business'));
     expect(screen.queryByText('Business')).toBeInTheDocument();
   });
   test('all courses rendered in card view when search results available', () => {
@@ -256,7 +257,7 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(TEST_COURSE_NAME)).not.toBeInTheDocument();
     expect(screen.getByTestId(SKELETON_DATA_TESTID)).toBeInTheDocument();
   });
-  test('headers rendered correctly', () => {
+  test('headers rendered correctly', async () => {
     renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
@@ -272,9 +273,11 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+    // fixes the act warnings by ensuring we await some UI state before returning from the test
+    await act(() => screen.findByText(messages['catalogSearchResults.table.price'].defaultMessage));
     expect(screen.queryByText(messages['catalogSearchResults.table.price'].defaultMessage)).toBeInTheDocument();
   });
-  test('refinements hide price column and show availability', () => {
+  test('refinements hide price column and show availability', async () => {
     const refinements = {
       refinements: { [HIDE_PRICE_REFINEMENT]: 'true' },
     };
@@ -293,9 +296,11 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+    // fixes the act warnings by ensuring we await some UI state before returning from the test
+    await act(() => screen.findByText(messages['catalogSearchResults.table.availability'].defaultMessage));
     expect(screen.queryByText(messages['catalogSearchResults.table.availability'].defaultMessage)).toBeInTheDocument();
   });
-  test('testing list course modal pops up ', () => {
+  test('testing list course modal pops up ', async () => {
     renderWithRouter(
       <SearchDataWrapper>
         <IntlProvider locale="en">
@@ -311,9 +316,10 @@ describe('Main Catalogs view works as expected', () => {
     userEvent.click(courseTitle);
 
     expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument();
+    await act(() => screen.findByText('About this course'));
     expect(screen.queryByText('About this course')).toBeInTheDocument();
   });
-  test('testing card course modal pops up ', () => {
+  test('testing card course modal pops up ', async () => {
     renderWithRouter(
       <SearchDataWrapper>
         <IntlProvider locale="en">
@@ -328,6 +334,7 @@ describe('Main Catalogs view works as expected', () => {
 
     expect(screen.queryByText('A la carte course price')).toBeInTheDocument();
     expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument();
+    await act(() => screen.findByText('About this course'));
     expect(screen.queryByText('About this course')).toBeInTheDocument();
   });
   test('all programs rendered when search results available', () => {
@@ -350,7 +357,7 @@ describe('Main Catalogs view works as expected', () => {
     // TODO: Badges commented out until Algolia bug is resolved (ENT-5338)
     // expect(screen.queryByText(TEST_CATALOGS[0])).toBeInTheDocument();
   });
-  test('testing program switch to table view ', () => {
+  test('testing program switch to table view ', async () => {
     renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
@@ -367,9 +374,10 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(messages['catalogSearchResults.table.programName'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.numCourses'].defaultMessage)).toBeInTheDocument();
     expect(screen.queryByText(messages['catalogSearchResults.table.programType'].defaultMessage)).toBeInTheDocument();
+    await act(() => screen.findByText(messages['catalogSearchResults.table.partner'].defaultMessage));
     expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
   });
-  test('no program search results displays popular programs text', () => {
+  test('no program search results displays popular programs text', async () => {
     const emptySearchResults = { ...searchResults, nbHits: 0 };
     renderWithRouter(
       <IntlProvider locale="en">
@@ -382,9 +390,10 @@ describe('Main Catalogs view works as expected', () => {
       </IntlProvider>,
     );
     expect(screen.getByTestId('noResultsAlertTestId')).toBeInTheDocument();
+    await act(() => screen.findByText('Popular Programs'));
     expect(screen.getByText('Popular Programs')).toBeInTheDocument();
   });
-  test('no course search results displays popular programs text', () => {
+  test('no course search results displays popular programs text', async () => {
     const emptySearchResults = { ...searchResults, nbHits: 0 };
     renderWithRouter(
       <IntlProvider locale="en">
@@ -397,6 +406,7 @@ describe('Main Catalogs view works as expected', () => {
       </IntlProvider>,
     );
     expect(screen.getByTestId('noResultsAlertTestId')).toBeInTheDocument();
+    await act(() => screen.findByText('Popular Courses'));
     expect(screen.getByText('Popular Courses')).toBeInTheDocument();
   });
 });
