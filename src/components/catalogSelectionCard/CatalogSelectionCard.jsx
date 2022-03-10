@@ -8,8 +8,7 @@ import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
 export const CardCheckbox = ({ queryTitle }) => {
   const { refinements, dispatch } = useContext(SearchContext);
-  const isChecked =
-    refinements[QUERY_TITLE_REFINEMENT]?.includes(queryTitle) || false;
+  const isChecked = refinements[QUERY_TITLE_REFINEMENT]?.includes(queryTitle) || false;
 
   const setChecked = () => {
     if (!isChecked) {
@@ -22,6 +21,8 @@ export const CardCheckbox = ({ queryTitle }) => {
       checked={isChecked}
       onChange={setChecked}
     >
+      {/* span here because radio buttons require children  */}
+      <span />
     </Form.Radio>
   );
 };
@@ -41,14 +42,14 @@ const CatalogSelectionCard = ({
 }) => (
   <Card>
     <Card.Header
-      title={
+      title={(
         <span>
           <Badge className={className} variant={badgeVariant}>
             {badge}
           </Badge>
           <div>{label}</div>
         </span>
-      }
+      )}
       subtitle={labelDetail}
       actions={<CardCheckbox queryTitle={queryTitle} />}
     />
@@ -57,7 +58,7 @@ const CatalogSelectionCard = ({
 );
 
 CatalogSelectionCard.defaultProps = {
-  className: "",
+  className: '',
 };
 
 CatalogSelectionCard.propTypes = {

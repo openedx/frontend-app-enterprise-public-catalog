@@ -34,6 +34,8 @@ const SearchDataWrapper = ({ children, searchContextValue }) => (
   </SearchContext.Provider>
 );
 
+const label = 'foo';
+
 describe('CatalogSelectionDeck', () => {
   it('renders all cards', () => {
     renderWithRouter(
@@ -41,7 +43,7 @@ describe('CatalogSelectionDeck', () => {
         searchContextValue={DEFAULT_SEARCH_CONTEXT_VALUE}
       >
         <CatalogSelectionDeck
-          title="foo"
+          title={label}
         />
       </SearchDataWrapper>,
     );
@@ -59,7 +61,6 @@ describe('CatalogSelectionDeck', () => {
     });
   });
   it('renders title', () => {
-    const label = 'foo';
     renderWithRouter(
       <SearchDataWrapper
         searchContextValue={DEFAULT_SEARCH_CONTEXT_VALUE}
