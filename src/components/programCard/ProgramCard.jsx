@@ -6,7 +6,6 @@ import classNames from 'classnames';
 
 import {
   Badge,
-  Image,
   Icon,
   Card,
 } from '@edx/paragon';
@@ -34,65 +33,55 @@ const ProgramCard = ({
   const eduCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE);
 
   return (
-    <Card className="program-card" tabIndex="0" onClick={() => onClick(original)}>
-      <Card.Img
-        className="cards-course-image"
-        variant="top"
+    <Card isClickable className="program-card" tabIndex="0" onClick={() => onClick(original)}>
+      <Card.ImageCap
         src={card_image_url}
-        alt={title}
+        logoSrc={authoring_organizations[0].logo_image_url}
+        srcAlt={title}
+        logoAlt={authoring_organizations[0].name}
         onError={(e) => {
           e.target.src = defaultCardHeader;
         }}
       />
-      <Image className="mr-2 cards-partner-logo" src={authoring_organizations[0].logo_image_url} rounded />
-      <div className="mx-3 my-4">
-        <p className="h4">{title}</p>
-        {(authoring_organizations.length !== 0) && <p className="small">{ authoring_organizations[0].name }</p>}
-      </div>
-      <span className="cards-spacing" />
-
-      <div className="mx-3 my-4">
-        <div className="d-flex">
+      <Card.Header
+        title={title}
+        subtitle={(authoring_organizations.length !== 0) && <p className="small">{ authoring_organizations[0].name }</p>}
+      />
+      <Card.Section
+        className={classNames(
+          'flex-column justify-content-end',
+        )}
+      >
+        <span className="d-block">
           <Badge
             variant="light"
             className={classNames(
-              'program d-flex justify-content-center align-items-center text-primary-500', 'mb-2',
+              'program d-inline-flex mb-2',
             )}
           >
             <Icon src={Program} className="badge-icon" />
             <span className="badge-text"> {program_type} </span>
           </Badge>
-        </div>
+        </span>
         <p className="x-small mb-2 mt-2">{getCourses(course_keys.length, 'Course')}</p>
-        {enterprise_catalog_query_titles && (
         <div style={{ maxWidth: '400vw' }}>
-          {
-              alaCarteRequested
-                && (
-                <Badge variant="info" className="ml-0 bright padded-catalog">
-                  {intl.formatMessage(messages['ProgramCard.aLaCarteBadge'])}
-                </Badge>
-                )
-          }
-          {
-              businessCatalogRequested
-                && (
-                <Badge variant="secondary" className="padded-catalog">
-                  {intl.formatMessage(messages['ProgramCard.businessBadge'])}
-                </Badge>
-                )
-            }
-          {
-              eduCatalogRequested
-                && (
-                <Badge className="padded-catalog" variant="light">
-                  {intl.formatMessage(messages['ProgramCard.educationBadge'])}
-                </Badge>
-                )
-            }
+          {alaCarteRequested && (
+            <Badge variant="info" className="ml-0 bright padded-catalog">
+              {intl.formatMessage(messages['ProgramCard.aLaCarteBadge'])}
+            </Badge>
+          )}
+          {businessCatalogRequested && (
+            <Badge variant="secondary" className="padded-catalog">
+              {intl.formatMessage(messages['ProgramCard.businessBadge'])}
+            </Badge>
+          )}
+          {eduCatalogRequested && (
+            <Badge className="padded-catalog" variant="light">
+              {intl.formatMessage(messages['ProgramCard.educationBadge'])}
+            </Badge>
+          )}
         </div>
-        )}
-      </div>
+      </Card.Section>
     </Card>
   );
 };

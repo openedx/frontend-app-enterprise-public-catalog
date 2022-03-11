@@ -148,7 +148,7 @@ export const BaseCatalogSearchResults = ({
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
       Cell: ({ row }) => (
-        <Button className="catalog-search-result-column-title" variant="link" onClick={() => rowClicked(row)}>
+        <Button className="text-left" variant="link" onClick={() => rowClicked(row)}>
           {row.values.title}
         </Button>
       ),

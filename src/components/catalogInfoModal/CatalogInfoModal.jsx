@@ -100,7 +100,7 @@ const CourseModal = ({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="course-info-footer-button" variant="primary">
+                <Button className="rounded-0" variant="primary">
                   {intl.formatMessage(messages['catalogInfoModal.moreInfoButton'])}
                   {/* Paragon Button's `iconAfter` throws errors so the icon is manually added */}
                   <Icon className="btn-icon-after" src={Launch} />
@@ -250,7 +250,7 @@ const ProgramModal = ({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="course-info-footer-button" variant="primary">
+                <Button className="rounded-0" variant="primary">
                   {intl.formatMessage(messages['catalogInfoModal.programMoreInfoButton'])}
                   {/* Paragon Button's `iconAfter` throws errors so the icon is manually added */}
                   <Icon className="btn-icon-after" src={Launch} />

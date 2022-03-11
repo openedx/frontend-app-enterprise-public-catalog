@@ -41,49 +41,38 @@
   position: absolute;
   z-index: 1;
   left: 2%;
-  top: 230px;
-  width: 12vw;
-  max-width: 200px;
-  min-width: 200px;
-  height: 70%;
   max-height: 90px;
   background-color: $light-300;
   box-shadow: $box-shadow;
 }
 
 .card {
-  cursor: pointer;
   width: 300px;
   line-height: 24px;
 }
 
-.cards-partner-logo {
-  left: 5%;
-  height: auto;
-  object-fit: cover;
-  position: absolute;
-  z-index: 1;
-  top: 60px;
-  max-width: 100px;
-  background-color: $light-300;
-  box-shadow: $box-shadow;
-}
-
-.cards-course-image {
-  height: 100px;
-  object-fit: cover;
-  width: auto;
-}
-
-.cards-spacing {
-  flex-grow: 3;
+.course-card {
+  width: 300px;
+  line-height: 24px;
+  .pgn__card-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .pgn__card-logo-cap {
+    background: $white;
+  }
 }
 
 .program-card {
+  @extend .course-card;
+  color: $white;
   background: $primary-500;
   border: 0px;
-  color: $white;
-  .h4 {
+  .pgn__card-header-title {
+    color: $white;
+  }
+  .pgn__card-header-subtitle {
     color: $white;
   }
 }
@@ -116,14 +105,6 @@
   background-color: $gray-100 !important;
   border-radius: 50% !important;
   border: solid 1px $black;
-}
-
-.course-info-footer-button {
-  border-radius: 0px !important;
-}
-
-.catalog-search-result-column-title {
-  text-align: left;
 }
 
 .course-info-skills {
