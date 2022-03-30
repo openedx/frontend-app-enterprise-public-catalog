@@ -30,6 +30,13 @@ const CatalogPage = ({ intl }) => {
   const loadedSearchParams = new URLSearchParams(window.location.search);
   let reloadPage = false;
   let hideCards = false;
+
+  // Sometimes an empty query can be appended to the url, which can lead to confusing UX
+  if (loadedSearchParams.has('q') && !loadedSearchParams.get('q')) {
+    loadedSearchParams.delete('q');
+    reloadPage = true;
+  }
+
   if (config.EDX_ENTERPRISE_ALACARTE_TITLE
     && (!loadedSearchParams.get(CONTENT_TYPE_REFINEMENT))
     && (!loadedSearchParams.get(QUERY_TITLE_REFINEMENT))) {

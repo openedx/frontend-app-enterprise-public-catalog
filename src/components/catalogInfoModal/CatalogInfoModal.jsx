@@ -61,12 +61,16 @@ const CourseModal = ({
             </ModalDialog.Hero>
             <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
             <div className="padded-body">
-              <ModalDialog.Title className="h1 course-info-title">
-                {courseTitle}
-              </ModalDialog.Title>
-              <ModalDialog.Title className="h2 course-info-partner">
-                {courseProvider}
-              </ModalDialog.Title>
+              { courseTitle && (
+                <ModalDialog.Title className="h1 course-info-title">
+                  {courseTitle}
+                </ModalDialog.Title>
+              )}
+              { courseProvider && (
+                <ModalDialog.Title className="h2 course-info-partner">
+                  {courseProvider}
+                </ModalDialog.Title>
+              )}
               <CatalogCourseModalBanner
                 coursePrice={coursePrice}
                 courseAssociatedCatalogs={courseAssociatedCatalogs}
@@ -212,12 +216,16 @@ const ProgramModal = ({
             </ModalDialog.Hero>
             <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
             <div className="padded-body">
-              <ModalDialog.Title className="h1 course-info-title">
-                {programTitle}
-              </ModalDialog.Title>
-              <ModalDialog.Title className="h2 course-info-partner">
-                {programProvider}
-              </ModalDialog.Title>
+              { programTitle && (
+                <ModalDialog.Title className="h1 course-info-title">
+                  {programTitle}
+                </ModalDialog.Title>
+              )}
+              { programProvider && (
+                <ModalDialog.Title className="h2 course-info-partner">
+                  {programProvider}
+                </ModalDialog.Title>
+              )}
               <CatalogProgramModalBanner
                 coursePrice={usdPrice}
                 courseAssociatedCatalogs={programAssociatedCatalogs}
@@ -232,7 +240,11 @@ const ProgramModal = ({
               {(programCourses && programCourses.length > 0) && (
               <div className="mt-8">
                 <h3>{intl.formatMessage(messages['catalogInfoModal.programCourseListingTitle'])}</h3>
-                <div className="mt-4">{(programCourses || []).map(course => <CourseDisplayForProgram key={course.courseKey} course={course} />)}</div>
+                <div className="mt-4">
+                  {(programCourses || []).map(
+                    course => <CourseDisplayForProgram key={course.courseKey || course.key} course={course} />,
+                  )}
+                </div>
               </div>
               )}
 
