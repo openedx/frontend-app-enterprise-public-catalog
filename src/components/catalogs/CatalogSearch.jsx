@@ -1,7 +1,8 @@
 /* eslint eqeqeq: "off" */
-import React, { useContext, useState } from 'react';
-import { FormattedMessage } from '@edx/frontend-platform/i18n';
+import React, { useContext, useState, useMemo } from 'react';
+import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
+import { getConfig } from '@edx/frontend-platform/config';
 import { Configure, Index, InstantSearch } from 'react-instantsearch-dom';
 import { SearchHeader, SearchContext } from '@edx/frontend-enterprise-catalog-search';
 import { useAlgoliaIndex } from './data/hooks';
@@ -11,14 +12,20 @@ import {
   CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM, NUM_RESULTS_COURSE, NUM_RESULTS_PROGRAM, NUM_RESULTS_PER_PAGE,
 } from '../../constants';
 import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
+import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
+import { mapAlgoliaObjectToProgram, mapAlgoliaObjectToCourse } from '../../utils/algoliaUtils';
+import messages from '../catalogSearchResults/CatalogSearchResults.messages';
 
-export default function CatalogSearch() {
+function CatalogSearch(intl) {
   const { refinements: { content_type: contentType } } = useContext(SearchContext);
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
   const courseFilter = `content_type:${CONTENT_TYPE_COURSE}`;
   const programFilter = `content_type:${CONTENT_TYPE_PROGRAM}`;
+  const combinedFilter = `content_type:${CONTENT_TYPE_COURSE} OR content_type:${CONTENT_TYPE_PROGRAM}`;
   const [noCourseResults, setNoCourseResults] = useState(false);
   const [noProgramResults, setNoProgramResults] = useState(false);
+  const [selectedSuggestedCourseType, setSelectedSuggestedCourseType] = useState('');
+  const [selectedSuggestedCourse, setSelectedSuggestedCourse] = useState({});
 
   let specifiedContentType;
   if (contentType) {
@@ -26,6 +33,34 @@ export default function CatalogSearch() {
       [specifiedContentType] = contentType;
     }
   }
+
+  let suggestedSearchContentTypeFilter;
+  if (!contentType || contentType.length === 2) {
+    suggestedSearchContentTypeFilter = combinedFilter;
+  } else if (specifiedContentType === CONTENT_TYPE_PROGRAM) {
+    suggestedSearchContentTypeFilter = programFilter;
+  } else {
+    suggestedSearchContentTypeFilter = courseFilter;
+  }
+
+  const config = getConfig();
+  const courseIndex = useMemo(
+    () => {
+      const cIndex = searchClient.initIndex(config.ALGOLIA_INDEX_NAME);
+      return cIndex;
+    },
+    [], // only initialized once
+  );
+
+  const suggestedCourseOnClick = (hit) => {
+    if (hit.program_type !== undefined) {
+      setSelectedSuggestedCourse(mapAlgoliaObjectToProgram(hit));
+      setSelectedSuggestedCourseType('program');
+    } else {
+      setSelectedSuggestedCourse(mapAlgoliaObjectToCourse(hit, intl, messages));
+      setSelectedSuggestedCourseType('course');
+    }
+  };
 
   return (
     <>
@@ -43,8 +78,26 @@ export default function CatalogSearch() {
           >
             <div className="enterprise-catalogs-header">
               <Configure facetingAfterDistinct />
-              <SearchHeader hideTitle variant="default" />
+              <SearchHeader
+                hideTitle
+                variant="default"
+                index={courseIndex}
+                filters={suggestedSearchContentTypeFilter}
+                disableSuggestionRedirect
+                suggestionSubmitOverride={suggestedCourseOnClick}
+              />
             </div>
+            <CatalogInfoModal
+              isOpen={selectedSuggestedCourseType === 'course'}
+              onClose={() => setSelectedSuggestedCourse(null)}
+              selectedCourse={selectedSuggestedCourse}
+            />
+            <CatalogInfoModal
+              isOpen={selectedSuggestedCourseType === 'program'}
+              onClose={() => setSelectedSuggestedCourse(null)}
+              selectedProgram={selectedSuggestedCourse}
+              renderProgram
+            />
             <>
               {(!contentType || contentType.length === 2)
               && (noCourseResults === noProgramResults || !noCourseResults) && (
@@ -126,3 +179,10 @@ export default function CatalogSearch() {
     </>
   );
 }
+
+CatalogSearch.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(CatalogSearch);

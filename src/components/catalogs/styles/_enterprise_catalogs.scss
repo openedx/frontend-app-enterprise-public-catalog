@@ -46,6 +46,10 @@
   box-shadow: $box-shadow;
 }
 
+.suggestions {
+  z-index: 2 !important;
+}
+
 .card {
   width: 300px;
   line-height: 24px;

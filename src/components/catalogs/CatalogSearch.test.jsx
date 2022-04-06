@@ -14,6 +14,9 @@ jest.mock('react-instantsearch-dom', () => ({
 }));
 
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
+const COURSE_SEARCH_CONTEXT_VALUE = { refinements: { content_type: ['course'] } };
+const PROGRAM_SEARCH_CONTEXT_VALUE = { refinements: { content_type: ['program'] } };
+
 // eslint-disable-next-line react/prop-types
 const SearchDataWrapper = ({ children, searchContextValue }) => (
   <SearchContext.Provider
@@ -31,6 +34,26 @@ describe('Catalog Search component', () => {
     renderWithRouter(
       <SearchDataWrapper
         searchContextValue={DEFAULT_SEARCH_CONTEXT_VALUE}
+      >
+        <CatalogSearch />
+      </SearchDataWrapper>,
+    );
+    expect(screen.getByText('SEARCH')).toBeInTheDocument();
+  });
+  it('properly renders component with program content type context', () => {
+    renderWithRouter(
+      <SearchDataWrapper
+        searchContextValue={COURSE_SEARCH_CONTEXT_VALUE}
+      >
+        <CatalogSearch />
+      </SearchDataWrapper>,
+    );
+    expect(screen.getByText('SEARCH')).toBeInTheDocument();
+  });
+  it('properly renders component with course content type context', () => {
+    renderWithRouter(
+      <SearchDataWrapper
+        searchContextValue={PROGRAM_SEARCH_CONTEXT_VALUE}
       >
         <CatalogSearch />
       </SearchDataWrapper>,

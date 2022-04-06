@@ -342,7 +342,7 @@ export const BaseCatalogSearchResults = ({
           dataViewToggleOptions={toggleOptions}
           columns={isCourseType ? courseColumns : programColumns}
           data={tableData}
-          itemCount={searchResults?.nbHits}
+          itemCount={searchResults?.nbHits || 0}
           pageCount={searchResults?.nbPages || 1}
           pageSize={searchResults?.hitsPerPage || 0}
           tableActions={() => {

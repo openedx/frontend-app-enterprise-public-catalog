@@ -43,4 +43,17 @@ describe('CatalogPage', () => {
     renderWithRouter(<CatalogPage />);
     expect(screen.getByText(selectionCardMessage['catalogSelectionDeck.edxForBusiness.label'].defaultMessage)).toBeInTheDocument();
   });
+  it('properly handles empty query params', () => {
+    const location = {
+      ...window.location,
+      search: '?q=',
+    };
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: location,
+    });
+    expect(window.location.search).toEqual('?q=');
+    renderWithRouter(<CatalogPage />);
+    expect(window.location.search).toEqual('enterprise_catalog_query_titles=baz&availability=Available+Now&availability=Upcoming');
+  });
 });
