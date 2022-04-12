@@ -19,7 +19,7 @@ const courseTypeModalProps = {
     partnerLogoImageUrl: '',
     bannerImageUrl: '',
     startDate: '2021-09-15T16:00:00Z',
-    endDate: '2022-04-06T16:00:00Z',
+    endDate: '2040-04-06T16:00:00Z',
     upcomingRuns: 2,
     marketingUrl: 'http://someurl',
     skillNames: [],
@@ -79,7 +79,7 @@ describe('Course info modal works as expected', () => {
       </IntlProvider>,
     );
     expect(screen.queryByText('A la carte course price')).toBeInTheDocument();
-    expect(screen.queryByText('Session ends Apr 6, 2022 • 2 additional session(s)')).toBeInTheDocument();
+    expect(screen.queryByText('Session ends Apr 6, 2040 • 2 additional session(s)')).toBeInTheDocument();
     expect(screen.queryByText('Included with subscription')).not.toBeInTheDocument();
   });
   test('Renders Course info modal with correct catalogs', () => {
