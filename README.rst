@@ -1,7 +1,7 @@
 |Build Status| |Codecov| |license|
 
 frontend-app-enterprise-public-catalog
-=================================
+======================================
 
 Introduction
 ------------
@@ -9,7 +9,7 @@ Introduction
 This application is a public facing catalog page for use by edX consumers to find courses in catalogs before deciding to enroll.
 
 The dev server is running at `http://localhost:8735 <http://localhost:8735>`_.
-The staging server is running at `https://explore-catalog.stage.edx.org/`_.
+The staging server is running at `https://explore-catalog.stage.edx.org/ <https://explore-catalog.stage.edx.org/>`_.
 
 Project Structure
 -----------------
@@ -18,28 +18,47 @@ The source for this project is organized into nested submodules according to the
 
 Build Process Notes
 -------------------
-**Local Development** 
-To run this project locally: 
-1.  Clone this repository
-2.  From repository root folder, run: 
+**Local Development**
 
-``npm install``
-1. This project requires Algolia developer keys. Once you have them, make the following local modifications to the .env.development file and replace the keys.
+To run this project locally:
 
-``ALGOLIA_APP_ID=''
-ALGOLIA_SEARCH_API_KEY=''
-ALGOLIA_INDEX_NAME=''``
+1. Clone this repository
 
-You will also need to replace the following variables with valid Catalog Query Titles that are present in your Algolia index:
-``EDX_FOR_BUSINESS_TITLE=''
-EDX_FOR_ONLINE_EDU_TITLE=''
-EDX_ENTERPRISE_ALACARTE_TITLE=''``
+2. From repository root folder, run: 
+   
+   ``npm install``
+   
+   Note: locally this app will default to open edX branding, so colors and formatting might look a little different than what will be deployed. To combat this, you can optionally run:
+   
+   ``npm install --save @edx/brand@npm:@edx/brand-edx.org``
 
-1.  From repository root folder, run: 
+3. This project requires Algolia developer keys. Once you have them, make the following local modifications to the ``.env.development`` file and replace the keys:
 
-``npm start``
+   .. code-block::
 
-to start your local server at `http://localhost:8735 <http://localhost:8735>`_.
+      ALGOLIA_APP_ID=''
+      ALGOLIA_SEARCH_API_KEY=''
+      ALGOLIA_INDEX_NAME=''
+
+4. You will also need to replace the following variables with valid Catalog Query Titles that are present in your Algolia index:
+
+   .. code-block::
+
+      EDX_FOR_BUSINESS_TITLE='' # default = 'Business'
+      EDX_FOR_ONLINE_EDU_TITLE='' # default = 'Education'
+      EDX_ENTERPRISE_ALACARTE_TITLE='' # default = 'A la carte'
+
+5. From repository root folder, run:
+   
+   ``npm start``
+   
+   to start your local server at `http://localhost:8735 <http://localhost:8735>`_.
+
+**Helpful Testing Commands**
+
+* ``npm run tests``
+* ``npm run lint``
+* ``npm run lint:fix`` to automatically fix errors
 
 **Production Build**
 
