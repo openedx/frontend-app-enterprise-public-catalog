@@ -13,7 +13,7 @@ const TEST_CATALOG = ['ayylmao'];
 
 const originalData = {
   title: 'Course Title',
-  card_image_url: '',
+  card_image_url: undefined,
   partners: [{ logo_image_url: '', name: 'Course Provider' }],
   first_enrollable_paid_seat_price: 100,
   original_image_url: '',
@@ -46,7 +46,8 @@ describe('Course card works as expected', () => {
         <CourseCard {...defaultProps} />
       </IntlProvider>,
     );
-    fireEvent.error(screen.getByAltText(originalData.title));
-    await expect((screen.getByAltText(originalData.title)).src).not.toBeUndefined;
+    const imageAltText = `${originalData.title} course image`;
+    fireEvent.error(screen.getByAltText(imageAltText));
+    await expect((screen.getByAltText(imageAltText).src)).not.toBeUndefined;
   });
 });
