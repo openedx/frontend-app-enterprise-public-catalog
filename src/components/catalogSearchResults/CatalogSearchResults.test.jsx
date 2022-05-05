@@ -213,7 +213,7 @@ describe('Main Catalogs view works as expected', () => {
     expect(courseTitleInCard).toBeVisible();
 
     // course 1 image with the correct alt text
-    expect(screen.getByAltText(TEST_COURSE_NAME)).toBeVisible();
+    expect(screen.getByAltText(`${TEST_COURSE_NAME} course image`)).toBeVisible();
   });
   test('pagination component renders', () => {
     renderWithRouter(

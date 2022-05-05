@@ -23,7 +23,7 @@ const TEST_CATALOG = ['ayylmao'];
 
 const originalData = {
   title: 'Program Title',
-  card_image_url: '',
+  card_image_url: undefined,
   course_keys: ['edx+123', 'edx-321'],
   authoring_organizations: [{ logo_image_url: '', name: 'Course Provider' }],
   program_type: 'Professional Certificate',

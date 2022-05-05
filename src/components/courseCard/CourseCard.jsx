@@ -19,16 +19,16 @@ const CourseCard = ({ intl, onClick, original }) => {
   } = original;
   const rowPrice = first_enrollable_paid_seat_price;
   const priceText = rowPrice != null ? `$${rowPrice.toString()}` : 'N/A';
+  const imageSrc = (card_image_url === undefined) ? defaultCardHeader : card_image_url;
+  const altText = `${title} course image`;
+
   return (
     <Card isClickable className="course-card" tabIndex="0" onClick={() => onClick(original)}>
       <Card.ImageCap
-        src={card_image_url}
+        src={imageSrc}
         logoSrc={partners[0].logo_image_url}
-        srcAlt={title}
+        srcAlt={altText}
         logoAlt={partners[0].name}
-        onError={(e) => {
-          e.target.src = defaultCardHeader;
-        }}
       />
       <Card.Header title={title} subtitle={partners[0].name} />
       <span className="cards-spacing" />
