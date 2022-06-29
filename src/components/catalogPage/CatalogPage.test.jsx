@@ -54,6 +54,6 @@ describe('CatalogPage', () => {
     });
     expect(window.location.search).toEqual('?q=');
     renderWithRouter(<CatalogPage />);
-    expect(window.location.search).toEqual('enterprise_catalog_query_titles=baz&availability=Available+Now&availability=Upcoming');
+    expect(window.location.search).toEqual('enterprise_catalog_query_titles=baz&availability=Available+Now&availability=Starting+Soon&availability=Upcoming');
   });
 });
