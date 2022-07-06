@@ -7,8 +7,7 @@
     "url": "git+https://github.com/edx/frontend-app-enterprise-public-catalog.git"
   },
   "browserslist": [
-    "last 2 versions",
-    "ie 11"
+    "extends @edx/browserslist-config"
   ],
   "scripts": {
     "build": "fedx-scripts webpack",
@@ -72,6 +71,7 @@
     "regenerator-runtime": "0.13.9"
   },
   "devDependencies": {
+    "@edx/browserslist-config": "1.0.0",
     "@edx/frontend-build": "^9.1.4",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "11.2.7",
