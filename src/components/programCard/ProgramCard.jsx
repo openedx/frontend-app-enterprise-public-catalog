@@ -27,7 +27,7 @@ const ProgramCard = ({
   const alaCarteRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE);
   const businessCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_BUSINESS_TITLE);
   const eduCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE);
-  const imageSrc = card_image_url === undefined ? defaultCardHeader : card_image_url;
+  const imageSrc = card_image_url || defaultCardHeader;
 
   return (
     <Card isClickable className="program-card" tabIndex="0" onClick={() => onClick(original)}>

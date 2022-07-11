@@ -19,7 +19,7 @@ const CourseCard = ({ intl, onClick, original }) => {
   } = original;
   const rowPrice = first_enrollable_paid_seat_price;
   const priceText = rowPrice != null ? `$${rowPrice.toString()}` : 'N/A';
-  const imageSrc = (card_image_url === undefined) ? defaultCardHeader : card_image_url;
+  const imageSrc = card_image_url || defaultCardHeader;
   const altText = `${title} course image`;
 
   return (
