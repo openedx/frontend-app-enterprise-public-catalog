@@ -77,7 +77,10 @@ function CatalogSearch(intl) {
             searchClient={searchClient}
           >
             <div className="enterprise-catalogs-header">
-              <Configure facetingAfterDistinct />
+              <Configure 
+                filters={`content_type:course OR content_type:program`}
+                facetingAfterDistinct 
+              />
               <SearchHeader
                 hideTitle
                 variant="default"
