@@ -5,28 +5,39 @@ import { AppProvider, PageRoute } from '@edx/frontend-platform/react';
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
 
-import useHotjar from 'react-use-hotjar';
+import { initializeHotjar } from '@edx/frontend-enterprise-hotjar';
+import { logError } from '@edx/frontend-platform/logging';
 import CatalogPage from '../catalogPage/CatalogPage';
 import NotFoundPage from '../NotFoundPage';
 
-export const EnterpriseCatalogsApp = () => (
-  <>
-    <Header />
-    <Switch>
-      <PageRoute exact path="/" component={CatalogPage} />
-      <PageRoute path="*" component={NotFoundPage} />
-    </Switch>
-    <Footer />
-  </>
-);
+export function EnterpriseCatalogsApp() {
+  return (
+    <>
+      <Header />
+      <Switch>
+        <PageRoute exact path="/" component={CatalogPage} />
+        <PageRoute path="*" component={NotFoundPage} />
+      </Switch>
+      <Footer />
+    </>
+  );
+}
 
 export default function App() {
-  if (process.env.HOTJAR_APP_ID) {
-    const { initHotjar } = useHotjar();
-    useEffect(() => {
-      initHotjar(process.env.HOTJAR_APP_ID, process.env.HOTJAR_VERSION, process.env.HOTJAR_DEBUG);
-    }, [initHotjar]);
-  }
+  useEffect(() => {
+    if (process.env.HOTJAR_APP_ID) {
+      try {
+        initializeHotjar({
+          hotjarId: process.env.HOTJAR_APP_ID,
+          hotjarVersion: process.env.HOTJAR_VERSION,
+          hotjarDebug: !!process.env.HOTJAR_DEBUG,
+        });
+      } catch (error) {
+        logError(error);
+      }
+    }
+  }, []);
+
   return (
     <AppProvider>
       <EnterpriseCatalogsApp />

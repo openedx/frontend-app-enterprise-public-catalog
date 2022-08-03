@@ -13,28 +13,29 @@ import {
 import messages from './CatalogCourseModalBanner.messages';
 import { checkSubscriptions } from '../../utils/catalogUtils';
 
-const CatalogProgramModalBanner = ({
+function CatalogProgramModalBanner({
   intl,
   coursePrice,
   courseAssociatedCatalogs,
   courses,
-}) => (
-  <div className="my-4.5 banner">
-    { (coursePrice !== undefined) && (
-    <>
-      <div className="banner-section mx-3">
-        <div className="banner h4 mb-0">
-          <Icon className="mr-1" src={MoneyOutline} />
-          {coursePrice}
+}) {
+  return (
+    <div className="my-4.5 banner">
+      { (coursePrice !== undefined) && (
+      <>
+        <div className="banner-section mx-3">
+          <div className="banner h4 mb-0">
+            <Icon className="mr-1" src={MoneyOutline} />
+            {coursePrice}
+          </div>
+          <div className="banner-subtitle small">
+            {intl.formatMessage(messages['CatalogCourseModalBanner.bannerPriceTextProgram'])}
+          </div>
         </div>
-        <div className="banner-subtitle small">
-          {intl.formatMessage(messages['CatalogCourseModalBanner.bannerPriceTextProgram'])}
-        </div>
-      </div>
-      <div className="banner-section slash">/</div>
-    </>
-    )}
-    { (courses && courses.length > 0) && (
+        <div className="banner-section slash">/</div>
+      </>
+      )}
+      { (courses && courses.length > 0) && (
       <>
         <div className="banner-section mx-3">
           <div className="banner h4 mb-0">
@@ -47,20 +48,19 @@ const CatalogProgramModalBanner = ({
         </div>
         <div className="banner-section slash">/</div>
       </>
-    )}
-    {checkSubscriptions(courseAssociatedCatalogs) && (
-      <>
-        <div className="banner-section mx-3">
-          <div className="banner h4 mb-0">
-            <Icon className="mr-1" src={BookOpen} />
-            {intl.formatMessage(messages['CatalogCourseModalBanner.bannerCatalogText'])}
-          </div>
-          <div className="banner-subtitle small">{checkSubscriptions(courseAssociatedCatalogs)}</div>
+      )}
+      {checkSubscriptions(courseAssociatedCatalogs) && (
+      <div className="banner-section mx-3">
+        <div className="banner h4 mb-0">
+          <Icon className="mr-1" src={BookOpen} />
+          {intl.formatMessage(messages['CatalogCourseModalBanner.bannerCatalogText'])}
         </div>
-      </>
-    )}
-  </div>
-);
+        <div className="banner-subtitle small">{checkSubscriptions(courseAssociatedCatalogs)}</div>
+      </div>
+      )}
+    </div>
+  );
+}
 
 CatalogProgramModalBanner.defaultProps = {
   coursePrice: '$0',

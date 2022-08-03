@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React, {
+  useCallback,
   useContext,
   useMemo,
   useState,
@@ -51,7 +52,8 @@ export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
  * @param {object} args.contentType Whether the search is for courses or programs
  * @param {object} args.preview Whether we are on the split screen landing page or regular
 */
-export const BaseCatalogSearchResults = ({
+
+export function BaseCatalogSearchResults({
   intl,
   searchResults,
   // algolia recommends this prop instead of searching
@@ -63,7 +65,7 @@ export const BaseCatalogSearchResults = ({
   setNoCourses,
   setNoPrograms,
   preview,
-}) => {
+}) {
   const isProgramType = contentType === CONTENT_TYPE_PROGRAM;
   const isCourseType = contentType === CONTENT_TYPE_COURSE;
 
@@ -76,31 +78,21 @@ export const BaseCatalogSearchResults = ({
     programName: intl.formatMessage(messages['catalogSearchResults.table.programName']),
     numCourses: intl.formatMessage(messages['catalogSearchResults.table.numCourses']),
     programType: intl.formatMessage(messages['catalogSearchResults.table.programType']),
-  };
+  }
 
-  if (isSearchStalled) {
-    return (
-      <div data-testid={SKELETON_DATA_TESTID}>
-        <Skeleton
-          className="m-1 loading-skeleton"
-          height={25}
-          count={5}
-        />
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <Alert className="mt-2" variant="warning">
-        <FormattedMessage
-          id="catalogs.catalogSearchResults.error"
-          defaultMessage="{message}: {fullError}"
-          description="Error message displayed when results cannot be returned."
-          values={{ message: ERROR_MESSAGE, fullError: error.message }}
-        />
-      </Alert>
-    );
-  }
+  // const TABLE_HEADERS = useCallback(() => ({
+  //   courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
+  //   partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
+  //   price: intl.formatMessage(messages['catalogSearchResults.table.price']),
+  //   availability: intl.formatMessage(messages['catalogSearchResults.table.availability']),
+  //   catalogs: intl.formatMessage(messages['catalogSearchResults.table.catalogs']),
+  //   programName: intl.formatMessage(messages['catalogSearchResults.table.programName']),
+  //   numCourses: intl.formatMessage(messages['catalogSearchResults.table.numCourses']),
+  //   programType: intl.formatMessage(messages['catalogSearchResults.table.programType']),
+  // }), [intl]);
+
+  // console.log("HI HELLO ITS ME");
+  // TABLE_HEADERS
 
   const { refinements, dispatch } = useContext(SearchContext);
   const nbHits = useNbHitsFromSearchResults(searchResults);
@@ -110,7 +102,7 @@ export const BaseCatalogSearchResults = ({
 
   const [cardView, setCardView] = useState(true);
 
-  const rowClicked = (row) => {
+  const rowClicked = useCallback((row) => {
     if (isProgramType) {
       setSelectedCourse(
         mapAlgoliaObjectToProgram(row.original),
@@ -118,7 +110,7 @@ export const BaseCatalogSearchResults = ({
     } else {
       setSelectedCourse(mapAlgoliaObjectToCourse(row.original, intl, messages));
     }
-  };
+  }, [intl, isProgramType, setSelectedCourse]);
 
   const cardClicked = (card) => {
     if (isProgramType) {
@@ -136,10 +128,49 @@ export const BaseCatalogSearchResults = ({
     }
   };
 
-  function renderCardComponent(props) {
+  const renderCardComponent = (props) => {
     if (isCourseType) { return <CourseCard {...props} onClick={cardClicked} />; }
     return <ProgramCard {...props} onClick={cardClicked} />;
-  }
+  };
+
+  const titleButton = useCallback((row) => (
+    <Button className="text-left" variant="link" onClick={() => rowClicked(row)}>
+      {row.values.title}
+    </Button>
+  ), [rowClicked]);
+
+  const availabilityColumn = {
+    id: 'availability-column',
+    Header: TABLE_HEADERS.availability,
+    accessor: 'advertised_course_run',
+    Cell: ({ row }) => (formatDate(row.values.advertised_course_run)),
+  };
+
+  const catalogBadges = useCallback((row) => (
+    <div style={{ maxWidth: '400vw' }}>
+      {
+      row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE) && (
+        <Badge variant="dark" className="padded-catalog">
+          {intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}
+        </Badge>
+      )
+    }
+      {
+      row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
+        <Badge variant="secondary" className="business-catalog padded-catalog">
+          {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
+        </Badge>
+      )
+    }
+      {
+      row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
+        <Badge variant="light" className="padded-catalog">
+          {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
+        </Badge>
+      )
+    }
+    </div>
+  ), [intl]);
 
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
@@ -147,11 +178,7 @@ export const BaseCatalogSearchResults = ({
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
-      Cell: ({ row }) => (
-        <Button className="text-left" variant="link" onClick={() => rowClicked(row)}>
-          {row.values.title}
-        </Button>
-      ),
+      Cell: ({ row }) => (titleButton(row)),
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -165,43 +192,15 @@ export const BaseCatalogSearchResults = ({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_titles',
-      Cell: ({ row }) => (
-        <div style={{ maxWidth: '400vw' }}>
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE) && (
-              <Badge variant="dark" className="padded-catalog">
-                {intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}
-              </Badge>
-            )
-          }
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
-              <Badge variant="secondary" className="business-catalog padded-catalog">
-                {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
-              </Badge>
-            )
-          }
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
-              <Badge variant="light" className="padded-catalog">
-                {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
-              </Badge>
-            )
-          }
-        </div>
-      ),
+      Cell: ({ row }) => (catalogBadges(row)),
     },
-  ], []);
+  ], [TABLE_HEADERS, titleButton, catalogBadges]);
 
   const programColumns = useMemo(() => [
     {
       Header: TABLE_HEADERS.programName,
       accessor: 'title',
-      Cell: ({ row }) => (
-        <Button className="catalog-search-result-column-title" variant="link" onClick={() => rowClicked(row)}>
-          {row.values.title}
-        </Button>
-      ),
+      Cell: ({ row }) => (titleButton(row)),
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -220,45 +219,9 @@ export const BaseCatalogSearchResults = ({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_titles',
-      Cell: ({ row }) => (
-        <div style={{ maxWidth: '400vw' }}>
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
-              && (
-              <Badge variant="dark" className="padded-catalog">{
-                intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])
-              }
-              </Badge>
-              )
-          }
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
-              && (
-              <Badge variant="secondary" className="business-catalog padded-catalog">{
-                intl.formatMessage(messages['catalogSearchResults.businessBadge'])
-              }
-              </Badge>
-              )
-          }
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
-              && (
-              <Badge variant="light" className="padded-catalog">{
-                intl.formatMessage(messages['catalogSearchResults.educationBadge'])
-              }
-              </Badge>
-              )
-          }
-        </div>
-      ),
+      Cell: ({ row }) => (catalogBadges(row)),
     },
-  ], []);
-
-  const availabilityColumn = {
-    Header: TABLE_HEADERS.availability,
-    accessor: 'advertised_course_run',
-    Cell: ({ row }) => (formatDate(row.values.advertised_course_run)),
-  };
+  ], [TABLE_HEADERS, titleButton, catalogBadges]);
 
   // substituting the price column with the availability dates per customer request ENT-5041
   const page = refinements.page || (searchState ? searchState.page : 0);
@@ -294,6 +257,38 @@ export const BaseCatalogSearchResults = ({
     setNoPrograms(false);
   }
   const inputQuery = query.q;
+
+  const dataTableActions = () => {
+    if (preview || (searchResults?.nbHits === 0)) {
+      return null;
+    }
+    // eslint-disable-next-line no-underscore-dangle
+    return <DownloadCsvButton facets={searchResults?._state.disjunctiveFacetsRefinements} query={inputQuery} />;
+  };
+
+  if (isSearchStalled) {
+    return (
+      <div data-testid={SKELETON_DATA_TESTID}>
+        <Skeleton
+          className="m-1 loading-skeleton"
+          height={25}
+          count={5}
+        />
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <Alert className="mt-2" variant="warning">
+        <FormattedMessage
+          id="catalogs.catalogSearchResults.error"
+          defaultMessage="{message}: {fullError}"
+          description="Error message displayed when results cannot be returned."
+          values={{ message: ERROR_MESSAGE, fullError: error.message }}
+        />
+      </Alert>
+    );
+  }
 
   return (
     <>
@@ -345,13 +340,7 @@ export const BaseCatalogSearchResults = ({
           itemCount={searchResults?.nbHits || 0}
           pageCount={searchResults?.nbPages || 1}
           pageSize={searchResults?.hitsPerPage || 0}
-          tableActions={() => {
-            if (preview || (searchResults?.nbHits === 0)) {
-              return null;
-            }
-            // eslint-disable-next-line no-underscore-dangle
-            return <DownloadCsvButton facets={searchResults?._state.disjunctiveFacetsRefinements} query={inputQuery} />;
-          }}
+          tableActions={dataTableActions}
         >
           <DataTable.TableControlBar />
           { cardView && (
@@ -378,7 +367,7 @@ export const BaseCatalogSearchResults = ({
       )}
     </>
   );
-};
+}
 
 BaseCatalogSearchResults.defaultProps = {
   searchResults: { disjunctiveFacetsRefinements: [], nbHits: 0, hits: [] },
@@ -397,7 +386,7 @@ BaseCatalogSearchResults.propTypes = {
     _state: PropTypes.shape({
       disjunctiveFacetsRefinements: PropTypes.shape({}),
     }),
-    disjunctiveFacetsRefinements: PropTypes.array,
+    disjunctiveFacetsRefinements: PropTypes.arrayOf(PropTypes.shape({})),
     nbHits: PropTypes.number,
     hits: PropTypes.arrayOf(PropTypes.shape({})),
     nbPages: PropTypes.number,
@@ -408,6 +397,7 @@ BaseCatalogSearchResults.propTypes = {
   error: PropTypes.shape({
     message: PropTypes.string,
   }),
+
   searchState: PropTypes.shape({
     page: PropTypes.number,
   }).isRequired,
