@@ -9,24 +9,27 @@ import useHotjar from 'react-use-hotjar';
 import CatalogPage from '../catalogPage/CatalogPage';
 import NotFoundPage from '../NotFoundPage';
 
-export const EnterpriseCatalogsApp = () => (
-  <>
-    <Header />
-    <Switch>
-      <PageRoute exact path="/" component={CatalogPage} />
-      <PageRoute path="*" component={NotFoundPage} />
-    </Switch>
-    <Footer />
-  </>
-);
+export function EnterpriseCatalogsApp() {
+  return (
+    <>
+      <Header />
+      <Switch>
+        <PageRoute exact path="/" component={CatalogPage} />
+        <PageRoute path="*" component={NotFoundPage} />
+      </Switch>
+      <Footer />
+    </>
+  );
+}
 
 export default function App() {
-  if (process.env.HOTJAR_APP_ID) {
-    const { initHotjar } = useHotjar();
-    useEffect(() => {
+  const { initHotjar } = useHotjar();
+  useEffect(() => {
+    if (process.env.HOTJAR_APP_ID) {
       initHotjar(process.env.HOTJAR_APP_ID, process.env.HOTJAR_VERSION, process.env.HOTJAR_DEBUG);
-    }, [initHotjar]);
-  }
+    }
+  }, [initHotjar]);
+
   return (
     <AppProvider>
       <EnterpriseCatalogsApp />

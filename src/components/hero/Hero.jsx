@@ -13,42 +13,48 @@ import messages from './Hero.messages';
 
 const IMAGE_CLASS = 'hero__image';
 
-const SmallImage = ({ alt }) => (
-  <Image
-    className={IMAGE_CLASS}
-    srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
-    src={SmallHeroImageLoRes}
-    alt={alt}
-    sizes="23vw"
-  />
-);
+function SmallImage({ alt }) {
+  return (
+    <Image
+      className={IMAGE_CLASS}
+      srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
+      src={SmallHeroImageLoRes}
+      alt={alt}
+      sizes="23vw"
+    />
+  );
+}
 SmallImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-const LargeImage = ({ alt }) => (
-  <Image
-    className={IMAGE_CLASS}
-    srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
-    src={LargeHeroImageLoRes}
-    alt={alt}
-    sizes="33vw"
-  />
-);
+function LargeImage({ alt }) {
+  return (
+    <Image
+      className={IMAGE_CLASS}
+      srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
+      src={LargeHeroImageLoRes}
+      alt={alt}
+      sizes="33vw"
+    />
+  );
+}
 LargeImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-const Desktop = ({ children }) => {
+// eslint-disable-next-line react/prop-types
+function Desktop({ children }) {
   const isDesktop = useMediaQuery({ minWidth: breakpoints.large.minWidth });
   return isDesktop ? children : null;
-};
-const Tablet = ({ children }) => {
+}
+// eslint-disable-next-line react/prop-types
+function Tablet({ children }) {
   const isTablet = useMediaQuery({ minWidth: breakpoints.medium.minWidth, maxWidth: breakpoints.medium.maxWidth });
   return isTablet ? children : null;
-};
+}
 
-const Hero = ({ intl, text, highlight }) => {
+function Hero({ intl, text, highlight }) {
   const alt = intl.formatMessage(messages['hero.image.alt']);
 
   return (
@@ -66,7 +72,7 @@ const Hero = ({ intl, text, highlight }) => {
       </Container>
     </section>
   );
-};
+}
 
 Hero.defaultProps = {
   highlight: '',

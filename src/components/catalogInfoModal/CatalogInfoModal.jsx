@@ -15,19 +15,21 @@ import messages from './CatalogInfoModal.messages';
 import CatalogCourseModalBanner from '../catalogModalBanner/CatalogCourseModalBanner';
 import CatalogProgramModalBanner from '../catalogModalBanner/CatalogProgramModalBanner';
 
-const SkillsListing = ({ skillNames }) => (
-  <ul className="mx-2 course-info-skills-list">
-    {skillNames.slice(0, 5).map(s => <li key={`skill-name-${s}`}>{s}</li>)}
-  </ul>
-);
+function SkillsListing({ skillNames }) {
+  return (
+    <ul className="mx-2 course-info-skills-list">
+      {skillNames.slice(0, 5).map(s => <li key={`skill-name-${s}`}>{s}</li>)}
+    </ul>
+  );
+}
 
 SkillsListing.propTypes = {
   skillNames: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-const CourseModal = ({
+function CourseModal({
   intl, isOpen, onClose, selectedCourse,
-}) => {
+}) {
   const {
     courseTitle,
     courseProvider,
@@ -44,59 +46,58 @@ const CourseModal = ({
   } = selectedCourse;
 
   return (
-    <>
-      <div>
-        <ModalDialog
-          title="Course Info Dialog"
-          isOpen={isOpen}
-          onClose={onClose}
-          size="xl"
-          hasCloseButton
-          isFullscreenOnMobile
-          className="course-info-modal"
-        >
-          <ModalDialog.Body className="full-body p-0">
-            <ModalDialog.Hero>
-              <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
-            </ModalDialog.Hero>
-            <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
-            <div className="padded-body">
-              { courseTitle && (
-                <ModalDialog.Title className="h1 course-info-title">
-                  {courseTitle}
-                </ModalDialog.Title>
-              )}
-              { courseProvider && (
-                <ModalDialog.Title className="h2 course-info-partner">
-                  {courseProvider}
-                </ModalDialog.Title>
-              )}
-              <CatalogCourseModalBanner
-                coursePrice={coursePrice}
-                courseAssociatedCatalogs={courseAssociatedCatalogs}
-                startDate={startDate}
-                endDate={endDate}
-                upcomingRuns={upcomingRuns}
-              />
-              <p className="h3">
-                {intl.formatMessage(messages['catalogInfoModal.courseDescriptionTitle'])}
-              </p>
-              {/* eslint-disable-next-line react/no-danger */}
-              <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
-              {(skillNames && skillNames.length > 0) && (
+    <div>
+      <ModalDialog
+        title="Course Info Dialog"
+        isOpen={isOpen}
+        onClose={onClose}
+        size="xl"
+        hasCloseButton
+        isFullscreenOnMobile
+        className="course-info-modal"
+      >
+        <ModalDialog.Body className="full-body p-0">
+          <ModalDialog.Hero>
+            <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
+          </ModalDialog.Hero>
+          <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
+          <div className="padded-body">
+            { courseTitle && (
+            <ModalDialog.Title className="h1 course-info-title">
+              {courseTitle}
+            </ModalDialog.Title>
+            )}
+            { courseProvider && (
+            <ModalDialog.Title className="h2 course-info-partner">
+              {courseProvider}
+            </ModalDialog.Title>
+            )}
+            <CatalogCourseModalBanner
+              coursePrice={coursePrice}
+              courseAssociatedCatalogs={courseAssociatedCatalogs}
+              startDate={startDate}
+              endDate={endDate}
+              upcomingRuns={upcomingRuns}
+            />
+            <p className="h3">
+              {intl.formatMessage(messages['catalogInfoModal.courseDescriptionTitle'])}
+            </p>
+            {/* eslint-disable-next-line react/no-danger */}
+            <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
+            {(skillNames && skillNames.length > 0) && (
               <div className="course-info-skills px-2 py-1">
                 <h4 className="mx-2 my-3">
                   {intl.formatMessage(messages['catalogInfoModal.relatedSkillsHeading'])}
                 </h4>
                 <SkillsListing skillNames={skillNames} />
               </div>
-              )}
-            </div>
-          </ModalDialog.Body>
+            )}
+          </div>
+        </ModalDialog.Body>
 
-          <ModalDialog.Footer>
-            <ActionRow>
-              {marketingUrl && (
+        <ModalDialog.Footer>
+          <ActionRow>
+            {marketingUrl && (
               <Hyperlink
                 showLaunchIcon={false}
                 variant="muted"
@@ -110,14 +111,13 @@ const CourseModal = ({
                   <Icon className="btn-icon-after" src={Launch} />
                 </Button>
               </Hyperlink>
-              )}
-            </ActionRow>
-          </ModalDialog.Footer>
-        </ModalDialog>
-      </div>
-    </>
+            )}
+          </ActionRow>
+        </ModalDialog.Footer>
+      </ModalDialog>
+    </div>
   );
-};
+}
 
 CourseModal.propTypes = {
   intl: intlShape.isRequired,
@@ -139,7 +139,7 @@ CourseModal.propTypes = {
   }).isRequired,
 };
 
-const CourseDisplayForProgram = ({ course }) => {
+function CourseDisplayForProgram({ course }) {
   const { image, title, short_description: desc } = course;
   // removing html tags in description
   const regex = /(<([^>]+)>)/ig;
@@ -164,7 +164,7 @@ const CourseDisplayForProgram = ({ course }) => {
       </div>
     </div>
   );
-};
+}
 
 CourseDisplayForProgram.propTypes = {
   course: PropTypes.shape({
@@ -174,9 +174,9 @@ CourseDisplayForProgram.propTypes = {
   }).isRequired,
 };
 
-const ProgramModal = ({
+function ProgramModal({
   intl, isOpen, onClose, selectedProgram,
-}) => {
+}) {
   const {
     programTitle,
     programProvider,
@@ -194,50 +194,49 @@ const ProgramModal = ({
   const usdPrice = prices && prices.length > 0 ? `$${prices[0].total}` : '$0';
 
   const bulletedList = items => {
-    if (!items) { return <></>; }
+    if (!items) { return null; }
     const itemsList = items.map(item => <li key={item}>{item}</li>);
     return <ul>{itemsList}</ul>;
   };
   return (
-    <>
-      <div>
-        <ModalDialog
-          title="Program Info Dialog"
-          isOpen={isOpen}
-          onClose={onClose}
-          size="xl"
-          hasCloseButton
-          isFullscreenOnMobile
-          className="course-info-modal"
-        >
-          <ModalDialog.Body className="full-body p-0">
-            <ModalDialog.Hero>
-              <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
-            </ModalDialog.Hero>
-            <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
-            <div className="padded-body">
-              { programTitle && (
-                <ModalDialog.Title className="h1 course-info-title">
-                  {programTitle}
-                </ModalDialog.Title>
-              )}
-              { programProvider && (
-                <ModalDialog.Title className="h2 course-info-partner">
-                  {programProvider}
-                </ModalDialog.Title>
-              )}
-              <CatalogProgramModalBanner
-                coursePrice={usdPrice}
-                courseAssociatedCatalogs={programAssociatedCatalogs}
-                courses={programCourses}
-              />
-              {(learningItems && learningItems.length > 0) && (
+    <div>
+      <ModalDialog
+        title="Program Info Dialog"
+        isOpen={isOpen}
+        onClose={onClose}
+        size="xl"
+        hasCloseButton
+        isFullscreenOnMobile
+        className="course-info-modal"
+      >
+        <ModalDialog.Body className="full-body p-0">
+          <ModalDialog.Hero>
+            <ModalDialog.Hero.Background className="course-info-hero" backgroundSrc={bannerImageUrl} />
+          </ModalDialog.Hero>
+          <Image className="mr-2 partner-logo-thumbnail" src={partnerLogoImageUrl} rounded />
+          <div className="padded-body">
+            { programTitle && (
+            <ModalDialog.Title className="h1 course-info-title">
+              {programTitle}
+            </ModalDialog.Title>
+            )}
+            { programProvider && (
+            <ModalDialog.Title className="h2 course-info-partner">
+              {programProvider}
+            </ModalDialog.Title>
+            )}
+            <CatalogProgramModalBanner
+              coursePrice={usdPrice}
+              courseAssociatedCatalogs={programAssociatedCatalogs}
+              courses={programCourses}
+            />
+            {(learningItems && learningItems.length > 0) && (
               <div className="mt-8">
                 <h3>{intl.formatMessage(messages['catalogInfoModal.programLearningItemsHeader'])}</h3>
                 {bulletedList(learningItems)}
               </div>
-              )}
-              {(programCourses && programCourses.length > 0) && (
+            )}
+            {(programCourses && programCourses.length > 0) && (
               <div className="mt-8">
                 <h3>{intl.formatMessage(messages['catalogInfoModal.programCourseListingTitle'])}</h3>
                 <div className="mt-4">
@@ -246,36 +245,35 @@ const ProgramModal = ({
                   )}
                 </div>
               </div>
-              )}
+            )}
 
-              {/* eslint-disable-next-line react/no-danger */}
-              <div dangerouslySetInnerHTML={{ __html: programDescription }} />
-            </div>
-          </ModalDialog.Body>
+            {/* eslint-disable-next-line react/no-danger */}
+            <div dangerouslySetInnerHTML={{ __html: programDescription }} />
+          </div>
+        </ModalDialog.Body>
 
-          <ModalDialog.Footer>
-            <ActionRow>
-              <Hyperlink
-                showLaunchIcon={false}
-                variant="muted"
-                destination={marketingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button className="rounded-0" variant="primary">
-                  {intl.formatMessage(messages['catalogInfoModal.programMoreInfoButton'])}
-                  {/* Paragon Button's `iconAfter` throws errors so the icon is manually added */}
-                  <Icon className="btn-icon-after" src={Launch} />
-                </Button>
-              </Hyperlink>
+        <ModalDialog.Footer>
+          <ActionRow>
+            <Hyperlink
+              showLaunchIcon={false}
+              variant="muted"
+              destination={marketingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="rounded-0" variant="primary">
+                {intl.formatMessage(messages['catalogInfoModal.programMoreInfoButton'])}
+                {/* Paragon Button's `iconAfter` throws errors so the icon is manually added */}
+                <Icon className="btn-icon-after" src={Launch} />
+              </Button>
+            </Hyperlink>
 
-            </ActionRow>
-          </ModalDialog.Footer>
-        </ModalDialog>
-      </div>
-    </>
+          </ActionRow>
+        </ModalDialog.Footer>
+      </ModalDialog>
+    </div>
   );
-};
+}
 
 ProgramModal.propTypes = {
   intl: intlShape.isRequired,
@@ -295,14 +293,14 @@ ProgramModal.propTypes = {
   }).isRequired,
 };
 
-const CatalogCourseInfoModal = ({
+function CatalogCourseInfoModal({
   intl,
   isOpen,
   onClose,
   selectedCourse,
   selectedProgram,
   renderProgram,
-}) => {
+}) {
   if (!selectedCourse && !renderProgram) { return null; }
   if (!selectedProgram && renderProgram) { return null; }
   if (!renderProgram) {
@@ -310,7 +308,7 @@ const CatalogCourseInfoModal = ({
   }
 
   return <ProgramModal selectedProgram={selectedProgram} intl={intl} isOpen={isOpen} onClose={onClose} />;
-};
+}
 
 CatalogCourseInfoModal.defaultProps = {
   isOpen: false,

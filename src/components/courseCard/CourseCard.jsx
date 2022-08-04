@@ -8,7 +8,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
 import defaultCardHeader from '../../static/default-card-header-light.png';
 
-const CourseCard = ({ intl, onClick, original }) => {
+function CourseCard({ intl, onClick, original }) {
   const {
     title,
     card_image_url,
@@ -65,7 +65,7 @@ const CourseCard = ({ intl, onClick, original }) => {
       </Card.Section>
     </Card>
   );
-};
+}
 
 CourseCard.defaultProps = {
   onClick: () => {},

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {
   SearchContext, SearchPagination, setRefinementAction, useNbHitsFromSearchResults,
 } from '@edx/frontend-enterprise-catalog-search';
@@ -8,6 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React, {
+  useCallback,
   useContext,
   useMemo,
   useState,
@@ -51,7 +53,7 @@ export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
  * @param {object} args.contentType Whether the search is for courses or programs
  * @param {object} args.preview Whether we are on the split screen landing page or regular
 */
-export const BaseCatalogSearchResults = ({
+export function BaseCatalogSearchResults({
   intl,
   searchResults,
   // algolia recommends this prop instead of searching
@@ -63,7 +65,7 @@ export const BaseCatalogSearchResults = ({
   setNoCourses,
   setNoPrograms,
   preview,
-}) => {
+}) {
   const isProgramType = contentType === CONTENT_TYPE_PROGRAM;
   const isCourseType = contentType === CONTENT_TYPE_COURSE;
 
@@ -78,30 +80,6 @@ export const BaseCatalogSearchResults = ({
     programType: intl.formatMessage(messages['catalogSearchResults.table.programType']),
   };
 
-  if (isSearchStalled) {
-    return (
-      <div data-testid={SKELETON_DATA_TESTID}>
-        <Skeleton
-          className="m-1 loading-skeleton"
-          height={25}
-          count={5}
-        />
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <Alert className="mt-2" variant="warning">
-        <FormattedMessage
-          id="catalogs.catalogSearchResults.error"
-          defaultMessage="{message}: {fullError}"
-          description="Error message displayed when results cannot be returned."
-          values={{ message: ERROR_MESSAGE, fullError: error.message }}
-        />
-      </Alert>
-    );
-  }
-
   const { refinements, dispatch } = useContext(SearchContext);
   const nbHits = useNbHitsFromSearchResults(searchResults);
   const linkText = `Show (${nbHits}) >`;
@@ -110,7 +88,7 @@ export const BaseCatalogSearchResults = ({
 
   const [cardView, setCardView] = useState(true);
 
-  const rowClicked = (row) => {
+  const rowClicked = useCallback((row) => {
     if (isProgramType) {
       setSelectedCourse(
         mapAlgoliaObjectToProgram(row.original),
@@ -118,7 +96,7 @@ export const BaseCatalogSearchResults = ({
     } else {
       setSelectedCourse(mapAlgoliaObjectToCourse(row.original, intl, messages));
     }
-  };
+  }, [intl, isProgramType, setSelectedCourse]);
 
   const cardClicked = (card) => {
     if (isProgramType) {
@@ -136,10 +114,10 @@ export const BaseCatalogSearchResults = ({
     }
   };
 
-  function renderCardComponent(props) {
+  const renderCardComponent = (props) => {
     if (isCourseType) { return <CourseCard {...props} onClick={cardClicked} />; }
     return <ProgramCard {...props} onClick={cardClicked} />;
-  }
+  };
 
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
@@ -191,7 +169,7 @@ export const BaseCatalogSearchResults = ({
         </div>
       ),
     },
-  ], []);
+  ], [TABLE_HEADERS.catalogs, TABLE_HEADERS.courseName, TABLE_HEADERS.partner, TABLE_HEADERS.price, intl, rowClicked]);
 
   const programColumns = useMemo(() => [
     {
@@ -252,7 +230,33 @@ export const BaseCatalogSearchResults = ({
         </div>
       ),
     },
-  ], []);
+  ], [TABLE_HEADERS.catalogs, TABLE_HEADERS.numCourses, TABLE_HEADERS.partner,
+    TABLE_HEADERS.programName, TABLE_HEADERS.programType, intl, rowClicked]);
+
+  const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
+  if (isSearchStalled) {
+    return (
+      <div data-testid={SKELETON_DATA_TESTID}>
+        <Skeleton
+          className="m-1 loading-skeleton"
+          height={25}
+          count={5}
+        />
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <Alert className="mt-2" variant="warning">
+        <FormattedMessage
+          id="catalogs.catalogSearchResults.error"
+          defaultMessage="{message}: {fullError}"
+          description="Error message displayed when results cannot be returned."
+          values={{ message: ERROR_MESSAGE, fullError: error.message }}
+        />
+      </Alert>
+    );
+  }
 
   const availabilityColumn = {
     Header: TABLE_HEADERS.availability,
@@ -265,7 +269,7 @@ export const BaseCatalogSearchResults = ({
   if (HIDE_PRICE_REFINEMENT in refinements) {
     courseColumns[2] = availabilityColumn;
   }
-  const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
+
   const query = queryString.parse(window.location.search.substring(1));
   const toggleOptions = preview ? {} : {
     isDataViewToggleEnabled: true,
@@ -378,7 +382,7 @@ export const BaseCatalogSearchResults = ({
       )}
     </>
   );
-};
+}
 
 BaseCatalogSearchResults.defaultProps = {
   searchResults: { disjunctiveFacetsRefinements: [], nbHits: 0, hits: [] },
@@ -397,7 +401,7 @@ BaseCatalogSearchResults.propTypes = {
     _state: PropTypes.shape({
       disjunctiveFacetsRefinements: PropTypes.shape({}),
     }),
-    disjunctiveFacetsRefinements: PropTypes.array,
+    disjunctiveFacetsRefinements: PropTypes.shape([]),
     nbHits: PropTypes.number,
     hits: PropTypes.arrayOf(PropTypes.shape({})),
     nbPages: PropTypes.number,
