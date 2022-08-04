@@ -10,6 +10,7 @@ import queryString from 'query-string';
 import React, {
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -69,7 +70,7 @@ export function BaseCatalogSearchResults({
   const isProgramType = contentType === CONTENT_TYPE_PROGRAM;
   const isCourseType = contentType === CONTENT_TYPE_COURSE;
 
-  const TABLE_HEADERS = {
+  const TABLE_HEADERS = useMemo(() => ({
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
     partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
     price: intl.formatMessage(messages['catalogSearchResults.table.price']),
@@ -78,21 +79,7 @@ export function BaseCatalogSearchResults({
     programName: intl.formatMessage(messages['catalogSearchResults.table.programName']),
     numCourses: intl.formatMessage(messages['catalogSearchResults.table.numCourses']),
     programType: intl.formatMessage(messages['catalogSearchResults.table.programType']),
-  }
-
-  // const TABLE_HEADERS = useCallback(() => ({
-  //   courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
-  //   partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
-  //   price: intl.formatMessage(messages['catalogSearchResults.table.price']),
-  //   availability: intl.formatMessage(messages['catalogSearchResults.table.availability']),
-  //   catalogs: intl.formatMessage(messages['catalogSearchResults.table.catalogs']),
-  //   programName: intl.formatMessage(messages['catalogSearchResults.table.programName']),
-  //   numCourses: intl.formatMessage(messages['catalogSearchResults.table.numCourses']),
-  //   programType: intl.formatMessage(messages['catalogSearchResults.table.programType']),
-  // }), [intl]);
-
-  // console.log("HI HELLO ITS ME");
-  // TABLE_HEADERS
+  }), [intl]);
 
   const { refinements, dispatch } = useContext(SearchContext);
   const nbHits = useNbHitsFromSearchResults(searchResults);
@@ -112,13 +99,13 @@ export function BaseCatalogSearchResults({
     }
   }, [intl, isProgramType, setSelectedCourse]);
 
-  const cardClicked = (card) => {
+  const cardClicked = useCallback((card) => {
     if (isProgramType) {
       setSelectedCourse(mapAlgoliaObjectToProgram(card));
     } else {
       setSelectedCourse(mapAlgoliaObjectToCourse(card, intl, messages));
     }
-  };
+  }, [intl, isProgramType, setSelectedCourse]);
 
   const refinementClick = (content) => {
     if (content === CONTENT_TYPE_COURSE) {
@@ -245,17 +232,19 @@ export function BaseCatalogSearchResults({
     return subTitle;
   }
 
-  if (contentType === CONTENT_TYPE_COURSE) {
-    if (searchResults?.nbHits === 0) {
-      setNoCourses(true);
+  useEffect(() => {
+    if (contentType === CONTENT_TYPE_COURSE) {
+      if (searchResults?.nbHits === 0) {
+        setNoCourses(true);
+      } else {
+        setNoCourses(false);
+      }
+    } else if (searchResults?.nbHits === 0) {
+      setNoPrograms(true);
     } else {
-      setNoCourses(false);
+      setNoPrograms(false);
     }
-  } else if (searchResults?.nbHits === 0) {
-    setNoPrograms(true);
-  } else {
-    setNoPrograms(false);
-  }
+  });
   const inputQuery = query.q;
 
   const dataTableActions = () => {
