@@ -3,7 +3,7 @@ import {
 } from '@edx/frontend-enterprise-catalog-search';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
-  Alert, Badge, Button, CardView, DataTable,
+  Alert, Button, CardView, DataTable,
 } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
@@ -29,7 +29,9 @@ import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
 import { useSelectedCourse } from '../catalogs/data/hooks';
 import CourseCard from '../courseCard/CourseCard';
 import ProgramCard from '../programCard/ProgramCard';
-import DownloadCsvButton from './buttons/downloadCsvButton/DownloadCsvButton';
+import CatalogBadges from './associatedComponents/catalogBadges/CatalogBadges';
+import TitleButton from './associatedComponents/titleButton/TitleButton';
+import DownloadCsvButton from './associatedComponents/downloadCsvButton/DownloadCsvButton';
 import messages from './CatalogSearchResults.messages';
 
 import CatalogNoResultsDeck from '../catalogNoResultsDeck/CatalogNoResultsDeck';
@@ -120,12 +122,6 @@ export function BaseCatalogSearchResults({
     return <ProgramCard {...props} onClick={cardClicked} />;
   };
 
-  const titleButton = useCallback((row) => (
-    <Button className="text-left" variant="link" onClick={() => rowClicked(row)}>
-      {row.values.title}
-    </Button>
-  ), [rowClicked]);
-
   const availabilityColumn = {
     id: 'availability-column',
     Header: TABLE_HEADERS.availability,
@@ -133,39 +129,13 @@ export function BaseCatalogSearchResults({
     Cell: ({ row }) => (formatDate(row.values.advertised_course_run)),
   };
 
-  const catalogBadges = useCallback((row) => (
-    <div style={{ maxWidth: '400vw' }}>
-      {
-      row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE) && (
-        <Badge variant="dark" className="padded-catalog">
-          {intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}
-        </Badge>
-      )
-    }
-      {
-      row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
-        <Badge variant="secondary" className="business-catalog padded-catalog">
-          {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
-        </Badge>
-      )
-    }
-      {
-      row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
-        <Badge variant="light" className="padded-catalog">
-          {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
-        </Badge>
-      )
-    }
-    </div>
-  ), [intl]);
-
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const courseColumns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
-      Cell: ({ row }) => (titleButton(row)),
+      Cell: ({ row }) => (<TitleButton {...row} onClick={rowClicked} />),
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -179,15 +149,15 @@ export function BaseCatalogSearchResults({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_titles',
-      Cell: ({ row }) => (catalogBadges(row)),
+      Cell: ({ row }) => (<CatalogBadges {...row} intl={intl} />),
     },
-  ], [TABLE_HEADERS, titleButton, catalogBadges]);
+  ], [TABLE_HEADERS, intl, rowClicked]);
 
   const programColumns = useMemo(() => [
     {
       Header: TABLE_HEADERS.programName,
       accessor: 'title',
-      Cell: ({ row }) => (titleButton(row)),
+      Cell: ({ row }) => (<TitleButton {...row} onClick={rowClicked} />),
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -206,9 +176,9 @@ export function BaseCatalogSearchResults({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_titles',
-      Cell: ({ row }) => (catalogBadges(row)),
+      Cell: ({ row }) => (<CatalogBadges {...row} intl={intl} />),
     },
-  ], [TABLE_HEADERS, titleButton, catalogBadges]);
+  ], [TABLE_HEADERS, intl, rowClicked]);
 
   // substituting the price column with the availability dates per customer request ENT-5041
   const page = refinements.page || (searchState ? searchState.page : 0);

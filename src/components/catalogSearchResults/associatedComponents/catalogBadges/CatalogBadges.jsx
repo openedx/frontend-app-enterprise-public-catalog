@@ -1,0 +1,45 @@
+import { Badge } from '@edx/paragon';
+import PropTypes from 'prop-types';
+import { intlShape } from '@edx/frontend-platform/i18n';
+
+import React from 'react';
+import messages from '../../CatalogSearchResults.messages';
+
+function CatalogBadges({ row, intl }) {
+  return (
+    <div style={{ maxWidth: '400vw' }}>
+      {row.original.enterprise_catalog_query_titles.includes(
+        process.env.EDX_ENTERPRISE_ALACARTE_TITLE,
+      ) && (
+        <Badge variant="dark" className="padded-catalog">
+          {intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}
+        </Badge>
+      )}
+      {row.original.enterprise_catalog_query_titles.includes(
+        process.env.EDX_FOR_BUSINESS_TITLE,
+      ) && (
+        <Badge variant="secondary" className="business-catalog padded-catalog">
+          {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
+        </Badge>
+      )}
+      {row.original.enterprise_catalog_query_titles.includes(
+        process.env.EDX_FOR_ONLINE_EDU_TITLE,
+      ) && (
+        <Badge variant="light" className="padded-catalog">
+          {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
+        </Badge>
+      )};
+    </div>
+  );
+}
+
+CatalogBadges.propTypes = {
+  row: PropTypes.shape({
+    original: PropTypes.shape({
+      enterprise_catalog_query_titles: PropTypes.arrayOf(PropTypes.string),
+    }),
+  }).isRequired,
+  intl: intlShape.isRequired,
+};
+
+export default CatalogBadges;
