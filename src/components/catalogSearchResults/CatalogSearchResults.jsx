@@ -129,13 +129,21 @@ export function BaseCatalogSearchResults({
     Cell: ({ row }) => (formatDate(row.values.advertised_course_run)),
   };
 
+  const TitleButtonComponent = useCallback(({ row }) => (
+    <TitleButton row={row} onClick={rowClicked} />
+  ), [rowClicked]);
+
+  const CatalogBadgeComponent = useCallback(({ row }) => (
+    <CatalogBadges row={row} />
+  ), []);
+
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const courseColumns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
-      Cell: ({ row }) => (<TitleButton {...row} onClick={rowClicked} />),
+      Cell: TitleButtonComponent,
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -149,15 +157,15 @@ export function BaseCatalogSearchResults({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_titles',
-      Cell: ({ row }) => (<CatalogBadges {...row} intl={intl} />),
+      Cell: CatalogBadgeComponent,
     },
-  ], [TABLE_HEADERS, intl, rowClicked]);
+  ], [TABLE_HEADERS, TitleButtonComponent, CatalogBadgeComponent]);
 
   const programColumns = useMemo(() => [
     {
       Header: TABLE_HEADERS.programName,
       accessor: 'title',
-      Cell: ({ row }) => (<TitleButton {...row} onClick={rowClicked} />),
+      Cell: TitleButtonComponent,
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -176,9 +184,9 @@ export function BaseCatalogSearchResults({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_titles',
-      Cell: ({ row }) => (<CatalogBadges {...row} intl={intl} />),
+      Cell: CatalogBadgeComponent,
     },
-  ], [TABLE_HEADERS, intl, rowClicked]);
+  ], [TABLE_HEADERS, TitleButtonComponent, CatalogBadgeComponent]);
 
   // substituting the price column with the availability dates per customer request ENT-5041
   const page = refinements.page || (searchState ? searchState.page : 0);

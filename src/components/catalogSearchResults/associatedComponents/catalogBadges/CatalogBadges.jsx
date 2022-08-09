@@ -1,11 +1,12 @@
 import { Badge } from '@edx/paragon';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import PropTypes from 'prop-types';
-import { intlShape } from '@edx/frontend-platform/i18n';
 
 import React from 'react';
 import messages from '../../CatalogSearchResults.messages';
 
-function CatalogBadges({ row, intl }) {
+function CatalogBadges({ row }) {
+  const intl = useIntl();
   return (
     <div style={{ maxWidth: '400vw' }}>
       {row.original.enterprise_catalog_query_titles.includes(
@@ -39,7 +40,6 @@ CatalogBadges.propTypes = {
       enterprise_catalog_query_titles: PropTypes.arrayOf(PropTypes.string),
     }),
   }).isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default CatalogBadges;
