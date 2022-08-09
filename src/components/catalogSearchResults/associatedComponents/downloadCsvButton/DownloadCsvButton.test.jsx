@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import userEvent from '@testing-library/user-event';
 import DownloadCsvButton from './DownloadCsvButton';
+import { renderWithRouter } from '../../../tests/testUtils';
 
 // file-saver mocks
 jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
@@ -30,7 +31,7 @@ global.location = { href: assignMock };
 describe('Download button', () => {
   test('button renders and is clickable', async () => {
     // Render the component
-    render(
+    renderWithRouter(
       <DownloadCsvButton {...defaultProps} />,
     );
     // Expect to be in the default state
@@ -45,7 +46,7 @@ describe('Download button', () => {
   test('download button url encodes queries', async () => {
     process.env.CATALOG_SERVICE_BASE_URL = 'foobar.com';
     // Render the component
-    render(
+    renderWithRouter(
       <DownloadCsvButton {...badQueryProps} />,
     );
     // Expect to be in the default state

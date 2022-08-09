@@ -49,7 +49,7 @@ function CatalogSearch(intl) {
       const cIndex = searchClient.initIndex(config.ALGOLIA_INDEX_NAME);
       return cIndex;
     },
-    [], // only initialized once
+    [config.ALGOLIA_INDEX_NAME, searchClient],
   );
 
   const suggestedCourseOnClick = (hit) => {
@@ -63,46 +63,45 @@ function CatalogSearch(intl) {
   };
 
   return (
-    <>
-      <PageWrapper className="mt-3 mb-5 page-width">
-        <section>
-          <FormattedMessage
-            id="catalogs.enterpriseCatalogs.header"
-            defaultMessage="Search courses and programs"
-            description="Search dialogue."
-            tagName="h2"
+    <PageWrapper className="mt-3 mb-5 page-width">
+      <section>
+        <FormattedMessage
+          id="catalogs.enterpriseCatalogs.header"
+          defaultMessage="Search courses and programs"
+          description="Search dialogue."
+          tagName="h2"
+        />
+        <InstantSearch
+          indexName={algoliaIndexName}
+          searchClient={searchClient}
+        >
+          <div className="enterprise-catalogs-header">
+            <Configure
+              filters="content_type:course OR content_type:program"
+              facetingAfterDistinct
+            />
+            <SearchHeader
+              hideTitle
+              variant="default"
+              index={courseIndex}
+              filters={suggestedSearchContentTypeFilter}
+              disableSuggestionRedirect
+              suggestionSubmitOverride={suggestedCourseOnClick}
+            />
+          </div>
+          <CatalogInfoModal
+            isOpen={selectedSuggestedCourseType === 'course'}
+            onClose={() => setSelectedSuggestedCourse(null)}
+            selectedCourse={selectedSuggestedCourse}
           />
-          <InstantSearch
-            indexName={algoliaIndexName}
-            searchClient={searchClient}
-          >
-            <div className="enterprise-catalogs-header">
-              <Configure 
-                filters={`content_type:course OR content_type:program`}
-                facetingAfterDistinct 
-              />
-              <SearchHeader
-                hideTitle
-                variant="default"
-                index={courseIndex}
-                filters={suggestedSearchContentTypeFilter}
-                disableSuggestionRedirect
-                suggestionSubmitOverride={suggestedCourseOnClick}
-              />
-            </div>
-            <CatalogInfoModal
-              isOpen={selectedSuggestedCourseType === 'course'}
-              onClose={() => setSelectedSuggestedCourse(null)}
-              selectedCourse={selectedSuggestedCourse}
-            />
-            <CatalogInfoModal
-              isOpen={selectedSuggestedCourseType === 'program'}
-              onClose={() => setSelectedSuggestedCourse(null)}
-              selectedProgram={selectedSuggestedCourse}
-              renderProgram
-            />
-            <>
-              {(!contentType || contentType.length === 2)
+          <CatalogInfoModal
+            isOpen={selectedSuggestedCourseType === 'program'}
+            onClose={() => setSelectedSuggestedCourse(null)}
+            selectedProgram={selectedSuggestedCourse}
+            renderProgram
+          />
+          <>
+            {(!contentType || contentType.length === 2)
               && (noCourseResults === noProgramResults || !noCourseResults) && (
               <>
                 <Index indexName={algoliaIndexName} indexId="search-courses">
@@ -126,60 +125,55 @@ function CatalogSearch(intl) {
                   />
                 </Index>
               </>
-              )}
-              {(!contentType || contentType.length === 2) && (noCourseResults && !noProgramResults) && (
-                <>
-                  <Index indexName={algoliaIndexName} indexId="search-program">
-                    <Configure
-                      hitsPerPage={NUM_RESULTS_PROGRAM}
-                      filters={programFilter}
-                      facetingAfterDistinct
-                    />
-                    <CatalogSearchResults
-                      preview
-                      contentType={CONTENT_TYPE_PROGRAM}
-                      setNoPrograms={setNoProgramResults}
-                    />
-                  </Index>
-                  <Index indexName={algoliaIndexName} indexId="search-courses">
-                    <Configure
-                      hitsPerPage={NUM_RESULTS_COURSE}
-                      filters={courseFilter}
-                      facetingAfterDistinct
-                    />
-                    <CatalogSearchResults preview contentType={CONTENT_TYPE_COURSE} setNoCourses={setNoCourseResults} />
-                  </Index>
-                </>
-              )}
-              {(specifiedContentType === CONTENT_TYPE_PROGRAM) && (
-              <>
-                <Index indexName={algoliaIndexName} indexId="search-program">
-                  <Configure
-                    hitsPerPage={NUM_RESULTS_PER_PAGE}
-                    filters={programFilter}
-                    facetingAfterDistinct
-                  />
-                  <CatalogSearchResults preview={false} contentType={CONTENT_TYPE_PROGRAM} />
-                </Index>
-              </>
-              )}
-            </>
-            {(specifiedContentType === CONTENT_TYPE_COURSE) && (
+            )}
+            {(!contentType || contentType.length === 2) && (noCourseResults && !noProgramResults) && (
             <>
+              <Index indexName={algoliaIndexName} indexId="search-program">
+                <Configure
+                  hitsPerPage={NUM_RESULTS_PROGRAM}
+                  filters={programFilter}
+                  facetingAfterDistinct
+                />
+                <CatalogSearchResults
+                  preview
+                  contentType={CONTENT_TYPE_PROGRAM}
+                  setNoPrograms={setNoProgramResults}
+                />
+              </Index>
               <Index indexName={algoliaIndexName} indexId="search-courses">
                 <Configure
-                  hitsPerPage={NUM_RESULTS_PER_PAGE}
+                  hitsPerPage={NUM_RESULTS_COURSE}
                   filters={courseFilter}
                   facetingAfterDistinct
                 />
-                <CatalogSearchResults preview={false} contentType={CONTENT_TYPE_COURSE} />
+                <CatalogSearchResults preview contentType={CONTENT_TYPE_COURSE} setNoCourses={setNoCourseResults} />
               </Index>
             </>
             )}
-          </InstantSearch>
-        </section>
-      </PageWrapper>
-    </>
+            {(specifiedContentType === CONTENT_TYPE_PROGRAM) && (
+              <Index indexName={algoliaIndexName} indexId="search-program">
+                <Configure
+                  hitsPerPage={NUM_RESULTS_PER_PAGE}
+                  filters={programFilter}
+                  facetingAfterDistinct
+                />
+                <CatalogSearchResults preview={false} contentType={CONTENT_TYPE_PROGRAM} />
+              </Index>
+            )}
+          </>
+          {(specifiedContentType === CONTENT_TYPE_COURSE) && (
+            <Index indexName={algoliaIndexName} indexId="search-courses">
+              <Configure
+                hitsPerPage={NUM_RESULTS_PER_PAGE}
+                filters={courseFilter}
+                facetingAfterDistinct
+              />
+              <CatalogSearchResults preview={false} contentType={CONTENT_TYPE_COURSE} />
+            </Index>
+          )}
+        </InstantSearch>
+      </section>
+    </PageWrapper>
   );
 }
 

@@ -8,7 +8,7 @@ import { Download } from '@edx/paragon/icons';
 
 import EnterpriseCatalogApiService from '../../../../data/services/EnterpriseCatalogAPIService';
 
-const DownloadCsvButton = ({ facets, query }) => {
+function DownloadCsvButton({ facets, query }) {
   const [isOpen, open, close] = useToggle(false);
   const [filters, setFilters] = useState();
 
@@ -42,7 +42,7 @@ const DownloadCsvButton = ({ facets, query }) => {
       </Button>
     </>
   );
-};
+}
 
 DownloadCsvButton.defaultProps = {
   facets: { nbHits: 0, hits: [] },
@@ -51,7 +51,7 @@ DownloadCsvButton.defaultProps = {
 
 DownloadCsvButton.propTypes = {
   facets: PropTypes.shape({
-    enterprise_catalog_query_titles: PropTypes.array,
+    enterprise_catalog_query_titles: PropTypes.arrayOf(PropTypes.string),
   }),
   query: PropTypes.string,
 };

@@ -31,27 +31,28 @@ function availabilitySubtitle(start, end, upcomingRuns) {
   return retString;
 }
 
-const CatalogCourseModalBanner = ({
+function CatalogCourseModalBanner({
   intl,
   coursePrice,
   courseAssociatedCatalogs,
   startDate,
   endDate,
   upcomingRuns,
-}) => (
-  <div className="my-4.5 banner">
-    <div className="banner-section mx-3">
-      <div className="banner h4 mb-0">
-        <Icon className="mr-1" src={MoneyOutline} />
-        {coursePrice}
-      </div>
-      <div className="banner-subtitle small">
-        {intl.formatMessage(messages['CatalogCourseModalBanner.bannerPriceText'])}
-      </div>
+}) {
+  return (
+    <div className="my-4.5 banner">
+      <div className="banner-section mx-3">
+        <div className="banner h4 mb-0">
+          <Icon className="mr-1" src={MoneyOutline} />
+          {coursePrice}
+        </div>
+        <div className="banner-subtitle small">
+          {intl.formatMessage(messages['CatalogCourseModalBanner.bannerPriceText'])}
+        </div>
 
-    </div>
-    <div className="banner-section slash">/</div>
-    {checkSubscriptions(courseAssociatedCatalogs) && (
+      </div>
+      <div className="banner-section slash">/</div>
+      {checkSubscriptions(courseAssociatedCatalogs) && (
       <div className="banner-section mx-3">
         <div className="banner h4 mb-0">
           <Icon className="mr-1" src={BookOpen} />
@@ -59,20 +60,20 @@ const CatalogCourseModalBanner = ({
         </div>
         <div className="banner-subtitle small">{checkSubscriptions(courseAssociatedCatalogs)}</div>
       </div>
-    )}
-    {checkSubscriptions(courseAssociatedCatalogs) && (
+      )}
+      {checkSubscriptions(courseAssociatedCatalogs) && (
       <div className="banner-section slash">/</div>
-    )}
-    <div className="banner-section mx-3">
-      <div className="banner h4 mb-0">
-        <Icon className="mr-1" src={EventNote} />
-        {checkAvailability(startDate, endDate)}
+      )}
+      <div className="banner-section mx-3">
+        <div className="banner h4 mb-0">
+          <Icon className="mr-1" src={EventNote} />
+          {checkAvailability(startDate, endDate)}
+        </div>
+        <div className="banner-subtitle small">{availabilitySubtitle(startDate, endDate, upcomingRuns)} </div>
       </div>
-      <div className="banner-subtitle small">{availabilitySubtitle(startDate, endDate, upcomingRuns)} </div>
     </div>
-  </div>
-
-);
+  );
+}
 
 CatalogCourseModalBanner.defaultProps = {
   coursePrice: '0',
