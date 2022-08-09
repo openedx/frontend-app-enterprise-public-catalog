@@ -17,13 +17,13 @@ import { getSelectedCatalogFromURL } from '../../utils/common';
 
 const BASE_APP_URL = process.env.BASE_URL;
 
-const CatalogNoResultsDeck = ({
+function CatalogNoResultsDeck({
   intl,
   setCardView,
   columns,
   renderCardComponent,
   contentType,
-}) => {
+}) {
   const [defaultData, setDefaultData] = useState([]);
   const [apiError, setApiError] = useState(false);
 
@@ -43,9 +43,8 @@ const CatalogNoResultsDeck = ({
     }).catch(err => {
       setApiError(true);
       logError(err);
-      // TODO: what should the UX be for error here?
     });
-  }, [selectedCatalog]);
+  }, [selectedCatalog, contentType]);
 
   let defaultDeckTitle;
   let alertText;
@@ -94,7 +93,7 @@ const CatalogNoResultsDeck = ({
       </DataTable>
     </>
   );
-};
+}
 
 CatalogNoResultsDeck.defaultProps = {
   setCardView: () => {},

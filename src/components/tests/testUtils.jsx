@@ -19,6 +19,7 @@ export const renderWithRouter = (ui, { route } = {}) => {
   if (route) { history.push(route); }
   const locale = 'en';
   return render(
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AppContext.Provider value={{ authenticatedUser: null, config: TEST_CONFIG, locale }}>
       <IntlProvider locale={locale} messages={headerMessages[locale]}>
         <Router history={history}>
