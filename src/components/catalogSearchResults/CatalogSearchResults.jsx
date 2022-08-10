@@ -4,13 +4,14 @@ import {
 } from '@edx/frontend-enterprise-catalog-search';
 import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
-  Alert, Badge, Button, CardView, DataTable,
+  Alert, Button, CardView, DataTable,
 } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React, {
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -29,7 +30,9 @@ import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
 import { useSelectedCourse } from '../catalogs/data/hooks';
 import CourseCard from '../courseCard/CourseCard';
 import ProgramCard from '../programCard/ProgramCard';
-import DownloadCsvButton from './buttons/downloadCsvButton/DownloadCsvButton';
+import CatalogBadges from './associatedComponents/catalogBadges/CatalogBadges';
+import TitleButton from './associatedComponents/titleButton/TitleButton';
+import DownloadCsvButton from './associatedComponents/downloadCsvButton/DownloadCsvButton';
 import messages from './CatalogSearchResults.messages';
 
 import CatalogNoResultsDeck from '../catalogNoResultsDeck/CatalogNoResultsDeck';
@@ -69,7 +72,7 @@ export function BaseCatalogSearchResults({
   const isProgramType = contentType === CONTENT_TYPE_PROGRAM;
   const isCourseType = contentType === CONTENT_TYPE_COURSE;
 
-  const TABLE_HEADERS = {
+  const TABLE_HEADERS = useMemo(() => ({
     courseName: intl.formatMessage(messages['catalogSearchResults.table.courseName']),
     partner: intl.formatMessage(messages['catalogSearchResults.table.partner']),
     price: intl.formatMessage(messages['catalogSearchResults.table.price']),
@@ -78,7 +81,7 @@ export function BaseCatalogSearchResults({
     programName: intl.formatMessage(messages['catalogSearchResults.table.programName']),
     numCourses: intl.formatMessage(messages['catalogSearchResults.table.numCourses']),
     programType: intl.formatMessage(messages['catalogSearchResults.table.programType']),
-  };
+  }), [intl]);
 
   const { refinements, dispatch } = useContext(SearchContext);
   const nbHits = useNbHitsFromSearchResults(searchResults);
@@ -98,13 +101,13 @@ export function BaseCatalogSearchResults({
     }
   }, [intl, isProgramType, setSelectedCourse]);
 
-  const cardClicked = (card) => {
+  const cardClicked = useCallback((card) => {
     if (isProgramType) {
       setSelectedCourse(mapAlgoliaObjectToProgram(card));
     } else {
       setSelectedCourse(mapAlgoliaObjectToCourse(card, intl, messages));
     }
-  };
+  }, [intl, isProgramType, setSelectedCourse]);
 
   const refinementClick = (content) => {
     if (content === CONTENT_TYPE_COURSE) {
@@ -119,17 +122,28 @@ export function BaseCatalogSearchResults({
     return <ProgramCard {...props} onClick={cardClicked} />;
   };
 
+  const availabilityColumn = {
+    id: 'availability-column',
+    Header: TABLE_HEADERS.availability,
+    accessor: 'advertised_course_run',
+    Cell: ({ row }) => (formatDate(row.values.advertised_course_run)),
+  };
+
+  const TitleButtonComponent = useCallback(({ row }) => (
+    <TitleButton row={row} onClick={rowClicked} />
+  ), [rowClicked]);
+
+  const CatalogBadgeComponent = useCallback(({ row }) => (
+    <CatalogBadges row={row} />
+  ), []);
+
   // NOTE: Cell is not explicity supported in DataTable, which leads to lint errors regarding {row}. However, we needed
   // to use the accessor functionality instead of just adding in additionalColumns like the Paragon documentation.
   const courseColumns = useMemo(() => [
     {
       Header: TABLE_HEADERS.courseName,
       accessor: 'title',
-      Cell: ({ row }) => (
-        <Button className="text-left" variant="link" onClick={() => rowClicked(row)}>
-          {row.values.title}
-        </Button>
-      ),
+      Cell: TitleButtonComponent,
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -143,43 +157,15 @@ export function BaseCatalogSearchResults({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_titles',
-      Cell: ({ row }) => (
-        <div style={{ maxWidth: '400vw' }}>
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE) && (
-              <Badge variant="dark" className="padded-catalog">
-                {intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])}
-              </Badge>
-            )
-          }
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE) && (
-              <Badge variant="secondary" className="business-catalog padded-catalog">
-                {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
-              </Badge>
-            )
-          }
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE) && (
-              <Badge variant="light" className="padded-catalog">
-                {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
-              </Badge>
-            )
-          }
-        </div>
-      ),
+      Cell: CatalogBadgeComponent,
     },
-  ], [TABLE_HEADERS.catalogs, TABLE_HEADERS.courseName, TABLE_HEADERS.partner, TABLE_HEADERS.price, intl, rowClicked]);
+  ], [TABLE_HEADERS, TitleButtonComponent, CatalogBadgeComponent]);
 
   const programColumns = useMemo(() => [
     {
       Header: TABLE_HEADERS.programName,
       accessor: 'title',
-      Cell: ({ row }) => (
-        <Button className="catalog-search-result-column-title" variant="link" onClick={() => rowClicked(row)}>
-          {row.values.title}
-        </Button>
-      ),
+      Cell: TitleButtonComponent,
     },
     {
       Header: TABLE_HEADERS.partner,
@@ -198,71 +184,9 @@ export function BaseCatalogSearchResults({
     {
       Header: TABLE_HEADERS.catalogs,
       accessor: 'enterprise_catalog_query_titles',
-      Cell: ({ row }) => (
-        <div style={{ maxWidth: '400vw' }}>
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE)
-              && (
-              <Badge variant="dark" className="padded-catalog">{
-                intl.formatMessage(messages['catalogSearchResults.aLaCarteBadge'])
-              }
-              </Badge>
-              )
-          }
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_BUSINESS_TITLE)
-              && (
-              <Badge variant="secondary" className="business-catalog padded-catalog">{
-                intl.formatMessage(messages['catalogSearchResults.businessBadge'])
-              }
-              </Badge>
-              )
-          }
-          {
-            row.original.enterprise_catalog_query_titles.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE)
-              && (
-              <Badge variant="light" className="padded-catalog">{
-                intl.formatMessage(messages['catalogSearchResults.educationBadge'])
-              }
-              </Badge>
-              )
-          }
-        </div>
-      ),
+      Cell: CatalogBadgeComponent,
     },
-  ], [TABLE_HEADERS.catalogs, TABLE_HEADERS.numCourses, TABLE_HEADERS.partner,
-    TABLE_HEADERS.programName, TABLE_HEADERS.programType, intl, rowClicked]);
-
-  const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
-  if (isSearchStalled) {
-    return (
-      <div data-testid={SKELETON_DATA_TESTID}>
-        <Skeleton
-          className="m-1 loading-skeleton"
-          height={25}
-          count={5}
-        />
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <Alert className="mt-2" variant="warning">
-        <FormattedMessage
-          id="catalogs.catalogSearchResults.error"
-          defaultMessage="{message}: {fullError}"
-          description="Error message displayed when results cannot be returned."
-          values={{ message: ERROR_MESSAGE, fullError: error.message }}
-        />
-      </Alert>
-    );
-  }
-
-  const availabilityColumn = {
-    Header: TABLE_HEADERS.availability,
-    accessor: 'advertised_course_run',
-    Cell: ({ row }) => (formatDate(row.values.advertised_course_run)),
-  };
+  ], [TABLE_HEADERS, TitleButtonComponent, CatalogBadgeComponent]);
 
   // substituting the price column with the availability dates per customer request ENT-5041
   const page = refinements.page || (searchState ? searchState.page : 0);
@@ -286,18 +210,52 @@ export function BaseCatalogSearchResults({
     return subTitle;
   }
 
-  if (contentType === CONTENT_TYPE_COURSE) {
-    if (searchResults?.nbHits === 0) {
-      setNoCourses(true);
+  useEffect(() => {
+    if (contentType === CONTENT_TYPE_COURSE) {
+      if (searchResults?.nbHits === 0) {
+        setNoCourses(true);
+      } else {
+        setNoCourses(false);
+      }
+    } else if (searchResults?.nbHits === 0) {
+      setNoPrograms(true);
     } else {
-      setNoCourses(false);
+      setNoPrograms(false);
     }
-  } else if (searchResults?.nbHits === 0) {
-    setNoPrograms(true);
-  } else {
-    setNoPrograms(false);
-  }
+  });
   const inputQuery = query.q;
+
+  const dataTableActions = () => {
+    if (preview || (searchResults?.nbHits === 0)) {
+      return null;
+    }
+    // eslint-disable-next-line no-underscore-dangle
+    return <DownloadCsvButton facets={searchResults?._state.disjunctiveFacetsRefinements} query={inputQuery} />;
+  };
+
+  if (isSearchStalled) {
+    return (
+      <div data-testid={SKELETON_DATA_TESTID}>
+        <Skeleton
+          className="m-1 loading-skeleton"
+          height={25}
+          count={5}
+        />
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <Alert className="mt-2" variant="warning">
+        <FormattedMessage
+          id="catalogs.catalogSearchResults.error"
+          defaultMessage="{message}: {fullError}"
+          description="Error message displayed when results cannot be returned."
+          values={{ message: ERROR_MESSAGE, fullError: error.message }}
+        />
+      </Alert>
+    );
+  }
 
   return (
     <>
@@ -349,13 +307,7 @@ export function BaseCatalogSearchResults({
           itemCount={searchResults?.nbHits || 0}
           pageCount={searchResults?.nbPages || 1}
           pageSize={searchResults?.hitsPerPage || 0}
-          tableActions={() => {
-            if (preview || (searchResults?.nbHits === 0)) {
-              return null;
-            }
-            // eslint-disable-next-line no-underscore-dangle
-            return <DownloadCsvButton facets={searchResults?._state.disjunctiveFacetsRefinements} query={inputQuery} />;
-          }}
+          tableActions={dataTableActions}
         >
           <DataTable.TableControlBar />
           { cardView && (
@@ -401,7 +353,7 @@ BaseCatalogSearchResults.propTypes = {
     _state: PropTypes.shape({
       disjunctiveFacetsRefinements: PropTypes.shape({}),
     }),
-    disjunctiveFacetsRefinements: PropTypes.shape([]),
+    disjunctiveFacetsRefinements: PropTypes.arrayOf(PropTypes.shape({})),
     nbHits: PropTypes.number,
     hits: PropTypes.arrayOf(PropTypes.shape({})),
     nbPages: PropTypes.number,
@@ -412,6 +364,7 @@ BaseCatalogSearchResults.propTypes = {
   error: PropTypes.shape({
     message: PropTypes.string,
   }),
+
   searchState: PropTypes.shape({
     page: PropTypes.number,
   }).isRequired,

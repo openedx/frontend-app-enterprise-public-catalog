@@ -1,14 +1,11 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable react/prop-types */
-// eslint-disable-next-line import/no-import-module-exports
+/* eslint-disable */
 import React from 'react';
 
 const MockReactInstantSearch = jest.genMockFromModule(
   'react-instantsearch-dom',
 );
 
-// eslint-disable-next-line camelcase
-const advertisedCourseRun = {
+const advertised_course_run = {
   start: '2020-09-09T04:00:00Z',
   key: 'course-v1:edX+Bee101+3T2020',
 };

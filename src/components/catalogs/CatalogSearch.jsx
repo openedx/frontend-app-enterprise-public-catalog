@@ -49,7 +49,7 @@ function CatalogSearch(intl) {
       const cIndex = searchClient.initIndex(config.ALGOLIA_INDEX_NAME);
       return cIndex;
     },
-    [config.ALGOLIA_INDEX_NAME, searchClient], // only initialized once
+    [config.ALGOLIA_INDEX_NAME, searchClient],
   );
 
   const suggestedCourseOnClick = (hit) => {
@@ -76,7 +76,10 @@ function CatalogSearch(intl) {
           searchClient={searchClient}
         >
           <div className="enterprise-catalogs-header">
-            <Configure facetingAfterDistinct />
+            <Configure
+              filters="content_type:course OR content_type:program"
+              facetingAfterDistinct
+            />
             <SearchHeader
               hideTitle
               variant="default"

@@ -43,9 +43,8 @@ function CatalogNoResultsDeck({
     }).catch(err => {
       setApiError(true);
       logError(err);
-      // TODO: what should the UX be for error here?
     });
-  }, [contentType, selectedCatalog]);
+  }, [selectedCatalog, contentType]);
 
   let defaultDeckTitle;
   let alertText;

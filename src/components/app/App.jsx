@@ -5,7 +5,8 @@ import { AppProvider, PageRoute } from '@edx/frontend-platform/react';
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
 
-import useHotjar from 'react-use-hotjar';
+import { initializeHotjar } from '@edx/frontend-enterprise-hotjar';
+import { logError } from '@edx/frontend-platform/logging';
 import CatalogPage from '../catalogPage/CatalogPage';
 import NotFoundPage from '../NotFoundPage';
 
@@ -23,12 +24,19 @@ export function EnterpriseCatalogsApp() {
 }
 
 export default function App() {
-  const { initHotjar } = useHotjar();
   useEffect(() => {
     if (process.env.HOTJAR_APP_ID) {
-      initHotjar(process.env.HOTJAR_APP_ID, process.env.HOTJAR_VERSION, process.env.HOTJAR_DEBUG);
+      try {
+        initializeHotjar({
+          hotjarId: process.env.HOTJAR_APP_ID,
+          hotjarVersion: process.env.HOTJAR_VERSION,
+          hotjarDebug: !!process.env.HOTJAR_DEBUG,
+        });
+      } catch (error) {
+        logError(error);
+      }
     }
-  }, [initHotjar]);
+  }, []);
 
   return (
     <AppProvider>

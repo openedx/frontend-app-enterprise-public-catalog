@@ -194,7 +194,6 @@ function ProgramModal({
   const usdPrice = prices && prices.length > 0 ? `$${prices[0].total}` : '$0';
 
   const bulletedList = items => {
-    if (!items) { return null; }
     const itemsList = items.map(item => <li key={item}>{item}</li>);
     return <ul>{itemsList}</ul>;
   };

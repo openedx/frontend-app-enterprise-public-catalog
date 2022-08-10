@@ -43,16 +43,28 @@ LargeImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-// eslint-disable-next-line react/prop-types
 function Desktop({ children }) {
   const isDesktop = useMediaQuery({ minWidth: breakpoints.large.minWidth });
   return isDesktop ? children : null;
 }
-// eslint-disable-next-line react/prop-types
+Desktop.propTypes = {
+  children: PropTypes.shape({
+    props: PropTypes.shape({
+      alt: PropTypes.string,
+    }),
+  }).isRequired,
+};
 function Tablet({ children }) {
   const isTablet = useMediaQuery({ minWidth: breakpoints.medium.minWidth, maxWidth: breakpoints.medium.maxWidth });
   return isTablet ? children : null;
 }
+Tablet.propTypes = {
+  children: PropTypes.shape({
+    props: PropTypes.shape({
+      alt: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 function Hero({ intl, text, highlight }) {
   const alt = intl.formatMessage(messages['hero.image.alt']);
