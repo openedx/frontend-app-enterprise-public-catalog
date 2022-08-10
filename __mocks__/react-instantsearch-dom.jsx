@@ -1,18 +1,22 @@
-/* eslint-disable */
+// eslint-disable-next-line import/no-import-module-exports
 import React from 'react';
 
 const MockReactInstantSearch = jest.genMockFromModule(
   'react-instantsearch-dom',
 );
 
-const advertised_course_run = {
+const advertisedCourseRun = {
   start: '2020-09-09T04:00:00Z',
   key: 'course-v1:edX+Bee101+3T2020',
 };
 
 const fakeHits = [
-  { objectID: '1', title: 'bla', advertised_course_run: advertisedCourseRun, key: 'Bees101' },
-  { objectID: '2', title: 'blp', advertised_course_run: advertisedCourseRun, key: 'Wasps200' },
+  {
+    objectID: '1', title: 'bla', advertised_course_run: advertisedCourseRun, key: 'Bees101',
+  },
+  {
+    objectID: '2', title: 'blp', advertised_course_run: advertisedCourseRun, key: 'Wasps200',
+  },
 ];
 
 MockReactInstantSearch.connectStateResults = Component => function (props) {
@@ -38,6 +42,7 @@ MockReactInstantSearch.connectPagination = Component => function (props) {
   return <Component nbPages={2} maxPagesDisplayed={2} {...props} />;
 };
 
+// eslint-disable-next-line react/prop-types
 MockReactInstantSearch.InstantSearch = function ({ children }) {
   return <div>{children}</div>;
 };

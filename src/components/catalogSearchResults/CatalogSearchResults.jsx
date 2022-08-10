@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import {
   SearchContext, SearchPagination, setRefinementAction, useNbHitsFromSearchResults,
 } from '@edx/frontend-enterprise-catalog-search';
@@ -56,6 +55,7 @@ export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
  * @param {object} args.contentType Whether the search is for courses or programs
  * @param {object} args.preview Whether we are on the split screen landing page or regular
 */
+
 export function BaseCatalogSearchResults({
   intl,
   searchResults,
@@ -193,7 +193,7 @@ export function BaseCatalogSearchResults({
   if (HIDE_PRICE_REFINEMENT in refinements) {
     courseColumns[2] = availabilityColumn;
   }
-
+  const tableData = useMemo(() => searchResults?.hits || [], [searchResults?.hits]);
   const query = queryString.parse(window.location.search.substring(1));
   const toggleOptions = preview ? {} : {
     isDataViewToggleEnabled: true,
