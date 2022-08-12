@@ -26,9 +26,9 @@ function CourseCard({ intl, onClick, original }) {
     <Card isClickable className="course-card" tabIndex="0" onClick={() => onClick(original)}>
       <Card.ImageCap
         src={imageSrc}
-        logoSrc={partners[0].logo_image_url}
+        logoSrc={partners[0]?.logo_image_url}
         srcAlt={altText}
-        logoAlt={partners[0].name}
+        logoAlt={partners[0]?.name}
       />
       <Card.Header title={title} subtitle={partners[0].name} />
       <span className="cards-spacing" />
