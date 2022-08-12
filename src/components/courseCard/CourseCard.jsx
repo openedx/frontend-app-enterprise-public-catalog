@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 // variables taken from algolia not in camelcase
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Badge, Card } from '@edx/paragon';
