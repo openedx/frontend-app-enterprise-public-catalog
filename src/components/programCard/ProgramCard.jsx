@@ -33,9 +33,9 @@ function ProgramCard({
     <Card isClickable className="program-card" tabIndex="0" onClick={() => onClick(original)}>
       <Card.ImageCap
         src={imageSrc}
-        logoSrc={authoring_organizations[0].logo_image_url}
+        logoSrc={authoring_organizations[0]?.logo_image_url}
         srcAlt={title}
-        logoAlt={authoring_organizations[0].name}
+        logoAlt={authoring_organizations[0]?.name}
       />
       <Card.Header
         title={title}

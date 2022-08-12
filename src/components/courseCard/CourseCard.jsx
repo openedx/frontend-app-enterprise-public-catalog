@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 // variables taken from algolia not in camelcase
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Badge, Card } from '@edx/paragon';
@@ -26,9 +26,9 @@ function CourseCard({ intl, onClick, original }) {
     <Card isClickable className="course-card" tabIndex="0" onClick={() => onClick(original)}>
       <Card.ImageCap
         src={imageSrc}
-        logoSrc={partners[0].logo_image_url}
+        logoSrc={partners[0]?.logo_image_url}
         srcAlt={altText}
-        logoAlt={partners[0].name}
+        logoAlt={partners[0]?.name}
       />
       <Card.Header title={title} subtitle={partners[0].name} />
       <span className="cards-spacing" />
