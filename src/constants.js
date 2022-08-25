@@ -12,7 +12,7 @@ export const TRACKING_APP_NAME = 'explore-catalog';
 // end: tracking related
 export const QUERY_TITLE_REFINEMENT = 'enterprise_catalog_query_titles';
 export const AVAILABILITY_REFINEMENT = 'availability';
-export const AVAILABILITY_REFINEMENT_DEFAULTS = ['Available Now', 'Upcoming'];
+export const AVAILABILITY_REFINEMENT_DEFAULTS = ['Available Now', 'Starting Soon', 'Upcoming'];
 export const CONTENT_TYPE_REFINEMENT = 'content_type';
 export const HIDE_CARDS_REFINEMENT = 'hide_cards';
 export const HIDE_PRICE_REFINEMENT = 'hide_price';

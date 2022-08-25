@@ -18,16 +18,18 @@ const COURSE_SEARCH_CONTEXT_VALUE = { refinements: { content_type: ['course'] } 
 const PROGRAM_SEARCH_CONTEXT_VALUE = { refinements: { content_type: ['program'] } };
 
 // eslint-disable-next-line react/prop-types
-const SearchDataWrapper = ({ children, searchContextValue }) => (
-  <SearchContext.Provider
-    value={searchContextValue}
-    searchFacetFilters={
+function SearchDataWrapper({ children, searchContextValue }) {
+  return (
+    <SearchContext.Provider
+      value={searchContextValue}
+      searchFacetFilters={
         [...SEARCH_FACET_FILTERS, { attribute: QUERY_TITLE_REFINEMENT, title: 'Titles' }]
       }
-  >
-    {children}
-  </SearchContext.Provider>
-);
+    >
+      {children}
+    </SearchContext.Provider>
+  );
+}
 
 describe('Catalog Search component', () => {
   it('properly renders component', () => {

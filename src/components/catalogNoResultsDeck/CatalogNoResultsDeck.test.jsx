@@ -87,9 +87,7 @@ describe('catalog no results deck works as expected', () => {
       </IntlProvider>,
     );
     const hyperlinkthing = screen.getByText('removing filters');
-    expect(hyperlinkthing).toHaveAttribute(
-      'href', `${process.env.BASE_URL}/?enterprise_catalog_query_titles=ayylmao`,
-    );
+    expect(hyperlinkthing).toHaveAttribute('href', `${process.env.BASE_URL}/?enterprise_catalog_query_titles=ayylmao`);
   });
   test('API error responses will hide content deck', async () => {
     mockCatalogApiService.mockRejectedValue(new Error('Async error'));

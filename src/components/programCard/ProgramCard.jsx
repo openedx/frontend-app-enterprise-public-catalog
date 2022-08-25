@@ -12,9 +12,9 @@ import messages from './ProgramCard.messages';
 import { getCourses } from '../../utils/common';
 import defaultCardHeader from '../../static/default-card-header-dark.png';
 
-const ProgramCard = ({
+function ProgramCard({
   intl, onClick, original,
-}) => {
+}) {
   const {
     title,
     card_image_url,
@@ -27,15 +27,15 @@ const ProgramCard = ({
   const alaCarteRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_ENTERPRISE_ALACARTE_TITLE);
   const businessCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_BUSINESS_TITLE);
   const eduCatalogRequested = enterprise_catalog_query_titles?.includes(process.env.EDX_FOR_ONLINE_EDU_TITLE);
-  const imageSrc = card_image_url === undefined ? defaultCardHeader : card_image_url;
+  const imageSrc = card_image_url || defaultCardHeader;
 
   return (
     <Card isClickable className="program-card" tabIndex="0" onClick={() => onClick(original)}>
       <Card.ImageCap
         src={imageSrc}
-        logoSrc={authoring_organizations[0].logo_image_url}
+        logoSrc={authoring_organizations[0]?.logo_image_url}
         srcAlt={title}
-        logoAlt={authoring_organizations[0].name}
+        logoAlt={authoring_organizations[0]?.name}
       />
       <Card.Header
         title={title}
@@ -78,7 +78,7 @@ const ProgramCard = ({
       </Card.Section>
     </Card>
   );
-};
+}
 
 ProgramCard.defaultProps = {
   onClick: () => {},

@@ -8,7 +8,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
 import defaultCardHeader from '../../static/default-card-header-light.png';
 
-const CourseCard = ({ intl, onClick, original }) => {
+function CourseCard({ intl, onClick, original }) {
   const {
     title,
     card_image_url,
@@ -19,16 +19,16 @@ const CourseCard = ({ intl, onClick, original }) => {
   } = original;
   const rowPrice = first_enrollable_paid_seat_price;
   const priceText = rowPrice != null ? `$${rowPrice.toString()}` : 'N/A';
-  const imageSrc = (card_image_url === undefined) ? defaultCardHeader : card_image_url;
+  const imageSrc = card_image_url || defaultCardHeader;
   const altText = `${title} course image`;
 
   return (
     <Card isClickable className="course-card" tabIndex="0" onClick={() => onClick(original)}>
       <Card.ImageCap
         src={imageSrc}
-        logoSrc={partners[0].logo_image_url}
+        logoSrc={partners[0]?.logo_image_url}
         srcAlt={altText}
-        logoAlt={partners[0].name}
+        logoAlt={partners[0]?.name}
       />
       <Card.Header title={title} subtitle={partners[0].name} />
       <span className="cards-spacing" />
@@ -65,7 +65,7 @@ const CourseCard = ({ intl, onClick, original }) => {
       </Card.Section>
     </Card>
   );
-};
+}
 
 CourseCard.defaultProps = {
   onClick: () => {},
