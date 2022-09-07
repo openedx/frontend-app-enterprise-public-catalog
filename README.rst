@@ -14,7 +14,7 @@ The staging server is running at `https://explore-catalog.stage.edx.org/ <https:
 Project Structure
 -----------------
 
-The source for this project is organized into nested submodules according to the ADR `Feature-based Application Organization <https://github.com/edx/frontend-app-enterprise-public-catalog/blob/master/docs/decisions/0002-feature-based-application-organization.rst>`_.
+The source for this project is organized into nested submodules according to the ADR `Feature-based Application Organization <https://github.com/openedx/frontend-app-enterprise-public-catalog/blob/master/docs/decisions/0002-feature-based-application-organization.rst>`_.
 
 Build Process Notes
 -------------------
@@ -67,7 +67,7 @@ The production build is created with ``npm run build``.
 Internationalization
 --------------------
 
-Please see `edx/frontend-platform's i18n module <https://edx.github.io/frontend-platform/module-Internationalization.html>`_ for documentation on internationalization.  The documentation explains how to use it, and the `How To <https://github.com/edx/frontend-i18n/blob/master/docs/how_tos/i18n.rst>`_ has more detail.
+Please see `edx/frontend-platform's i18n module <https://edx.github.io/frontend-platform/module-Internationalization.html>`_ for documentation on internationalization.  The documentation explains how to use it, and the `How To <https://github.com/openedx/frontend-i18n/blob/master/docs/how_tos/i18n.rst>`_ has more detail.
 
 .. |Build Status| image:: https://api.travis-ci.com/edx/frontend-app-enterprise-public-catalog.svg?branch=master
    :target: https://travis-ci.com/edx/frontend-app-enterprise-public-catalog
