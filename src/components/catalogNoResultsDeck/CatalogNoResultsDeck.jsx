@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
+  EDX_COURSES_COURSE_TYPES,
   NO_RESULTS_DECK_ITEM_COUNT,
   NO_RESULTS_PAGE_SIZE,
   NO_RESULTS_PAGE_ITEM_COUNT,
@@ -23,6 +24,7 @@ function CatalogNoResultsDeck({
   columns,
   renderCardComponent,
   contentType,
+  courseType,
 }) {
   const [defaultData, setDefaultData] = useState([]);
   const [apiError, setApiError] = useState(false);
@@ -37,6 +39,10 @@ function CatalogNoResultsDeck({
 
   useEffect(() => {
     const defaultCoursesRefinements = { enterprise_catalog_query_titles: selectedCatalog, content_type: contentType };
+    if (contentType === CONTENT_TYPE_COURSE) {
+      // if a course type is not specified, default to edx course content
+      defaultCoursesRefinements.course_type = courseType !== null ? [courseType] : EDX_COURSES_COURSE_TYPES;
+    }
     EnterpriseCatalogApiService.fetchDefaultCoursesInCatalogWithFacets(defaultCoursesRefinements).then(response => {
       setDefaultData(response.default_content || []);
       setApiError(false);
@@ -44,7 +50,7 @@ function CatalogNoResultsDeck({
       setApiError(true);
       logError(err);
     });
-  }, [selectedCatalog, contentType]);
+  }, [selectedCatalog, contentType, courseType]);
 
   let defaultDeckTitle;
   let alertText;
@@ -100,10 +106,12 @@ CatalogNoResultsDeck.defaultProps = {
   renderCardComponent: () => {},
   columns: [],
   contentType: '',
+  courseType: null,
 };
 
 CatalogNoResultsDeck.propTypes = {
   contentType: PropTypes.string,
+  courseType: PropTypes.string,
   intl: intlShape.isRequired,
   setCardView: PropTypes.func,
   renderCardComponent: PropTypes.func,
