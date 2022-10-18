@@ -9,7 +9,12 @@ import { useAlgoliaIndex } from './data/hooks';
 import PageWrapper from '../PageWrapper';
 
 import {
-  CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM, NUM_RESULTS_COURSE, NUM_RESULTS_PROGRAM, NUM_RESULTS_PER_PAGE,
+  CONTENT_TYPE_COURSE,
+  CONTENT_TYPE_PROGRAM,
+  EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+  NUM_RESULTS_COURSE,
+  NUM_RESULTS_PROGRAM,
+  NUM_RESULTS_PER_PAGE,
 } from '../../constants';
 import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
 import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
@@ -19,7 +24,7 @@ import messages from '../catalogSearchResults/CatalogSearchResults.messages';
 function CatalogSearch(intl) {
   const { refinements: { content_type: contentType } } = useContext(SearchContext);
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
-  const courseFilter = `content_type:${CONTENT_TYPE_COURSE}`;
+  const courseFilter = `content_type:${CONTENT_TYPE_COURSE} AND NOT course_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`;
   const programFilter = `content_type:${CONTENT_TYPE_PROGRAM}`;
   const combinedFilter = `content_type:${CONTENT_TYPE_COURSE} OR content_type:${CONTENT_TYPE_PROGRAM}`;
   const [noCourseResults, setNoCourseResults] = useState(false);
@@ -110,7 +115,11 @@ function CatalogSearch(intl) {
                     filters={courseFilter}
                     facetingAfterDistinct
                   />
-                  <CatalogSearchResults preview contentType={CONTENT_TYPE_COURSE} setNoCourses={setNoCourseResults} />
+                  <CatalogSearchResults
+                    preview
+                    contentType={CONTENT_TYPE_COURSE}
+                    setNoCourses={setNoCourseResults}
+                  />
                 </Index>
                 <Index indexName={algoliaIndexName} indexId="search-program">
                   <Configure
@@ -146,7 +155,11 @@ function CatalogSearch(intl) {
                   filters={courseFilter}
                   facetingAfterDistinct
                 />
-                <CatalogSearchResults preview contentType={CONTENT_TYPE_COURSE} setNoCourses={setNoCourseResults} />
+                <CatalogSearchResults
+                  preview
+                  contentType={CONTENT_TYPE_COURSE}
+                  setNoCourses={setNoCourseResults}
+                />
               </Index>
             </>
             )}
@@ -160,17 +173,17 @@ function CatalogSearch(intl) {
                 <CatalogSearchResults preview={false} contentType={CONTENT_TYPE_PROGRAM} />
               </Index>
             )}
+            {(specifiedContentType === CONTENT_TYPE_COURSE) && (
+              <Index indexName={algoliaIndexName} indexId="search-courses">
+                <Configure
+                  hitsPerPage={NUM_RESULTS_PER_PAGE}
+                  filters={courseFilter}
+                  facetingAfterDistinct
+                />
+                <CatalogSearchResults preview={false} contentType={CONTENT_TYPE_COURSE} />
+              </Index>
+            )}
           </>
-          {(specifiedContentType === CONTENT_TYPE_COURSE) && (
-            <Index indexName={algoliaIndexName} indexId="search-courses">
-              <Configure
-                hitsPerPage={NUM_RESULTS_PER_PAGE}
-                filters={courseFilter}
-                facetingAfterDistinct
-              />
-              <CatalogSearchResults preview={false} contentType={CONTENT_TYPE_COURSE} />
-            </Index>
-          )}
         </InstantSearch>
       </section>
     </PageWrapper>

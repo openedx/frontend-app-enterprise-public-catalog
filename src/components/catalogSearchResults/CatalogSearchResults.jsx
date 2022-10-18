@@ -65,6 +65,7 @@ export function BaseCatalogSearchResults({
   error,
   paginationComponent: PaginationComponent,
   contentType,
+  courseType,
   setNoCourses,
   setNoPrograms,
   preview,
@@ -296,6 +297,7 @@ export function BaseCatalogSearchResults({
           columns={contentType === CONTENT_TYPE_COURSE ? courseColumns : programColumns}
           renderCardComponent={renderCardComponent}
           contentType={contentType}
+          courseType={courseType}
         />
       )}
       {(searchResults?.nbHits !== 0) && (
@@ -344,6 +346,7 @@ BaseCatalogSearchResults.defaultProps = {
   preview: false,
   setNoCourses: () => {},
   setNoPrograms: () => {},
+  courseType: null,
 };
 
 BaseCatalogSearchResults.propTypes = {
@@ -372,6 +375,7 @@ BaseCatalogSearchResults.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   row: PropTypes.string,
   contentType: PropTypes.string.isRequired,
+  courseType: PropTypes.string,
   preview: PropTypes.bool,
   setNoCourses: PropTypes.func,
   setNoPrograms: PropTypes.func,

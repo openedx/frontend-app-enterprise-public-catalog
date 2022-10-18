@@ -28,7 +28,7 @@ class EnterpriseCatalogApiService {
   }
 
   static fetchDefaultCoursesInCatalog(options) {
-    const enterpriseListUrl = `${EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl}/default_course_set/?${qs.stringify(options)}`;
+    const enterpriseListUrl = `${EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl}/default_course_set?${qs.stringify(options)}`;
     return EnterpriseCatalogApiService.apiClient().get(enterpriseListUrl);
   }
 
