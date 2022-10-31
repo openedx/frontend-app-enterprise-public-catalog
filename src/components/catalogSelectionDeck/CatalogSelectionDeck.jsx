@@ -11,7 +11,7 @@ const aLaCarteVariant = 'dark';
 const businessVariant = 'secondary';
 const educationVariant = 'light';
 
-function CatalogSelectionDeck({ intl, title, hide }) {
+const CatalogSelectionDeck = ({ intl, title, hide }) => {
   const config = getConfig();
   return (
     <section className="catalog-selection-deck" style={{ display: hide ? 'none' : 'block' }}>
@@ -47,7 +47,7 @@ function CatalogSelectionDeck({ intl, title, hide }) {
       </Container>
     </section>
   );
-}
+};
 
 CatalogSelectionDeck.defaultProps = {
   hide: false,

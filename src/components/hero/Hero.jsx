@@ -13,40 +13,36 @@ import messages from './Hero.messages';
 
 const IMAGE_CLASS = 'hero__image';
 
-function SmallImage({ alt }) {
-  return (
-    <Image
-      className={IMAGE_CLASS}
-      srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
-      src={SmallHeroImageLoRes}
-      alt={alt}
-      sizes="23vw"
-    />
-  );
-}
+const SmallImage = ({ alt }) => (
+  <Image
+    className={IMAGE_CLASS}
+    srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
+    src={SmallHeroImageLoRes}
+    alt={alt}
+    sizes="23vw"
+  />
+);
 SmallImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-function LargeImage({ alt }) {
-  return (
-    <Image
-      className={IMAGE_CLASS}
-      srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
-      src={LargeHeroImageLoRes}
-      alt={alt}
-      sizes="33vw"
-    />
-  );
-}
+const LargeImage = ({ alt }) => (
+  <Image
+    className={IMAGE_CLASS}
+    srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
+    src={LargeHeroImageLoRes}
+    alt={alt}
+    sizes="33vw"
+  />
+);
 LargeImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-function Desktop({ children }) {
+const Desktop = ({ children }) => {
   const isDesktop = useMediaQuery({ minWidth: breakpoints.large.minWidth });
   return isDesktop ? children : null;
-}
+};
 Desktop.propTypes = {
   children: PropTypes.shape({
     props: PropTypes.shape({
@@ -54,10 +50,10 @@ Desktop.propTypes = {
     }),
   }).isRequired,
 };
-function Tablet({ children }) {
+const Tablet = ({ children }) => {
   const isTablet = useMediaQuery({ minWidth: breakpoints.medium.minWidth, maxWidth: breakpoints.medium.maxWidth });
   return isTablet ? children : null;
-}
+};
 Tablet.propTypes = {
   children: PropTypes.shape({
     props: PropTypes.shape({
@@ -66,7 +62,7 @@ Tablet.propTypes = {
   }).isRequired,
 };
 
-function Hero({ intl, text, highlight }) {
+const Hero = ({ intl, text, highlight }) => {
   const alt = intl.formatMessage(messages['hero.image.alt']);
 
   return (
@@ -84,7 +80,7 @@ function Hero({ intl, text, highlight }) {
       </Container>
     </section>
   );
-}
+};
 
 Hero.defaultProps = {
   highlight: '',

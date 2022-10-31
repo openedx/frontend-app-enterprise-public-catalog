@@ -4,20 +4,18 @@ import {
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Subheader({
+const Subheader = ({
   title, children,
-}) {
-  return (
-    <section>
-      <Container className="my-5 page-width">
-        <div className="lead">
-          {title && <h2>{title}</h2>}
-          <div>{children}</div>
-        </div>
-      </Container>
-    </section>
-  );
-}
+}) => (
+  <section>
+    <Container className="my-5 page-width">
+      <div className="lead">
+        {title && <h2>{title}</h2>}
+        <div>{children}</div>
+      </div>
+    </Container>
+  </section>
+);
 
 Subheader.defaultProps = {
   title: null,

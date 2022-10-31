@@ -18,7 +18,7 @@ const contentType = {
 };
 SEARCH_FACET_FILTERS.push(contentType);
 
-function CatalogPage({ intl }) {
+const CatalogPage = ({ intl }) => {
   const config = getConfig();
   // Default routing:
   //   1. If our url on load does not have a catalog parameter set, set one.
@@ -80,7 +80,7 @@ function CatalogPage({ intl }) {
       </SearchData>
     </main>
   );
-}
+};
 
 CatalogPage.propTypes = {
   intl: intlShape.isRequired,

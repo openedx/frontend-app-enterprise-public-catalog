@@ -21,7 +21,7 @@ import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
 import { mapAlgoliaObjectToProgram, mapAlgoliaObjectToCourse } from '../../utils/algoliaUtils';
 import messages from '../catalogSearchResults/CatalogSearchResults.messages';
 
-function CatalogSearch(intl) {
+const CatalogSearch = (intl) => {
   const { refinements: { content_type: contentType } } = useContext(SearchContext);
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
   const courseFilter = `content_type:${CONTENT_TYPE_COURSE} AND NOT course_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`;
@@ -188,7 +188,7 @@ function CatalogSearch(intl) {
       </section>
     </PageWrapper>
   );
-}
+};
 
 CatalogSearch.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types

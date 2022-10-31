@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import messages from '../../CatalogSearchResults.messages';
 
-function CatalogBadges({ row }) {
+const CatalogBadges = ({ row }) => {
   const intl = useIntl();
   return (
     <div style={{ maxWidth: '400vw' }}>
@@ -32,7 +32,7 @@ function CatalogBadges({ row }) {
       )};
     </div>
   );
-}
+};
 
 CatalogBadges.propTypes = {
   row: PropTypes.shape({

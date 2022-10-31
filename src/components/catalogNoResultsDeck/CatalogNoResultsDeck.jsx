@@ -18,14 +18,14 @@ import { getSelectedCatalogFromURL } from '../../utils/common';
 
 const BASE_APP_URL = process.env.BASE_URL;
 
-function CatalogNoResultsDeck({
+const CatalogNoResultsDeck = ({
   intl,
   setCardView,
   columns,
   renderCardComponent,
   contentType,
   courseType,
-}) {
+}) => {
   const [defaultData, setDefaultData] = useState([]);
   const [apiError, setApiError] = useState(false);
 
@@ -99,7 +99,7 @@ function CatalogNoResultsDeck({
       </DataTable>
     </>
   );
-}
+};
 
 CatalogNoResultsDeck.defaultProps = {
   setCardView: () => {},

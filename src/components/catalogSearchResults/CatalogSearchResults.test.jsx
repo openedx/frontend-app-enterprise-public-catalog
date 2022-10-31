@@ -15,9 +15,7 @@ import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAP
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
-function PaginationComponent() {
-  return <div>{PAGINATE_ME}</div>;
-}
+const PaginationComponent = () => <div>{PAGINATE_ME}</div>;
 
 const csvData = [{ csv_data: 'foobar' }];
 jest.spyOn(EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets').mockResolvedValue(csvData);
@@ -25,13 +23,11 @@ jest.spyOn(EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets'
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 
 // eslint-disable-next-line react/prop-types
-function SearchDataWrapper({ children, searchContextValue = DEFAULT_SEARCH_CONTEXT_VALUE }) {
-  return (
-    <SearchContext.Provider value={searchContextValue}>
-      {children}
-    </SearchContext.Provider>
-  );
-}
+const SearchDataWrapper = ({ children, searchContextValue = DEFAULT_SEARCH_CONTEXT_VALUE }) => (
+  <SearchContext.Provider value={searchContextValue}>
+    {children}
+  </SearchContext.Provider>
+);
 
 const mockConfig = () => (
   {

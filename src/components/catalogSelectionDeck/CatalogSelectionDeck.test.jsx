@@ -23,18 +23,16 @@ jest.mock('@edx/frontend-platform', () => ({
 }));
 
 // eslint-disable-next-line react/prop-types
-function SearchDataWrapper({ children, searchContextValue }) {
-  return (
-    <SearchContext.Provider
-      value={searchContextValue}
-      searchFacetFilters={
+const SearchDataWrapper = ({ children, searchContextValue }) => (
+  <SearchContext.Provider
+    value={searchContextValue}
+    searchFacetFilters={
         [...SEARCH_FACET_FILTERS, { attribute: QUERY_TITLE_REFINEMENT, title: 'Titles' }]
       }
-    >
-      {children}
-    </SearchContext.Provider>
-  );
-}
+  >
+    {children}
+  </SearchContext.Provider>
+);
 
 const label = 'foo';
 
