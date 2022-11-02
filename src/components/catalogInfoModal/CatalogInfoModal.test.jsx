@@ -55,7 +55,9 @@ describe('Course info modal works as expected', () => {
     );
 
     expect(screen.queryByText(selectedCourse.courseTitle)).toBeInTheDocument();
-    expect(screen.queryByText(selectedCourse.courseProvider)).toBeInTheDocument();
+    expect(
+      screen.queryByText(selectedCourse.courseProvider),
+    ).toBeInTheDocument();
     expect(screen.queryByText(descriptionText)).toBeInTheDocument();
   });
   test('Course info modal is hidden when expected', () => {
@@ -67,7 +69,9 @@ describe('Course info modal works as expected', () => {
         <CatalogInfoModal {...defaultPropsCopy} />
       </IntlProvider>,
     );
-    expect(screen.queryByText(selectedCourse.courseTitle)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(selectedCourse.courseTitle),
+    ).not.toBeInTheDocument();
   });
   test('Renders Course info modal banner', () => {
     const defaultPropsCopy = {};
@@ -79,8 +83,12 @@ describe('Course info modal works as expected', () => {
       </IntlProvider>,
     );
     expect(screen.queryByText('A la carte course price')).toBeInTheDocument();
-    expect(screen.queryByText('Session ends Apr 6, 2040 • 2 additional session(s)')).toBeInTheDocument();
-    expect(screen.queryByText('Included with subscription')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Session ends Apr 6, 2040 • 2 additional session(s)'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText('Included with subscription'),
+    ).not.toBeInTheDocument();
   });
   test('Renders Course info modal with correct catalogs', () => {
     const defaultPropsCopy = {};
@@ -88,15 +96,21 @@ describe('Course info modal works as expected', () => {
 
     const educationQueryTitle = 'test-business-query-title';
     process.env.EDX_FOR_ONLINE_EDU_TITLE = educationQueryTitle;
-    defaultPropsCopy.selectedCourse.courseAssociatedCatalogs = [educationQueryTitle];
+    defaultPropsCopy.selectedCourse.courseAssociatedCatalogs = [
+      educationQueryTitle,
+    ];
 
     render(
       <IntlProvider locale="en">
         <CatalogInfoModal {...defaultPropsCopy} />
       </IntlProvider>,
     );
-    expect(screen.queryByText('Included in education catalog')).toBeInTheDocument();
-    expect(screen.queryByText('Included in business catalog')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Included in education catalog'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText('Included in business catalog'),
+    ).not.toBeInTheDocument();
   });
   test('Renders Course info modal with no catalogs', () => {
     const defaultPropsCopy = {};
@@ -107,14 +121,16 @@ describe('Course info modal works as expected', () => {
         <CatalogInfoModal {...defaultPropsCopy} />
       </IntlProvider>,
     );
-    expect(screen.queryByText('Included with subscription')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Included with subscription'),
+    ).not.toBeInTheDocument();
   });
   test('Course info modal displays up to 5 skills list', () => {
     const defaultPropsCopy = {
       ...courseTypeModalProps,
       selectedCourse: {
         ...courseTypeModalProps.selectedCourse,
-        skillNames: [...Array(20).keys()].map(i => `skill-${i}`),
+        skillNames: [...Array(20).keys()].map((i) => `skill-${i}`),
       },
     };
 
@@ -181,9 +197,15 @@ describe('Program info modal works as expected', () => {
     );
 
     const { selectedProgram } = programTypeModalProps;
-    expect(screen.queryByText(selectedProgram.programTitle)).toBeInTheDocument();
-    expect(screen.queryByText(selectedProgram.programProvider)).toBeInTheDocument();
-    expect(screen.queryByText(selectedProgram.programDescription)).toBeInTheDocument();
+    expect(
+      screen.queryByText(selectedProgram.programTitle),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(selectedProgram.programProvider),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(selectedProgram.programDescription),
+    ).toBeInTheDocument();
   });
   test('renders learning items section if learningItems if non empty', () => {
     render(
@@ -196,7 +218,10 @@ describe('Program info modal works as expected', () => {
   test('skipes render of learning items section if learningItems if empty', () => {
     const props = {
       ...programTypeModalProps,
-      selectedProgram: { ...programTypeModalProps.selectedProgram, learningItems: [] },
+      selectedProgram: {
+        ...programTypeModalProps.selectedProgram,
+        learningItems: [],
+      },
     };
     render(
       <IntlProvider locale="en">
@@ -212,6 +237,8 @@ describe('Program info modal works as expected', () => {
       </IntlProvider>,
     );
 
-    expect(screen.queryByText('Courses in this program')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Courses in this program'),
+    ).not.toBeInTheDocument();
   });
 });

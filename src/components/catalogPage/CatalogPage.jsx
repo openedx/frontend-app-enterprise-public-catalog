@@ -1,6 +1,13 @@
 import React from 'react';
-import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { SearchData, SEARCH_FACET_FILTERS } from '@edx/frontend-enterprise-catalog-search';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from '@edx/frontend-platform/i18n';
+import {
+  SearchData,
+  SEARCH_FACET_FILTERS,
+} from '@edx/frontend-enterprise-catalog-search';
 import { getConfig } from '@edx/frontend-platform';
 import { CatalogSearch } from '../catalogs';
 import Subheader from '../subheader/subheader';
@@ -8,8 +15,12 @@ import Hero from '../hero/Hero';
 import messages from './CatalogPage.messages';
 import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
 import {
-  AVAILABILITY_REFINEMENT, AVAILABILITY_REFINEMENT_DEFAULTS, CONTENT_TYPE_REFINEMENT,
-  QUERY_TITLE_REFINEMENT, HIDE_CARDS_REFINEMENT, TRACKING_APP_NAME,
+  AVAILABILITY_REFINEMENT,
+  AVAILABILITY_REFINEMENT_DEFAULTS,
+  CONTENT_TYPE_REFINEMENT,
+  QUERY_TITLE_REFINEMENT,
+  HIDE_CARDS_REFINEMENT,
+  TRACKING_APP_NAME,
 } from '../../constants';
 
 const contentType = {
@@ -37,14 +48,22 @@ function CatalogPage({ intl }) {
     reloadPage = true;
   }
 
-  if (config.EDX_ENTERPRISE_ALACARTE_TITLE
-    && (!loadedSearchParams.get(CONTENT_TYPE_REFINEMENT))
-    && (!loadedSearchParams.get(QUERY_TITLE_REFINEMENT))) {
-    loadedSearchParams.set(QUERY_TITLE_REFINEMENT, config.EDX_ENTERPRISE_ALACARTE_TITLE);
+  if (
+    config.EDX_ENTERPRISE_ALACARTE_TITLE
+    && !loadedSearchParams.get(CONTENT_TYPE_REFINEMENT)
+    && !loadedSearchParams.get(QUERY_TITLE_REFINEMENT)
+  ) {
+    loadedSearchParams.set(
+      QUERY_TITLE_REFINEMENT,
+      config.EDX_ENTERPRISE_ALACARTE_TITLE,
+    );
     reloadPage = true;
   }
-  if ((!loadedSearchParams.get(AVAILABILITY_REFINEMENT) && (!loadedSearchParams.get(CONTENT_TYPE_REFINEMENT)))) {
-    AVAILABILITY_REFINEMENT_DEFAULTS.map(a => loadedSearchParams.append(AVAILABILITY_REFINEMENT, a));
+  if (
+    !loadedSearchParams.get(AVAILABILITY_REFINEMENT)
+    && !loadedSearchParams.get(CONTENT_TYPE_REFINEMENT)
+  ) {
+    AVAILABILITY_REFINEMENT_DEFAULTS.map((a) => loadedSearchParams.append(AVAILABILITY_REFINEMENT, a));
     reloadPage = true;
   }
   if (reloadPage) {
@@ -71,11 +90,21 @@ function CatalogPage({ intl }) {
       </Subheader>
       <SearchData
         trackingName={TRACKING_APP_NAME}
-        searchFacetFilters={
-        [...SEARCH_FACET_FILTERS, { attribute: QUERY_TITLE_REFINEMENT, title: 'Catalog Titles', noDisplay: true }]
-      }
+        searchFacetFilters={[
+          ...SEARCH_FACET_FILTERS,
+          {
+            attribute: QUERY_TITLE_REFINEMENT,
+            title: 'Catalog Titles',
+            noDisplay: true,
+          },
+        ]}
       >
-        <CatalogSelectionDeck hide={hideCards} title={intl.formatMessage(messages['catalogPage.catalogSelectionDeck.title'])} />
+        <CatalogSelectionDeck
+          hide={hideCards}
+          title={intl.formatMessage(
+            messages['catalogPage.catalogSelectionDeck.title'],
+          )}
+        />
         <CatalogSearch />
       </SearchData>
     </main>

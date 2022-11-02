@@ -9,6 +9,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 const TEST_CONFIG = {
+
   ALGOLIA_APP_ID: 'app',
   ALGOLIA_INDEX_NAME: 'index',
   ALGOLIA_SEARCH_API_KEY: 'key',
@@ -16,15 +17,17 @@ const TEST_CONFIG = {
 
 export const renderWithRouter = (ui, { route } = {}) => {
   const history = createMemoryHistory();
-  if (route) { history.push(route); }
+  if (route) {
+    history.push(route);
+  }
   const locale = 'en';
   return render(
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <AppContext.Provider value={{ authenticatedUser: null, config: TEST_CONFIG, locale }}>
+    <AppContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
+      value={{ authenticatedUser: null, config: TEST_CONFIG, locale }}
+    >
       <IntlProvider locale={locale} messages={headerMessages[locale]}>
-        <Router history={history}>
-          {ui}
-        </Router>
+        <Router history={history}>{ui}</Router>
       </IntlProvider>
     </AppContext.Provider>,
   );

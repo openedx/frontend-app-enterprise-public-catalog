@@ -36,7 +36,9 @@ describe('Course card works as expected', () => {
       </IntlProvider>,
     );
     expect(screen.queryByText(defaultProps.original.title)).toBeInTheDocument();
-    expect(screen.queryByText(defaultProps.original.partners[0].name)).toBeInTheDocument();
+    expect(
+      screen.queryByText(defaultProps.original.partners[0].name),
+    ).toBeInTheDocument();
     expect(screen.queryByText('$100 • Available Now')).toBeInTheDocument();
     expect(screen.queryByText('Business')).toBeInTheDocument();
   });
@@ -48,6 +50,6 @@ describe('Course card works as expected', () => {
     );
     const imageAltText = `${originalData.title} course image`;
     fireEvent.error(screen.getByAltText(imageAltText));
-    await expect((screen.getByAltText(imageAltText).src)).not.toBeUndefined;
+    await expect(screen.getByAltText(imageAltText).src).not.toBeUndefined;
   });
 });

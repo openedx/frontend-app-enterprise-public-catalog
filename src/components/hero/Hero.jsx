@@ -55,7 +55,10 @@ Desktop.propTypes = {
   }).isRequired,
 };
 function Tablet({ children }) {
-  const isTablet = useMediaQuery({ minWidth: breakpoints.medium.minWidth, maxWidth: breakpoints.medium.maxWidth });
+  const isTablet = useMediaQuery({
+    minWidth: breakpoints.medium.minWidth,
+    maxWidth: breakpoints.medium.maxWidth,
+  });
   return isTablet ? children : null;
 }
 Tablet.propTypes = {
@@ -72,7 +75,9 @@ function Hero({ intl, text, highlight }) {
   return (
     <section className="hero px-1">
       <Container className="page-width hero__content">
-        <h1 className="display-1"><Highlighted text={text} highlight={highlight} /></h1>
+        <h1 className="display-1">
+          <Highlighted text={text} highlight={highlight} />
+        </h1>
         <div>
           <Desktop>
             <LargeImage alt={alt} />

@@ -9,7 +9,9 @@ import { renderWithRouter } from '../../../tests/testUtils';
 // file-saver mocks
 jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 // eslint-disable-next-line func-names
-global.Blob = function (content, options) { return ({ content, options }); };
+global.Blob = function (content, options) {
+  return { content, options };
+};
 
 const facets = {
   skill_names: ['Research'],
@@ -31,9 +33,7 @@ global.location = { href: assignMock };
 describe('Download button', () => {
   test('button renders and is clickable', async () => {
     // Render the component
-    renderWithRouter(
-      <DownloadCsvButton {...defaultProps} />,
-    );
+    renderWithRouter(<DownloadCsvButton {...defaultProps} />);
     // Expect to be in the default state
     expect(screen.queryByText('Download results')).toBeInTheDocument();
 
@@ -46,9 +46,7 @@ describe('Download button', () => {
   test('download button url encodes queries', async () => {
     process.env.CATALOG_SERVICE_BASE_URL = 'foobar.com';
     // Render the component
-    renderWithRouter(
-      <DownloadCsvButton {...badQueryProps} />,
-    );
+    renderWithRouter(<DownloadCsvButton {...badQueryProps} />);
     // Expect to be in the default state
     expect(screen.queryByText('Download results')).toBeInTheDocument();
 
@@ -60,7 +58,7 @@ describe('Download button', () => {
     // The query, query param should not have an `&` in it.
     // TODO: figure out why the process env for catalog base service can't be set in the test
     const expectedWindowLocation = 'undefined/api/v1/enterprise-catalogs/catalog_workbook?availability=Available'
-        + '%20Now&availability=Upcoming&query=math%20%26%20science';
+      + '%20Now&availability=Upcoming&query=math%20%26%20science';
     expect(window.location.href).toEqual(expectedWindowLocation);
   });
 });

@@ -8,20 +8,18 @@ import selectionCardMessage from '../catalogSelectionDeck/CatalogSelectionDeck.m
 // all we are testing is routes, we don't need InstantSearch to work here
 jest.mock('react-instantsearch-dom', () => ({
   ...jest.requireActual('react-instantsearch-dom'),
-  InstantSearch: () => (<div>SEARCH</div>),
-  Index: () => (<div>SEARCH</div>),
+  InstantSearch: () => <div>SEARCH</div>,
+  Index: () => <div>SEARCH</div>,
 }));
 
 // Catalog Page loads the CTA button link which expects a config value.
 // Thus we're mocking the config here.
-const mockConfig = () => (
-  {
-    HUBSPOT_MARKETING_URL: 'http://bobsdooremporium.com',
-    EDX_FOR_BUSINESS_TITLE: 'ayylmao',
-    EDX_FOR_ONLINE_EDU_TITLE: 'foo',
-    EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
-  }
-);
+const mockConfig = () => ({
+  HUBSPOT_MARKETING_URL: 'http://bobsdooremporium.com',
+  EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+  EDX_FOR_ONLINE_EDU_TITLE: 'foo',
+  EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
+});
 
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
@@ -41,7 +39,12 @@ describe('CatalogPage', () => {
   });
   it('renders with catalog selection cards', () => {
     renderWithRouter(<CatalogPage />);
-    expect(screen.getByText(selectionCardMessage['catalogSelectionDeck.edxForBusiness.label'].defaultMessage)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        selectionCardMessage['catalogSelectionDeck.edxForBusiness.label']
+          .defaultMessage,
+      ),
+    ).toBeInTheDocument();
   });
   it('properly handles empty query params', () => {
     const location = {
@@ -54,6 +57,8 @@ describe('CatalogPage', () => {
     });
     expect(window.location.search).toEqual('?q=');
     renderWithRouter(<CatalogPage />);
-    expect(window.location.search).toEqual('enterprise_catalog_query_titles=baz&availability=Available+Now&availability=Starting+Soon&availability=Upcoming');
+    expect(window.location.search).toEqual(
+      'enterprise_catalog_query_titles=baz&availability=Available+Now&availability=Starting+Soon&availability=Upcoming',
+    );
   });
 });

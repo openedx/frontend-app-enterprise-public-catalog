@@ -12,7 +12,11 @@ const props = {
 
 describe('callToAction', () => {
   it('renders the text passed to it', () => {
-    render(<Subheader {...props}><p>{text}</p></Subheader>);
+    render(
+      <Subheader {...props}>
+        <p>{text}</p>
+      </Subheader>,
+    );
     // getByText will error if title is not in the document.
     screen.getByText(props.title);
     screen.getByText(text);

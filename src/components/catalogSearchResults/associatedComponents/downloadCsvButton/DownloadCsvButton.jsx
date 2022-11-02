@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Toast, Button, useToggle,
-} from '@edx/paragon';
+import { Toast, Button, useToggle } from '@edx/paragon';
 import { Download } from '@edx/paragon/icons';
 
 import EnterpriseCatalogApiService from '../../../../data/services/EnterpriseCatalogAPIService';
@@ -14,7 +12,7 @@ function DownloadCsvButton({ facets, query }) {
 
   const formatFilterText = (filterObject) => {
     let filterString = '';
-    Object.keys(filterObject).forEach(key => {
+    Object.keys(filterObject).forEach((key) => {
       const currentFilters = [...filterObject[key]];
       currentFilters.unshift(filterString);
       filterString = currentFilters.join(', ');
@@ -25,19 +23,25 @@ function DownloadCsvButton({ facets, query }) {
   const handleClick = () => {
     formatFilterText(facets);
     open();
-    const downloadUrl = EnterpriseCatalogApiService.generateCsvDownloadLink(facets, query);
+    const downloadUrl = EnterpriseCatalogApiService.generateCsvDownloadLink(
+      facets,
+      query,
+    );
     global.location.href = downloadUrl;
   };
   const toastText = `Downloaded with filters: ${filters}. Check website for the most up-to-date information on courses.`;
   return (
     <>
-      { isOpen
-       && (
-       <Toast onClose={close} show={isOpen}>
-         {toastText}
-       </Toast>
-       )}
-      <Button className="ml-2 download-button" iconBefore={Download} onClick={handleClick}>
+      {isOpen && (
+        <Toast onClose={close} show={isOpen}>
+          {toastText}
+        </Toast>
+      )}
+      <Button
+        className="ml-2 download-button"
+        iconBefore={Download}
+        onClick={handleClick}
+      >
         Download results
       </Button>
     </>

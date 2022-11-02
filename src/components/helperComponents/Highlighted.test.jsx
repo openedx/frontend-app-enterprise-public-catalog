@@ -20,7 +20,13 @@ describe('Highlighted', () => {
     const text = 'Bears r gr8';
     const highlight = 'rs r gr';
     const highlightClass = 'awesome';
-    render(<Highlighted text={text} highlight={highlight} highlightClass={highlightClass} />);
+    render(
+      <Highlighted
+        text={text}
+        highlight={highlight}
+        highlightClass={highlightClass}
+      />,
+    );
     const highlightedText = screen.getByText(highlight);
     expect(highlightedText).toHaveClass(highlightClass);
     expect(highlightedText).toHaveClass('highlighted');

@@ -29,7 +29,7 @@ function CatalogBadges({ row }) {
         <Badge variant="light" className="padded-catalog">
           {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
         </Badge>
-      )};
+      )}
     </div>
   );
 }
