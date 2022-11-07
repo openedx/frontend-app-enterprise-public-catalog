@@ -18,7 +18,8 @@ const messages = defineMessages({
   },
   'catalogSelectionDeck.edxForBusiness.body': {
     id: 'catalogSelectionDeck.edxForBusiness.body',
-    defaultMessage: '\u2713 Unlimited access to 1,000+ courses\n\u2713 Professional certificates and select programs\n\u2713 Self-paced courses',
+    defaultMessage:
+      '\u2713 Unlimited access to 1,000+ courses\n\u2713 Professional certificates and select programs\n\u2713 Self-paced courses',
     description: 'description of filter',
   },
   'catalogSelectionDeck.edxForOnlineEdu.badge': {
@@ -38,7 +39,8 @@ const messages = defineMessages({
   },
   'catalogSelectionDeck.edxForOnlineEdu.body': {
     id: 'catalogSelectionDeck.edxForOnlineEdu.body',
-    defaultMessage: '\u2713 Unlimited access to 1,000+ courses\n\u2713 Professional certificates and select programs\n\u2713 Self-paced courses',
+    defaultMessage:
+      '\u2713 Unlimited access to 1,000+ courses\n\u2713 Professional certificates and select programs\n\u2713 Self-paced courses',
     description: 'description of filter',
   },
   'catalogSelectionDeck.aLaCarte.badge': {
@@ -58,7 +60,8 @@ const messages = defineMessages({
   },
   'catalogSelectionDeck.aLaCarte.body': {
     id: 'aLaCarte.body',
-    defaultMessage: '\u2713 Select from all 3,000+ courses available on edX including all programs and certificates\n\u2713 Self-paced and instructor-paced courses',
+    defaultMessage:
+      '\u2713 Select from all 3,000+ courses available on edX including all programs and certificates\n\u2713 Self-paced and instructor-paced courses',
     description: 'description of filter',
   },
 });

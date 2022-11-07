@@ -12,7 +12,11 @@ export const TRACKING_APP_NAME = 'explore-catalog';
 // end: tracking related
 export const QUERY_TITLE_REFINEMENT = 'enterprise_catalog_query_titles';
 export const AVAILABILITY_REFINEMENT = 'availability';
-export const AVAILABILITY_REFINEMENT_DEFAULTS = ['Available Now', 'Starting Soon', 'Upcoming'];
+export const AVAILABILITY_REFINEMENT_DEFAULTS = [
+  'Available Now',
+  'Starting Soon',
+  'Upcoming',
+];
 export const CONTENT_TYPE_REFINEMENT = 'content_type';
 export const HIDE_CARDS_REFINEMENT = 'hide_cards';
 export const HIDE_PRICE_REFINEMENT = 'hide_price';
@@ -33,7 +37,10 @@ const CREDIT_VERIFIED_AUDIT_COURSE_TYPE = 'credit-verified-audit';
 export const EXECUTIVE_EDUCATION_2U_COURSE_TYPE = 'executive-education-2u';
 export const TWOU_COURSE_TYPES = [EXECUTIVE_EDUCATION_2U_COURSE_TYPE];
 export const EDX_COURSES_COURSE_TYPES = [
-  AUDIT_COURSE_TYPE, VERIFIED_AUDIT_COURSE_TYPE, PROFESSIONAL_COURSE_TYPE, CREDIT_VERIFIED_AUDIT_COURSE_TYPE,
+  AUDIT_COURSE_TYPE,
+  VERIFIED_AUDIT_COURSE_TYPE,
+  PROFESSIONAL_COURSE_TYPE,
+  CREDIT_VERIFIED_AUDIT_COURSE_TYPE,
 ];
 
 const OVERRIDE_FACET_FILTERS = [];
@@ -55,14 +62,16 @@ if (features.PROGRAM_TYPE_FACET) {
   OVERRIDE_FACET_FILTERS.push(PROGRAM_TYPE_FACET_OVERRIDE);
 }
 
-OVERRIDE_FACET_FILTERS.forEach(({ overrideSearchKey, overrideSearchValue, updatedFacetFilterValue }) => {
-  SEARCH_FACET_FILTERS.find((facetFilter, index) => {
-    if (facetFilter[overrideSearchKey] === overrideSearchValue) {
-      SEARCH_FACET_FILTERS[index] = updatedFacetFilterValue;
-      return true;
-    }
-    return false;
-  });
-});
+OVERRIDE_FACET_FILTERS.forEach(
+  ({ overrideSearchKey, overrideSearchValue, updatedFacetFilterValue }) => {
+    SEARCH_FACET_FILTERS.find((facetFilter, index) => {
+      if (facetFilter[overrideSearchKey] === overrideSearchValue) {
+        SEARCH_FACET_FILTERS[index] = updatedFacetFilterValue;
+        return true;
+      }
+      return false;
+    });
+  },
+);
 
 export { SEARCH_FACET_FILTERS };

@@ -9,17 +9,20 @@ const messages = defineMessages({
   'catalogSearchResults.table.partner': {
     id: 'catalogSearchResults.table.partner',
     defaultMessage: 'Partner',
-    description: 'The partner institution providing/authoring the course (ie Harvard, MIT, etc.)',
+    description:
+      'The partner institution providing/authoring the course (ie Harvard, MIT, etc.)',
   },
   'catalogSearchResults.table.price': {
     id: 'catalogSearchResults.table.price',
     defaultMessage: 'A la carte course price',
-    description: 'Table column A La Carte price for the course - optional column',
+    description:
+      'Table column A La Carte price for the course - optional column',
   },
   'catalogSearchResults.table.availability': {
     id: 'catalogSearchResults.table.availability',
     defaultMessage: 'Course Availability',
-    description: 'Table column form course availability dates - optional column',
+    description:
+      'Table column form course availability dates - optional column',
   },
   'catalogSearchResults.table.catalogs': {
     id: 'catalogSearchResults.table.catalogs',
@@ -29,7 +32,8 @@ const messages = defineMessages({
   'catalogSearchResults.table.priceNotAvailable': {
     id: 'catalogSearchResults.table.priceNotAvailable',
     defaultMessage: 'Not Available',
-    description: 'When a course price is not available, notify learners that there is no data available to display.',
+    description:
+      'When a course price is not available, notify learners that there is no data available to display.',
   },
   'catalogSearchResults.table.programName': {
     id: 'catalogSearchResults.table.programName',

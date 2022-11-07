@@ -1,6 +1,6 @@
 import { CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM } from '../constants';
 
-const extractUuid = aggregationKey => aggregationKey.split(':')[1];
+const extractUuid = (aggregationKey) => aggregationKey.split(':')[1];
 
 /**
  * Converts and algolia course object, into a course representation usable in this UI
@@ -19,9 +19,11 @@ function mapAlgoliaObjectToCourse(algoliaCourseObject, intl, messages) {
     skill_names: skillNames,
   } = algoliaCourseObject;
   const { start: startDate, end: endDate } = courseRun;
-  const priceText = (coursePrice != null) ? `$${coursePrice.toString()}` : intl.formatMessage(
-    messages['catalogSearchResult.table.priceNotAvailable'],
-  );
+  const priceText = coursePrice != null
+    ? `$${coursePrice.toString()}`
+    : intl.formatMessage(
+      messages['catalogSearchResult.table.priceNotAvailable'],
+    );
   return {
     contentType: CONTENT_TYPE_COURSE,
     courseTitle,
@@ -40,8 +42,8 @@ function mapAlgoliaObjectToCourse(algoliaCourseObject, intl, messages) {
 }
 
 /**
-* Converts and algolia course object, into a course representation usable in this UI
-*/
+ * Converts and algolia course object, into a course representation usable in this UI
+ */
 function mapAlgoliaObjectToProgram(algoliaProgramObject) {
   const {
     title,

@@ -1,12 +1,8 @@
-import {
-  Container,
-} from '@edx/paragon';
+import { Container } from '@edx/paragon';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Subheader({
-  title, children,
-}) {
+function Subheader({ title, children }) {
   return (
     <section>
       <Container className="my-5 page-width">
