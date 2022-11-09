@@ -12,7 +12,7 @@ import messages from './ProgramCard.messages';
 import { getCourses } from '../../utils/common';
 import defaultCardHeader from '../../static/default-card-header-dark.png';
 
-function ProgramCard({ intl, onClick, original }) {
+const ProgramCard = ({ intl, onClick, original }) => {
   const {
     title,
     card_image_url,
@@ -87,7 +87,7 @@ function ProgramCard({ intl, onClick, original }) {
       </Card.Section>
     </Card>
   );
-}
+};
 
 ProgramCard.defaultProps = {
   onClick: () => {},

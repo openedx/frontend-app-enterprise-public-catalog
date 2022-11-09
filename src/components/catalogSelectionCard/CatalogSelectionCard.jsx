@@ -7,7 +7,7 @@ import {
 import { Badge, Card, Form } from '@edx/paragon';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
-export function CardCheckbox({ queryTitle }) {
+export const CardCheckbox = ({ queryTitle }) => {
   const { refinements, dispatch } = useContext(SearchContext);
   const isChecked = refinements[QUERY_TITLE_REFINEMENT]?.includes(queryTitle) || false;
 
@@ -22,13 +22,13 @@ export function CardCheckbox({ queryTitle }) {
       <span />
     </Form.Radio>
   );
-}
+};
 
 CardCheckbox.propTypes = {
   queryTitle: PropTypes.string.isRequired,
 };
 
-function CatalogSelectionCard({
+const CatalogSelectionCard = ({
   queryTitle,
   className,
   badgeVariant,
@@ -36,25 +36,23 @@ function CatalogSelectionCard({
   label,
   cardBody,
   labelDetail,
-}) {
-  return (
-    <Card>
-      <Card.Header
-        title={(
-          <span>
-            <Badge className={className} variant={badgeVariant}>
-              {badge}
-            </Badge>
-            <div>{label}</div>
-          </span>
+}) => (
+  <Card>
+    <Card.Header
+      title={(
+        <span>
+          <Badge className={className} variant={badgeVariant}>
+            {badge}
+          </Badge>
+          <div>{label}</div>
+        </span>
         )}
-        subtitle={labelDetail}
-        actions={<CardCheckbox queryTitle={queryTitle} />}
-      />
-      <Card.Section>{cardBody}</Card.Section>
-    </Card>
-  );
-}
+      subtitle={labelDetail}
+      actions={<CardCheckbox queryTitle={queryTitle} />}
+    />
+    <Card.Section>{cardBody}</Card.Section>
+  </Card>
+);
 
 CatalogSelectionCard.defaultProps = {
   className: '',

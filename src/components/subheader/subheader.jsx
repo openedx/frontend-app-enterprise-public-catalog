@@ -2,18 +2,16 @@ import { Container } from '@edx/paragon';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Subheader({ title, children }) {
-  return (
-    <section>
-      <Container className="my-5 page-width">
-        <div className="lead">
-          {title && <h2>{title}</h2>}
-          <div>{children}</div>
-        </div>
-      </Container>
-    </section>
-  );
-}
+const Subheader = ({ title, children }) => (
+  <section>
+    <Container className="my-5 page-width">
+      <div className="lead">
+        {title && <h2>{title}</h2>}
+        <div>{children}</div>
+      </div>
+    </Container>
+  </section>
+);
 
 Subheader.defaultProps = {
   title: null,

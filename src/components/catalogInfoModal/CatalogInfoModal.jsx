@@ -15,23 +15,21 @@ import messages from './CatalogInfoModal.messages';
 import CatalogCourseModalBanner from '../catalogModalBanner/CatalogCourseModalBanner';
 import CatalogProgramModalBanner from '../catalogModalBanner/CatalogProgramModalBanner';
 
-function SkillsListing({ skillNames }) {
-  return (
-    <ul className="mx-2 course-info-skills-list">
-      {skillNames.slice(0, 5).map((s) => (
-        <li key={`skill-name-${s}`}>{s}</li>
-      ))}
-    </ul>
-  );
-}
+const SkillsListing = ({ skillNames }) => (
+  <ul className="mx-2 course-info-skills-list">
+    {skillNames.slice(0, 5).map((s) => (
+      <li key={`skill-name-${s}`}>{s}</li>
+    ))}
+  </ul>
+);
 
 SkillsListing.propTypes = {
   skillNames: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-function CourseModal({
+const CourseModal = ({
   intl, isOpen, onClose, selectedCourse,
-}) {
+}) => {
   const {
     courseTitle,
     courseProvider,
@@ -132,7 +130,7 @@ function CourseModal({
       </ModalDialog>
     </div>
   );
-}
+};
 
 CourseModal.propTypes = {
   intl: intlShape.isRequired,
@@ -154,7 +152,7 @@ CourseModal.propTypes = {
   }).isRequired,
 };
 
-function CourseDisplayForProgram({ course }) {
+const CourseDisplayForProgram = ({ course }) => {
   const { image, title, short_description: desc } = course;
   // removing html tags in description
   const regex = /(<([^>]+)>)/gi;
@@ -181,7 +179,7 @@ function CourseDisplayForProgram({ course }) {
       </div>
     </div>
   );
-}
+};
 
 CourseDisplayForProgram.propTypes = {
   course: PropTypes.shape({
@@ -191,9 +189,9 @@ CourseDisplayForProgram.propTypes = {
   }).isRequired,
 };
 
-function ProgramModal({
+const ProgramModal = ({
   intl, isOpen, onClose, selectedProgram,
-}) {
+}) => {
   const {
     programTitle,
     programProvider,
@@ -308,7 +306,7 @@ function ProgramModal({
       </ModalDialog>
     </div>
   );
-}
+};
 
 ProgramModal.propTypes = {
   intl: intlShape.isRequired,
@@ -328,14 +326,14 @@ ProgramModal.propTypes = {
   }).isRequired,
 };
 
-function CatalogCourseInfoModal({
+const CatalogCourseInfoModal = ({
   intl,
   isOpen,
   onClose,
   selectedCourse,
   selectedProgram,
   renderProgram,
-}) {
+}) => {
   if (!selectedCourse && !renderProgram) {
     return null;
   }
@@ -361,7 +359,7 @@ function CatalogCourseInfoModal({
       onClose={onClose}
     />
   );
-}
+};
 
 CatalogCourseInfoModal.defaultProps = {
   isOpen: false,

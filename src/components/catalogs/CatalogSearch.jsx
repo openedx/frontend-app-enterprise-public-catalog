@@ -31,7 +31,7 @@ import {
 } from '../../utils/algoliaUtils';
 import messages from '../catalogSearchResults/CatalogSearchResults.messages';
 
-function CatalogSearch(intl) {
+const CatalogSearch = (intl) => {
   const {
     refinements: { content_type: contentType },
   } = useContext(SearchContext);
@@ -202,7 +202,7 @@ function CatalogSearch(intl) {
       </section>
     </PageWrapper>
   );
-}
+};
 
 CatalogSearch.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types

@@ -25,19 +25,17 @@ const PROGRAM_SEARCH_CONTEXT_VALUE = {
 };
 
 // eslint-disable-next-line react/prop-types
-function SearchDataWrapper({ children, searchContextValue }) {
-  return (
-    <SearchContext.Provider
-      value={searchContextValue}
-      searchFacetFilters={[
-        ...SEARCH_FACET_FILTERS,
-        { attribute: QUERY_TITLE_REFINEMENT, title: 'Titles' },
-      ]}
-    >
-      {children}
-    </SearchContext.Provider>
-  );
-}
+const SearchDataWrapper = ({ children, searchContextValue }) => (
+  <SearchContext.Provider
+    value={searchContextValue}
+    searchFacetFilters={[
+      ...SEARCH_FACET_FILTERS,
+      { attribute: QUERY_TITLE_REFINEMENT, title: 'Titles' },
+    ]}
+  >
+    {children}
+  </SearchContext.Provider>
+);
 
 describe('Catalog Search component', () => {
   it('properly renders component', () => {
