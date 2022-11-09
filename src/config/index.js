@@ -10,8 +10,12 @@ const hasFeatureFlagEnabled = (featureFlag) => {
 };
 
 const features = {
-  ENABLE_PROGRAMS: (process.env.FEATURE_ENABLE_PROGRAMS === 'true') || hasFeatureFlagEnabled(FEATURE_ENABLE_PROGRAMS),
-  PROGRAM_TYPE_FACET: (process.env.FEATURE_PROGRAM_TYPE_FACET === 'true') || hasFeatureFlagEnabled(FEATURE_PROGRAM_TYPE_FACET),
+  ENABLE_PROGRAMS:
+    process.env.FEATURE_ENABLE_PROGRAMS === 'true'
+    || hasFeatureFlagEnabled(FEATURE_ENABLE_PROGRAMS),
+  PROGRAM_TYPE_FACET:
+    process.env.FEATURE_PROGRAM_TYPE_FACET === 'true'
+    || hasFeatureFlagEnabled(FEATURE_PROGRAM_TYPE_FACET),
 };
 
 export default features;

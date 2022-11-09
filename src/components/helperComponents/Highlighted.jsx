@@ -12,11 +12,19 @@ const Highlighted = ({ text, highlight, highlightClass }) => {
 
   return (
     <>
-      {parts.filter(part => part).map((part, i) => (
-        regex.test(part) ? <span className={classNames('highlighted', highlightClass)} key={highlightClass}>{part}</span>
+      {parts
+        .filter((part) => part)
+        .map((part, i) => (regex.test(part) ? (
+          <span
+            className={classNames('highlighted', highlightClass)}
+            key={highlightClass}
+          >
+            {part}
+          </span>
+        ) : (
         // eslint-disable-next-line react/no-array-index-key
-          : <span key={i}>{part}</span>
-      ))}
+          <span key={i}>{part}</span>
+        )))}
     </>
   );
 };

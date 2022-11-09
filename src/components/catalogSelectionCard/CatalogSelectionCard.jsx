@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
-  SearchContext, setRefinementAction,
+  SearchContext,
+  setRefinementAction,
 } from '@edx/frontend-enterprise-catalog-search';
 import { Badge, Card, Form } from '@edx/paragon';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
-export const CardCheckbox = ({ queryTitle }) => {
+export function CardCheckbox({ queryTitle }) {
   const { refinements, dispatch } = useContext(SearchContext);
   const isChecked = refinements[QUERY_TITLE_REFINEMENT]?.includes(queryTitle) || false;
 
@@ -16,22 +17,18 @@ export const CardCheckbox = ({ queryTitle }) => {
     }
   };
   return (
-    <Form.Radio
-      className="mt-3 mr-3"
-      checked={isChecked}
-      onChange={setChecked}
-    >
+    <Form.Radio className="mt-3 mr-3" checked={isChecked} onChange={setChecked}>
       {/* span here because radio buttons require children  */}
       <span />
     </Form.Radio>
   );
-};
+}
 
 CardCheckbox.propTypes = {
   queryTitle: PropTypes.string.isRequired,
 };
 
-const CatalogSelectionCard = ({
+function CatalogSelectionCard({
   queryTitle,
   className,
   badgeVariant,
@@ -39,23 +36,25 @@ const CatalogSelectionCard = ({
   label,
   cardBody,
   labelDetail,
-}) => (
-  <Card>
-    <Card.Header
-      title={(
-        <span>
-          <Badge className={className} variant={badgeVariant}>
-            {badge}
-          </Badge>
-          <div>{label}</div>
-        </span>
-      )}
-      subtitle={labelDetail}
-      actions={<CardCheckbox queryTitle={queryTitle} />}
-    />
-    <Card.Section>{cardBody}</Card.Section>
-  </Card>
-);
+}) {
+  return (
+    <Card>
+      <Card.Header
+        title={(
+          <span>
+            <Badge className={className} variant={badgeVariant}>
+              {badge}
+            </Badge>
+            <div>{label}</div>
+          </span>
+        )}
+        subtitle={labelDetail}
+        actions={<CardCheckbox queryTitle={queryTitle} />}
+      />
+      <Card.Section>{cardBody}</Card.Section>
+    </Card>
+  );
+}
 
 CatalogSelectionCard.defaultProps = {
   className: '',

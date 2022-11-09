@@ -14,34 +14,61 @@ const educationVariant = 'light';
 const CatalogSelectionDeck = ({ intl, title, hide }) => {
   const config = getConfig();
   return (
-    <section className="catalog-selection-deck" style={{ display: hide ? 'none' : 'block' }}>
+    <section
+      className="catalog-selection-deck"
+      style={{ display: hide ? 'none' : 'block' }}
+    >
       <Container className="page-width">
         <h2>{title}</h2>
         <CardDeck>
           <CatalogSelectionCard
             queryTitle={config.EDX_ENTERPRISE_ALACARTE_TITLE}
             badgeVariant={aLaCarteVariant}
-            badge={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.badge'])}
-            label={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.label'])}
-            labelDetail={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.labelDetail'])}
-            cardBody={intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.body'])}
+            badge={intl.formatMessage(
+              messages['catalogSelectionDeck.aLaCarte.badge'],
+            )}
+            label={intl.formatMessage(
+              messages['catalogSelectionDeck.aLaCarte.label'],
+            )}
+            labelDetail={intl.formatMessage(
+              messages['catalogSelectionDeck.aLaCarte.labelDetail'],
+            )}
+            cardBody={intl.formatMessage(
+              messages['catalogSelectionDeck.aLaCarte.body'],
+            )}
           />
           <CatalogSelectionCard
             queryTitle={config.EDX_FOR_BUSINESS_TITLE}
             className={businessClassName}
             badgeVariant={businessVariant}
-            badge={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.badge'])}
-            label={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.label'])}
-            labelDetail={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.labelDetail'])}
-            cardBody={intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.body'])}
+            badge={intl.formatMessage(
+              messages['catalogSelectionDeck.edxForBusiness.badge'],
+            )}
+            label={intl.formatMessage(
+              messages['catalogSelectionDeck.edxForBusiness.label'],
+            )}
+            labelDetail={intl.formatMessage(
+              messages['catalogSelectionDeck.edxForBusiness.labelDetail'],
+            )}
+            cardBody={intl.formatMessage(
+              messages['catalogSelectionDeck.edxForBusiness.body'],
+            )}
           />
           <CatalogSelectionCard
             queryTitle={config.EDX_FOR_ONLINE_EDU_TITLE}
             badgeVariant={educationVariant}
-            badge={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.badge'])}
-            label={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}
-            labelDetail={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.labelDetail'])}
-            cardBody={intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.body'])}
+            badge={intl.formatMessage(
+              messages['catalogSelectionDeck.edxForOnlineEdu.badge'],
+            )}
+            label={intl.formatMessage(
+              messages['catalogSelectionDeck.edxForOnlineEdu.label'],
+            )}
+            labelDetail={intl.formatMessage(
+              messages['catalogSelectionDeck.edxForOnlineEdu.labelDetail'],
+            )}
+            cardBody={intl.formatMessage(
+              messages['catalogSelectionDeck.edxForOnlineEdu.body'],
+            )}
           />
         </CardDeck>
       </Container>

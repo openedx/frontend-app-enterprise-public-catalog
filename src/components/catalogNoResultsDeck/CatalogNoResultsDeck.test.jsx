@@ -43,10 +43,13 @@ const csvData = {
   ],
 };
 // Enterprise catalog API mock
-const mockCatalogApiService = jest.spyOn(EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets');
+const mockCatalogApiService = jest.spyOn(
+  EnterpriseCatalogApiService,
+  'fetchDefaultCoursesInCatalogWithFacets',
+);
 // fetching catalog from query params mock
 jest.mock('../../utils/common', () => ({
-  ...(jest.requireActual('../../utils/common')),
+  ...jest.requireActual('../../utils/common'),
   getSelectedCatalogFromURL: jest.fn(),
 }));
 
@@ -87,7 +90,10 @@ describe('catalog no results deck works as expected', () => {
       </IntlProvider>,
     );
     const hyperlinkthing = screen.getByText('removing filters');
-    expect(hyperlinkthing).toHaveAttribute('href', `${process.env.BASE_URL}/?enterprise_catalog_query_titles=ayylmao`);
+    expect(hyperlinkthing).toHaveAttribute(
+      'href',
+      `${process.env.BASE_URL}/?enterprise_catalog_query_titles=ayylmao`,
+    );
   });
   test('API error responses will hide content deck', async () => {
     mockCatalogApiService.mockRejectedValue(new Error('Async error'));
@@ -96,7 +102,9 @@ describe('catalog no results deck works as expected', () => {
         <CatalogNoResultsDeck {...defaultProps} />
       </IntlProvider>,
     );
-    expect(await screen.findByTestId('noResultsDeckTitleTestId')).not.toBeInTheDocument();
+    expect(
+      await screen.findByTestId('noResultsDeckTitleTestId'),
+    ).not.toBeInTheDocument();
     expect(logError).toBeCalled();
   });
 });

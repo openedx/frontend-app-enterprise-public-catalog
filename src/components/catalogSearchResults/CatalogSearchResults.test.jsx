@@ -5,38 +5,52 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { SearchContext } from '@edx/frontend-enterprise-catalog-search';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
-import { BaseCatalogSearchResults, ERROR_MESSAGE, SKELETON_DATA_TESTID } from './CatalogSearchResults';
+import {
+  BaseCatalogSearchResults,
+  ERROR_MESSAGE,
+  SKELETON_DATA_TESTID,
+} from './CatalogSearchResults';
 import { renderWithRouter } from '../tests/testUtils';
 import messages from './CatalogSearchResults.messages';
 import {
-  CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM, HIDE_PRICE_REFINEMENT,
+  CONTENT_TYPE_COURSE,
+  CONTENT_TYPE_PROGRAM,
+  HIDE_PRICE_REFINEMENT,
 } from '../../constants';
 import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
-const PaginationComponent = () => <div>{PAGINATE_ME}</div>;
+function PaginationComponent() {
+  return <div>{PAGINATE_ME}</div>;
+}
 
 const csvData = [{ csv_data: 'foobar' }];
-jest.spyOn(EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets').mockResolvedValue(csvData);
+jest
+  .spyOn(EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets')
+  .mockResolvedValue(csvData);
 
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 
-// eslint-disable-next-line react/prop-types
-const SearchDataWrapper = ({ children, searchContextValue = DEFAULT_SEARCH_CONTEXT_VALUE }) => (
-  <SearchContext.Provider value={searchContextValue}>
-    {children}
-  </SearchContext.Provider>
-);
+function SearchDataWrapper({
+  // eslint-disable-next-line react/prop-types
+  children,
+  // eslint-disable-next-line react/prop-types
+  searchContextValue = DEFAULT_SEARCH_CONTEXT_VALUE,
+}) {
+  return (
+    <SearchContext.Provider value={searchContextValue}>
+      {children}
+    </SearchContext.Provider>
+  );
+}
 
-const mockConfig = () => (
-  {
-    EDX_FOR_BUSINESS_TITLE: 'ayylmao',
-    EDX_FOR_ONLINE_EDU_TITLE: 'foo',
-    EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
-    FEATURE_CARD_VIEW_ENABLED: 'True',
-  }
-);
+const mockConfig = () => ({
+  EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+  EDX_FOR_ONLINE_EDU_TITLE: 'foo',
+  EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
+  FEATURE_CARD_VIEW_ENABLED: 'True',
+});
 
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
@@ -169,7 +183,8 @@ describe('Main Catalogs view works as expected', () => {
       <SearchDataWrapper>
         <IntlProvider locale="en">
           <BaseCatalogSearchResults {...defaultProps} />
-        </IntlProvider>,
+        </IntlProvider>
+        ,
       </SearchDataWrapper>,
     );
 
@@ -194,7 +209,8 @@ describe('Main Catalogs view works as expected', () => {
       <SearchDataWrapper>
         <IntlProvider locale="en">
           <BaseCatalogSearchResults {...defaultProps} />
-        </IntlProvider>,
+        </IntlProvider>
+        ,
       </SearchDataWrapper>,
     );
 
@@ -211,20 +227,20 @@ describe('Main Catalogs view works as expected', () => {
     expect(courseTitleInCard).toBeVisible();
 
     // course 1 image with the correct alt text
-    expect(screen.getByAltText(`${TEST_COURSE_NAME} course image`)).toBeVisible();
+    expect(
+      screen.getByAltText(`${TEST_COURSE_NAME} course image`),
+    ).toBeVisible();
   });
   test('pagination component renders', () => {
     renderWithRouter(
       <SearchDataWrapper>
-        <BaseCatalogSearchResults
-          {...defaultProps}
-        />
+        <BaseCatalogSearchResults {...defaultProps} />
       </SearchDataWrapper>,
     );
     expect(screen.queryByText(PAGINATE_ME)).toBeInTheDocument();
   });
   test('error if present is rendered instead of table', () => {
-    const ERRMSG = 'something ain\'t right here';
+    const ERRMSG = "something ain't right here";
     renderWithRouter(
       <SearchDataWrapper>
         <BaseCatalogSearchResults
@@ -245,10 +261,7 @@ describe('Main Catalogs view works as expected', () => {
   test('isSearchStalled leads to rendering skeleton and not content', () => {
     renderWithRouter(
       <SearchDataWrapper>
-        <BaseCatalogSearchResults
-          {...defaultProps}
-          isSearchStalled
-        />
+        <BaseCatalogSearchResults {...defaultProps} isSearchStalled />
       </SearchDataWrapper>,
     );
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -258,9 +271,7 @@ describe('Main Catalogs view works as expected', () => {
   test('headers rendered correctly', async () => {
     renderWithRouter(
       <SearchDataWrapper>
-        <BaseCatalogSearchResults
-          {...defaultProps}
-        />
+        <BaseCatalogSearchResults {...defaultProps} />
       </SearchDataWrapper>,
     );
 
@@ -268,42 +279,75 @@ describe('Main Catalogs view works as expected', () => {
     const listViewToggleButton = screen.getByLabelText('List');
     userEvent.click(listViewToggleButton);
 
-    expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
-    expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
-    expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.courseName'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.catalogs'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.partner'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
     // fixes the act warnings by ensuring we await some UI state before returning from the test
-    await act(() => screen.findByText(messages['catalogSearchResults.table.price'].defaultMessage));
-    expect(screen.queryByText(messages['catalogSearchResults.table.price'].defaultMessage)).toBeInTheDocument();
+    await act(() => screen.findByText(
+      messages['catalogSearchResults.table.price'].defaultMessage,
+    ));
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.price'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
   });
   test('refinements hide price column and show availability', async () => {
     const refinements = {
       refinements: { [HIDE_PRICE_REFINEMENT]: 'true' },
     };
     renderWithRouter(
-      <SearchDataWrapper
-        searchContextValue={refinements}
-      >
-        <BaseCatalogSearchResults
-          {...defaultProps}
-        />
+      <SearchDataWrapper searchContextValue={refinements}>
+        <BaseCatalogSearchResults {...defaultProps} />
       </SearchDataWrapper>,
     );
     const listViewToggleButton = screen.getByLabelText('List');
     userEvent.click(listViewToggleButton);
 
-    expect(screen.queryByText(messages['catalogSearchResults.table.courseName'].defaultMessage)).toBeInTheDocument();
-    expect(screen.queryByText(messages['catalogSearchResults.table.catalogs'].defaultMessage)).toBeInTheDocument();
-    expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.courseName'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.catalogs'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.partner'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
     // fixes the act warnings by ensuring we await some UI state before returning from the test
-    await act(() => screen.findByText(messages['catalogSearchResults.table.availability'].defaultMessage));
-    expect(screen.queryByText(messages['catalogSearchResults.table.availability'].defaultMessage)).toBeInTheDocument();
+    await act(() => screen.findByText(
+      messages['catalogSearchResults.table.availability'].defaultMessage,
+    ));
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.availability'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
   });
   test('testing list course modal pops up ', async () => {
     renderWithRouter(
       <SearchDataWrapper>
         <IntlProvider locale="en">
           <BaseCatalogSearchResults {...defaultProps} />
-        </IntlProvider>,
+        </IntlProvider>
+        ,
       </SearchDataWrapper>,
     );
 
@@ -322,7 +366,8 @@ describe('Main Catalogs view works as expected', () => {
       <SearchDataWrapper>
         <IntlProvider locale="en">
           <BaseCatalogSearchResults {...defaultProps} />
-        </IntlProvider>,
+        </IntlProvider>
+        ,
       </SearchDataWrapper>,
     );
 
@@ -351,7 +396,9 @@ describe('Main Catalogs view works as expected', () => {
 
     expect(screen.queryByText(TEST_PROGRAM_NAME)).toBeInTheDocument();
     expect(screen.queryByText(TEST_PARTNER)).toBeInTheDocument();
-    expect(screen.queryByText('Courses available upon enrollment')).toBeInTheDocument();
+    expect(
+      screen.queryByText('Courses available upon enrollment'),
+    ).toBeInTheDocument();
     // TODO: Badges commented out until Algolia bug is resolved (ENT-5338)
     // expect(screen.queryByText(TEST_CATALOGS[0])).toBeInTheDocument();
   });
@@ -369,11 +416,29 @@ describe('Main Catalogs view works as expected', () => {
     const listViewToggleButton = screen.getByLabelText('List');
     userEvent.click(listViewToggleButton);
 
-    expect(screen.queryByText(messages['catalogSearchResults.table.programName'].defaultMessage)).toBeInTheDocument();
-    expect(screen.queryByText(messages['catalogSearchResults.table.numCourses'].defaultMessage)).toBeInTheDocument();
-    expect(screen.queryByText(messages['catalogSearchResults.table.programType'].defaultMessage)).toBeInTheDocument();
-    await act(() => screen.findByText(messages['catalogSearchResults.table.partner'].defaultMessage));
-    expect(screen.queryByText(messages['catalogSearchResults.table.partner'].defaultMessage)).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.programName'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.numCourses'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.programType'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
+    await act(() => screen.findByText(
+      messages['catalogSearchResults.table.partner'].defaultMessage,
+    ));
+    expect(
+      screen.queryByText(
+        messages['catalogSearchResults.table.partner'].defaultMessage,
+      ),
+    ).toBeInTheDocument();
   });
   test('no program search results displays popular programs text', async () => {
     const emptySearchResults = { ...searchResults, nbHits: 0 };

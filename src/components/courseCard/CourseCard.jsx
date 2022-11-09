@@ -23,7 +23,12 @@ const CourseCard = ({ intl, onClick, original }) => {
   const altText = `${title} course image`;
 
   return (
-    <Card isClickable className="course-card" tabIndex="0" onClick={() => onClick(original)}>
+    <Card
+      isClickable
+      className="course-card"
+      tabIndex="0"
+      onClick={() => onClick(original)}
+    >
       <Card.ImageCap
         src={imageSrc}
         logoSrc={partners[0]?.logo_image_url}
@@ -77,7 +82,12 @@ CourseCard.propTypes = {
   original: PropTypes.shape({
     title: PropTypes.string,
     card_image_url: PropTypes.string,
-    partners: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string, logo_image_url: PropTypes.string })),
+    partners: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        logo_image_url: PropTypes.string,
+      }),
+    ),
     first_enrollable_paid_seat_price: PropTypes.number,
     enterprise_catalog_query_titles: PropTypes.arrayOf(PropTypes.string),
     original_image_url: PropTypes.string,

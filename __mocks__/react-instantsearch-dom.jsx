@@ -12,14 +12,20 @@ const advertisedCourseRun = {
 
 const fakeHits = [
   {
-    objectID: '1', title: 'bla', advertised_course_run: advertisedCourseRun, key: 'Bees101',
+    objectID: '1',
+    title: 'bla',
+    advertised_course_run: advertisedCourseRun,
+    key: 'Bees101',
   },
   {
-    objectID: '2', title: 'blp', advertised_course_run: advertisedCourseRun, key: 'Wasps200',
+    objectID: '2',
+    title: 'blp',
+    advertised_course_run: advertisedCourseRun,
+    key: 'Wasps200',
   },
 ];
 
-MockReactInstantSearch.connectStateResults = Component => function (props) {
+MockReactInstantSearch.connectStateResults = (Component) => function (props) {
   return (
     <Component
       searchResults={{
@@ -38,7 +44,7 @@ MockReactInstantSearch.connectStateResults = Component => function (props) {
   );
 };
 
-MockReactInstantSearch.connectPagination = Component => function (props) {
+MockReactInstantSearch.connectPagination = (Component) => function (props) {
   return <Component nbPages={2} maxPagesDisplayed={2} {...props} />;
 };
 
@@ -47,11 +53,11 @@ MockReactInstantSearch.InstantSearch = function ({ children }) {
   return <div>{children}</div>;
 };
 
-MockReactInstantSearch.connectCurrentRefinements = Component => function (props) {
+MockReactInstantSearch.connectCurrentRefinements = (Component) => function (props) {
   return <Component items={[]} {...props} />;
 };
 
-MockReactInstantSearch.connectRefinementList = Component => function (props) {
+MockReactInstantSearch.connectRefinementList = (Component) => function (props) {
   return (
     <Component
       attribute="subjects"
@@ -65,11 +71,11 @@ MockReactInstantSearch.connectRefinementList = Component => function (props) {
   );
 };
 
-MockReactInstantSearch.connectSearchBox = Component => function (props) {
+MockReactInstantSearch.connectSearchBox = (Component) => function (props) {
   return <Component {...props} />;
 };
 
-MockReactInstantSearch.connectPagination = Component => function (props) {
+MockReactInstantSearch.connectPagination = (Component) => function (props) {
   return <Component nbPages={1} {...props} />;
 };
 

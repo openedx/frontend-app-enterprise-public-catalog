@@ -13,36 +13,40 @@ import messages from './Hero.messages';
 
 const IMAGE_CLASS = 'hero__image';
 
-const SmallImage = ({ alt }) => (
-  <Image
-    className={IMAGE_CLASS}
-    srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
-    src={SmallHeroImageLoRes}
-    alt={alt}
-    sizes="23vw"
-  />
-);
+function SmallImage({ alt }) {
+  return (
+    <Image
+      className={IMAGE_CLASS}
+      srcSet={`${SmallHeroImageLoRes} 1000w, ${SmallHeroImageHiRes} 2000w`}
+      src={SmallHeroImageLoRes}
+      alt={alt}
+      sizes="23vw"
+    />
+  );
+}
 SmallImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-const LargeImage = ({ alt }) => (
-  <Image
-    className={IMAGE_CLASS}
-    srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
-    src={LargeHeroImageLoRes}
-    alt={alt}
-    sizes="33vw"
-  />
-);
+function LargeImage({ alt }) {
+  return (
+    <Image
+      className={IMAGE_CLASS}
+      srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
+      src={LargeHeroImageLoRes}
+      alt={alt}
+      sizes="33vw"
+    />
+  );
+}
 LargeImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-const Desktop = ({ children }) => {
+function Desktop({ children }) {
   const isDesktop = useMediaQuery({ minWidth: breakpoints.large.minWidth });
   return isDesktop ? children : null;
-};
+}
 Desktop.propTypes = {
   children: PropTypes.shape({
     props: PropTypes.shape({
@@ -50,10 +54,13 @@ Desktop.propTypes = {
     }),
   }).isRequired,
 };
-const Tablet = ({ children }) => {
-  const isTablet = useMediaQuery({ minWidth: breakpoints.medium.minWidth, maxWidth: breakpoints.medium.maxWidth });
+function Tablet({ children }) {
+  const isTablet = useMediaQuery({
+    minWidth: breakpoints.medium.minWidth,
+    maxWidth: breakpoints.medium.maxWidth,
+  });
   return isTablet ? children : null;
-};
+}
 Tablet.propTypes = {
   children: PropTypes.shape({
     props: PropTypes.shape({
@@ -62,13 +69,15 @@ Tablet.propTypes = {
   }).isRequired,
 };
 
-const Hero = ({ intl, text, highlight }) => {
+function Hero({ intl, text, highlight }) {
   const alt = intl.formatMessage(messages['hero.image.alt']);
 
   return (
     <section className="hero px-1">
       <Container className="page-width hero__content">
-        <h1 className="display-1"><Highlighted text={text} highlight={highlight} /></h1>
+        <h1 className="display-1">
+          <Highlighted text={text} highlight={highlight} />
+        </h1>
         <div>
           <Desktop>
             <LargeImage alt={alt} />
@@ -80,7 +89,7 @@ const Hero = ({ intl, text, highlight }) => {
       </Container>
     </section>
   );
-};
+}
 
 Hero.defaultProps = {
   highlight: '',

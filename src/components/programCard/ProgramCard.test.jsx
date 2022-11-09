@@ -5,14 +5,12 @@ import '@testing-library/jest-dom/extend-expect';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import ProgramCard from './ProgramCard';
 
-const mockConfig = () => (
-  {
-    EDX_FOR_BUSINESS_TITLE: 'ayylmao',
-    EDX_FOR_ONLINE_EDU_TITLE: 'foo',
-    EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
-    FEATURE_CARD_VIEW_ENABLED: 'True',
-  }
-);
+const mockConfig = () => ({
+  EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+  EDX_FOR_ONLINE_EDU_TITLE: 'foo',
+  EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
+  FEATURE_CARD_VIEW_ENABLED: 'True',
+});
 
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
@@ -45,8 +43,12 @@ describe('Program card works as expected', () => {
       </IntlProvider>,
     );
     expect(screen.queryByText(defaultProps.original.title)).toBeInTheDocument();
-    expect(screen.queryByText(defaultProps.original.authoring_organizations[0].name)).toBeInTheDocument();
-    expect(screen.queryByText(defaultProps.original.program_type)).toBeInTheDocument();
+    expect(
+      screen.queryByText(defaultProps.original.authoring_organizations[0].name),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(defaultProps.original.program_type),
+    ).toBeInTheDocument();
     expect(screen.queryByText('2 Courses')).toBeInTheDocument();
     expect(screen.queryByText('Business'));
   });
@@ -57,6 +59,6 @@ describe('Program card works as expected', () => {
       </IntlProvider>,
     );
     fireEvent.error(screen.getByAltText(originalData.title));
-    await expect((screen.getByAltText(originalData.title)).src).not.toBeUndefined;
+    await expect(screen.getByAltText(originalData.title).src).not.toBeUndefined;
   });
 });

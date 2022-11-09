@@ -7,14 +7,12 @@ const appid = 'test app';
 const key = 'test key';
 const marketingSite = 'http://test.edx.org';
 
-const mockConfig = () => (
-  {
-    ALGOLIA_INDEX_NAME: indexName,
-    ALGOLIA_APP_ID: appid,
-    ALGOLIA_SEARCH_API_KEY: key,
-    HUBSPOT_MARKETING_URL: marketingSite,
-  }
-);
+const mockConfig = () => ({
+  ALGOLIA_INDEX_NAME: indexName,
+  ALGOLIA_APP_ID: appid,
+  ALGOLIA_SEARCH_API_KEY: key,
+  HUBSPOT_MARKETING_URL: marketingSite,
+});
 
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
