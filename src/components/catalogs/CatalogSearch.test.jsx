@@ -18,10 +18,13 @@ jest.mock('react-instantsearch-dom', () => ({
 
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 const COURSE_SEARCH_CONTEXT_VALUE = {
-  refinements: { content_type: ['course'] },
+  refinements: { learning_type: ['course'] },
 };
 const PROGRAM_SEARCH_CONTEXT_VALUE = {
-  refinements: { content_type: ['program'] },
+  refinements: { learning_type: ['program'] },
+};
+const EXEC_ED_COURSE_SEARCH_CONTEXT_VALUE = {
+  refinements: { learning_type: ['executive-education-2u'] },
 };
 
 // eslint-disable-next-line react/prop-types
@@ -59,6 +62,14 @@ describe('Catalog Search component', () => {
   it('properly renders component with course content type context', () => {
     renderWithRouter(
       <SearchDataWrapper searchContextValue={PROGRAM_SEARCH_CONTEXT_VALUE}>
+        <CatalogSearch />
+      </SearchDataWrapper>,
+    );
+    expect(screen.getByText('SEARCH')).toBeInTheDocument();
+  });
+  it('properly renders component with exec ed course content type context', () => {
+    renderWithRouter(
+      <SearchDataWrapper searchContextValue={EXEC_ED_COURSE_SEARCH_CONTEXT_VALUE}>
         <CatalogSearch />
       </SearchDataWrapper>,
     );

@@ -6,6 +6,11 @@ const messages = defineMessages({
     defaultMessage: 'Popular Courses',
     description: 'Popular Courses table header.',
   },
+  'catalogSearchResults.DefaultExecEdCourseDeckTitle': {
+    id: 'catalogSearchResults.popularExecEdCourses',
+    defaultMessage: 'Popular Executive Education Courses',
+    description: 'Popular Executive Education Courses table header.',
+  },
   'catalogSearchResults.DefaultProgramDeckTitle': {
     id: 'catalogSearchResults.popularPrograms',
     defaultMessage: 'Popular Programs',
@@ -20,6 +25,11 @@ const messages = defineMessages({
     id: 'catalogSearchResults.NoResultsCourseBannerText',
     defaultMessage: 'No courses were found that match your search. Try ',
     description: 'No results course alert modal text.',
+  },
+  'catalogSearchResults.NoResultsExecEdCourseBannerText': {
+    id: 'catalogSearchResults.NoResultsExecEdCourseBannerText',
+    defaultMessage: 'No Executive Education courses were found that match your search. Try ',
+    description: 'No results exec ed course alert modal text.',
   },
   'catalogSearchResults.NoResultsProgramBannerText': {
     id: 'catalogSearchResults.NoResultsProgramBannerText',

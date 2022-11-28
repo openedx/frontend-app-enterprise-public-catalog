@@ -29,6 +29,14 @@ jest.mock('@edx/frontend-platform', () => ({
 mockWindowLocations();
 
 describe('CatalogPage', () => {
+  const OLD_ENV = process.env;
+  beforeEach(() => {
+    jest.resetModules(); // Most important - it clears the cache
+    process.env = { ...OLD_ENV }; // Make a copy
+  });
+  afterAll(() => {
+    process.env = OLD_ENV; // Restore old environment
+  });
   it('renders a catalog page component', () => {
     const { container } = renderWithRouter(<CatalogPage />);
     expect(container.querySelector('.hero')).toBeInTheDocument();
@@ -59,6 +67,40 @@ describe('CatalogPage', () => {
     renderWithRouter(<CatalogPage />);
     expect(window.location.search).toEqual(
       'enterprise_catalog_query_titles=baz&availability=Available+Now&availability=Starting+Soon&availability=Upcoming',
+    );
+  });
+  it('accounts for exec ed inclusion feature flag', () => {
+    process.env.EXEC_ED_INCLUSION = false;
+    const location = {
+      ...window.location,
+      search: '?learning_type=executive-education-2u',
+    };
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: location,
+    });
+    expect(window.location.search).toEqual('?learning_type=executive-education-2u');
+    renderWithRouter(<CatalogPage />);
+    // Assert we've removed the exec ed learning type because the feature flag was disabled
+    expect(window.location.search).toEqual(
+      'enterprise_catalog_query_titles=baz&availability=Available+Now&availability=Starting+Soon&availability=Upcoming',
+    );
+  });
+  it('accounts for exec ed disclusion when not a la carte is selected', () => {
+    process.env.EXEC_ED_INCLUSION = true;
+    const location = {
+      ...window.location,
+      search: '?learning_type=executive-education-2u&learning_type=ayylmao&enterprise_catalog_query_titles=foobar',
+    };
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: location,
+    });
+    expect(window.location.search).toEqual('?learning_type=executive-education-2u&learning_type=ayylmao&enterprise_catalog_query_titles=foobar');
+    renderWithRouter(<CatalogPage />);
+    // Assert learning type: exec ed has been removed but not learning type `ayylmao`
+    expect(window.location.search).toEqual(
+      'enterprise_catalog_query_titles=foobar&learning_type=ayylmao',
     );
   });
 });
