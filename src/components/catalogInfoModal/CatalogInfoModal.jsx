@@ -30,7 +30,7 @@ SkillsListing.propTypes = {
 };
 
 function CourseModal({
-  intl, isOpen, onClose, selectedCourse,
+  intl, isOpen, onClose, isExecEdType, selectedCourse,
 }) {
   const {
     courseTitle,
@@ -87,6 +87,7 @@ function CourseModal({
               startDate={startDate}
               endDate={endDate}
               upcomingRuns={upcomingRuns}
+              execEd={isExecEdType}
             />
             <p className="h3">
               {intl.formatMessage(
@@ -138,6 +139,7 @@ CourseModal.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  isExecEdType: PropTypes.bool.isRequired,
   selectedCourse: PropTypes.shape({
     courseTitle: PropTypes.string,
     courseProvider: PropTypes.string,
@@ -332,6 +334,7 @@ function CatalogCourseInfoModal({
   intl,
   isOpen,
   onClose,
+  isExecEdType,
   selectedCourse,
   selectedProgram,
   renderProgram,
@@ -349,6 +352,7 @@ function CatalogCourseInfoModal({
         intl={intl}
         isOpen={isOpen}
         onClose={onClose}
+        isExecEdType={isExecEdType}
       />
     );
   }
@@ -366,6 +370,7 @@ function CatalogCourseInfoModal({
 CatalogCourseInfoModal.defaultProps = {
   isOpen: false,
   renderProgram: false,
+  isExecEdType: false,
   selectedCourse: {},
   selectedProgram: {},
   onClose: () => {},
@@ -376,6 +381,7 @@ CatalogCourseInfoModal.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
+  isExecEdType: PropTypes.bool,
   selectedCourse: PropTypes.shape({
     courseTitle: PropTypes.string,
     courseProvider: PropTypes.string,

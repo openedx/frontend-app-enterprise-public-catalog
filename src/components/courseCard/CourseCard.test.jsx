@@ -35,7 +35,7 @@ const execEdData = {
   original_image_url: '',
   enterprise_catalog_query_titles: TEST_CATALOG,
   advertised_course_run: { pacing_type: 'instructor_paced' },
-  entitlements: [{ price: '999' }],
+  entitlements: [{ price: '999.00' }],
 };
 
 const execEdProps = {
@@ -57,7 +57,7 @@ describe('Course card works as expected', () => {
     expect(
       screen.queryByText(defaultProps.original.partners[0].name),
     ).toBeInTheDocument();
-    expect(screen.queryByText('$100 • self paced')).toBeInTheDocument();
+    expect(screen.queryByText('$100 • Self paced')).toBeInTheDocument();
     expect(screen.queryByText('Business')).toBeInTheDocument();
   });
   test('test card renders default image', async () => {
@@ -80,7 +80,8 @@ describe('Course card works as expected', () => {
       </IntlProvider>,
     );
     expect(screen.queryByText(execEdProps.original.title)).toBeInTheDocument();
-    expect(screen.queryByText('$999 • instructor paced')).toBeInTheDocument();
+    // price decimal should be truncated
+    expect(screen.queryByText('$999 • Instructor led')).toBeInTheDocument();
     expect(screen.queryByText('Business')).toBeInTheDocument();
   });
 });

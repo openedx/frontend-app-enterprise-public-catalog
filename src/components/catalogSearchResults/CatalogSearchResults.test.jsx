@@ -151,7 +151,7 @@ const searchResultsExecEd = {
       availability: ['Available Now'],
       course_keys: [],
       content_type: EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
-      entitlements: [{ price: '100' }],
+      entitlements: [{ price: '100.00' }],
       advertised_course_run: {
         start: '2020-01-24T05:00:00Z',
         end: '2080-01-01T17:00:00Z',

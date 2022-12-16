@@ -29,7 +29,12 @@ function CourseCard({
     priceText = rowPrice != null ? `$${rowPrice.toString()}` : 'N/A';
   } else {
     [rowPrice] = entitlements || [null];
-    priceText = rowPrice != null ? `$${rowPrice.price?.toString()}` : 'N/A';
+    priceText = rowPrice != null ? `$${Math.trunc(rowPrice.price)?.toString()}` : 'N/A';
+  }
+
+  let pacingType = 'NA';
+  if (advertised_course_run) {
+    pacingType = advertised_course_run.pacing_type === 'self_paced' ? 'Self paced' : 'Instructor led';
   }
 
   const imageSrc = card_image_url || defaultCardHeader;
@@ -52,7 +57,7 @@ function CourseCard({
       <span className="cards-spacing" />
       <Card.Section>
         <p className="my-3">
-          {priceText} • {advertised_course_run ? advertised_course_run.pacing_type?.replace('_', ' ') : 'NA'}
+          {priceText} • {pacingType}
         </p>
         <div style={{ maxWidth: '400vw' }}>
           {enterprise_catalog_query_titles.includes(

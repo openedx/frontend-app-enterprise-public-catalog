@@ -249,7 +249,7 @@ export function BaseCatalogSearchResults({
         Header: TABLE_HEADERS.price,
         accessor: 'entitlements',
         Cell: ({ row }) => (row.values.entitlements[0].price
-          ? `$${row.values.entitlements[0].price}`
+          ? `$${Math.trunc(row.values.entitlements[0].price)}`
           : null),
       },
       {
@@ -414,6 +414,7 @@ export function BaseCatalogSearchResults({
           isOpen={isCourse}
           onClose={() => setSelectedCourse(null)}
           selectedCourse={selectedCourse}
+          isExecEdType={isExecEdType}
         />
       )}
       {isProgramType && (
