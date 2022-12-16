@@ -163,6 +163,60 @@ describe('Course info modal works as expected', () => {
   });
 });
 
+describe('Executive Education info modal works as expected', () => {
+  const execEdTypeModalProps = {
+    isOpen: true,
+    isExecEdType: true,
+    selectedCourse: {
+      courseTitle: 'Exec Ed Title',
+      courseProvider: 'Provider',
+      coursePrice: '100.00',
+      courseAssociatedCatalogs: [],
+      courseDescription: descriptionHtml,
+      partnerLogoImageUrl: '',
+      bannerImageUrl: '',
+      startDate: '2020-09-15T16:00:00Z',
+      endDate: '2040-05-04T16:00:00Z',
+      upcomingRuns: 0,
+      marketingUrl: 'http://someurl',
+      skillNames: [],
+    },
+  };
+  const OLD_ENV = process.env;
+  beforeEach(() => {
+    jest.resetModules(); // Most important - it clears the cache
+    process.env = { ...OLD_ENV }; // Make a copy
+  });
+  afterAll(() => {
+    process.env = OLD_ENV; // Restore old environment
+  });
+  test('Executive Education info modal renders when expected', () => {
+    render(
+      <IntlProvider locale="en">
+        <CatalogInfoModal {...execEdTypeModalProps} />
+      </IntlProvider>,
+    );
+
+    const { selectedCourse } = execEdTypeModalProps;
+    expect(screen.queryByText(selectedCourse.courseTitle)).toBeInTheDocument();
+    expect(screen.queryByText(selectedCourse.courseProvider)).toBeInTheDocument();
+    expect(screen.queryByText(descriptionText)).toBeInTheDocument();
+  });
+  test('Executive Education modal banner renders correctly', () => {
+    render(
+      <IntlProvider locale="en">
+        <CatalogInfoModal {...execEdTypeModalProps} />
+      </IntlProvider>,
+    );
+    expect(screen.queryByText('A la carte course price')).toBeInTheDocument();
+    // price should truncate after decimal
+    expect(screen.queryByText('100')).toBeInTheDocument();
+    expect(screen.queryByText('Executive Education')).toBeInTheDocument();
+    expect(screen.queryByText('Immersive, instructor-led course')).toBeInTheDocument();
+    expect(screen.queryByText('Session ends May 4, 2040'));
+  });
+});
+
 describe('Program info modal works as expected', () => {
   const programTypeModalProps = {
     ...courseTypeModalProps,
