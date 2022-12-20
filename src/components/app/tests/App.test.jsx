@@ -17,20 +17,18 @@ getAuthenticatedUser.mockReturnValue({ username: 'test-username' });
 // all we are testing is routes, we don't care what's rendered as long as it's the right page
 jest.mock('react-instantsearch-dom', () => ({
   ...jest.requireActual('react-instantsearch-dom'),
-  InstantSearch: () => (<div>SEARCH</div>),
-  Index: () => (<div>SEARCH</div>),
+  InstantSearch: () => <div>SEARCH</div>,
+  Index: () => <div>SEARCH</div>,
 }));
 
 mockWindowLocations();
 
-const mockConfig = () => (
-  {
-    HUBSPOT_MARKETING_URL: 'http://bobsdooremporium.com',
-    EDX_FOR_BUSINESS_TITLE: 'ayylmao',
-    EDX_FOR_ONLINE_EDU_TITLE: 'foo',
-    EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
-  }
-);
+const mockConfig = () => ({
+  HUBSPOT_MARKETING_URL: 'http://bobsdooremporium.com',
+  EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+  EDX_FOR_ONLINE_EDU_TITLE: 'foo',
+  EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
+});
 
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),

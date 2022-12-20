@@ -2,7 +2,7 @@ name: Default CI
 on:
   push:
     branches:
-    - 'main'
+      - 'main'
   pull_request:
     branches:
       - '**'
@@ -12,26 +12,28 @@ jobs:
     strategy:
       matrix:
         node: [16]
+        npm: [8.5.x]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Setup Nodejs
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
-    - name: Install dependencies
-      run: npm ci
-    - name: Validate package-lock.json changes
-      run: make validate-no-uncommitted-package-lock-changes
-    - name: Lint
-      run: npm run lint
-    - name: Test
-      run: npm run test
-    - name: Build
-      run: npm run build
-    - name: i18n_extract
-      run: npm run i18n_extract
-    - name: Coverage
-      uses: codecov/codecov-action@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install -g npm@${{ matrix.npm }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate package-lock.json changes
+        run: make validate-no-uncommitted-package-lock-changes
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test
+      - name: Build
+        run: npm run build
+      - name: i18n_extract
+        run: npm run i18n_extract
+      - name: Coverage
+        uses: codecov/codecov-action@v3

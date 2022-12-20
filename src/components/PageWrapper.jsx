@@ -11,9 +11,7 @@ function PageWrapper({ children, className }) {
   return (
     <Container className={className}>
       <Helmet title={PAGE_TITLE} />
-      <div data-testid={DATA_TEST_ID}>
-        {children}
-      </div>
+      <div data-testid={DATA_TEST_ID}>{children}</div>
     </Container>
   );
 }

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
-  SearchContext, setRefinementAction,
+  SearchContext,
+  setRefinementAction,
 } from '@edx/frontend-enterprise-catalog-search';
 import { Badge, Card, Form } from '@edx/paragon';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
@@ -16,11 +17,7 @@ export function CardCheckbox({ queryTitle }) {
     }
   };
   return (
-    <Form.Radio
-      className="mt-3 mr-3"
-      checked={isChecked}
-      onChange={setChecked}
-    >
+    <Form.Radio className="mt-3 mr-3" checked={isChecked} onChange={setChecked}>
       {/* span here because radio buttons require children  */}
       <span />
     </Form.Radio>
@@ -50,7 +47,7 @@ function CatalogSelectionCard({
             </Badge>
             <div>{label}</div>
           </span>
-      )}
+        )}
         subtitle={labelDetail}
         actions={<CardCheckbox queryTitle={queryTitle} />}
       />

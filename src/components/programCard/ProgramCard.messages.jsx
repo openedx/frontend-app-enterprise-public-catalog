@@ -24,7 +24,8 @@ const messages = defineMessages({
   'ProgramCard.priceNotAvailable': {
     id: 'ProgramCard.priceNotAvailable',
     defaultMessage: ' Not Available',
-    description: 'When a course price is not available, notify learners that there is no data available to display.',
+    description:
+      'When a course price is not available, notify learners that there is no data available to display.',
   },
 });
 

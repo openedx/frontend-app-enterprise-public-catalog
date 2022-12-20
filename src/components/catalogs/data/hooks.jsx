@@ -10,10 +10,10 @@ const useAlgoliaIndex = () => {
   // note: calling the getConfig outside of a hook/render function won't work
   // if using `mergeConfig`
   const config = getConfig();
-  const searchClient = useMemo(() => algoliasearch(
-    config.ALGOLIA_APP_ID,
-    config.ALGOLIA_SEARCH_API_KEY,
-  ), [config]);
+  const searchClient = useMemo(
+    () => algoliasearch(config.ALGOLIA_APP_ID, config.ALGOLIA_SEARCH_API_KEY),
+    [config],
+  );
   return { algoliaIndexName: config.ALGOLIA_INDEX_NAME, searchClient };
 };
 
@@ -24,13 +24,15 @@ const useMarketingSite = () => {
 
 const useSelectedCourse = () => {
   const [course, setCourse] = useState(null);
-  const isProgram = useMemo(() => course && course.contentType === CONTENT_TYPE_PROGRAM, [course]);
-  const isCourse = useMemo(() => course && course.contentType === CONTENT_TYPE_COURSE, [course]);
+  const isProgram = useMemo(
+    () => course && course.contentType === CONTENT_TYPE_PROGRAM,
+    [course],
+  );
+  const isCourse = useMemo(
+    () => course && course.contentType === CONTENT_TYPE_COURSE,
+    [course],
+  );
   return [course, setCourse, isProgram, isCourse];
 };
 
-export {
-  useAlgoliaIndex,
-  useMarketingSite,
-  useSelectedCourse,
-};
+export { useAlgoliaIndex, useMarketingSite, useSelectedCourse };

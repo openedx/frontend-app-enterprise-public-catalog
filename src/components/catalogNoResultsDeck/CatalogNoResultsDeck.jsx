@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
+  EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
   NO_RESULTS_DECK_ITEM_COUNT,
   NO_RESULTS_PAGE_SIZE,
   NO_RESULTS_PAGE_ITEM_COUNT,
@@ -30,47 +31,80 @@ function CatalogNoResultsDeck({
   const selectedCatalog = getSelectedCatalogFromURL();
   let redirect;
   if (selectedCatalog) {
-    redirect = `${BASE_APP_URL}/?enterprise_catalog_query_titles=${encodeURIComponent(selectedCatalog)}`;
+    redirect = `${BASE_APP_URL}/?enterprise_catalog_query_titles=${encodeURIComponent(
+      selectedCatalog,
+    )}`;
   } else {
     redirect = BASE_APP_URL;
   }
 
   useEffect(() => {
-    const defaultCoursesRefinements = { enterprise_catalog_query_titles: selectedCatalog, content_type: contentType };
-    EnterpriseCatalogApiService.fetchDefaultCoursesInCatalogWithFacets(defaultCoursesRefinements).then(response => {
-      setDefaultData(response.default_content || []);
-      setApiError(false);
-    }).catch(err => {
-      setApiError(true);
-      logError(err);
-    });
+    const defaultCoursesRefinements = {
+      enterprise_catalog_query_titles: selectedCatalog,
+      learning_type: contentType,
+    };
+
+    EnterpriseCatalogApiService.fetchDefaultCoursesInCatalogWithFacets(
+      defaultCoursesRefinements,
+    )
+      .then((response) => {
+        setDefaultData(response.default_content || []);
+        setApiError(false);
+      })
+      .catch((err) => {
+        setApiError(true);
+        logError(err);
+      });
   }, [selectedCatalog, contentType]);
 
   let defaultDeckTitle;
   let alertText;
   if (contentType === CONTENT_TYPE_COURSE) {
-    alertText = intl.formatMessage(messages['catalogSearchResults.NoResultsCourseBannerText']);
-    defaultDeckTitle = intl.formatMessage(messages['catalogSearchResults.DefaultCourseDeckTitle']);
+    alertText = intl.formatMessage(
+      messages['catalogSearchResults.NoResultsCourseBannerText'],
+    );
+    defaultDeckTitle = intl.formatMessage(
+      messages['catalogSearchResults.DefaultCourseDeckTitle'],
+    );
+  } else if (contentType === EXECUTIVE_EDUCATION_2U_COURSE_TYPE) {
+    alertText = intl.formatMessage(
+      messages['catalogSearchResults.NoResultsExecEdCourseBannerText'],
+    );
+    defaultDeckTitle = intl.formatMessage(
+      messages['catalogSearchResults.DefaultExecEdCourseDeckTitle'],
+    );
   } else if (contentType === CONTENT_TYPE_PROGRAM) {
-    alertText = intl.formatMessage(messages['catalogSearchResults.NoResultsProgramBannerText']);
-    defaultDeckTitle = intl.formatMessage(messages['catalogSearchResults.DefaultProgramDeckTitle']);
+    alertText = intl.formatMessage(
+      messages['catalogSearchResults.NoResultsProgramBannerText'],
+    );
+    defaultDeckTitle = intl.formatMessage(
+      messages['catalogSearchResults.DefaultProgramDeckTitle'],
+    );
   }
   return (
     <>
       <Alert className="mt-2" variant="info" data-testid="noResultsAlertTestId">
-        <Alert.Heading>{intl.formatMessage(messages['catalogSearchResults.NoResultsBannerTitle'])}</Alert.Heading>
+        <Alert.Heading>
+          {intl.formatMessage(
+            messages['catalogSearchResults.NoResultsBannerTitle'],
+          )}
+        </Alert.Heading>
         {alertText}
         <Alert.Link href={redirect}>
-          {intl.formatMessage(messages['catalogSearchResults.NoResultsBannerHyperlinkText'])}
+          {intl.formatMessage(
+            messages['catalogSearchResults.NoResultsBannerHyperlinkText'],
+          )}
         </Alert.Link>
       </Alert>
-      { (!apiError) && (
-        <h3 className="mt-4.5 mb-3.5" data-testid="noResultsDeckTitleTestId">{defaultDeckTitle}</h3>
+      {!apiError && (
+        <h3 className="mt-4.5 mb-3.5" data-testid="noResultsDeckTitleTestId">
+          {defaultDeckTitle}
+        </h3>
       )}
       <DataTable
         dataViewToggleOptions={{
           isDataViewToggleEnabled: true,
-          onDataViewToggle: val => setCardView(val === 'card'),
+          onDataViewToggle: (val) => setCardView(val === 'card'),
           togglePlacement: 'left',
           defaultActiveStateValue: 'card',
         }}
