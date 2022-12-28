@@ -1,5 +1,7 @@
 /* eslint eqeqeq: "off" */
-import React, { useContext, useState, useMemo } from 'react';
+import React, {
+  useContext, useState, useMemo, useEffect,
+} from 'react';
 import {
   FormattedMessage,
   injectIntl,
@@ -23,42 +25,100 @@ import {
   NUM_RESULTS_PROGRAM,
   NUM_RESULTS_PER_PAGE,
 } from '../../constants';
+import features from '../../config';
 import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
 import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
 import {
   mapAlgoliaObjectToProgram,
   mapAlgoliaObjectToCourse,
+  mapAlgoliaObjectToExecEd,
 } from '../../utils/algoliaUtils';
 import messages from '../catalogSearchResults/CatalogSearchResults.messages';
 
 const CatalogSearch = (intl) => {
   const {
-    refinements: { content_type: contentType },
+    refinements: {
+      learning_type: learningType,
+      enterprise_catalog_query_titles: enterpriseCatalogQueryTitles,
+    },
   } = useContext(SearchContext);
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
-  const courseFilter = `content_type:${CONTENT_TYPE_COURSE} AND NOT course_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`;
-  const programFilter = `content_type:${CONTENT_TYPE_PROGRAM}`;
-  const combinedFilter = `content_type:${CONTENT_TYPE_COURSE} OR content_type:${CONTENT_TYPE_PROGRAM}`;
+  const courseFilter = `learning_type:${CONTENT_TYPE_COURSE}`;
+  const execEdFilter = `learning_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`;
+  const programFilter = `learning_type:${CONTENT_TYPE_PROGRAM}`;
   const [noCourseResults, setNoCourseResults] = useState(false);
   const [noProgramResults, setNoProgramResults] = useState(false);
+  const [noExecEdResults, setNoExecEdResults] = useState(false);
   const [selectedSuggestedCourseType, setSelectedSuggestedCourseType] = useState('');
   const [selectedSuggestedCourse, setSelectedSuggestedCourse] = useState({});
+  const [specifiedContentType, setSpecifiedContentType] = useState();
+  const [
+    suggestedSearchContentTypeFilter,
+    setSuggestedSearchContentTypeFilter,
+  ] = useState('');
 
-  let specifiedContentType;
-  if (contentType) {
-    if (contentType.length === 1) {
-      [specifiedContentType] = contentType;
+  const [contentWithResults, setContentWithResults] = useState([]);
+  const [contentWithoutResults, setContentWithoutResults] = useState([]);
+
+  const contentData = useMemo(
+    () => ({
+      [CONTENT_TYPE_COURSE]: {
+        filter: courseFilter,
+        noResults: noCourseResults,
+        setNoResults: setNoCourseResults,
+        numResults: NUM_RESULTS_COURSE,
+      },
+      [EXECUTIVE_EDUCATION_2U_COURSE_TYPE]: {
+        filter: execEdFilter,
+        noResults: noExecEdResults,
+        setNoResults: setNoExecEdResults,
+        numResults: NUM_RESULTS_COURSE,
+      },
+      [CONTENT_TYPE_PROGRAM]: {
+        filter: programFilter,
+        noResults: noProgramResults,
+        setNoResults: setNoProgramResults,
+        numResults: NUM_RESULTS_PROGRAM,
+      },
+    }),
+    [
+      courseFilter,
+      execEdFilter,
+      programFilter,
+      noCourseResults,
+      noExecEdResults,
+      noProgramResults,
+    ],
+  );
+
+  useEffect(() => {
+    contentData[CONTENT_TYPE_COURSE].noResults = noCourseResults;
+    contentData[CONTENT_TYPE_PROGRAM].noResults = noProgramResults;
+    contentData[EXECUTIVE_EDUCATION_2U_COURSE_TYPE].noResults = noExecEdResults;
+  }, [noCourseResults, noProgramResults, noExecEdResults, contentData]);
+
+  // set specified content types & suggested search content types
+  useEffect(() => {
+    if (learningType) {
+      if (learningType.length === 1) {
+        setSpecifiedContentType(learningType);
+      }
+      setSuggestedSearchContentTypeFilter(
+        learningType.map((item) => `learning_type:${item}`).join(' OR '),
+      );
+    } else {
+      setSpecifiedContentType(undefined);
+      setSuggestedSearchContentTypeFilter(
+        [
+          CONTENT_TYPE_COURSE,
+          CONTENT_TYPE_PROGRAM,
+          EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+        ]
+          .map((item) => `learning_type:${item}`)
+          .join(' OR '),
+      );
     }
-  }
-
-  let suggestedSearchContentTypeFilter;
-  if (!contentType || contentType.length === 2) {
-    suggestedSearchContentTypeFilter = combinedFilter;
-  } else if (specifiedContentType === CONTENT_TYPE_PROGRAM) {
-    suggestedSearchContentTypeFilter = programFilter;
-  } else {
-    suggestedSearchContentTypeFilter = courseFilter;
-  }
+  }, [learningType, setSpecifiedContentType]);
 
   const config = getConfig();
   const courseIndex = useMemo(() => {
@@ -67,14 +127,101 @@ const CatalogSearch = (intl) => {
   }, [config.ALGOLIA_INDEX_NAME, searchClient]);
 
   const suggestedCourseOnClick = (hit) => {
-    if (hit.program_type !== undefined) {
+    if (hit.learning_type === CONTENT_TYPE_PROGRAM) {
       setSelectedSuggestedCourse(mapAlgoliaObjectToProgram(hit));
-      setSelectedSuggestedCourseType('program');
+      setSelectedSuggestedCourseType(CONTENT_TYPE_PROGRAM);
+    } else if (hit.learning_type === EXECUTIVE_EDUCATION_2U_COURSE_TYPE) {
+      setSelectedSuggestedCourse(mapAlgoliaObjectToExecEd(hit));
+      setSelectedSuggestedCourseType(EXECUTIVE_EDUCATION_2U_COURSE_TYPE);
     } else {
       setSelectedSuggestedCourse(mapAlgoliaObjectToCourse(hit, intl, messages));
-      setSelectedSuggestedCourseType('course');
+      setSelectedSuggestedCourseType(CONTENT_TYPE_COURSE);
     }
   };
+
+  // Build out the list of content to display, ordering first by learning types that currently have results
+  // and then by `course` > `exec ed` > `program`. Make sure to remove exec ed if the feature flag is disabled
+  // or if the currently selected catalog isn't `a la carte`.
+  useEffect(() => {
+    const defaultTypes = [
+      CONTENT_TYPE_COURSE,
+      EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+      CONTENT_TYPE_PROGRAM,
+    ];
+    // Grab content type(s) to use
+    const contentToDisplay = learningType
+      ? defaultTypes.filter((value) => learningType.includes(value))
+      : defaultTypes;
+
+    // Determine if we need to remove exec ed
+    if (
+      (enterpriseCatalogQueryTitles
+        && !enterpriseCatalogQueryTitles.includes(
+          config.EDX_ENTERPRISE_ALACARTE_TITLE,
+        ))
+      || !features.EXEC_ED_INCLUSION
+    ) {
+      if (contentToDisplay.indexOf(EXECUTIVE_EDUCATION_2U_COURSE_TYPE) > 0) {
+        contentToDisplay.splice(
+          contentToDisplay.indexOf(EXECUTIVE_EDUCATION_2U_COURSE_TYPE),
+          1,
+        );
+      }
+    }
+
+    // rendering in order of what content we have search results for
+    const resultList = contentToDisplay.filter(
+      (obj) => !contentData[obj].noResults,
+    );
+    setContentWithResults(resultList);
+
+    const noResultList = contentToDisplay.filter(
+      (obj) => contentData[obj].noResults,
+    );
+    setContentWithoutResults(noResultList);
+  }, [
+    enterpriseCatalogQueryTitles,
+    config,
+    specifiedContentType,
+    learningType,
+    contentData,
+    noCourseResults,
+    noProgramResults,
+    noExecEdResults,
+  ]);
+
+  // Take a list of learning types and render a search results component for each item
+  const contentToRender = (items) => {
+    const itemsWithResultsList = items.map((item) => (
+      <Index
+        indexName={algoliaIndexName}
+        indexId={`search-${item}`}
+        key={`search-${item}`}
+      >
+        <Configure
+          hitsPerPage={
+            specifiedContentType && learningType?.length === 1
+              ? NUM_RESULTS_PER_PAGE
+              : contentData[item].numResults
+          }
+          filters={contentData[item].filter}
+          facetingAfterDistinct
+        />
+        <CatalogSearchResults
+          preview={specifiedContentType === undefined}
+          contentType={item}
+          setNoContent={contentData[item].setNoResults}
+        />
+      </Index>
+    ));
+    return itemsWithResultsList;
+  };
+
+  const defaultInstantSearchFilter = `learning_type:${CONTENT_TYPE_COURSE} OR learning_type:${CONTENT_TYPE_PROGRAM}${
+    features.EXEC_ED_INCLUSION
+      ? ` OR learning_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`
+      : ''
+  }`;
 
   return (
     <PageWrapper className="mt-3 mb-5 page-width">
@@ -88,7 +235,7 @@ const CatalogSearch = (intl) => {
         <InstantSearch indexName={algoliaIndexName} searchClient={searchClient}>
           <div className="enterprise-catalogs-header">
             <Configure
-              filters="content_type:course OR content_type:program"
+              filters={defaultInstantSearchFilter}
               facetingAfterDistinct
             />
             <SearchHeader
@@ -112,91 +259,7 @@ const CatalogSearch = (intl) => {
             renderProgram
           />
           <>
-            {(!contentType || contentType.length === 2)
-              && (noCourseResults === noProgramResults || !noCourseResults) && (
-                <>
-                  <Index indexName={algoliaIndexName} indexId="search-courses">
-                    <Configure
-                      hitsPerPage={NUM_RESULTS_COURSE}
-                      filters={courseFilter}
-                      facetingAfterDistinct
-                    />
-                    <CatalogSearchResults
-                      preview
-                      contentType={CONTENT_TYPE_COURSE}
-                      setNoCourses={setNoCourseResults}
-                    />
-                  </Index>
-                  <Index indexName={algoliaIndexName} indexId="search-program">
-                    <Configure
-                      hitsPerPage={NUM_RESULTS_PROGRAM}
-                      filters={programFilter}
-                      facetingAfterDistinct
-                    />
-                    <CatalogSearchResults
-                      preview
-                      contentType={CONTENT_TYPE_PROGRAM}
-                      setNoPrograms={setNoProgramResults}
-                    />
-                  </Index>
-                </>
-            )}
-            {(!contentType || contentType.length === 2)
-              && noCourseResults
-              && !noProgramResults && (
-                <>
-                  <Index indexName={algoliaIndexName} indexId="search-program">
-                    <Configure
-                      hitsPerPage={NUM_RESULTS_PROGRAM}
-                      filters={programFilter}
-                      facetingAfterDistinct
-                    />
-                    <CatalogSearchResults
-                      preview
-                      contentType={CONTENT_TYPE_PROGRAM}
-                      setNoPrograms={setNoProgramResults}
-                    />
-                  </Index>
-                  <Index indexName={algoliaIndexName} indexId="search-courses">
-                    <Configure
-                      hitsPerPage={NUM_RESULTS_COURSE}
-                      filters={courseFilter}
-                      facetingAfterDistinct
-                    />
-                    <CatalogSearchResults
-                      preview
-                      contentType={CONTENT_TYPE_COURSE}
-                      setNoCourses={setNoCourseResults}
-                    />
-                  </Index>
-                </>
-            )}
-            {specifiedContentType === CONTENT_TYPE_PROGRAM && (
-              <Index indexName={algoliaIndexName} indexId="search-program">
-                <Configure
-                  hitsPerPage={NUM_RESULTS_PER_PAGE}
-                  filters={programFilter}
-                  facetingAfterDistinct
-                />
-                <CatalogSearchResults
-                  preview={false}
-                  contentType={CONTENT_TYPE_PROGRAM}
-                />
-              </Index>
-            )}
-            {specifiedContentType === CONTENT_TYPE_COURSE && (
-              <Index indexName={algoliaIndexName} indexId="search-courses">
-                <Configure
-                  hitsPerPage={NUM_RESULTS_PER_PAGE}
-                  filters={courseFilter}
-                  facetingAfterDistinct
-                />
-                <CatalogSearchResults
-                  preview={false}
-                  contentType={CONTENT_TYPE_COURSE}
-                />
-              </Index>
-            )}
+            {contentToRender([...contentWithResults, ...contentWithoutResults])}
           </>
         </InstantSearch>
       </section>

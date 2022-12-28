@@ -15,6 +15,7 @@ import messages from './CatalogSearchResults.messages';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
+  EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
   HIDE_PRICE_REFINEMENT,
 } from '../../constants';
 import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
@@ -63,6 +64,8 @@ const TEST_CATALOGS_2 = ['baz', 'ayylmao'];
 
 const TEST_PROGRAM_NAME = 'test program';
 
+const TEST_EXEC_ED_NAME = 'test exec ed';
+
 const searchResults = {
   nbHits: 2,
   hitsPerPage: 10,
@@ -83,6 +86,7 @@ const searchResults = {
         start: '2020-01-24T05:00:00Z',
         end: '2080-01-01T17:00:00Z',
         upgrade_deadline: 1892678399,
+        pacing_type: 'self_paced',
       },
     },
     {
@@ -94,6 +98,12 @@ const searchResults = {
       original_image_url: '',
       availability: ['Available Now'],
       content_type: CONTENT_TYPE_COURSE,
+      advertised_course_run: {
+        start: '2020-01-24T05:00:00Z',
+        end: '2080-01-01T17:00:00Z',
+        upgrade_deadline: 1892678399,
+        pacing_type: 'self_paced',
+      },
     },
   ],
   page: 1,
@@ -115,6 +125,35 @@ const searchResultsPrograms = {
       availability: ['Available Now'],
       course_keys: [],
       content_type: CONTENT_TYPE_PROGRAM,
+    },
+  ],
+  page: 1,
+  _state: { disjunctiveFacetsRefinements: { foo: 'bar' } },
+};
+
+const searchResultsExecEd = {
+  nbHits: 1,
+  hitsPerPage: 10,
+  pageIndex: 10,
+  pageCount: 5,
+  nbPages: 6,
+  hits: [
+    {
+      title: TEST_EXEC_ED_NAME,
+      partners: [{ name: TEST_PARTNER, logo_image_url: '' }],
+      authoring_organizations: [{ name: TEST_PARTNER, logo_image_url: '' }],
+      enterprise_catalog_query_titles: TEST_CATALOGS,
+      card_image_url: 'http://url.test2.location',
+      availability: ['Available Now'],
+      course_keys: [],
+      content_type: EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+      entitlements: [{ price: '100.00' }],
+      advertised_course_run: {
+        start: '2020-01-24T05:00:00Z',
+        end: '2080-01-01T17:00:00Z',
+        upgrade_deadline: 1892678399,
+        pacing_type: 'self_paced',
+      },
     },
   ],
   page: 1,
@@ -148,6 +187,26 @@ const programProps = {
   searchState: { page: 1 },
   error: null,
   contentType: CONTENT_TYPE_PROGRAM,
+  // mock i18n requirements
+  intl: {
+    formatMessage: (header) => header.defaultMessage,
+    formatDate: () => {},
+    formatTime: () => {},
+    formatRelative: () => {},
+    formatNumber: () => {},
+    formatPlural: () => {},
+    formatHTMLMessage: () => {},
+    now: () => {},
+  },
+};
+
+const execEdProps = {
+  paginationComponent: PaginationComponent,
+  searchResults,
+  isSearchStalled: false,
+  searchState: { page: 1 },
+  error: null,
+  contentType: EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
   // mock i18n requirements
   intl: {
     formatMessage: (header) => header.defaultMessage,
@@ -375,6 +434,30 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument();
     await act(() => screen.findByText('About this course'));
     expect(screen.queryByText('About this course')).toBeInTheDocument();
+  });
+  test('exec ed search results text and card price', async () => {
+    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
+    process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
+    renderWithRouter(
+      <SearchDataWrapper>
+        <BaseCatalogSearchResults
+          {...execEdProps}
+          searchResults={searchResultsExecEd}
+        />
+      </SearchDataWrapper>,
+    );
+
+    expect(screen.queryByText('Executive Education')).toBeInTheDocument();
+    expect(screen.queryByText(
+      'Immersive, instructor led online short courses designed to develop interpersonal, analytical, and critical thinking skills.',
+    )).toBeInTheDocument();
+    expect(screen.queryByText('New')).toBeInTheDocument();
+
+    // click exec ed course card
+    const courseTitle = screen.getByText(TEST_EXEC_ED_NAME);
+    userEvent.click(courseTitle);
+    expect(screen.queryByText('$100')).toBeInTheDocument();
   });
   test('all programs rendered when search results available', () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';

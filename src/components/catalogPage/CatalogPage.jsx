@@ -14,20 +14,27 @@ import Subheader from '../subheader/subheader';
 import Hero from '../hero/Hero';
 import messages from './CatalogPage.messages';
 import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
+import features from '../../config';
 import {
   AVAILABILITY_REFINEMENT,
   AVAILABILITY_REFINEMENT_DEFAULTS,
-  CONTENT_TYPE_REFINEMENT,
+  EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
   QUERY_TITLE_REFINEMENT,
   HIDE_CARDS_REFINEMENT,
   TRACKING_APP_NAME,
 } from '../../constants';
 
-const contentType = {
-  attribute: 'content_type',
-  title: 'Type',
+const LEARNING_TYPE_REFINEMENT = 'learning_type';
+const learningType = {
+  attribute: 'learning_type',
+  title: 'Learning Type',
 };
-SEARCH_FACET_FILTERS.push(contentType);
+// Add learning_type to the search facet filters if it doesn't exist in the list yet.
+if (
+  !SEARCH_FACET_FILTERS.some((filter) => filter.attribute === 'learning_type')
+) {
+  SEARCH_FACET_FILTERS.push(learningType);
+}
 
 const CatalogPage = ({ intl }) => {
   const config = getConfig();
@@ -48,9 +55,37 @@ const CatalogPage = ({ intl }) => {
     reloadPage = true;
   }
 
+  // Remove the `learning_type = executive education` filter if the feature flag is disabled or if the selected
+  // catalog isn't `a la carte`
+  if (
+    (!features.EXEC_ED_INCLUSION
+      || (config.EDX_ENTERPRISE_ALACARTE_TITLE
+        && loadedSearchParams.get(LEARNING_TYPE_REFINEMENT)
+        && !(
+          loadedSearchParams.get(QUERY_TITLE_REFINEMENT)
+          === config.EDX_ENTERPRISE_ALACARTE_TITLE
+        )))
+    && loadedSearchParams.get(LEARNING_TYPE_REFINEMENT)
+      === EXECUTIVE_EDUCATION_2U_COURSE_TYPE
+  ) {
+    const loadedLearningTypes = loadedSearchParams.getAll(LEARNING_TYPE_REFINEMENT);
+    if (loadedLearningTypes.length) {
+      loadedSearchParams.delete(LEARNING_TYPE_REFINEMENT);
+      loadedLearningTypes.forEach((type) => {
+        if (type !== EXECUTIVE_EDUCATION_2U_COURSE_TYPE) {
+          loadedSearchParams.append(LEARNING_TYPE_REFINEMENT, type);
+        }
+      });
+    }
+
+    reloadPage = true;
+  }
+
+  // If we don't have specified learning_type(s) and we don't have specified catalog(s) then automatically add
+  // the `a la carte` catalog
   if (
     config.EDX_ENTERPRISE_ALACARTE_TITLE
-    && !loadedSearchParams.get(CONTENT_TYPE_REFINEMENT)
+    && !loadedSearchParams.get(LEARNING_TYPE_REFINEMENT)
     && !loadedSearchParams.get(QUERY_TITLE_REFINEMENT)
   ) {
     loadedSearchParams.set(
@@ -59,9 +94,11 @@ const CatalogPage = ({ intl }) => {
     );
     reloadPage = true;
   }
+
+  // Ensure we have availability refinement(s) set by default
   if (
     !loadedSearchParams.get(AVAILABILITY_REFINEMENT)
-    && !loadedSearchParams.get(CONTENT_TYPE_REFINEMENT)
+    && !loadedSearchParams.get(LEARNING_TYPE_REFINEMENT)
   ) {
     AVAILABILITY_REFINEMENT_DEFAULTS.map((a) => loadedSearchParams.append(AVAILABILITY_REFINEMENT, a));
     reloadPage = true;

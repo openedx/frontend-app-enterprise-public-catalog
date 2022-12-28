@@ -42,7 +42,46 @@ function mapAlgoliaObjectToCourse(algoliaCourseObject, intl, messages) {
 }
 
 /**
- * Converts and algolia course object, into a course representation usable in this UI
+ * Converts an algolia exec ed course object, into a course representation usable in this UI
+ */
+function mapAlgoliaObjectToExecEd(algoliaCourseObject, intl, messages) {
+  const {
+    title: courseTitle,
+    partners,
+    entitlements: coursePrice, // todo
+    enterprise_catalog_query_titles: courseAssociatedCatalogs,
+    full_description: courseDescription,
+    original_image_url: bannerImageUrl,
+    marketing_url: marketingUrl,
+    advertised_course_run: courseRun,
+    upcoming_course_runs: upcomingRuns,
+    skill_names: skillNames,
+  } = algoliaCourseObject;
+  const { start: startDate, end: endDate } = courseRun;
+  const priceText = coursePrice != null
+    ? `$${coursePrice[0].price.toString()}`
+    : intl.formatMessage(
+      messages['catalogSearchResult.table.priceNotAvailable'],
+    );
+  return {
+    contentType: CONTENT_TYPE_COURSE,
+    courseTitle,
+    courseProvider: partners[0].name,
+    coursePrice: priceText,
+    courseAssociatedCatalogs,
+    courseDescription,
+    partnerLogoImageUrl: partners[0].logo_image_url,
+    bannerImageUrl,
+    marketingUrl,
+    startDate,
+    endDate,
+    upcomingRuns,
+    skillNames,
+  };
+}
+
+/**
+ * Converts an algolia course object, into a course representation usable in this UI
  */
 function mapAlgoliaObjectToProgram(algoliaProgramObject) {
   const {
@@ -75,4 +114,6 @@ function mapAlgoliaObjectToProgram(algoliaProgramObject) {
   };
 }
 
-export { mapAlgoliaObjectToProgram, mapAlgoliaObjectToCourse, extractUuid };
+export {
+  mapAlgoliaObjectToProgram, mapAlgoliaObjectToExecEd, mapAlgoliaObjectToCourse, extractUuid,
+};

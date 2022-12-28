@@ -70,6 +70,23 @@ const defaultProps = {
   },
 };
 
+const execEdProps = {
+  setCardView: jest.fn(),
+  columns: [],
+  renderCardComponent: jest.fn(),
+  contentType: 'executive-education-2u',
+  intl: {
+    formatMessage: (header) => header.defaultMessage,
+    formatDate: () => {},
+    formatTime: () => {},
+    formatRelative: () => {},
+    formatNumber: () => {},
+    formatPlural: () => {},
+    formatHTMLMessasge: () => {},
+    now: () => {},
+  },
+};
+
 describe('catalog no results deck works as expected', () => {
   test('it displays no results alert text', () => {
     mockCatalogApiService.mockResolvedValue(csvData);
@@ -106,5 +123,14 @@ describe('catalog no results deck works as expected', () => {
       await screen.findByTestId('noResultsDeckTitleTestId'),
     ).not.toBeInTheDocument();
     expect(logError).toBeCalled();
+  });
+  test('shows executive education alert text', async () => {
+    render(
+      <IntlProvider locale="en">
+        <CatalogNoResultsDeck {...execEdProps} />
+      </IntlProvider>,
+    );
+    expect(screen.getByText('No Executive Education courses were found that match your search. Try')).toBeInTheDocument();
+    expect(screen.getByText('Popular Executive Education Courses')).toBeInTheDocument();
   });
 });

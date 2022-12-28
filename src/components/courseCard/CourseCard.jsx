@@ -6,19 +6,37 @@ import PropTypes from 'prop-types';
 import { Badge, Card } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
+import { CONTENT_TYPE_COURSE } from '../../constants';
 import defaultCardHeader from '../../static/default-card-header-light.png';
 
-const CourseCard = ({ intl, onClick, original }) => {
+const CourseCard = ({
+  intl, onClick, original, learningType,
+}) => {
   const {
     title,
     card_image_url,
     partners,
     first_enrollable_paid_seat_price,
     enterprise_catalog_query_titles,
-    availability,
+    entitlements,
+    advertised_course_run,
   } = original;
-  const rowPrice = first_enrollable_paid_seat_price;
-  const priceText = rowPrice != null ? `$${rowPrice.toString()}` : 'N/A';
+  let rowPrice;
+  let priceText;
+
+  if (learningType === CONTENT_TYPE_COURSE) {
+    rowPrice = first_enrollable_paid_seat_price;
+    priceText = rowPrice != null ? `$${rowPrice.toString()}` : 'N/A';
+  } else {
+    [rowPrice] = entitlements || [null];
+    priceText = rowPrice != null ? `$${Math.trunc(rowPrice.price)?.toString()}` : 'N/A';
+  }
+
+  let pacingType = 'NA';
+  if (advertised_course_run) {
+    pacingType = advertised_course_run.pacing_type === 'self_paced' ? 'Self paced' : 'Instructor led';
+  }
+
   const imageSrc = card_image_url || defaultCardHeader;
   const altText = `${title} course image`;
 
@@ -39,7 +57,7 @@ const CourseCard = ({ intl, onClick, original }) => {
       <span className="cards-spacing" />
       <Card.Section>
         <p className="my-3">
-          {priceText} • {availability[0]}
+          {priceText} • {pacingType}
         </p>
         <div style={{ maxWidth: '400vw' }}>
           {enterprise_catalog_query_titles.includes(
@@ -79,9 +97,12 @@ CourseCard.defaultProps = {
 CourseCard.propTypes = {
   intl: intlShape.isRequired,
   onClick: PropTypes.func,
+  learningType: PropTypes.string.isRequired,
   original: PropTypes.shape({
     title: PropTypes.string,
     card_image_url: PropTypes.string,
+    entitlements: PropTypes.arrayOf(PropTypes.shape()),
+    advertised_course_run: PropTypes.shape(),
     partners: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
@@ -91,7 +112,6 @@ CourseCard.propTypes = {
     first_enrollable_paid_seat_price: PropTypes.number,
     enterprise_catalog_query_titles: PropTypes.arrayOf(PropTypes.string),
     original_image_url: PropTypes.string,
-    availability: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
 

@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Icon } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
-import { BookOpen, EventNote, MoneyOutline } from '@edx/paragon/icons';
+import {
+  Book, BookOpen, EventNote, MoneyOutline,
+} from '@edx/paragon/icons';
 import messages from './CatalogCourseModalBanner.messages';
 import {
   checkAvailability,
@@ -41,12 +43,13 @@ const CatalogCourseModalBanner = ({
   startDate,
   endDate,
   upcomingRuns,
+  execEd,
 }) => (
   <div className="my-4.5 banner">
     <div className="banner-section mx-3">
       <div className="banner h4 mb-0">
         <Icon className="mr-1" src={MoneyOutline} />
-        {coursePrice}
+        {coursePrice.split('.')[0]}
       </div>
       <div className="banner-subtitle small">
         {intl.formatMessage(
@@ -55,21 +58,39 @@ const CatalogCourseModalBanner = ({
       </div>
     </div>
     <div className="banner-section slash">/</div>
-    {checkSubscriptions(courseAssociatedCatalogs) && (
-    <div className="banner-section mx-3">
-      <div className="banner h4 mb-0">
-        <Icon className="mr-1" src={BookOpen} />
-        {intl.formatMessage(
-          messages['CatalogCourseModalBanner.bannerCatalogText'],
-        )}
+    {checkSubscriptions(courseAssociatedCatalogs) && !execEd && (
+    <>
+      <div className="banner-section mx-3">
+        <div className="banner h4 mb-0">
+          <Icon className="mr-1" src={BookOpen} />
+          {intl.formatMessage(
+            messages['CatalogCourseModalBanner.bannerCatalogText'],
+          )}
+        </div>
+        <div className="banner-subtitle small">
+          {checkSubscriptions(courseAssociatedCatalogs)}
+        </div>
       </div>
-      <div className="banner-subtitle small">
-        {checkSubscriptions(courseAssociatedCatalogs)}
-      </div>
-    </div>
+      <div className="banner-section slash">/</div>
+    </>
     )}
-    {checkSubscriptions(courseAssociatedCatalogs) && (
-    <div className="banner-section slash">/</div>
+    {execEd && (
+    <>
+      <div className="banner-section mx-3">
+        <div className="banner h4 mb-0">
+          <Icon className="mr-1" src={Book} />
+          {intl.formatMessage(
+            messages['CatalogCourseModalBanner.bannerExecEdText'],
+          )}
+        </div>
+        <div className="banner-subtitle small">
+          {intl.formatMessage(
+            messages['CatalogCourseModalBanner.bannerExecEdSubtext'],
+          )}
+        </div>
+      </div>
+      <div className="banner-section slash">/</div>
+    </>
     )}
     <div className="banner-section mx-3">
       <div className="banner h4 mb-0">
@@ -89,6 +110,7 @@ CatalogCourseModalBanner.defaultProps = {
   startDate: '',
   endDate: '',
   upcomingRuns: 0,
+  execEd: false,
 };
 
 CatalogCourseModalBanner.propTypes = {
@@ -98,6 +120,7 @@ CatalogCourseModalBanner.propTypes = {
   startDate: PropTypes.string,
   endDate: PropTypes.string,
   upcomingRuns: PropTypes.number,
+  execEd: PropTypes.bool,
 };
 
 export default injectIntl(CatalogCourseModalBanner);
