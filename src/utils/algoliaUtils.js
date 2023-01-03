@@ -53,11 +53,11 @@ function mapAlgoliaObjectToExecEd(algoliaCourseObject, intl, messages) {
     full_description: courseDescription,
     original_image_url: bannerImageUrl,
     marketing_url: marketingUrl,
-    advertised_course_run: courseRun,
     upcoming_course_runs: upcomingRuns,
     skill_names: skillNames,
+    additional_metadata: additionalMetadata,
   } = algoliaCourseObject;
-  const { start: startDate, end: endDate } = courseRun;
+  const { start_date: startDate, end_date: endDate } = additionalMetadata;
   const priceText = coursePrice != null
     ? `$${coursePrice[0].price.toString()}`
     : intl.formatMessage(
