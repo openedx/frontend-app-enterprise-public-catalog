@@ -158,6 +158,10 @@ const searchResultsExecEd = {
         upgrade_deadline: 1892678399,
         pacing_type: 'self_paced',
       },
+      additional_metadata: {
+        start_date: '2020-01-24T05:00:00Z',
+        end_date: '2080-01-01T17:00:00Z',
+      },
     },
   ],
   page: 1,
