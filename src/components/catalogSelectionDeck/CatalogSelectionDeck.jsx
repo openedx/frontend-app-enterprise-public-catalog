@@ -20,7 +20,9 @@ function CatalogSelectionDeck({ intl, title, hide }) {
     >
       <Container className="page-width">
         <h2>{title}</h2>
-        <CardDeck>
+        {/* TODO: The previously used `CardDeck` is since deprecated. However,
+        this use case is more relevant to `SelectableBox` than `CardDeck` */}
+        <CardDeck.Deprecated>
           <CatalogSelectionCard
             queryTitle={config.EDX_ENTERPRISE_ALACARTE_TITLE}
             badgeVariant={aLaCarteVariant}
@@ -70,7 +72,7 @@ function CatalogSelectionDeck({ intl, title, hide }) {
               messages['catalogSelectionDeck.edxForOnlineEdu.body'],
             )}
           />
-        </CardDeck>
+        </CardDeck.Deprecated>
       </Container>
     </section>
   );
