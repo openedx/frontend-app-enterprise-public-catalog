@@ -14,7 +14,6 @@ import Subheader from '../subheader/subheader';
 import Hero from '../hero/Hero';
 import messages from './CatalogPage.messages';
 import CatalogSelectionDeck from '../catalogSelectionDeck/CatalogSelectionDeck';
-import features from '../../config';
 import {
   AVAILABILITY_REFINEMENT,
   AVAILABILITY_REFINEMENT_DEFAULTS,
@@ -55,20 +54,20 @@ function CatalogPage({ intl }) {
     reloadPage = true;
   }
 
-  // Remove the `learning_type = executive education` filter if the feature flag is disabled or if the selected
+  // Remove the `learning_type = executive education` filter if the selected
   // catalog isn't `a la carte`
   if (
-    (!features.EXEC_ED_INCLUSION
-      || (config.EDX_ENTERPRISE_ALACARTE_TITLE
-        && loadedSearchParams.get(LEARNING_TYPE_REFINEMENT)
-        && !(
-          loadedSearchParams.get(QUERY_TITLE_REFINEMENT)
-          === config.EDX_ENTERPRISE_ALACARTE_TITLE
-        )))
+    (config.EDX_ENTERPRISE_ALACARTE_TITLE
+    && !(
+      loadedSearchParams.get(QUERY_TITLE_REFINEMENT)
+      === config.EDX_ENTERPRISE_ALACARTE_TITLE
+    ))
     && loadedSearchParams.get(LEARNING_TYPE_REFINEMENT)
       === EXECUTIVE_EDUCATION_2U_COURSE_TYPE
   ) {
-    const loadedLearningTypes = loadedSearchParams.getAll(LEARNING_TYPE_REFINEMENT);
+    const loadedLearningTypes = loadedSearchParams.getAll(
+      LEARNING_TYPE_REFINEMENT,
+    );
     if (loadedLearningTypes.length) {
       loadedSearchParams.delete(LEARNING_TYPE_REFINEMENT);
       loadedLearningTypes.forEach((type) => {
