@@ -25,7 +25,6 @@ import {
   NUM_RESULTS_PROGRAM,
   NUM_RESULTS_PER_PAGE,
 } from '../../constants';
-import features from '../../config';
 import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
 import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
 import {
@@ -159,7 +158,6 @@ function CatalogSearch(intl) {
         && !enterpriseCatalogQueryTitles.includes(
           config.EDX_ENTERPRISE_ALACARTE_TITLE,
         ))
-      || !features.EXEC_ED_INCLUSION
     ) {
       if (contentToDisplay.indexOf(EXECUTIVE_EDUCATION_2U_COURSE_TYPE) > 0) {
         contentToDisplay.splice(
@@ -217,11 +215,7 @@ function CatalogSearch(intl) {
     return itemsWithResultsList;
   };
 
-  const defaultInstantSearchFilter = `learning_type:${CONTENT_TYPE_COURSE} OR learning_type:${CONTENT_TYPE_PROGRAM}${
-    features.EXEC_ED_INCLUSION
-      ? ` OR learning_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`
-      : ''
-  }`;
+  const defaultInstantSearchFilter = `learning_type:${CONTENT_TYPE_COURSE} OR learning_type:${CONTENT_TYPE_PROGRAM} OR learning_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`;
 
   return (
     <PageWrapper className="mt-3 mb-5 page-width">
