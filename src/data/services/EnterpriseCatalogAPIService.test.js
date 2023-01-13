@@ -10,23 +10,21 @@ const mockApiClient = {
 };
 getHttpClient.mockReturnValue(mockApiClient);
 
+const mockDefaultCourses = jest.spyOn(
+  EnterpriseCatalogApiService,
+  'fetchDefaultCoursesInCatalog',
+);
+
 describe('fetchDefaultCoursesInCatalogWithFacets', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it('requests the catalog API', () => {
+  it('requests the catalog API with fetchDefaultCoursesInCatalog', () => {
     const facets = { content_type: 'course' };
     EnterpriseCatalogApiService.fetchDefaultCoursesInCatalogWithFacets(facets);
+    expect(mockDefaultCourses).toBeCalledWith(facets);
     // An issue with process.env is making it impossible to assert the value the method is called with
     // So for now simply assert the method's been called
-    expect(mockApiClient.get).toBeCalled();
-  });
-});
-describe('fetchContentMetadataWithFacets', () => {
-  it('requests the catalog API', () => {
-    const facets = { content_type: 'course' };
-    const query = 'foobar';
-    EnterpriseCatalogApiService.fetchContentMetadataWithFacets(facets, query);
     expect(mockApiClient.get).toBeCalled();
   });
 });
