@@ -12,10 +12,6 @@ import PropTypes from 'prop-types';
 import messages from './CatalogSelectionDeck.messages';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
-const aLaCarteVariant = 'dark';
-const businessVariant = 'secondary';
-const educationVariant = 'light';
-
 function CatalogSelectionDeck({ intl, title, hide }) {
   const { refinements, dispatch } = useContext(SearchContext);
   const config = getConfig();
@@ -45,29 +41,40 @@ function CatalogSelectionDeck({ intl, title, hide }) {
       >
         <SelectableBox value={config.EDX_ENTERPRISE_ALACARTE_TITLE} inputHidden={false} type="radio" aria-label="radio">
           <div>
-            <Badge variant={aLaCarteVariant}>
+            <Badge variant="dark">
               {intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.badge'])}
             </Badge>
             <h3>{intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.label'])}</h3>
             <p>{intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.labelDetail'])}</p>
-            <p>{intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.body'])}</p>
+            <ul className="catalog-list">
+              <li>{intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.bullet1'])}</li>
+              <li>{intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.bullet2'])}</li>
+            </ul>
           </div>
         </SelectableBox>
         <SelectableBox value={config.EDX_FOR_BUSINESS_TITLE} inputHidden={false} type="radio" aria-label="radio">
-          <Badge variant={businessVariant}>
+          <Badge variant="secondary">
             {intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.badge'])}
           </Badge>
           <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.label'])}</h3>
-          <p>{intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.labelDetail'])}</p>
-          <p>{intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.body'])}</p>
+          <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
+          <ul className="catalog-list">
+            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet1'])}</li>
+            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet2'])}</li>
+            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
+          </ul>
         </SelectableBox>
         <SelectableBox value={config.EDX_FOR_ONLINE_EDU_TITLE} inputHidden={false} type="radio" aria-label="radio">
-          <Badge variant={educationVariant}>
+          <Badge variant="light">
             {intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.badge'])}
           </Badge>
           <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}</h3>
-          <p>{intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.labelDetail'])}</p>
-          <p>{intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.body'])}</p>
+          <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
+          <ul className="catalog-list">
+            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet1'])}</li>
+            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet2'])}</li>
+            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
+          </ul>
         </SelectableBox>
       </SelectableBox.Set>
     </Container>
