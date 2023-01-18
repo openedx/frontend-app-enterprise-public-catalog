@@ -29,6 +29,9 @@
 
 .landing-page-download {
   float: right;
+  @media only screen and (max-width: 850px) {
+    float: none !important;
+  }
 }
 
 .preview-title {
@@ -143,6 +146,7 @@
     display: none;
   }
   .banner {
+    padding-top: 20px;
     display: block;
   }
   .banner-section {

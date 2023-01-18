@@ -494,8 +494,7 @@ export function BaseCatalogSearchResults({
             {!cardView && <DataTable.Table />}
 
             {!preview && (
-              <DataTable.TableFooter>
-                <DataTable.RowStatus />
+              <DataTable.TableFooter className="justify-content-center">
                 <PaginationComponent defaultRefinement={page} />
               </DataTable.TableFooter>
             )}
