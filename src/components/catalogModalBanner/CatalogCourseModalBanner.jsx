@@ -46,7 +46,7 @@ function CatalogCourseModalBanner({
   execEd,
 }) {
   return (
-    <div className="my-4.5 banner">
+    <div className="banner">
       <div className="banner-section mx-3">
         <div className="banner h4 mb-0">
           <Icon className="mr-1" src={MoneyOutline} />

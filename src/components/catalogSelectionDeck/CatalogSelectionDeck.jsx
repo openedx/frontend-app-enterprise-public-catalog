@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getConfig } from '@edx/frontend-platform';
+import { getConfig } from '@edx/frontend-platform/config';
 import {
   SearchContext,
   setRefinementAction,

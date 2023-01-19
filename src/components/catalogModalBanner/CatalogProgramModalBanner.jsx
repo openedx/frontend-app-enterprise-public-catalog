@@ -14,7 +14,7 @@ function CatalogProgramModalBanner({
   courses,
 }) {
   return (
-    <div className="my-4.5 banner">
+    <div className="banner">
       {coursePrice !== undefined && (
         <>
           <div className="banner-section mx-3">
