@@ -5,6 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import DownloadCsvButton from './DownloadCsvButton';
 import { renderWithRouter } from '../../../tests/testUtils';
+import EnterpriseCatalogApiService from '../../../../data/services/EnterpriseCatalogAPIService';
 
 // file-saver mocks
 jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
@@ -12,6 +13,11 @@ jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 global.Blob = function (content, options) {
   return { content, options };
 };
+
+const mockCatalogApiService = jest.spyOn(
+  EnterpriseCatalogApiService,
+  'generateCsvDownloadLink',
+);
 
 const facets = {
   skill_names: ['Research'],
@@ -42,6 +48,7 @@ describe('Download button', () => {
       const input = screen.getByText('Download results');
       userEvent.click(input);
     });
+    expect(mockCatalogApiService).toBeCalledWith(facets, 'foo');
   });
   test('download button url encodes queries', async () => {
     process.env.CATALOG_SERVICE_BASE_URL = 'foobar.com';
