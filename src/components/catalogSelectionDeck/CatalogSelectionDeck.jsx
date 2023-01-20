@@ -1,4 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
 import { getConfig } from '@edx/frontend-platform/config';
 import {
   SearchContext,
@@ -8,7 +11,7 @@ import {
   Badge, breakpoints, Container, SelectableBox, useMediaQuery,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import PropTypes from 'prop-types';
+
 import messages from './CatalogSelectionDeck.messages';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
@@ -29,7 +32,7 @@ function CatalogSelectionDeck({ intl, title, hide }) {
   }, [refinements]);
 
   return (
-    <Container className="page-width" style={{ display: hide ? 'none' : 'block' }}>
+    <Container size="xl" className={classNames({ 'd-none': hide })}>
       <h2>{title}</h2>
       <SelectableBox.Set
         name="catalog-selection"
@@ -39,7 +42,7 @@ function CatalogSelectionDeck({ intl, title, hide }) {
         columns={isExtraSmall ? 1 : 3}
         className="py-4"
       >
-        <SelectableBox value={config.EDX_ENTERPRISE_ALACARTE_TITLE} inputHidden={false} type="radio" aria-label="radio">
+        <SelectableBox value={config.EDX_ENTERPRISE_ALACARTE_TITLE} inputHidden={false} type="radio" aria-label="a la carte select">
           <div>
             <Badge variant="dark">
               {intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.badge'])}
@@ -52,7 +55,7 @@ function CatalogSelectionDeck({ intl, title, hide }) {
             </ul>
           </div>
         </SelectableBox>
-        <SelectableBox value={config.EDX_FOR_BUSINESS_TITLE} inputHidden={false} type="radio" aria-label="radio">
+        <SelectableBox value={config.EDX_FOR_BUSINESS_TITLE} inputHidden={false} type="radio" aria-label="business select">
           <Badge variant="secondary">
             {intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.badge'])}
           </Badge>
@@ -64,7 +67,7 @@ function CatalogSelectionDeck({ intl, title, hide }) {
             <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
           </ul>
         </SelectableBox>
-        <SelectableBox value={config.EDX_FOR_ONLINE_EDU_TITLE} inputHidden={false} type="radio" aria-label="radio">
+        <SelectableBox value={config.EDX_FOR_ONLINE_EDU_TITLE} inputHidden={false} type="radio" aria-label="education select">
           <Badge variant="light">
             {intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.badge'])}
           </Badge>

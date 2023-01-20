@@ -1,6 +1,6 @@
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { logError } from '@edx/frontend-platform/logging';
 
@@ -54,16 +54,6 @@ const defaultProps = {
   columns: [],
   renderCardComponent: jest.fn(),
   contentType: 'course',
-  intl: {
-    formatMessage: (header) => header.defaultMessage,
-    formatDate: () => {},
-    formatTime: () => {},
-    formatRelative: () => {},
-    formatNumber: () => {},
-    formatPlural: () => {},
-    formatHTMLMessasge: () => {},
-    now: () => {},
-  },
 };
 
 const execEdProps = {
@@ -71,16 +61,6 @@ const execEdProps = {
   columns: [],
   renderCardComponent: jest.fn(),
   contentType: 'executive-education-2u',
-  intl: {
-    formatMessage: (header) => header.defaultMessage,
-    formatDate: () => {},
-    formatTime: () => {},
-    formatRelative: () => {},
-    formatNumber: () => {},
-    formatPlural: () => {},
-    formatHTMLMessasge: () => {},
-    now: () => {},
-  },
 };
 
 describe('catalog no results deck works as expected', () => {
@@ -91,12 +71,10 @@ describe('catalog no results deck works as expected', () => {
         <CatalogNoResultsDeck {...defaultProps} />
       </IntlProvider>,
     );
-    await act(() => screen.findByTestId('noResultsAlertTestId'));
-    expect(screen.queryByTestId('noResultsAlertTestId')).toBeInTheDocument();
-    await act(() => screen.findByText('No Results'));
-    expect(screen.queryByText('No Results')).toBeInTheDocument();
-  });
 
+    await waitFor(() => { expect(screen.getByTestId('noResultsAlertTestId')); });
+    await waitFor(() => { expect(screen.getByText('No Results')); });
+  });
   test('clicking remove filters will update query params', async () => {
     getSelectedCatalogFromURL.mockReturnValue('ayylmao');
     render(
@@ -104,14 +82,14 @@ describe('catalog no results deck works as expected', () => {
         <CatalogNoResultsDeck {...defaultProps} />
       </IntlProvider>,
     );
-    await act(() => screen.findByText('removing filters'));
-    const hyperlink = screen.getByText('removing filters');
-    expect(hyperlink).toHaveAttribute(
-      'href',
-      `${process.env.BASE_URL}/?enterprise_catalog_query_titles=ayylmao`,
-    );
+    await waitFor(() => {
+      const hyperlink = screen.getByText('removing filters');
+      expect(hyperlink).toHaveAttribute(
+        'href',
+        `${process.env.BASE_URL}/?enterprise_catalog_query_titles=ayylmao`,
+      );
+    });
   });
-
   test('API error responses will hide content deck', async () => {
     mockCatalogApiService.mockRejectedValue(new Error('Async error'));
     render(
@@ -130,7 +108,6 @@ describe('catalog no results deck works as expected', () => {
         <CatalogNoResultsDeck {...execEdProps} />
       </IntlProvider>,
     );
-    await act(() => screen.findByText('No Executive Education courses were found that match your search. Try'));
-    expect(screen.queryByText('No Executive Education courses were found that match your search. Try')).toBeInTheDocument();
+    await waitFor(() => { expect(screen.getByText('No Executive Education courses were found that match your search. Try')); });
   });
 });
