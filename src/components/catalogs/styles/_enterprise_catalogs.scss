@@ -17,7 +17,6 @@
 
 .course-info-partner {
   position: relative;
-  height: 36px;
   left: 0% !important;
 }
 
@@ -29,6 +28,9 @@
 
 .landing-page-download {
   float: right;
+  @media only screen and (max-width: 850px) {
+    float: none !important;
+  }
 }
 
 .preview-title {

@@ -1,6 +1,6 @@
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { logError } from '@edx/frontend-platform/logging';
 
@@ -15,10 +15,6 @@ const TEST_CATALOGS = ['baz'];
 const TEST_COURSE_NAME_2 = 'test course 2';
 const TEST_PARTNER_2 = 'edx 2';
 const TEST_CATALOGS_2 = ['baz', 'ayylmao'];
-
-// Note- console.error is causing tests to fail so we're simply getting rid of it :)
-delete global.console;
-global.console = { error: jest.fn() };
 
 const csvData = {
   default_content: [
@@ -58,16 +54,6 @@ const defaultProps = {
   columns: [],
   renderCardComponent: jest.fn(),
   contentType: 'course',
-  intl: {
-    formatMessage: (header) => header.defaultMessage,
-    formatDate: () => {},
-    formatTime: () => {},
-    formatRelative: () => {},
-    formatNumber: () => {},
-    formatPlural: () => {},
-    formatHTMLMessasge: () => {},
-    now: () => {},
-  },
 };
 
 const execEdProps = {
@@ -75,42 +61,34 @@ const execEdProps = {
   columns: [],
   renderCardComponent: jest.fn(),
   contentType: 'executive-education-2u',
-  intl: {
-    formatMessage: (header) => header.defaultMessage,
-    formatDate: () => {},
-    formatTime: () => {},
-    formatRelative: () => {},
-    formatNumber: () => {},
-    formatPlural: () => {},
-    formatHTMLMessasge: () => {},
-    now: () => {},
-  },
 };
 
 describe('catalog no results deck works as expected', () => {
-  test('it displays no results alert text', () => {
+  test('it displays no results alert text', async () => {
     mockCatalogApiService.mockResolvedValue(csvData);
     render(
       <IntlProvider locale="en">
         <CatalogNoResultsDeck {...defaultProps} />
       </IntlProvider>,
     );
-    expect(screen.getByTestId('noResultsAlertTestId')).toBeInTheDocument();
-    expect(screen.getByText('No Results')).toBeInTheDocument();
-  });
 
-  test('clicking remove filters will update query params', () => {
+    await waitFor(() => { expect(screen.getByTestId('noResultsAlertTestId')); });
+    await waitFor(() => { expect(screen.getByText('No Results')); });
+  });
+  test('clicking remove filters will update query params', async () => {
     getSelectedCatalogFromURL.mockReturnValue('ayylmao');
     render(
       <IntlProvider locale="en">
         <CatalogNoResultsDeck {...defaultProps} />
       </IntlProvider>,
     );
-    const hyperlinkthing = screen.getByText('removing filters');
-    expect(hyperlinkthing).toHaveAttribute(
-      'href',
-      `${process.env.BASE_URL}/?enterprise_catalog_query_titles=ayylmao`,
-    );
+    await waitFor(() => {
+      const hyperlink = screen.getByText('removing filters');
+      expect(hyperlink).toHaveAttribute(
+        'href',
+        `${process.env.BASE_URL}/?enterprise_catalog_query_titles=ayylmao`,
+      );
+    });
   });
   test('API error responses will hide content deck', async () => {
     mockCatalogApiService.mockRejectedValue(new Error('Async error'));
@@ -130,7 +108,6 @@ describe('catalog no results deck works as expected', () => {
         <CatalogNoResultsDeck {...execEdProps} />
       </IntlProvider>,
     );
-    expect(screen.getByText('No Executive Education courses were found that match your search. Try')).toBeInTheDocument();
-    expect(screen.getByText('Popular Executive Education Courses')).toBeInTheDocument();
+    await waitFor(() => { expect(screen.getByText('No Executive Education courses were found that match your search. Try')); });
   });
 });

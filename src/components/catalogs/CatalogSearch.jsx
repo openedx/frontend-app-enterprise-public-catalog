@@ -218,7 +218,7 @@ function CatalogSearch(intl) {
   const defaultInstantSearchFilter = `learning_type:${CONTENT_TYPE_COURSE} OR learning_type:${CONTENT_TYPE_PROGRAM} OR learning_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`;
 
   return (
-    <PageWrapper className="mt-3 mb-5 page-width">
+    <PageWrapper className="mt-3 mb-5">
       <section>
         <FormattedMessage
           id="catalogs.enterpriseCatalogs.header"
