@@ -60,14 +60,14 @@ function CourseCard({
           {priceText} • {pacingType}
         </p>
         <div style={{ maxWidth: '400vw' }}>
-          {enterprise_catalog_query_titles.includes(
+          {enterprise_catalog_query_titles?.includes(
             process.env.EDX_ENTERPRISE_ALACARTE_TITLE,
           ) && (
             <Badge variant="dark" className="ml-0 padded-catalog">
               {intl.formatMessage(messages['courseCard.aLaCarteBadge'])}
             </Badge>
           )}
-          {enterprise_catalog_query_titles.includes(
+          {enterprise_catalog_query_titles?.includes(
             process.env.EDX_FOR_BUSINESS_TITLE,
           ) && (
             <Badge
@@ -77,7 +77,7 @@ function CourseCard({
               {intl.formatMessage(messages['courseCard.businessBadge'])}
             </Badge>
           )}
-          {enterprise_catalog_query_titles.includes(
+          {enterprise_catalog_query_titles?.includes(
             process.env.EDX_FOR_ONLINE_EDU_TITLE,
           ) && (
             <Badge variant="light" className="padded-catalog">

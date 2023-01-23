@@ -1,3 +1,5 @@
+import { EXEC_ED_TITLE } from '../constants';
+
 /* eslint-disable import/prefer-default-export */
 const nowDate = new Date(Date.now());
 
@@ -32,4 +34,15 @@ function checkAvailability(start, end) {
   return '';
 }
 
-export { checkAvailability, checkSubscriptions };
+function convertLearningTypesToFilters(types) {
+  return types.reduce((learningFacets, type) => {
+    if (type === EXEC_ED_TITLE) {
+      learningFacets.push(`"${type}"`);
+    } else {
+      learningFacets.push(type);
+    }
+    return learningFacets;
+  }, []).join(' OR ');
+}
+
+export { checkAvailability, checkSubscriptions, convertLearningTypesToFilters };
