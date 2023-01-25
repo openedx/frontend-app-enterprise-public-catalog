@@ -4,6 +4,7 @@ import React from 'react';
 import { mockWindowLocations, renderWithRouter } from '../tests/testUtils';
 import CatalogPage from './CatalogPage';
 import selectionCardMessage from '../catalogSelectionDeck/CatalogSelectionDeck.messages';
+import { LEARNING_TYPE_REFINEMENT } from '../../constants';
 
 // all we are testing is routes, we don't need InstantSearch to work here
 jest.mock('react-instantsearch-dom', () => ({
@@ -72,17 +73,17 @@ describe('CatalogPage', () => {
   it('accounts for exec ed disclusion when not a la carte is selected', () => {
     const location = {
       ...window.location,
-      search: '?learning_type=executive-education-2u&learning_type=ayylmao&enterprise_catalog_query_titles=foobar',
+      search: `?${LEARNING_TYPE_REFINEMENT}=Executive Education&${LEARNING_TYPE_REFINEMENT}=ayylmao&enterprise_catalog_query_titles=foobar`,
     };
     Object.defineProperty(window, 'location', {
       writable: true,
       value: location,
     });
-    expect(window.location.search).toEqual('?learning_type=executive-education-2u&learning_type=ayylmao&enterprise_catalog_query_titles=foobar');
+    expect(window.location.search).toEqual(`?${LEARNING_TYPE_REFINEMENT}=Executive Education&${LEARNING_TYPE_REFINEMENT}=ayylmao&enterprise_catalog_query_titles=foobar`);
     renderWithRouter(<CatalogPage />);
     // Assert learning type: exec ed has been removed but not learning type `ayylmao`
     expect(window.location.search).toEqual(
-      'enterprise_catalog_query_titles=foobar&learning_type=ayylmao',
+      `enterprise_catalog_query_titles=foobar&${LEARNING_TYPE_REFINEMENT}=ayylmao&availability=Available+Now&availability=Starting+Soon&availability=Upcoming`,
     );
   });
 });

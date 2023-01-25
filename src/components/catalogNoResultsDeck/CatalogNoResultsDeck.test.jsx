@@ -60,7 +60,7 @@ const execEdProps = {
   setCardView: jest.fn(),
   columns: [],
   renderCardComponent: jest.fn(),
-  contentType: 'executive-education-2u',
+  contentType: 'Executive Education',
 };
 
 describe('catalog no results deck works as expected', () => {

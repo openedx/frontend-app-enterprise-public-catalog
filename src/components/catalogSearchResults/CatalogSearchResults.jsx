@@ -29,7 +29,6 @@ import {
   COURSE_TITLE,
   EDX_COURSE_TITLE_DESC,
   EXEC_ED_TITLE,
-  EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
   HIDE_PRICE_REFINEMENT,
   LEARNING_TYPE_REFINEMENT,
   PROGRAM_TITLE,
@@ -91,7 +90,7 @@ export function BaseCatalogSearchResults({
   useEffect(() => {
     setIsProgramType(contentType === CONTENT_TYPE_PROGRAM);
     setIsCourseType(contentType === CONTENT_TYPE_COURSE);
-    setIsExecEdType(contentType === EXECUTIVE_EDUCATION_2U_COURSE_TYPE);
+    setIsExecEdType(contentType === EXEC_ED_TITLE);
   }, [contentType]);
 
   const TABLE_HEADERS = useMemo(
@@ -168,7 +167,7 @@ export function BaseCatalogSearchResults({
     } else if (isExecEdType) {
       dispatch(
         setRefinementAction(LEARNING_TYPE_REFINEMENT, [
-          EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+          EXEC_ED_TITLE,
         ]),
       );
     } else {
@@ -182,7 +181,7 @@ export function BaseCatalogSearchResults({
     if (contentType === CONTENT_TYPE_COURSE) {
       return <CourseCard {...props} learningType={contentType} onClick={cardClicked} />;
     }
-    if (contentType === EXECUTIVE_EDUCATION_2U_COURSE_TYPE) {
+    if (contentType === EXEC_ED_TITLE) {
       return <CourseCard {...props} learningType={contentType} onClick={cardClicked} />;
     }
     return <ProgramCard {...props} onClick={cardClicked} />;

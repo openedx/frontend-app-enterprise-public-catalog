@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import CourseCard from './CourseCard';
-import { CONTENT_TYPE_COURSE, EXECUTIVE_EDUCATION_2U_COURSE_TYPE } from '../../constants';
+import { CONTENT_TYPE_COURSE, EXEC_ED_TITLE } from '../../constants';
 
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
@@ -40,7 +40,7 @@ const execEdData = {
 
 const execEdProps = {
   original: execEdData,
-  learningType: EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+  learningType: EXEC_ED_TITLE,
 };
 
 describe('Course card works as expected', () => {

@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
-  EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+  EXEC_ED_TITLE,
+  LEARNING_TYPE_REFINEMENT,
   NO_RESULTS_DECK_ITEM_COUNT,
   NO_RESULTS_PAGE_SIZE,
   NO_RESULTS_PAGE_ITEM_COUNT,
@@ -41,7 +42,7 @@ function CatalogNoResultsDeck({
   useEffect(() => {
     const defaultCoursesRefinements = {
       enterprise_catalog_query_titles: selectedCatalog,
-      learning_type: contentType,
+      [LEARNING_TYPE_REFINEMENT]: contentType,
     };
 
     EnterpriseCatalogApiService.fetchDefaultCoursesInCatalogWithFacets(
@@ -66,7 +67,7 @@ function CatalogNoResultsDeck({
     defaultDeckTitle = intl.formatMessage(
       messages['catalogSearchResults.DefaultCourseDeckTitle'],
     );
-  } else if (contentType === EXECUTIVE_EDUCATION_2U_COURSE_TYPE) {
+  } else if (contentType === EXEC_ED_TITLE) {
     alertText = intl.formatMessage(
       messages['catalogSearchResults.NoResultsExecEdCourseBannerText'],
     );
