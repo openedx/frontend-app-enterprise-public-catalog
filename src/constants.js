@@ -21,7 +21,7 @@ export const AVAILABILITY_REFINEMENT_DEFAULTS = [
 // Facet filters
 export const CONTENT_TYPE_REFINEMENT = 'content_type';
 export const COURSE_TYPE_REFINEMENT = 'course_type';
-export const LEARNING_TYPE_REFINEMENT = 'learning_type_v2';
+export const LEARNING_TYPE_REFINEMENT = 'learning_type';
 
 // Page refinement settings
 export const HIDE_CARDS_REFINEMENT = 'hide_cards';
