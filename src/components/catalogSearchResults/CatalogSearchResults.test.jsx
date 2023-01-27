@@ -15,7 +15,7 @@ import messages from './CatalogSearchResults.messages';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
-  EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+  EXEC_ED_TITLE,
   HIDE_PRICE_REFINEMENT,
 } from '../../constants';
 import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
@@ -146,13 +146,17 @@ const searchResultsExecEd = {
       card_image_url: 'http://url.test2.location',
       availability: ['Available Now'],
       course_keys: [],
-      content_type: EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+      content_type: EXEC_ED_TITLE,
       entitlements: [{ price: '100.00' }],
       advertised_course_run: {
         start: '2020-01-24T05:00:00Z',
         end: '2080-01-01T17:00:00Z',
         upgrade_deadline: 1892678399,
         pacing_type: 'self_paced',
+      },
+      additional_metadata: {
+        start_date: '2020-01-24T05:00:00Z',
+        end_date: '2080-01-01T17:00:00Z',
       },
     },
   ],
@@ -206,7 +210,7 @@ const execEdProps = {
   isSearchStalled: false,
   searchState: { page: 1 },
   error: null,
-  contentType: EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+  contentType: EXEC_ED_TITLE,
   // mock i18n requirements
   intl: {
     formatMessage: (header) => header.defaultMessage,

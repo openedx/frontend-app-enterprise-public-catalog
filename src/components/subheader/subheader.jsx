@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const Subheader = ({ title, children }) => (
   <section>
-    <Container className="my-5 page-width">
+    <Container size="xl" className="my-5">
       <div className="lead">
         {title && <h2>{title}</h2>}
         <div>{children}</div>

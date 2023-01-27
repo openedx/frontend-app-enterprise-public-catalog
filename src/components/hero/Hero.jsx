@@ -70,7 +70,7 @@ const Hero = ({ intl, text, highlight }) => {
 
   return (
     <section className="hero px-1">
-      <Container className="page-width hero__content">
+      <Container size="xl" className="hero__content">
         <h1 className="display-1">
           <Highlighted text={text} highlight={highlight} />
         </h1>

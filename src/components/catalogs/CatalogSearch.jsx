@@ -20,12 +20,12 @@ import PageWrapper from '../PageWrapper';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
-  EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+  EXEC_ED_TITLE,
+  LEARNING_TYPE_REFINEMENT,
   NUM_RESULTS_COURSE,
   NUM_RESULTS_PROGRAM,
   NUM_RESULTS_PER_PAGE,
 } from '../../constants';
-import features from '../../config';
 import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
 import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
 import {
@@ -33,19 +33,20 @@ import {
   mapAlgoliaObjectToCourse,
   mapAlgoliaObjectToExecEd,
 } from '../../utils/algoliaUtils';
+import { convertLearningTypesToFilters } from '../../utils/catalogUtils';
 import messages from '../catalogSearchResults/CatalogSearchResults.messages';
 
 const CatalogSearch = (intl) => {
   const {
     refinements: {
-      learning_type: learningType,
+      [LEARNING_TYPE_REFINEMENT]: learningType,
       enterprise_catalog_query_titles: enterpriseCatalogQueryTitles,
     },
   } = useContext(SearchContext);
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
-  const courseFilter = `learning_type:${CONTENT_TYPE_COURSE}`;
-  const execEdFilter = `learning_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`;
-  const programFilter = `learning_type:${CONTENT_TYPE_PROGRAM}`;
+  const courseFilter = `${LEARNING_TYPE_REFINEMENT}:${CONTENT_TYPE_COURSE}`;
+  const execEdFilter = `${LEARNING_TYPE_REFINEMENT}:"${EXEC_ED_TITLE}"`;
+  const programFilter = `${LEARNING_TYPE_REFINEMENT}:${CONTENT_TYPE_PROGRAM}`;
   const [noCourseResults, setNoCourseResults] = useState(false);
   const [noProgramResults, setNoProgramResults] = useState(false);
   const [noExecEdResults, setNoExecEdResults] = useState(false);
@@ -68,7 +69,7 @@ const CatalogSearch = (intl) => {
         setNoResults: setNoCourseResults,
         numResults: NUM_RESULTS_COURSE,
       },
-      [EXECUTIVE_EDUCATION_2U_COURSE_TYPE]: {
+      [EXEC_ED_TITLE]: {
         filter: execEdFilter,
         noResults: noExecEdResults,
         setNoResults: setNoExecEdResults,
@@ -94,7 +95,7 @@ const CatalogSearch = (intl) => {
   useEffect(() => {
     contentData[CONTENT_TYPE_COURSE].noResults = noCourseResults;
     contentData[CONTENT_TYPE_PROGRAM].noResults = noProgramResults;
-    contentData[EXECUTIVE_EDUCATION_2U_COURSE_TYPE].noResults = noExecEdResults;
+    contentData[EXEC_ED_TITLE].noResults = noExecEdResults;
   }, [noCourseResults, noProgramResults, noExecEdResults, contentData]);
 
   // set specified content types & suggested search content types
@@ -104,7 +105,7 @@ const CatalogSearch = (intl) => {
         setSpecifiedContentType(learningType);
       }
       setSuggestedSearchContentTypeFilter(
-        learningType.map((item) => `learning_type:${item}`).join(' OR '),
+        convertLearningTypesToFilters(learningType),
       );
     } else {
       setSpecifiedContentType(undefined);
@@ -112,9 +113,9 @@ const CatalogSearch = (intl) => {
         [
           CONTENT_TYPE_COURSE,
           CONTENT_TYPE_PROGRAM,
-          EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+          `"${EXEC_ED_TITLE}"`,
         ]
-          .map((item) => `learning_type:${item}`)
+          .map((item) => `${LEARNING_TYPE_REFINEMENT}:${item}`)
           .join(' OR '),
       );
     }
@@ -127,12 +128,12 @@ const CatalogSearch = (intl) => {
   }, [config.ALGOLIA_INDEX_NAME, searchClient]);
 
   const suggestedCourseOnClick = (hit) => {
-    if (hit.learning_type === CONTENT_TYPE_PROGRAM) {
+    if (hit[LEARNING_TYPE_REFINEMENT] === CONTENT_TYPE_PROGRAM) {
       setSelectedSuggestedCourse(mapAlgoliaObjectToProgram(hit));
       setSelectedSuggestedCourseType(CONTENT_TYPE_PROGRAM);
-    } else if (hit.learning_type === EXECUTIVE_EDUCATION_2U_COURSE_TYPE) {
+    } else if (hit[LEARNING_TYPE_REFINEMENT] === EXEC_ED_TITLE) {
       setSelectedSuggestedCourse(mapAlgoliaObjectToExecEd(hit));
-      setSelectedSuggestedCourseType(EXECUTIVE_EDUCATION_2U_COURSE_TYPE);
+      setSelectedSuggestedCourseType(EXEC_ED_TITLE);
     } else {
       setSelectedSuggestedCourse(mapAlgoliaObjectToCourse(hit, intl, messages));
       setSelectedSuggestedCourseType(CONTENT_TYPE_COURSE);
@@ -145,7 +146,7 @@ const CatalogSearch = (intl) => {
   useEffect(() => {
     const defaultTypes = [
       CONTENT_TYPE_COURSE,
-      EXECUTIVE_EDUCATION_2U_COURSE_TYPE,
+      EXEC_ED_TITLE,
       CONTENT_TYPE_PROGRAM,
     ];
     // Grab content type(s) to use
@@ -159,11 +160,10 @@ const CatalogSearch = (intl) => {
         && !enterpriseCatalogQueryTitles.includes(
           config.EDX_ENTERPRISE_ALACARTE_TITLE,
         ))
-      || !features.EXEC_ED_INCLUSION
     ) {
-      if (contentToDisplay.indexOf(EXECUTIVE_EDUCATION_2U_COURSE_TYPE) > 0) {
+      if (contentToDisplay.indexOf(EXEC_ED_TITLE) > 0) {
         contentToDisplay.splice(
-          contentToDisplay.indexOf(EXECUTIVE_EDUCATION_2U_COURSE_TYPE),
+          contentToDisplay.indexOf(EXEC_ED_TITLE),
           1,
         );
       }
@@ -217,14 +217,10 @@ const CatalogSearch = (intl) => {
     return itemsWithResultsList;
   };
 
-  const defaultInstantSearchFilter = `learning_type:${CONTENT_TYPE_COURSE} OR learning_type:${CONTENT_TYPE_PROGRAM}${
-    features.EXEC_ED_INCLUSION
-      ? ` OR learning_type:${EXECUTIVE_EDUCATION_2U_COURSE_TYPE}`
-      : ''
-  }`;
+  const defaultInstantSearchFilter = `${LEARNING_TYPE_REFINEMENT}:${CONTENT_TYPE_COURSE} OR ${LEARNING_TYPE_REFINEMENT}:${CONTENT_TYPE_PROGRAM} OR ${LEARNING_TYPE_REFINEMENT}:"${EXEC_ED_TITLE}"`;
 
   return (
-    <PageWrapper className="mt-3 mb-5 page-width">
+    <PageWrapper className="mt-3 mb-5">
       <section>
         <FormattedMessage
           id="catalogs.enterpriseCatalogs.header"
