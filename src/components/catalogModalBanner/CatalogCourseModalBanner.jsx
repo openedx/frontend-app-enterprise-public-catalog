@@ -36,7 +36,7 @@ function availabilitySubtitle(start, end, upcomingRuns) {
   return retString;
 }
 
-function CatalogCourseModalBanner({
+const CatalogCourseModalBanner = ({
   intl,
   coursePrice,
   courseAssociatedCatalogs,
@@ -44,67 +44,65 @@ function CatalogCourseModalBanner({
   endDate,
   upcomingRuns,
   execEd,
-}) {
-  return (
-    <div className="banner">
+}) => (
+  <div className="banner">
+    <div className="banner-section mx-3">
+      <div className="banner h4 mb-0">
+        <Icon className="mr-1" src={MoneyOutline} />
+        {coursePrice.split('.')[0]}
+      </div>
+      <div className="banner-subtitle small">
+        {intl.formatMessage(
+          messages['CatalogCourseModalBanner.bannerPriceText'],
+        )}
+      </div>
+    </div>
+    <div className="banner-section slash">/</div>
+    {checkSubscriptions(courseAssociatedCatalogs) && !execEd && (
+    <>
       <div className="banner-section mx-3">
         <div className="banner h4 mb-0">
-          <Icon className="mr-1" src={MoneyOutline} />
-          {coursePrice.split('.')[0]}
+          <Icon className="mr-1" src={BookOpen} />
+          {intl.formatMessage(
+            messages['CatalogCourseModalBanner.bannerCatalogText'],
+          )}
+        </div>
+        <div className="banner-subtitle small">
+          {checkSubscriptions(courseAssociatedCatalogs)}
+        </div>
+      </div>
+      <div className="banner-section slash">/</div>
+    </>
+    )}
+    {execEd && (
+    <>
+      <div className="banner-section mx-3">
+        <div className="banner h4 mb-0">
+          <Icon className="mr-1" src={Book} />
+          {intl.formatMessage(
+            messages['CatalogCourseModalBanner.bannerExecEdText'],
+          )}
         </div>
         <div className="banner-subtitle small">
           {intl.formatMessage(
-            messages['CatalogCourseModalBanner.bannerPriceText'],
+            messages['CatalogCourseModalBanner.bannerExecEdSubtext'],
           )}
         </div>
       </div>
       <div className="banner-section slash">/</div>
-      {checkSubscriptions(courseAssociatedCatalogs) && !execEd && (
-        <>
-          <div className="banner-section mx-3">
-            <div className="banner h4 mb-0">
-              <Icon className="mr-1" src={BookOpen} />
-              {intl.formatMessage(
-                messages['CatalogCourseModalBanner.bannerCatalogText'],
-              )}
-            </div>
-            <div className="banner-subtitle small">
-              {checkSubscriptions(courseAssociatedCatalogs)}
-            </div>
-          </div>
-          <div className="banner-section slash">/</div>
-        </>
-      )}
-      {execEd && (
-        <>
-          <div className="banner-section mx-3">
-            <div className="banner h4 mb-0">
-              <Icon className="mr-1" src={Book} />
-              {intl.formatMessage(
-                messages['CatalogCourseModalBanner.bannerExecEdText'],
-              )}
-            </div>
-            <div className="banner-subtitle small">
-              {intl.formatMessage(
-                messages['CatalogCourseModalBanner.bannerExecEdSubtext'],
-              )}
-            </div>
-          </div>
-          <div className="banner-section slash">/</div>
-        </>
-      )}
-      <div className="banner-section mx-3">
-        <div className="banner h4 mb-0">
-          <Icon className="mr-1" src={EventNote} />
-          {checkAvailability(startDate, endDate)}
-        </div>
-        <div className="banner-subtitle small">
-          {availabilitySubtitle(startDate, endDate, upcomingRuns)}{' '}
-        </div>
+    </>
+    )}
+    <div className="banner-section mx-3">
+      <div className="banner h4 mb-0">
+        <Icon className="mr-1" src={EventNote} />
+        {checkAvailability(startDate, endDate)}
+      </div>
+      <div className="banner-subtitle small">
+        {availabilitySubtitle(startDate, endDate, upcomingRuns)}{' '}
       </div>
     </div>
-  );
-}
+  </div>
+);
 
 CatalogCourseModalBanner.defaultProps = {
   coursePrice: '0',

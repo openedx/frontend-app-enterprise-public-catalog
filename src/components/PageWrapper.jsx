@@ -7,14 +7,12 @@ import { PAGE_TITLE } from '../constants';
 export const DATA_TEST_ID = 'enterprise-catalogs-content';
 
 // eslint-disable-next-line react/prop-types
-function PageWrapper({ children, className }) {
-  return (
-    <Container size="xl" className={className}>
-      <Helmet title={PAGE_TITLE} />
-      <div data-testid={DATA_TEST_ID}>{children}</div>
-    </Container>
-  );
-}
+const PageWrapper = ({ children, className }) => (
+  <Container className={className}>
+    <Helmet title={PAGE_TITLE} />
+    <div data-testid={DATA_TEST_ID}>{children}</div>
+  </Container>
+);
 
 PageWrapper.defaultProps = {
   className: '',

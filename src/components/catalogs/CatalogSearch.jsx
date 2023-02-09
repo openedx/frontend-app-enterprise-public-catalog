@@ -36,7 +36,7 @@ import {
 import { convertLearningTypesToFilters } from '../../utils/catalogUtils';
 import messages from '../catalogSearchResults/CatalogSearchResults.messages';
 
-function CatalogSearch(intl) {
+const CatalogSearch = (intl) => {
   const {
     refinements: {
       [LEARNING_TYPE_REFINEMENT]: learningType,
@@ -261,7 +261,7 @@ function CatalogSearch(intl) {
       </section>
     </PageWrapper>
   );
-}
+};
 
 CatalogSearch.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types

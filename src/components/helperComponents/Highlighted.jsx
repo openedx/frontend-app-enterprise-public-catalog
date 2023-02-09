@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import escapeRegExp from 'lodash.escaperegexp';
 import classNames from 'classnames';
 
-function Highlighted({ text, highlight, highlightClass }) {
+const Highlighted = ({ text, highlight, highlightClass }) => {
   if (!highlight.trim()) {
     return <span>{text}</span>;
   }
@@ -27,7 +27,7 @@ function Highlighted({ text, highlight, highlightClass }) {
         )))}
     </>
   );
-}
+};
 
 Highlighted.defaultProps = {
   text: '',

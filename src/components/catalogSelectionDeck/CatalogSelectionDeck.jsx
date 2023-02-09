@@ -15,7 +15,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CatalogSelectionDeck.messages';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
-function CatalogSelectionDeck({ intl, title, hide }) {
+const CatalogSelectionDeck = ({ intl, title, hide }) => {
   const { refinements, dispatch } = useContext(SearchContext);
   const config = getConfig();
   const [value, setValue] = useState('');
@@ -82,7 +82,7 @@ function CatalogSelectionDeck({ intl, title, hide }) {
       </SelectableBox.Set>
     </Container>
   );
-}
+};
 
 CatalogSelectionDeck.defaultProps = {
   hide: false,

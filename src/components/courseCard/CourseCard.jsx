@@ -9,9 +9,9 @@ import messages from './CourseCard.messages';
 import { CONTENT_TYPE_COURSE } from '../../constants';
 import defaultCardHeader from '../../static/default-card-header-light.png';
 
-function CourseCard({
+const CourseCard = ({
   intl, onClick, original, learningType,
-}) {
+}) => {
   const {
     title,
     card_image_url,
@@ -88,7 +88,7 @@ function CourseCard({
       </Card.Section>
     </Card>
   );
-}
+};
 
 CourseCard.defaultProps = {
   onClick: () => {},

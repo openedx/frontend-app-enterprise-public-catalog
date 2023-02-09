@@ -22,9 +22,7 @@ import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAP
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
-function PaginationComponent() {
-  return <div>{PAGINATE_ME}</div>;
-}
+const PaginationComponent = () => <div>{PAGINATE_ME}</div>;
 
 const csvData = [{ csv_data: 'foobar' }];
 jest
@@ -33,18 +31,16 @@ jest
 
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 
-function SearchDataWrapper({
+const SearchDataWrapper = ({
   // eslint-disable-next-line react/prop-types
   children,
   // eslint-disable-next-line react/prop-types
   searchContextValue = DEFAULT_SEARCH_CONTEXT_VALUE,
-}) {
-  return (
-    <SearchContext.Provider value={searchContextValue}>
-      {children}
-    </SearchContext.Provider>
-  );
-}
+}) => (
+  <SearchContext.Provider value={searchContextValue}>
+    {children}
+  </SearchContext.Provider>
+);
 
 const mockConfig = () => ({
   EDX_FOR_BUSINESS_TITLE: 'ayylmao',

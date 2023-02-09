@@ -6,7 +6,7 @@ import { Download } from '@edx/paragon/icons';
 
 import EnterpriseCatalogApiService from '../../../../data/services/EnterpriseCatalogAPIService';
 
-function DownloadCsvButton({ facets, query }) {
+const DownloadCsvButton = ({ facets, query }) => {
   const [isOpen, open, close] = useToggle(false);
   const [filters, setFilters] = useState();
 
@@ -46,7 +46,7 @@ function DownloadCsvButton({ facets, query }) {
       </Button>
     </>
   );
-}
+};
 
 DownloadCsvButton.defaultProps = {
   facets: { nbHits: 0, hits: [] },

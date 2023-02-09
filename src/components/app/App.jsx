@@ -10,20 +10,18 @@ import { logError } from '@edx/frontend-platform/logging';
 import CatalogPage from '../catalogPage/CatalogPage';
 import NotFoundPage from '../NotFoundPage';
 
-export function EnterpriseCatalogsApp() {
-  return (
-    <>
-      <Header />
-      <Switch>
-        <PageRoute exact path="/" component={CatalogPage} />
-        <PageRoute path="*" component={NotFoundPage} />
-      </Switch>
-      <Footer />
-    </>
-  );
-}
+export const EnterpriseCatalogsApp = () => (
+  <>
+    <Header />
+    <Switch>
+      <PageRoute exact path="/" component={CatalogPage} />
+      <PageRoute path="*" component={NotFoundPage} />
+    </Switch>
+    <Footer />
+  </>
+);
 
-export default function App() {
+const App = () => {
   useEffect(() => {
     if (process.env.HOTJAR_APP_ID) {
       try {
@@ -43,4 +41,6 @@ export default function App() {
       <EnterpriseCatalogsApp />
     </AppProvider>
   );
-}
+};
+
+export default App;

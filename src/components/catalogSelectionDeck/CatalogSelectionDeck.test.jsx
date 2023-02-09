@@ -27,21 +27,19 @@ jest.mock('@edx/frontend-platform/config', () => ({
 }));
 
 // eslint-disable-next-line react/prop-types
-function SearchDataWrapper({ children, searchContextValue }) {
-  return (
-    <IntlProvider locale="en">
-      <SearchContext.Provider
-        value={searchContextValue}
-        searchFacetFilters={[
-          ...SEARCH_FACET_FILTERS,
-          { attribute: QUERY_TITLE_REFINEMENT, title: 'Titles' },
-        ]}
-      >
-        {children}
-      </SearchContext.Provider>
-    </IntlProvider>
-  );
-}
+const SearchDataWrapper = ({ children, searchContextValue }) => (
+  <IntlProvider locale="en">
+    <SearchContext.Provider
+      value={searchContextValue}
+      searchFacetFilters={[
+        ...SEARCH_FACET_FILTERS,
+        { attribute: QUERY_TITLE_REFINEMENT, title: 'Titles' },
+      ]}
+    >
+      {children}
+    </SearchContext.Provider>
+  </IntlProvider>
+);
 
 describe('CatalogSelectionDeck', () => {
   it('renders all cards', () => {

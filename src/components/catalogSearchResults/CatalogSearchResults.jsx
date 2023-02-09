@@ -71,7 +71,7 @@ export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
  * @param {object} args.preview Whether we are on the split screen landing page or regular
  */
 
-export function BaseCatalogSearchResults({
+export const BaseCatalogSearchResults = ({
   intl,
   searchResults,
   // algolia recommends this prop instead of searching
@@ -82,7 +82,7 @@ export function BaseCatalogSearchResults({
   contentType,
   setNoContent,
   preview,
-}) {
+}) => {
   const [isProgramType, setIsProgramType] = useState();
   const [isCourseType, setIsCourseType] = useState();
   const [isExecEdType, setIsExecEdType] = useState();
@@ -402,9 +402,7 @@ export function BaseCatalogSearchResults({
     );
   }
 
-  function CustomRowStatus() {
-    return null;
-  }
+  const CustomRowStatus = () => null;
 
   return (
     <>
@@ -502,7 +500,7 @@ export function BaseCatalogSearchResults({
       </div>
     </>
   );
-}
+};
 
 BaseCatalogSearchResults.defaultProps = {
   searchResults: { disjunctiveFacetsRefinements: [], nbHits: 0, hits: [] },
