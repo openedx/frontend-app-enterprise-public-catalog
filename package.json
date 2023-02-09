@@ -75,7 +75,7 @@
     "@edx/browserslist-config": "^1.1.0",
     "@edx/frontend-build": "12.3.0",
     "@testing-library/jest-dom": "5.16.5",
-    "@testing-library/react": "11.2.7",
+    "@testing-library/react": "13.4.0",
     "@testing-library/react-hooks": "7.0.2",
     "@testing-library/user-event": "13.5.0",
     "glob": "7.2.3",
