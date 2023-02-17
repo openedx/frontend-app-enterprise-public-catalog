@@ -81,7 +81,7 @@
     "glob": "7.2.3",
     "husky": "6.0.0",
     "jest": "24.9.0",
-    "prettier": "2.7.1",
+    "prettier": "2.8.4",
     "reactifex": "1.1.1"
   }
 }
