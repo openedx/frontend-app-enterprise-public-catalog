@@ -39,7 +39,7 @@
     "@edx/frontend-component-header": "npm:@edx/frontend-component-header-edx@^6.8.0",
     "@edx/frontend-enterprise-catalog-search": "3.1.6",
     "@edx/frontend-enterprise-hotjar": "1.2.1",
-    "@edx/frontend-platform": "2.6.2",
+    "@edx/frontend-platform": "^4.0.1",
     "@edx/paragon": "20.29.0",
     "@fortawesome/fontawesome-svg-core": "1.2.35",
     "@fortawesome/free-brands-svg-icons": "5.15.3",
