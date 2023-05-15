@@ -220,7 +220,7 @@ const CatalogSearch = (intl) => {
   const defaultInstantSearchFilter = `${LEARNING_TYPE_REFINEMENT}:${CONTENT_TYPE_COURSE} OR ${LEARNING_TYPE_REFINEMENT}:${CONTENT_TYPE_PROGRAM} OR ${LEARNING_TYPE_REFINEMENT}:"${EXEC_ED_TITLE}"`;
 
   return (
-    <PageWrapper className="mt-3 mb-5">
+    <PageWrapper className="mt-3 mb-5" size="xl">
       <section>
         <FormattedMessage
           id="catalogs.enterpriseCatalogs.header"
