@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Switch } from 'react-router-dom';
-import { AppProvider, PageRoute } from '@edx/frontend-platform/react';
+import { Routes, Route } from 'react-router-dom';
+import { AppProvider, PageWrap } from '@edx/frontend-platform/react';
 
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
@@ -13,10 +13,10 @@ import NotFoundPage from '../NotFoundPage';
 export const EnterpriseCatalogsApp = () => (
   <>
     <Header />
-    <Switch>
-      <PageRoute exact path="/" component={CatalogPage} />
-      <PageRoute path="*" component={NotFoundPage} />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<PageWrap><CatalogPage /></PageWrap>} />
+      <Route path="*" element={<PageWrap><NotFoundPage /></PageWrap>} />
+    </Routes>
     <Footer />
   </>
 );
