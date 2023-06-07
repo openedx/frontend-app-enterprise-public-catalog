@@ -1,5 +1,3 @@
-import qs from 'query-string';
-
 import { getHttpClient } from '@edx/frontend-platform/auth';
 
 class EnterpriseCatalogApiService {
@@ -9,16 +7,18 @@ class EnterpriseCatalogApiService {
 
   static generateCsvDownloadLink(options, query) {
     const facetQuery = query ? `&query=${encodeURIComponent(query)}` : '';
+    const queryParams = new URLSearchParams(options);
     const enterpriseListUrl = `${
       EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl
-    }/catalog_workbook?${qs.stringify(options)}${facetQuery}`;
+    }/catalog_workbook?${queryParams.toString()}${facetQuery}`;
     return enterpriseListUrl;
   }
 
   static fetchDefaultCoursesInCatalog(options) {
+    const queryParams = new URLSearchParams(options);
     const enterpriseListUrl = `${
       EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl
-    }/default_course_set?${qs.stringify(options)}`;
+    }/default_course_set?${queryParams.toString()}`;
     return EnterpriseCatalogApiService.apiClient().get(enterpriseListUrl);
   }
 

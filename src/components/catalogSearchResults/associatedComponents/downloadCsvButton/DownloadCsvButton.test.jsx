@@ -66,6 +66,7 @@ describe('Download button', () => {
     // TODO: figure out why the process env for catalog base service can't be set in the test
     const expectedWindowLocation = 'undefined/api/v1/enterprise-catalogs/catalog_workbook?availability=Available'
       + '%20Now&availability=Upcoming&query=math%20%26%20science';
+    console.log(window.location.href);
     expect(window.location.href).toEqual(expectedWindowLocation);
   });
 });

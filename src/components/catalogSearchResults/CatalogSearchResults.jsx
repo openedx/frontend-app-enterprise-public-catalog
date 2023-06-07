@@ -13,7 +13,6 @@ import {
   Alert, Badge, Button, CardView, DataTable,
 } from '@edx/paragon';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import React, {
   useCallback,
   useContext,
@@ -322,7 +321,7 @@ export const BaseCatalogSearchResults = ({
     () => searchResults?.hits || [],
     [searchResults?.hits],
   );
-  const query = queryString.parse(window.location.search.substring(1));
+  const query = new URLSearchParams(window.location.search.substring(1));
   const toggleOptions = preview
     ? {}
     : {
