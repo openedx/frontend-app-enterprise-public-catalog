@@ -1,14 +1,9 @@
-import qs from 'query-string';
+import { hasFeatureFlagEnabled } from '@edx/frontend-enterprise-utils';
 import {
   FEATURE_ENABLE_PROGRAMS,
   FEATURE_EXEC_ED_INCLUSION,
   FEATURE_PROGRAM_TYPE_FACET,
 } from './constants';
-
-const hasFeatureFlagEnabled = (featureFlag) => {
-  const { features } = qs.parse(window.location.search);
-  return features && features.split(',').includes(featureFlag);
-};
 
 const features = {
   ENABLE_PROGRAMS:
