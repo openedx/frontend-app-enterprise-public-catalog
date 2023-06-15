@@ -62,9 +62,7 @@ describe('Download button', () => {
       const input = screen.getByText('Download results');
       userEvent.click(input);
     });
-    // The query, query param should not have an `&` in it.
-    // TODO: figure out why the process env for catalog base service can't be set in the test
-    const expectedWindowLocation = 'undefined/api/v1/enterprise-catalogs/catalog_workbook?availability=Available'
+    const expectedWindowLocation = `${process.env.CATALOG_SERVICE_BASE_URL}/api/v1/enterprise-catalogs/catalog_workbook?availability=Available`
       + '+Now&availability=Upcoming&query=math%20%26%20science';
     expect(window.location.href).toEqual(expectedWindowLocation);
   });
