@@ -373,7 +373,7 @@ export const BaseCatalogSearchResults = ({
     setNoContent(searchResults === null || searchResults?.nbHits === 0);
   }, [searchResults, setNoContent]);
 
-  const inputQuery = query.q;
+  const inputQuery = query.get('q');
 
   const dataTableActions = () => {
     if (preview || searchResults?.nbHits === 0) {
