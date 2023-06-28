@@ -25,7 +25,10 @@
   width: 1140px !important;
   height: 300px !important;
   @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
-    width: 450px !important;
+    width: 800px !important;
+  }
+  @media only screen and (max-width: map-get($grid-breakpoints, "sm")) {
+    width: 500px !important;
   }
 }
 
