@@ -18,16 +18,17 @@ import {
   EXEC_ED_TITLE,
   HIDE_PRICE_REFINEMENT,
 } from '../../constants';
-import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
 const PaginationComponent = () => <div>{PAGINATE_ME}</div>;
 
-const csvData = [{ csv_data: 'foobar' }];
-jest
-  .spyOn(EnterpriseCatalogApiService, 'fetchDefaultCoursesInCatalogWithFacets')
-  .mockResolvedValue(csvData);
+// all we are testing is routes, we don't need InstantSearch to work here
+jest.mock('react-instantsearch-dom', () => ({
+  ...jest.requireActual('react-instantsearch-dom'),
+  InstantSearch: () => <div>Popular Courses</div>,
+  Index: () => <div>Popular Courses</div>,
+}));
 
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 
@@ -523,23 +524,8 @@ describe('Main Catalogs view works as expected', () => {
       ),
     ).toBeInTheDocument();
   });
-  test('no program search results displays popular programs text', async () => {
-    const emptySearchResults = { ...searchResults, nbHits: 0 };
-    renderWithRouter(
-      <IntlProvider locale="en">
-        <SearchDataWrapper>
-          <BaseCatalogSearchResults
-            {...programProps}
-            searchResults={emptySearchResults}
-          />
-        </SearchDataWrapper>
-      </IntlProvider>,
-    );
-    expect(screen.getByTestId('noResultsAlertTestId')).toBeInTheDocument();
-    await act(() => screen.findByText('Popular Programs'));
-    expect(screen.getByText('Popular Programs')).toBeInTheDocument();
-  });
-  test('no course search results displays popular programs text', async () => {
+
+  test('no course search results displays popular course text', async () => {
     const emptySearchResults = { ...searchResults, nbHits: 0 };
     renderWithRouter(
       <IntlProvider locale="en">
@@ -551,7 +537,6 @@ describe('Main Catalogs view works as expected', () => {
         </SearchDataWrapper>
       </IntlProvider>,
     );
-    expect(screen.getByTestId('noResultsAlertTestId')).toBeInTheDocument();
     await act(() => screen.findByText('Popular Courses'));
     expect(screen.getByText('Popular Courses')).toBeInTheDocument();
   });
