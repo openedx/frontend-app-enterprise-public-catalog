@@ -56,7 +56,6 @@
     "react-dom": "^16.14.0",
     "react-helmet": "6.1.0",
     "react-instantsearch-dom": "6.40.4",
-    "react-loading-skeleton": "2.2.0",
     "react-redux": "7.2.9",
     "react-router": "5.3.4",
     "react-router-dom": "5.3.4",
