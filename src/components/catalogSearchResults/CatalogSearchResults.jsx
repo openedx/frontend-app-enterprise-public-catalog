@@ -10,7 +10,7 @@ import {
   intlShape,
 } from '@edx/frontend-platform/i18n';
 import {
-  Alert, Badge, Button, CardView, DataTable,
+  Alert, Badge, Button, CardView, DataTable, Skeleton,
 } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import React, {
@@ -26,7 +26,6 @@ import {
   Index,
   InstantSearch,
 } from 'react-instantsearch-dom';
-import Skeleton from 'react-loading-skeleton';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
