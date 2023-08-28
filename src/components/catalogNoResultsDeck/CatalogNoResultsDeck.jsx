@@ -1,20 +1,19 @@
-import { Alert, CardView, DataTable } from '@edx/paragon';
-import React, { useEffect, useState } from 'react';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { logError } from '@edx/frontend-platform/logging';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { connectStateResults } from 'react-instantsearch-dom';
+
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { Alert, CardView, DataTable } from '@edx/paragon';
 
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
   EXEC_ED_TITLE,
-  LEARNING_TYPE_REFINEMENT,
   NO_RESULTS_DECK_ITEM_COUNT,
   NO_RESULTS_PAGE_SIZE,
   NO_RESULTS_PAGE_ITEM_COUNT,
 } from '../../constants';
 import messages from './CatalogNoResultsDeck.messages';
-import EnterpriseCatalogApiService from '../../data/services/EnterpriseCatalogAPIService';
 import { getSelectedCatalogFromURL } from '../../utils/common';
 
 const BASE_APP_URL = process.env.BASE_URL;
@@ -25,9 +24,12 @@ const CatalogNoResultsDeck = ({
   columns,
   renderCardComponent,
   contentType,
+  searchResults,
 }) => {
-  const [defaultData, setDefaultData] = useState([]);
-  const [apiError, setApiError] = useState(false);
+  const tableData = useMemo(
+    () => searchResults?.hits || [],
+    [searchResults?.hits],
+  );
 
   const selectedCatalog = getSelectedCatalogFromURL();
   let redirect;
@@ -38,25 +40,6 @@ const CatalogNoResultsDeck = ({
   } else {
     redirect = BASE_APP_URL;
   }
-
-  useEffect(() => {
-    const defaultCoursesRefinements = {
-      enterprise_catalog_query_titles: selectedCatalog,
-      [LEARNING_TYPE_REFINEMENT]: contentType,
-    };
-
-    EnterpriseCatalogApiService.fetchDefaultCoursesInCatalogWithFacets(
-      defaultCoursesRefinements,
-    )
-      .then((response) => {
-        setDefaultData(response.default_content || []);
-        setApiError(false);
-      })
-      .catch((err) => {
-        setApiError(true);
-        logError(err);
-      });
-  }, [selectedCatalog, contentType]);
 
   let defaultDeckTitle;
   let alertText;
@@ -97,11 +80,10 @@ const CatalogNoResultsDeck = ({
           )}
         </Alert.Link>
       </Alert>
-      {!apiError && (
-        <h3 className="mt-4.5 mb-3.5" data-testid="noResultsDeckTitleTestId">
-          {defaultDeckTitle}
-        </h3>
-      )}
+
+      <h3 className="mt-4.5 mb-3.5" data-testid="noResultsDeckTitleTestId">
+        {defaultDeckTitle}
+      </h3>
       <DataTable
         dataViewToggleOptions={{
           isDataViewToggleEnabled: true,
@@ -110,7 +92,7 @@ const CatalogNoResultsDeck = ({
           defaultActiveStateValue: 'card',
         }}
         columns={columns}
-        data={defaultData}
+        data={tableData}
         itemCount={NO_RESULTS_DECK_ITEM_COUNT}
         pageCount={NO_RESULTS_PAGE_ITEM_COUNT}
         pageSize={NO_RESULTS_PAGE_SIZE}
@@ -135,9 +117,21 @@ CatalogNoResultsDeck.defaultProps = {
   renderCardComponent: () => {},
   columns: [],
   contentType: '',
+  searchResults: {},
 };
 
 CatalogNoResultsDeck.propTypes = {
+  searchResults: PropTypes.shape({
+    _state: PropTypes.shape({
+      disjunctiveFacetsRefinements: PropTypes.shape({}),
+    }),
+    disjunctiveFacetsRefinements: PropTypes.arrayOf(PropTypes.shape({})),
+    nbHits: PropTypes.number,
+    hits: PropTypes.arrayOf(PropTypes.shape({})),
+    nbPages: PropTypes.number,
+    hitsPerPage: PropTypes.number,
+    page: PropTypes.number,
+  }),
   contentType: PropTypes.string,
   intl: intlShape.isRequired,
   setCardView: PropTypes.func,
@@ -145,4 +139,4 @@ CatalogNoResultsDeck.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
-export default injectIntl(CatalogNoResultsDeck);
+export default connectStateResults(injectIntl(CatalogNoResultsDeck));

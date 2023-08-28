@@ -10,10 +10,9 @@ import {
   intlShape,
 } from '@edx/frontend-platform/i18n';
 import {
-  Alert, Badge, Button, CardView, DataTable,
+  Alert, Badge, Button, CardView, DataTable, Skeleton,
 } from '@edx/paragon';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import React, {
   useCallback,
   useContext,
@@ -21,8 +20,12 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { connectStateResults } from 'react-instantsearch-dom';
-import Skeleton from 'react-loading-skeleton';
+import {
+  Configure,
+  connectStateResults,
+  Index,
+  InstantSearch,
+} from 'react-instantsearch-dom';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
@@ -31,8 +34,10 @@ import {
   EXEC_ED_TITLE,
   HIDE_PRICE_REFINEMENT,
   LEARNING_TYPE_REFINEMENT,
+  NO_RESULTS_PAGE_SIZE,
   PROGRAM_TITLE,
   PROGRAM_TITLE_DESC,
+  QUERY_TITLE_REFINEMENT,
   TWOU_EXEC_ED_TITLE_DESC,
 } from '../../constants';
 import {
@@ -41,7 +46,7 @@ import {
   mapAlgoliaObjectToProgram,
 } from '../../utils/algoliaUtils';
 import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
-import { useSelectedCourse } from '../catalogs/data/hooks';
+import { useSelectedCourse, useAlgoliaIndex } from '../catalogs/data/hooks';
 import CourseCard from '../courseCard/CourseCard';
 import ProgramCard from '../programCard/ProgramCard';
 import CatalogBadges from './associatedComponents/catalogBadges/CatalogBadges';
@@ -50,7 +55,7 @@ import DownloadCsvButton from './associatedComponents/downloadCsvButton/Download
 import messages from './CatalogSearchResults.messages';
 
 import CatalogNoResultsDeck from '../catalogNoResultsDeck/CatalogNoResultsDeck';
-import { formatDate, makePlural } from '../../utils/common';
+import { formatDate, makePlural, getSelectedCatalogFromURL } from '../../utils/common';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 
@@ -83,6 +88,7 @@ export const BaseCatalogSearchResults = ({
   setNoContent,
   preview,
 }) => {
+  const { algoliaIndexName, searchClient } = useAlgoliaIndex();
   const [isProgramType, setIsProgramType] = useState();
   const [isCourseType, setIsCourseType] = useState();
   const [isExecEdType, setIsExecEdType] = useState();
@@ -322,7 +328,7 @@ export const BaseCatalogSearchResults = ({
     () => searchResults?.hits || [],
     [searchResults?.hits],
   );
-  const query = queryString.parse(window.location.search.substring(1));
+  const query = new URLSearchParams(window.location.search.substring(1));
   const toggleOptions = preview
     ? {}
     : {
@@ -366,7 +372,7 @@ export const BaseCatalogSearchResults = ({
     setNoContent(searchResults === null || searchResults?.nbHits === 0);
   }, [searchResults, setNoContent]);
 
-  const inputQuery = query.q;
+  const inputQuery = query.get('q');
 
   const dataTableActions = () => {
     if (preview || searchResults?.nbHits === 0) {
@@ -456,12 +462,25 @@ export const BaseCatalogSearchResults = ({
       )}
       <div className="mb-5">
         {searchResults?.nbHits === 0 && (
-          <CatalogNoResultsDeck
-            setCardView={setCardView}
-            columns={chosenColumn}
-            renderCardComponent={renderCardComponent}
-            contentType={contentType}
-          />
+          <InstantSearch indexName={algoliaIndexName} searchClient={searchClient}>
+            <Index
+              indexName={algoliaIndexName}
+              indexId={`search-${contentType}`}
+              key={`search-${contentType}`}
+            >
+              <Configure
+                filters={`${LEARNING_TYPE_REFINEMENT}:"${contentType}" AND ${QUERY_TITLE_REFINEMENT}:"${getSelectedCatalogFromURL()}"`}
+                hitsPerPage={NO_RESULTS_PAGE_SIZE}
+                facetingAfterDistinct
+              />
+              <CatalogNoResultsDeck
+                setCardView={setCardView}
+                columns={chosenColumn}
+                renderCardComponent={renderCardComponent}
+                contentType={contentType}
+              />
+            </Index>
+          </InstantSearch>
         )}
         {searchResults?.nbHits !== 0 && (
           <DataTable

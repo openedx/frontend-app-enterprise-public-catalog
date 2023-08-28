@@ -45,4 +45,29 @@ function convertLearningTypesToFilters(types) {
   }, []).join(' OR ');
 }
 
-export { checkAvailability, checkSubscriptions, convertLearningTypesToFilters };
+/**
+ * Parses an object that accounts for keys with values that is an array.
+ * e.g. {'availability': ['Available Now', 'Starting Soon']} will be parsed as
+ * 'availability=Available+Now&availability=Starting+Soon'
+ *
+ * @param Object query parameter with an array of values.
+ * @returns A string containing a query string suitable for use in a URL.
+ */
+
+function createQueryParams(options) {
+  const queryParams = new URLSearchParams();
+  Object.entries(options).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((item) => {
+        queryParams.append(key, item);
+      });
+      return;
+    }
+    queryParams.set(key, value);
+  });
+  return queryParams.toString();
+}
+
+export {
+  checkAvailability, checkSubscriptions, convertLearningTypesToFilters, createQueryParams,
+};

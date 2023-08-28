@@ -55,13 +55,13 @@ const ProgramCard = ({ intl, onClick, original }) => {
         }
       />
       <Card.Section className={classNames('flex-column justify-content-end')}>
-        <span className="d-block">
+        <span className="d-block align-middle">
           <Badge
             variant="light"
-            className={classNames('program d-inline-flex mb-2')}
+            className={classNames('d-inline-flex mb-2 align-items-center')}
           >
-            <Icon src={Program} className="badge-icon" />
-            <span className="badge-text"> {program_type} </span>
+            <Icon src={Program} />
+            <span> {program_type} </span>
           </Badge>
         </span>
         <p className="x-small mb-2 mt-2">

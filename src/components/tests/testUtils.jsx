@@ -14,7 +14,7 @@ const TEST_CONFIG = {
   ALGOLIA_SEARCH_API_KEY: 'key',
 };
 
-export const renderWithRouter = (ui, { route } = {}) => {
+export const renderWithRouter = (ui, { route } = { route: '/' }) => {
   const locale = 'en';
   return render(
     <AppContext.Provider

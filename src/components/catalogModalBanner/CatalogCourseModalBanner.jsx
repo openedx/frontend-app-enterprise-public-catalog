@@ -45,7 +45,7 @@ const CatalogCourseModalBanner = ({
   upcomingRuns,
   execEd,
 }) => (
-  <div className="banner">
+  <div className="banner my-3">
     <div className="banner-section mx-3">
       <div className="banner h4 mb-0">
         <Icon className="mr-1" src={MoneyOutline} />
