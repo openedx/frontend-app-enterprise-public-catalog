@@ -39,7 +39,7 @@
     "@edx/frontend-component-header": "npm:@edx/frontend-component-header-edx@^7.4.0",
     "@edx/frontend-enterprise-catalog-search": "4.6.0",
     "@edx/frontend-enterprise-hotjar": "1.4.0",
-    "@edx/frontend-enterprise-utils": "3.4.0",
+    "@edx/frontend-enterprise-utils": "3.5.0",
     "@edx/frontend-platform": "4.6.1",
     "@edx/paragon": "20.46.2",
     "algoliasearch": "4.19.1",
