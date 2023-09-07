@@ -21,7 +21,6 @@ jest.mock('@edx/frontend-platform/config', () => ({
   ...jest.requireActual('@edx/frontend-platform/config'),
   getConfig: jest.fn(() => ({
     EDX_FOR_BUSINESS_TITLE: 'ayylmao',
-    EDX_FOR_ONLINE_EDU_TITLE: 'foo',
     EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
   })),
 }));
@@ -51,7 +50,6 @@ describe('CatalogSelectionDeck', () => {
     expect(screen.getByText(label)).toBeInTheDocument();
     Object.keys(messages).forEach((key) => {
       // Note: we just pick out the first match for this basic test because some messages appear more than once
-      // e.g. both cards for Education and Business have some identical text.
       expect(
         screen.getAllByText(messages[key].defaultMessage, {
           normalizer: getDefaultNormalizer({

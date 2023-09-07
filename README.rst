@@ -24,12 +24,12 @@ To run this project locally:
 
 1. Clone this repository
 
-2. From repository root folder, run: 
-   
+2. From repository root folder, run:
+
    ``npm install``
-   
+
    Note: locally this app will default to open edX branding, so colors and formatting might look a little different than what will be deployed. To combat this, you can optionally run:
-   
+
    ``npm install --save @edx/brand@npm:@edx/brand-edx.org``
 
 3. This project requires Algolia developer keys. Once you have them, make the following local modifications to the ``.env.development`` file and replace the keys:
@@ -45,13 +45,12 @@ To run this project locally:
    .. code-block::
 
       EDX_FOR_BUSINESS_TITLE='' # default = 'Business'
-      EDX_FOR_ONLINE_EDU_TITLE='' # default = 'Education'
       EDX_ENTERPRISE_ALACARTE_TITLE='' # default = 'A la carte'
 
 5. From repository root folder, run:
-   
+
    ``npm start``
-   
+
    to start your local server at `http://localhost:8735 <http://localhost:8735>`_.
 
 **Helpful Testing Commands**

@@ -11,35 +11,25 @@ const messages = defineMessages({
     defaultMessage: 'Business subscription',
     description: 'label for checkbox for filtering results',
   },
-  'catalogSelectionDeck.edxForOnlineEdu.badge': {
-    id: 'catalogSelectionDeck.edxForOnlineEdu.badge',
-    defaultMessage: 'For educational institutions',
-    description: 'badge for catalog',
-  },
-  'catalogSelectionDeck.edxForOnlineEdu.label': {
-    id: 'catalogSelectionDeck.edxForOnlineEdu.label',
-    defaultMessage: 'Education subscription',
-    description: 'label for checkbox for filtering results',
-  },
   'catalogSelectionDeck.labelDetail': {
     id: 'catalogSelectionDeck.edxForOnlineEdu.labelDetail',
     defaultMessage: 'Single, per learner price',
     description: 'secondary label for checkbox for filtering results',
   },
   'catalogSelectionDeck.bullet1': {
-    id: 'catalogSelectionDeck.edxForOnlineEdu.bullet1',
+    id: 'catalogSelectionDeck.edxForBusiness.bullet1',
     defaultMessage:
       'Unlimited access to 1,000+ courses',
     description: 'description of filter',
   },
   'catalogSelectionDeck.bullet2': {
-    id: 'catalogSelectionDeck.edxForOnlineEdu.bullet2',
+    id: 'catalogSelectionDeck.edxForBusiness.bullet2',
     defaultMessage:
       'Professional certificates and select programs',
     description: 'description of filter',
   },
   'catalogSelectionDeck.bullet3': {
-    id: 'catalogSelectionDeck.edxForOnlineEdu.bullet3',
+    id: 'catalogSelectionDeck.edxForBusiness.bullet3',
     defaultMessage:
       'Self-paced courses',
     description: 'description of filter',
