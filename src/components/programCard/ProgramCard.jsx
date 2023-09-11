@@ -28,9 +28,6 @@ const ProgramCard = ({ intl, onClick, original }) => {
   const businessCatalogRequested = enterprise_catalog_query_titles?.includes(
     process.env.EDX_FOR_BUSINESS_TITLE,
   );
-  const eduCatalogRequested = enterprise_catalog_query_titles?.includes(
-    process.env.EDX_FOR_ONLINE_EDU_TITLE,
-  );
   const imageSrc = card_image_url || defaultCardHeader;
 
   return (
@@ -76,11 +73,6 @@ const ProgramCard = ({ intl, onClick, original }) => {
           {businessCatalogRequested && (
             <Badge variant="secondary" className="padded-catalog">
               {intl.formatMessage(messages['ProgramCard.businessBadge'])}
-            </Badge>
-          )}
-          {eduCatalogRequested && (
-            <Badge className="padded-catalog" variant="light">
-              {intl.formatMessage(messages['ProgramCard.educationBadge'])}
             </Badge>
           )}
         </div>

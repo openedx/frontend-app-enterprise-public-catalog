@@ -67,18 +67,6 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
             <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
           </ul>
         </SelectableBox>
-        <SelectableBox value={config.EDX_FOR_ONLINE_EDU_TITLE} inputHidden={false} type="radio" aria-label="education select">
-          <Badge variant="light">
-            {intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.badge'])}
-          </Badge>
-          <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}</h3>
-          <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
-          <ul className="catalog-list">
-            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet1'])}</li>
-            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet2'])}</li>
-            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
-          </ul>
-        </SelectableBox>
       </SelectableBox.Set>
     </Container>
   );
