@@ -23,6 +23,13 @@ const CatalogBadges = ({ row }) => {
           {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
         </Badge>
       )}
+      {row.original.enterprise_catalog_query_titles.includes(
+        process.env.EDX_FOR_ONLINE_EDU_TITLE,
+      ) && (
+        <Badge variant="light" className="padded-catalog">
+          {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
+        </Badge>
+      )}
     </div>
   );
 };

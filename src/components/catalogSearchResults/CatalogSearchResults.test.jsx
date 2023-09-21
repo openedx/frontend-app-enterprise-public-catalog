@@ -45,6 +45,7 @@ const SearchDataWrapper = ({
 
 const mockConfig = () => ({
   EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+  EDX_FOR_ONLINE_EDU_TITLE: 'foo',
   EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
   FEATURE_CARD_VIEW_ENABLED: 'True',
 });
@@ -236,6 +237,7 @@ describe('Main Catalogs view works as expected', () => {
 
   test('all courses rendered when search results available', async () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <SearchDataWrapper>
@@ -440,6 +442,7 @@ describe('Main Catalogs view works as expected', () => {
   });
   test('exec ed search results text and card price', async () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     renderWithRouter(
       <SearchDataWrapper>
@@ -463,6 +466,7 @@ describe('Main Catalogs view works as expected', () => {
   });
   test('all programs rendered when search results available', () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
 
     renderWithRouter(

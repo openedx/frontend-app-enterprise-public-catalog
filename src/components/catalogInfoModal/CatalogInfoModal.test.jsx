@@ -94,10 +94,10 @@ describe('Course info modal works as expected', () => {
     const defaultPropsCopy = {};
     Object.assign(defaultPropsCopy, courseTypeModalProps);
 
-    const businessQueryTitle = 'test-business-query-title';
-    process.env.EDX_FOR_BUSINESS_TITLE = businessQueryTitle;
+    const educationQueryTitle = 'test-business-query-title';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = educationQueryTitle;
     defaultPropsCopy.selectedCourse.courseAssociatedCatalogs = [
-      businessQueryTitle,
+      educationQueryTitle,
     ];
 
     render(
@@ -106,8 +106,11 @@ describe('Course info modal works as expected', () => {
       </IntlProvider>,
     );
     expect(
-      screen.queryByText('Included in business catalog'),
+      screen.queryByText('Included in education catalog'),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByText('Included in business catalog'),
+    ).not.toBeInTheDocument();
   });
   test('Renders Course info modal with no catalogs', () => {
     const defaultPropsCopy = {};

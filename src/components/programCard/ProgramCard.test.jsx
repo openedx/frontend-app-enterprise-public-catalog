@@ -7,6 +7,7 @@ import ProgramCard from './ProgramCard';
 
 const mockConfig = () => ({
   EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+  EDX_FOR_ONLINE_EDU_TITLE: 'foo',
   EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
   FEATURE_CARD_VIEW_ENABLED: 'True',
 });
@@ -34,6 +35,7 @@ const defaultProps = {
 describe('Program card works as expected', () => {
   test('card renders as expected', () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <IntlProvider locale="en">
