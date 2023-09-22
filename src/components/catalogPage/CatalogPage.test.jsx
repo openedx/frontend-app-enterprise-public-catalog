@@ -19,7 +19,6 @@ jest.mock('react-instantsearch-dom', () => ({
 const mockConfig = () => ({
   HUBSPOT_MARKETING_URL: 'http://bobsdooremporium.com',
   EDX_FOR_BUSINESS_TITLE: 'ayylmao',
-  EDX_FOR_ONLINE_EDU_TITLE: 'foo',
   EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
 });
 

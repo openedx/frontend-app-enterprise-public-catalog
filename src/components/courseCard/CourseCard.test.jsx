@@ -46,7 +46,6 @@ const execEdProps = {
 describe('Course card works as expected', () => {
   test('card renders as expected', () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
-    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <IntlProvider locale="en">
@@ -72,7 +71,6 @@ describe('Course card works as expected', () => {
   });
   test('exec ed card renders correct price from entitlement', async () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
-    process.env.EDX_FOR_ONLINE_EDU_TITLE = 'foo';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <IntlProvider locale="en">
