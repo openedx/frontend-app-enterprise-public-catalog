@@ -11,6 +11,7 @@ import {
   checkAvailability,
   checkSubscriptions,
 } from '../../utils/catalogUtils';
+import features from '../../config';
 
 const nowDate = new Date(Date.now());
 
@@ -67,9 +68,11 @@ const CatalogCourseModalBanner = ({
             messages['CatalogCourseModalBanner.bannerCatalogText'],
           )}
         </div>
+        {!features.CONSOLIDATE_SUBS_CATALOG && (
         <div className="banner-subtitle small">
           {checkSubscriptions(courseAssociatedCatalogs)}
         </div>
+        )}
       </div>
       <div className="banner-section slash">/</div>
     </>

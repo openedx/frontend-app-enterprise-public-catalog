@@ -1,5 +1,13 @@
 .catalog-list {
   li {
-    list-style-type: '✓ ';  
+    list-style-type: '✓ ';
+  }
+}
+.pgn__selectable_box {
+  .pgn__form-radio-input {
+    inset-inline-end: 1rem;
+    position: absolute;
+    top: 1rem;
+    margin-inline-end: 0;
   }
 }

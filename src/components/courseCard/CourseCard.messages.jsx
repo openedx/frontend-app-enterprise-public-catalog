@@ -1,4 +1,5 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
+import features from '../../config';
 
 const messages = defineMessages({
   'courseCard.relatedSkillsHeading': {
@@ -13,8 +14,13 @@ const messages = defineMessages({
   },
   'courseCard.businessBadge': {
     id: 'courseCard.businessBadge',
-    defaultMessage: 'Business',
+    defaultMessage: features.CONSOLIDATE_SUBS_CATALOG ? 'Subscription' : 'Business',
     description: 'Badge text for the `Business` catalog badge.',
+  },
+  'courseCard.educationBadge': {
+    id: 'courseCard.educationBadge',
+    defaultMessage: 'Education',
+    description: 'Badge text for the `Education` catalog badge.',
   },
   'courseCard.priceNotAvailable': {
     id: 'courseCard.priceNotAvailable',

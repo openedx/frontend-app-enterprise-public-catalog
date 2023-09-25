@@ -1,14 +1,25 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
+import features from '../../config';
 
 const messages = defineMessages({
   'catalogSelectionDeck.edxForBusiness.badge': {
     id: 'catalogSelectionDeck.edxForBusiness.badge',
-    defaultMessage: 'For businesses',
+    defaultMessage: features.CONSOLIDATE_SUBS_CATALOG ? 'For all organizations' : 'For businesses',
     description: 'badge for catalog',
   },
   'catalogSelectionDeck.edxForBusiness.label': {
     id: 'catalogSelectionDeck.edxForBusiness.label',
-    defaultMessage: 'Business subscription',
+    defaultMessage: features.CONSOLIDATE_SUBS_CATALOG ? 'Subscription' : 'Business subscription',
+    description: 'label for checkbox for filtering results',
+  },
+  'catalogSelectionDeck.edxForOnlineEdu.badge': {
+    id: 'catalogSelectionDeck.edxForOnlineEdu.badge',
+    defaultMessage: 'For educational institutions',
+    description: 'badge for catalog',
+  },
+  'catalogSelectionDeck.edxForOnlineEdu.label': {
+    id: 'catalogSelectionDeck.edxForOnlineEdu.label',
+    defaultMessage: 'Education subscription',
     description: 'label for checkbox for filtering results',
   },
   'catalogSelectionDeck.labelDetail': {
@@ -19,7 +30,7 @@ const messages = defineMessages({
   'catalogSelectionDeck.bullet1': {
     id: 'catalogSelectionDeck.edxForBusiness.bullet1',
     defaultMessage:
-      'Unlimited access to 1,000+ courses',
+      'Unlimited access to 2,000+ courses',
     description: 'description of filter',
   },
   'catalogSelectionDeck.bullet2': {
