@@ -14,8 +14,13 @@ const messages = defineMessages({
   },
   'courseCard.businessBadge': {
     id: 'courseCard.businessBadge',
-    defaultMessage: features.CONSOLIDATE_SUBS_CATALOG ? 'Subscription' : 'Business',
+    defaultMessage: 'Business',
     description: 'Badge text for the `Business` catalog badge.',
+  },
+  'courseCard.subscriptionBadge': {
+    id: 'courseCard.subscriptionBadge',
+    defaultMessage: 'Subscription',
+    description: 'Badge text for the `Subscription` catalog badge.',
   },
   'courseCard.educationBadge': {
     id: 'courseCard.educationBadge',
