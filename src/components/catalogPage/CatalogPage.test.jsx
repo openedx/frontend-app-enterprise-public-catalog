@@ -5,6 +5,7 @@ import { mockWindowLocations, renderWithRouter } from '../tests/testUtils';
 import CatalogPage from './CatalogPage';
 import selectionCardMessage from '../catalogSelectionDeck/CatalogSelectionDeck.messages';
 import { LEARNING_TYPE_REFINEMENT } from '../../constants';
+import features from '../../config';
 
 // all we are testing is routes, we don't need InstantSearch to work here
 jest.mock('react-instantsearch-dom', () => ({
@@ -36,6 +37,7 @@ describe('CatalogPage', () => {
   });
   afterAll(() => {
     process.env = OLD_ENV; // Restore old environment
+    features.CONSOLIDATE_SUBS_CATALOG = true;
   });
   it('renders a catalog page component', () => {
     const { container } = renderWithRouter(<CatalogPage />);
@@ -46,6 +48,16 @@ describe('CatalogPage', () => {
     expect(screen.getByText('SEARCH')).toBeInTheDocument();
   });
   it('renders with catalog selection cards', () => {
+    renderWithRouter(<CatalogPage />);
+    expect(
+      screen.getByText(
+        selectionCardMessage['catalogSelectionDeck.edxSubscription.label']
+          .defaultMessage,
+      ),
+    ).toBeInTheDocument();
+  });
+  it('renders with catalog selection cards including business catalog', () => {
+    features.CONSOLIDATE_SUBS_CATALOG = false;
     renderWithRouter(<CatalogPage />);
     expect(
       screen.getByText(

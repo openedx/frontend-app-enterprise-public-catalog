@@ -11,6 +11,26 @@ const messages = defineMessages({
     defaultMessage: 'Business subscription',
     description: 'label for checkbox for filtering results',
   },
+  'catalogSelectionDeck.edxSubscription.badge': {
+    id: 'catalogSelectionDeck.edxSubscription.badge',
+    defaultMessage: 'For all organizations',
+    description: 'badge for catalog',
+  },
+  'catalogSelectionDeck.edxSubscription.label': {
+    id: 'catalogSelectionDeck.edxSubscription.label',
+    defaultMessage: 'Subscription',
+    description: 'label for checkbox for filtering results',
+  },
+  'catalogSelectionDeck.edxForOnlineEdu.badge': {
+    id: 'catalogSelectionDeck.edxForOnlineEdu.badge',
+    defaultMessage: 'For educational institutions',
+    description: 'badge for catalog',
+  },
+  'catalogSelectionDeck.edxForOnlineEdu.label': {
+    id: 'catalogSelectionDeck.edxForOnlineEdu.label',
+    defaultMessage: 'Education subscription',
+    description: 'label for checkbox for filtering results',
+  },
   'catalogSelectionDeck.labelDetail': {
     id: 'catalogSelectionDeck.edxForOnlineEdu.labelDetail',
     defaultMessage: 'Single, per learner price',
@@ -19,7 +39,7 @@ const messages = defineMessages({
   'catalogSelectionDeck.bullet1': {
     id: 'catalogSelectionDeck.edxForBusiness.bullet1',
     defaultMessage:
-      'Unlimited access to 1,000+ courses',
+      'Unlimited access to 2,000+ courses',
     description: 'description of filter',
   },
   'catalogSelectionDeck.bullet2': {

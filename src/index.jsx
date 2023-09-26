@@ -42,6 +42,7 @@ initialize({
         ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,
         HUBSPOT_MARKETING_URL: process.env.HUBSPOT_MARKETING_URL || null,
         EDX_FOR_BUSINESS_TITLE: process.env.EDX_FOR_BUSINESS_TITLE || null,
+        EDX_FOR_ONLINE_EDU_TITLE: process.env.EDX_FOR_ONLINE_EDU_TITLE || null,
         EDX_ENTERPRISE_ALACARTE_TITLE:
           process.env.EDX_ENTERPRISE_ALACARTE_TITLE || null,
         FEATURE_CARD_VIEW_ENABLED:

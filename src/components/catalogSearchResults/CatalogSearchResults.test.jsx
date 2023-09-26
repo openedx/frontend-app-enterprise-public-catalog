@@ -18,6 +18,7 @@ import {
   EXEC_ED_TITLE,
   HIDE_PRICE_REFINEMENT,
 } from '../../constants';
+import features from '../../config';
 
 // Mocking this connected component so as not to have to mock the algolia Api
 const PAGINATE_ME = 'PAGINATE ME :)';
@@ -232,6 +233,7 @@ describe('Main Catalogs view works as expected', () => {
   });
   afterEach(() => {
     process.env = OLD_ENV; // Restore old environment
+    features.CONSOLIDATE_SUBS_CATALOG = true;
   });
 
   test('all courses rendered when search results available', async () => {
@@ -259,6 +261,26 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
 
     expect(screen.queryAllByText('A la carte').length === 2);
+    await act(() => screen.findByText('Subscription'));
+    expect(screen.queryByText('Subscription')).toBeInTheDocument();
+  });
+  test('all courses rendered when search results available', async () => {
+    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
+    features.CONSOLIDATE_SUBS_CATALOG = false;
+    render(
+      <SearchDataWrapper>
+        <IntlProvider locale="en">
+          <BaseCatalogSearchResults {...defaultProps} />
+        </IntlProvider>
+        ,
+      </SearchDataWrapper>,
+    );
+
+    // Card view should be default
+    const listViewToggleButton = screen.getByLabelText('Card');
+    userEvent.click(listViewToggleButton);
+
     await act(() => screen.findByText('Business'));
     expect(screen.queryByText('Business')).toBeInTheDocument();
   });

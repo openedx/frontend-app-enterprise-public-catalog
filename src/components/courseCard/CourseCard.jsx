@@ -8,6 +8,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
 import { CONTENT_TYPE_COURSE } from '../../constants';
 import defaultCardHeader from '../../static/default-card-header-light.png';
+import features from '../../config';
 
 const CourseCard = ({
   intl, onClick, original, learningType,
@@ -39,6 +40,7 @@ const CourseCard = ({
 
   const imageSrc = card_image_url || defaultCardHeader;
   const altText = `${title} course image`;
+  const businessBadgeMessageKey = features.CONSOLIDATE_SUBS_CATALOG ? 'courseCard.subscriptionBadge' : 'courseCard.businessBadge';
 
   return (
     <Card
@@ -74,7 +76,15 @@ const CourseCard = ({
               variant="secondary"
               className="business-catalog padded-catalog"
             >
-              {intl.formatMessage(messages['courseCard.businessBadge'])}
+              {intl.formatMessage(messages[businessBadgeMessageKey])}
+            </Badge>
+          )}
+          {!features.CONSOLIDATE_SUBS_CATALOG
+            && enterprise_catalog_query_titles?.includes(
+              process.env.EDX_FOR_ONLINE_EDU_TITLE,
+            ) && (
+            <Badge variant="light" className="padded-catalog">
+              {intl.formatMessage(messages['courseCard.educationBadge'])}
             </Badge>
           )}
         </div>
