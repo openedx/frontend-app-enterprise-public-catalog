@@ -78,10 +78,10 @@ const CourseCard = ({
               {intl.formatMessage(messages['courseCard.businessBadge'])}
             </Badge>
           )}
-          {!features.CONSOLIDATE_SUBS_CATALOG &&
-            enterprise_catalog_query_titles?.includes(
-            process.env.EDX_FOR_ONLINE_EDU_TITLE,
-          ) && (
+          {!features.CONSOLIDATE_SUBS_CATALOG
+            && enterprise_catalog_query_titles?.includes(
+              process.env.EDX_FOR_ONLINE_EDU_TITLE,
+            ) && (
             <Badge variant="light" className="padded-catalog">
               {intl.formatMessage(messages['courseCard.educationBadge'])}
             </Badge>

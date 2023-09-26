@@ -79,11 +79,11 @@ const ProgramCard = ({ intl, onClick, original }) => {
               {intl.formatMessage(messages['ProgramCard.businessBadge'])}
             </Badge>
           )}
-          {!features.CONSOLIDATE_SUBS_CATALOG &&
-           eduCatalogRequested && (
-            <Badge className="padded-catalog" variant="light">
-              {intl.formatMessage(messages['ProgramCard.educationBadge'])}
-            </Badge>
+          {!features.CONSOLIDATE_SUBS_CATALOG
+           && eduCatalogRequested && (
+           <Badge className="padded-catalog" variant="light">
+             {intl.formatMessage(messages['ProgramCard.educationBadge'])}
+           </Badge>
           )}
         </div>
       </Card.Section>
