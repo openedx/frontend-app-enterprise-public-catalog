@@ -1,5 +1,4 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
-import features from '../../config';
 
 const messages = defineMessages({
   'courseCard.relatedSkillsHeading': {

@@ -1,15 +1,24 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
-import features from '../../config';
 
 const messages = defineMessages({
   'catalogSelectionDeck.edxForBusiness.badge': {
     id: 'catalogSelectionDeck.edxForBusiness.badge',
-    defaultMessage: features.CONSOLIDATE_SUBS_CATALOG ? 'For all organizations' : 'For businesses',
+    defaultMessage: 'For businesses',
     description: 'badge for catalog',
   },
   'catalogSelectionDeck.edxForBusiness.label': {
     id: 'catalogSelectionDeck.edxForBusiness.label',
-    defaultMessage: features.CONSOLIDATE_SUBS_CATALOG ? 'Subscription' : 'Business subscription',
+    defaultMessage: 'Business subscription',
+    description: 'label for checkbox for filtering results',
+  },
+  'catalogSelectionDeck.edxSubscription.badge': {
+    id: 'catalogSelectionDeck.edxSubscription.badge',
+    defaultMessage: 'For all organizations',
+    description: 'badge for catalog',
+  },
+  'catalogSelectionDeck.edxSubscription.label': {
+    id: 'catalogSelectionDeck.edxSubscription.label',
+    defaultMessage: 'Subscription',
     description: 'label for checkbox for filtering results',
   },
   'catalogSelectionDeck.edxForOnlineEdu.badge': {

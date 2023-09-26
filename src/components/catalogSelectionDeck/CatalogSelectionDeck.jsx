@@ -27,6 +27,13 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
   const isExtraSmall = useMediaQuery({ maxWidth: breakpoints.extraSmall.maxWidth });
   const columnCount = features.CONSOLIDATE_SUBS_CATALOG ? 2 : 3;
 
+  let businessBadgeMessageKey = 'catalogSelectionDeck.edxForBusiness.badge';
+  let businessLabelMessageKey = 'catalogSelectionDeck.edxForBusiness.label';
+  if (features.CONSOLIDATE_SUBS_CATALOG) {
+    businessBadgeMessageKey = 'catalogSelectionDeck.edxSubscription.badge';
+    businessLabelMessageKey = 'catalogSelectionDeck.edxSubscription.label';
+  }
+
   useEffect(() => {
     if (refinements[QUERY_TITLE_REFINEMENT]) {
       setValue(refinements[QUERY_TITLE_REFINEMENT][0]);
@@ -59,9 +66,9 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
         </SelectableBox>
         <SelectableBox value={config.EDX_FOR_BUSINESS_TITLE} inputHidden={false} type="radio" aria-label="business select">
           <Badge variant="secondary">
-            {intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.badge'])}
+            {intl.formatMessage(messages[businessBadgeMessageKey])}
           </Badge>
-          <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxForBusiness.label'])}</h3>
+          <h3>{intl.formatMessage(messages[businessLabelMessageKey])}</h3>
           <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
           <ul className="catalog-list">
             <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet1'])}</li>

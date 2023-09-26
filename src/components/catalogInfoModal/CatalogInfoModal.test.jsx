@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import CatalogInfoModal from './CatalogInfoModal';
+import features from '../../config';
 
 const descriptionText = 'this is a description';
 // course descriptions are injected into the DOM with dangerouslySetInnerHTML
@@ -38,6 +39,9 @@ const courseTypeModalProps = {
 };
 
 describe('Course info modal works as expected', () => {
+  afterEach(() => {
+    features.CONSOLIDATE_SUBS_CATALOG = true;
+  });
   const OLD_ENV = process.env;
   const { selectedCourse } = courseTypeModalProps;
   beforeEach(() => {
@@ -91,6 +95,26 @@ describe('Course info modal works as expected', () => {
     ).not.toBeInTheDocument();
   });
   test('Renders Course info modal with correct catalogs', () => {
+    const defaultPropsCopy = {};
+    Object.assign(defaultPropsCopy, courseTypeModalProps);
+
+    const businessQueryTitle = 'test-business-query-title';
+    process.env.EDX_FOR_BUSINESS_TITLE = businessQueryTitle;
+    defaultPropsCopy.selectedCourse.courseAssociatedCatalogs = [
+      businessQueryTitle,
+    ];
+
+    render(
+      <IntlProvider locale="en">
+        <CatalogInfoModal {...defaultPropsCopy} />
+      </IntlProvider>,
+    );
+    expect(
+      screen.queryByText('Included with subscription'),
+    ).toBeInTheDocument();
+  });
+  test('Renders Course info modal with correct catalogs including business subs', () => {
+    features.CONSOLIDATE_SUBS_CATALOG = false;
     const defaultPropsCopy = {};
     Object.assign(defaultPropsCopy, courseTypeModalProps);
 

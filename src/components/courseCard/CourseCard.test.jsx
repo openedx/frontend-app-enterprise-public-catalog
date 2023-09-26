@@ -5,6 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import CourseCard from './CourseCard';
 import { CONTENT_TYPE_COURSE, EXEC_ED_TITLE } from '../../constants';
+import features from '../../config';
 
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
@@ -44,9 +45,28 @@ const execEdProps = {
 };
 
 describe('Course card works as expected', () => {
+  afterEach(() => {
+    features.CONSOLIDATE_SUBS_CATALOG = true;
+  });
   test('card renders as expected', () => {
     process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
+    render(
+      <IntlProvider locale="en">
+        <CourseCard {...defaultProps} />
+      </IntlProvider>,
+    );
+    expect(screen.queryByText(defaultProps.original.title)).toBeInTheDocument();
+    expect(
+      screen.queryByText(defaultProps.original.partners[0].name),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('$100 • Self paced')).toBeInTheDocument();
+    expect(screen.queryByText('Subscription')).toBeInTheDocument();
+  });
+  test('card renders as expected with business subs', () => {
+    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
+    features.CONSOLIDATE_SUBS_CATALOG = false;
     render(
       <IntlProvider locale="en">
         <CourseCard {...defaultProps} />
@@ -80,6 +100,6 @@ describe('Course card works as expected', () => {
     expect(screen.queryByText(execEdProps.original.title)).toBeInTheDocument();
     // price decimal should be truncated
     expect(screen.queryByText('$999 • Instructor led')).toBeInTheDocument();
-    expect(screen.queryByText('Business')).toBeInTheDocument();
+    expect(screen.queryByText('Subscription')).toBeInTheDocument();
   });
 });
