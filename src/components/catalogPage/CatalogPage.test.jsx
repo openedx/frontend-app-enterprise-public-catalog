@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { mockWindowLocations, renderWithRouter } from '../tests/testUtils';
 import CatalogPage from './CatalogPage';
 import selectionCardMessage from '../catalogSelectionDeck/CatalogSelectionDeck.messages';
@@ -27,6 +28,11 @@ jest.mock('@edx/frontend-platform', () => ({
   getConfig: () => mockConfig(),
 }));
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: jest.fn(),
+}));
+
 mockWindowLocations();
 
 describe('CatalogPage', () => {
@@ -40,14 +46,17 @@ describe('CatalogPage', () => {
     features.CONSOLIDATE_SUBS_CATALOG = true;
   });
   it('renders a catalog page component', () => {
+    useLocation.mockReturnValue({ search: '' });
     const { container } = renderWithRouter(<CatalogPage />);
     expect(container.querySelector('.hero')).toBeInTheDocument();
   });
   it('renders the catalog search component', () => {
+    useLocation.mockReturnValue({ search: '' });
     renderWithRouter(<CatalogPage />);
     expect(screen.getByText('SEARCH')).toBeInTheDocument();
   });
   it('renders with catalog selection cards', () => {
+    useLocation.mockReturnValue({ search: '' });
     renderWithRouter(<CatalogPage />);
     expect(
       screen.getByText(
@@ -75,6 +84,7 @@ describe('CatalogPage', () => {
       writable: true,
       value: location,
     });
+    useLocation.mockReturnValue({ search: '?q=' });
     expect(window.location.search).toEqual('?q=');
     renderWithRouter(<CatalogPage />);
     expect(window.location.search).toEqual(
@@ -90,6 +100,7 @@ describe('CatalogPage', () => {
       writable: true,
       value: location,
     });
+    useLocation.mockReturnValue({ search: `?${LEARNING_TYPE_REFINEMENT}=Executive Education&${LEARNING_TYPE_REFINEMENT}=ayylmao&enterprise_catalog_query_titles=foobar` });
     expect(window.location.search).toEqual(`?${LEARNING_TYPE_REFINEMENT}=Executive Education&${LEARNING_TYPE_REFINEMENT}=ayylmao&enterprise_catalog_query_titles=foobar`);
     renderWithRouter(<CatalogPage />);
     // Assert learning type: exec ed has been removed but not learning type `ayylmao`

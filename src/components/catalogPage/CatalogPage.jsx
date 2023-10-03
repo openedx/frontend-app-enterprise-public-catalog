@@ -9,6 +9,7 @@ import {
   SEARCH_FACET_FILTERS,
 } from '@edx/frontend-enterprise-catalog-search';
 import { getConfig } from '@edx/frontend-platform';
+import { useLocation } from 'react-router-dom';
 import { CatalogSearch } from '../catalogs';
 import Subheader from '../subheader/subheader';
 import Hero from '../hero/Hero';
@@ -36,6 +37,7 @@ if (
 }
 
 const CatalogPage = ({ intl }) => {
+  const location = useLocation();
   const config = getConfig();
   // Default routing:
   //   1. If our url on load does not have a catalog parameter set, set one.
@@ -44,7 +46,7 @@ const CatalogPage = ({ intl }) => {
   // Doing this via Url Params will cause a page reload for visitors coming from the main URL, but
   // it's the only way to keep infinite loops out of the rest of the page and display data that
   // is cohesive with those Url params the rest of the time.
-  const loadedSearchParams = new URLSearchParams(window.location.search);
+  const loadedSearchParams = new URLSearchParams(location.search);
   let reloadPage = false;
   let hideCards = false;
 
