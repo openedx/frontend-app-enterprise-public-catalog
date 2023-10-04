@@ -61,5 +61,8 @@ typings/
 
 # Cookie cutter
 dist/
+src/i18n/transifex_input.json
+temp/
+
 .idea
 .vscode
