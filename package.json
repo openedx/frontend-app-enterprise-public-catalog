@@ -41,7 +41,7 @@
     "@edx/frontend-enterprise-hotjar": "2.0.0",
     "@edx/frontend-enterprise-utils": "4.0.4",
     "@edx/frontend-platform": "5.5.2",
-    "@edx/paragon": "20.46.2",
+    "@edx/paragon": "20.46.3",
     "algoliasearch": "4.19.1",
     "babel-polyfill": "6.26.0",
     "classnames": "2.3.2",
