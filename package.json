@@ -33,7 +33,7 @@
     "url": "https://github.com/openedx/frontend-app-enterprise-public-catalog/issues"
   },
   "dependencies": {
-    "@edx/brand": "npm:@edx/brand-openedx@1.2.0",
+    "@edx/brand": "npm:@openedx/brand-openedx@^1.2.2",
     "@edx/brand-openedx": "^1.1.0",
     "@edx/frontend-component-footer": "npm:@edx/frontend-component-footer-edx@^6.4.0",
     "@edx/frontend-component-header": "npm:@edx/frontend-component-header-edx@^7.10.3",
