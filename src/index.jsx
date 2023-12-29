@@ -12,7 +12,7 @@ import { ErrorPage } from '@edx/frontend-platform/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { messages as paragonMessages } from '@edx/paragon';
+import { messages as paragonMessages } from '@openedx/paragon';
 import { messages as headerMessages } from '@edx/frontend-component-header';
 import { messages as footerMessages } from '@edx/frontend-component-footer';
 

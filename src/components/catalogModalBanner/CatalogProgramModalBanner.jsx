@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from '@edx/paragon';
+import { Icon } from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
-import { Assignment, BookOpen, MoneyOutline } from '@edx/paragon/icons';
+import { Assignment, BookOpen, MoneyOutline } from '@openedx/paragon/icons';
 import messages from './CatalogCourseModalBanner.messages';
 import { checkSubscriptions } from '../../utils/catalogUtils';
 import features from '../../config';
