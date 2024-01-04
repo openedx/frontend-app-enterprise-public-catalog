@@ -116,13 +116,23 @@ const CatalogPage = ({ intl }) => {
         highlight={intl.formatMessage(messages['catalogPage.hero.highlight'])}
       />
       <Subheader>
-        <span>
-          <FormattedMessage
-            id="catalogPage.subtitle.text"
-            defaultMessage="edX makes it easy to find the subjects, skills, programs, and courses to meet your learning needs. Work with our content experts to create a customized catalog for your organization from any of our 3,000+ courses. Or, choose our subscription catalog for ease, flexibility, and scalability at a single, per-learner price. "
-            description="Description of the catalog contents and navigation to other edX pages."
-          />
-        </span>
+        <div className="d-flex flex-column text-center">
+          <span>
+            <FormattedMessage
+              id="catalogPage.subtitle.title"
+              defaultMessage="In-demand skills + engaging content"
+              description="Description"
+              tagName="h1"
+            />
+          </span>
+          <span>
+            <FormattedMessage
+              id="catalogPage.subtitle.text"
+              defaultMessage="edX offers engaging, market-driven course content from over 250 of the top-ranked universities and recognized industry leaders around the world. Our expert team will help you easily create a custom Academy tailored to all your organization’s learning goals, or design your own using the tools below. "
+              description="Description of the catalog contents and navigation to other edX pages."
+            />
+          </span>
+        </div>
       </Subheader>
       <SearchData
         trackingName={TRACKING_APP_NAME}

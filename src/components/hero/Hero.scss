@@ -31,8 +31,8 @@
 
 @include media-breakpoint-down(md) {
   .hero {
-    min-height: 200px;
-    max-height: 331px;
+    min-height: 250px;
+    max-height: 400px;
 
     .display-1 {
       max-width: 100%;
