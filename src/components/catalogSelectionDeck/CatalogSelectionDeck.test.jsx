@@ -47,7 +47,7 @@ describe('CatalogSelectionDeck', () => {
       </SearchDataWrapper>,
     );
     expect(screen.getByText(label)).toBeInTheDocument();
-    const terms = ['For all organizations', 'A la carte', 'Subscription'];
+    const terms = ['A la carte', 'Subscription'];
 
     terms.forEach((term) => {
       // Note: we just pick out the first match for this basic test because some messages appear more than once

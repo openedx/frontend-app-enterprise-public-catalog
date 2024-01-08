@@ -8,7 +8,7 @@ import {
   setRefinementAction,
 } from '@edx/frontend-enterprise-catalog-search';
 import {
-  Badge, breakpoints, Container, SelectableBox, useMediaQuery,
+  breakpoints, Container, SelectableBox, useMediaQuery,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
@@ -27,10 +27,8 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
   const isExtraSmall = useMediaQuery({ maxWidth: breakpoints.extraSmall.maxWidth });
   const columnCount = features.CONSOLIDATE_SUBS_CATALOG ? 2 : 3;
 
-  let businessBadgeMessageKey = 'catalogSelectionDeck.edxForBusiness.badge';
   let businessLabelMessageKey = 'catalogSelectionDeck.edxForBusiness.label';
   if (features.CONSOLIDATE_SUBS_CATALOG) {
-    businessBadgeMessageKey = 'catalogSelectionDeck.edxSubscription.badge';
     businessLabelMessageKey = 'catalogSelectionDeck.edxSubscription.label';
   }
 
@@ -53,9 +51,6 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
       >
         <SelectableBox value={config.EDX_ENTERPRISE_ALACARTE_TITLE} inputHidden={false} type="radio" aria-label="a la carte select">
           <div>
-            <Badge variant="dark">
-              {intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.badge'])}
-            </Badge>
             <h3>{intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.label'])}</h3>
             <p>{intl.formatMessage(messages['catalogSelectionDeck.aLaCarte.labelDetail'])}</p>
             <ul className="catalog-list">
@@ -65,9 +60,6 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
           </div>
         </SelectableBox>
         <SelectableBox value={config.EDX_FOR_BUSINESS_TITLE} inputHidden={false} type="radio" aria-label="business select">
-          <Badge variant="secondary">
-            {intl.formatMessage(messages[businessBadgeMessageKey])}
-          </Badge>
           <h3>{intl.formatMessage(messages[businessLabelMessageKey])}</h3>
           <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
           <ul className="catalog-list">
@@ -77,18 +69,15 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
           </ul>
         </SelectableBox>
         {!features.CONSOLIDATE_SUBS_CATALOG && (
-        <SelectableBox value={config.EDX_FOR_ONLINE_EDU_TITLE} inputHidden={false} type="radio" aria-label="education select">
-          <Badge variant="light">
-            {intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.badge'])}
-          </Badge>
-          <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}</h3>
-          <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
-          <ul className="catalog-list">
-            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet1'])}</li>
-            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet2'])}</li>
-            <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
-          </ul>
-        </SelectableBox>
+          <SelectableBox value={config.EDX_FOR_ONLINE_EDU_TITLE} inputHidden={false} type="radio" aria-label="education select">
+            <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}</h3>
+            <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
+            <ul className="catalog-list">
+              <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet1'])}</li>
+              <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet2'])}</li>
+              <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
+            </ul>
+          </SelectableBox>
         )}
       </SelectableBox.Set>
     </Container>
