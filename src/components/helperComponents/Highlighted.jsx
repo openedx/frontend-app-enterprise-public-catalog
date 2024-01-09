@@ -22,8 +22,8 @@ const Highlighted = ({ text, highlight, highlightClass }) => {
             {part}
           </span>
         ) : (
-        // eslint-disable-next-line react/no-array-index-key
-          <span key={i}>{part}</span>
+          // eslint-disable-next-line react/no-array-index-key
+          <p className="h3 font-weight-normal text-white" key={i}>{part}</p>
         )))}
     </>
   );
