@@ -14,7 +14,6 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import messages from './CatalogSelectionDeck.messages';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
-import features from '../../config';
 
 const CatalogSelectionDeck = ({ intl, title, hide }) => {
   const { refinements, dispatch } = useContext(SearchContext);
@@ -25,12 +24,6 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
     setValue(e.target.value);
   };
   const isExtraSmall = useMediaQuery({ maxWidth: breakpoints.extraSmall.maxWidth });
-  const columnCount = features.CONSOLIDATE_SUBS_CATALOG ? 2 : 3;
-
-  let businessLabelMessageKey = 'catalogSelectionDeck.edxForBusiness.label';
-  if (features.CONSOLIDATE_SUBS_CATALOG) {
-    businessLabelMessageKey = 'catalogSelectionDeck.edxSubscription.label';
-  }
 
   useEffect(() => {
     if (refinements[QUERY_TITLE_REFINEMENT]) {
@@ -46,7 +39,7 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
         type="radio"
         value={value}
         onChange={handleChange}
-        columns={isExtraSmall ? 1 : columnCount}
+        columns={isExtraSmall ? 1 : 2}
         className="py-4"
       >
         <SelectableBox value={config.EDX_ENTERPRISE_ALACARTE_TITLE} inputHidden={false} type="radio" aria-label="a la carte select">
@@ -60,7 +53,7 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
           </div>
         </SelectableBox>
         <SelectableBox value={config.EDX_FOR_BUSINESS_TITLE} inputHidden={false} type="radio" aria-label="business select">
-          <h3>{intl.formatMessage(messages[businessLabelMessageKey])}</h3>
+          <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxSubscription.label'])}</h3>
           <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
           <ul className="catalog-list">
             <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet1'])}</li>
@@ -68,17 +61,6 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
             <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
           </ul>
         </SelectableBox>
-        {!features.CONSOLIDATE_SUBS_CATALOG && (
-          <SelectableBox value={config.EDX_FOR_ONLINE_EDU_TITLE} inputHidden={false} type="radio" aria-label="education select">
-            <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxForOnlineEdu.label'])}</h3>
-            <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
-            <ul className="catalog-list">
-              <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet1'])}</li>
-              <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet2'])}</li>
-              <li>{intl.formatMessage(messages['catalogSelectionDeck.bullet3'])}</li>
-            </ul>
-          </SelectableBox>
-        )}
       </SelectableBox.Set>
     </Container>
   );
