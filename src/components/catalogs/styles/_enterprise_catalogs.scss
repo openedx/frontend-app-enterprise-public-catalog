@@ -78,19 +78,6 @@
   }
 }
 
-.program-card {
-  @extend .course-card;
-  color: $white;
-  background: $primary-500;
-  border: 0px;
-  .pgn__card-header-title-md {
-    color: $white;
-  }
-  .pgn__card-header-subtitle-md {
-    color: $white;
-  }
-}
-
 .banner {
   display: flex;
 }
