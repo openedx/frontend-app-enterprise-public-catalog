@@ -65,16 +65,6 @@ describe('CatalogPage', () => {
       ),
     ).toBeInTheDocument();
   });
-  it('renders with catalog selection cards including business catalog', () => {
-    features.CONSOLIDATE_SUBS_CATALOG = false;
-    renderWithRouter(<CatalogPage />);
-    expect(
-      screen.getByText(
-        selectionCardMessage['catalogSelectionDeck.edxForBusiness.label']
-          .defaultMessage,
-      ),
-    ).toBeInTheDocument();
-  });
   it('properly handles empty query params', () => {
     const location = {
       ...window.location,

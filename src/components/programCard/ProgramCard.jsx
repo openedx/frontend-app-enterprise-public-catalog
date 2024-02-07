@@ -8,9 +8,9 @@ import { Badge, Icon, Card } from '@openedx/paragon';
 import { Program } from '@openedx/paragon/icons';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import defaultCardHeader from '@edx/brand/paragon/images/card-imagecap-fallback.png';
 import messages from './ProgramCard.messages';
 import { getCourses } from '../../utils/common';
-import defaultCardHeader from '../../static/default-card-header-dark.png';
 import features from '../../config';
 
 const ProgramCard = ({ intl, onClick, original }) => {
@@ -37,7 +37,7 @@ const ProgramCard = ({ intl, onClick, original }) => {
   return (
     <Card
       isClickable
-      className="program-card"
+      variant="dark"
       tabIndex="0"
       onClick={() => onClick(original)}
     >

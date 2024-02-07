@@ -224,7 +224,7 @@ const CatalogSearch = (intl) => {
       <section>
         <FormattedMessage
           id="catalogs.enterpriseCatalogs.header"
-          defaultMessage="Search courses and programs"
+          defaultMessage="Search our catalog"
           description="Search dialogue."
           tagName="h2"
         />
