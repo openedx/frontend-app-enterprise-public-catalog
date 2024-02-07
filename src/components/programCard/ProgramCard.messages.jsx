@@ -16,6 +16,11 @@ const messages = defineMessages({
     defaultMessage: 'Business',
     description: 'Badge text for the `Business` catalog badge.',
   },
+  'ProgramCard.subscriptionBadge': {
+    id: 'ProgramCard.subscriptionBadge',
+    defaultMessage: 'Subscription',
+    description: 'Badge text for the `Subscription` catalog badge.',
+  },
   'ProgramCard.educationBadge': {
     id: 'ProgramCard.educationBadge',
     defaultMessage: 'Education',

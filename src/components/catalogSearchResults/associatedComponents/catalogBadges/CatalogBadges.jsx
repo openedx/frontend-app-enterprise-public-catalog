@@ -21,7 +21,7 @@ const CatalogBadges = ({ row }) => {
         process.env.EDX_FOR_BUSINESS_TITLE,
       ) && (
         <Badge variant="secondary" className="business-catalog padded-catalog">
-          {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
+          {intl.formatMessage(messages['catalogSearchResults.subscriptionBadge'])}
         </Badge>
       )}
       {!features.CONSOLIDATE_SUBS_CATALOG

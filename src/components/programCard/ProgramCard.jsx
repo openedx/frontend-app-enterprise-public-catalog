@@ -76,7 +76,7 @@ const ProgramCard = ({ intl, onClick, original }) => {
           )}
           {businessCatalogRequested && (
             <Badge variant="secondary" className="padded-catalog">
-              {intl.formatMessage(messages['ProgramCard.businessBadge'])}
+              {intl.formatMessage(messages['ProgramCard.subscriptionBadge'])}
             </Badge>
           )}
           {!features.CONSOLIDATE_SUBS_CATALOG
