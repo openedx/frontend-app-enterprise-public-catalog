@@ -77,7 +77,7 @@ describe('Course card works as expected', () => {
       screen.queryByText(defaultProps.original.partners[0].name),
     ).toBeInTheDocument();
     expect(screen.queryByText('$100 • Self paced')).toBeInTheDocument();
-    expect(screen.queryByText('Business')).toBeInTheDocument();
+    expect(screen.queryByText('Subscription')).toBeInTheDocument();
   });
   test('test card renders default image', async () => {
     render(

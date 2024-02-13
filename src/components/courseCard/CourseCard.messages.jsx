@@ -21,11 +21,6 @@ const messages = defineMessages({
     defaultMessage: 'Subscription',
     description: 'Badge text for the `Subscription` catalog badge.',
   },
-  'courseCard.educationBadge': {
-    id: 'courseCard.educationBadge',
-    defaultMessage: 'Education',
-    description: 'Badge text for the `Education` catalog badge.',
-  },
   'courseCard.priceNotAvailable': {
     id: 'courseCard.priceNotAvailable',
     defaultMessage: ' Not Available',

@@ -281,8 +281,8 @@ describe('Main Catalogs view works as expected', () => {
     const listViewToggleButton = screen.getByLabelText('Card');
     userEvent.click(listViewToggleButton);
 
-    await act(() => screen.findByText('Business'));
-    expect(screen.queryByText('Business')).toBeInTheDocument();
+    await act(() => screen.findByText('Subscription'));
+    expect(screen.queryByText('Subscription')).toBeInTheDocument();
   });
   test('all courses rendered in card view when search results available', () => {
     render(
