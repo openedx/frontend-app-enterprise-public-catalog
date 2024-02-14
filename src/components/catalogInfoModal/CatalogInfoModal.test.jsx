@@ -130,7 +130,7 @@ describe('Course info modal works as expected', () => {
       </IntlProvider>,
     );
     expect(
-      screen.queryByText('Included in business catalog'),
+      screen.queryByText('Included in subscription catalog'),
     ).toBeInTheDocument();
   });
   test('Renders Course info modal with no catalogs', () => {

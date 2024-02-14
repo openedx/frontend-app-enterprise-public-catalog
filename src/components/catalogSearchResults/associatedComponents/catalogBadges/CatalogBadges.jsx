@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import React from 'react';
 import messages from '../../CatalogSearchResults.messages';
-import features from '../../../../config';
 
 const CatalogBadges = ({ row }) => {
   const intl = useIntl();
@@ -21,15 +20,7 @@ const CatalogBadges = ({ row }) => {
         process.env.EDX_FOR_BUSINESS_TITLE,
       ) && (
         <Badge variant="secondary" className="business-catalog padded-catalog">
-          {intl.formatMessage(messages['catalogSearchResults.businessBadge'])}
-        </Badge>
-      )}
-      {!features.CONSOLIDATE_SUBS_CATALOG
-        && row.original.enterprise_catalog_query_titles.includes(
-          process.env.EDX_FOR_ONLINE_EDU_TITLE,
-        ) && (
-        <Badge variant="light" className="padded-catalog">
-          {intl.formatMessage(messages['catalogSearchResults.educationBadge'])}
+          {intl.formatMessage(messages['catalogSearchResults.subscriptionBadge'])}
         </Badge>
       )}
     </div>

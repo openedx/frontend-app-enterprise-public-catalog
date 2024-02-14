@@ -60,10 +60,10 @@ const messages = defineMessages({
     defaultMessage: 'Business',
     description: 'Badge text for the `Business` catalog badge.',
   },
-  'catalogSearchResults.educationBadge': {
-    id: 'catalogSearchResults.educationBadge',
-    defaultMessage: 'Education',
-    description: 'Badge text for the `Education` catalog badge.',
+  'catalogSearchResults.subscriptionBadge': {
+    id: 'catalogSearchResults.subscriptionBadge',
+    defaultMessage: 'Subscription',
+    description: 'Badge text for the `Subscription` catalog badge.',
   },
   'catalogSearchResults.popularCourses': {
     id: 'catalogSearchResults.popularCourses',

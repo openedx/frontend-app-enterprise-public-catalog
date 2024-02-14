@@ -6,7 +6,6 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Assignment, BookOpen, MoneyOutline } from '@openedx/paragon/icons';
 import messages from './CatalogCourseModalBanner.messages';
 import { checkSubscriptions } from '../../utils/catalogUtils';
-import features from '../../config';
 
 const CatalogProgramModalBanner = ({
   intl,
@@ -55,11 +54,9 @@ const CatalogProgramModalBanner = ({
           messages['CatalogCourseModalBanner.bannerCatalogText'],
         )}
       </div>
-      {!features.CONSOLIDATE_SUBS_CATALOG && (
       <div className="banner-subtitle small">
         {checkSubscriptions(courseAssociatedCatalogs)}
       </div>
-      )}
     </div>
     )}
   </div>

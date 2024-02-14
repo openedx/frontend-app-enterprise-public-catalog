@@ -11,7 +11,6 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import defaultCardHeader from '@edx/brand/paragon/images/card-imagecap-fallback.png';
 import messages from './ProgramCard.messages';
 import { getCourses } from '../../utils/common';
-import features from '../../config';
 
 const ProgramCard = ({ intl, onClick, original }) => {
   const {
@@ -28,9 +27,6 @@ const ProgramCard = ({ intl, onClick, original }) => {
   );
   const businessCatalogRequested = enterprise_catalog_query_titles?.includes(
     process.env.EDX_FOR_BUSINESS_TITLE,
-  );
-  const eduCatalogRequested = enterprise_catalog_query_titles?.includes(
-    process.env.EDX_FOR_ONLINE_EDU_TITLE,
   );
   const imageSrc = card_image_url || defaultCardHeader;
 
@@ -76,14 +72,8 @@ const ProgramCard = ({ intl, onClick, original }) => {
           )}
           {businessCatalogRequested && (
             <Badge variant="secondary" className="padded-catalog">
-              {intl.formatMessage(messages['ProgramCard.businessBadge'])}
+              {intl.formatMessage(messages['ProgramCard.subscriptionBadge'])}
             </Badge>
-          )}
-          {!features.CONSOLIDATE_SUBS_CATALOG
-           && eduCatalogRequested && (
-           <Badge className="padded-catalog" variant="light">
-             {intl.formatMessage(messages['ProgramCard.educationBadge'])}
-           </Badge>
           )}
         </div>
       </Card.Section>
