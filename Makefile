@@ -29,24 +29,19 @@ detect_changed_source_translations:
 	# Checking for changed translations...
 	git diff --exit-code $(i18n)
 
-# Pushes translations to Transifex.  You must run make extract_translations first.
-push_translations:
-	# Pushing strings to Transifex...
-	tx push -s
-	# Fetching hashes from Transifex...
-	./node_modules/@edx/reactifex/bash_scripts/get_hashed_strings_v3.sh
-	# Writing out comments to file...
-	$(transifex_utils) $(transifex_temp) --comments --v3-scripts-path
-	# Pushing comments to Transifex...
-	./node_modules/@edx/reactifex/bash_scripts/put_comments_v3.sh
-
+# Pulls translations using atlas.
 pull_translations:
 	rm -rf src/i18n/messages
 	mkdir src/i18n/messages
 	cd src/i18n/messages \
-      && atlas pull translations/frontend-app-enterprise-public-catalog/src/i18n/messages:frontend-app-enterprise-public-catalog
+	  && atlas pull $(ATLAS_OPTIONS) \
+	           translations/frontend-component-footer/src/i18n/messages:frontend-component-footer \
+	           translations/frontend-component-header/src/i18n/messages:frontend-component-header \
+	           translations/frontend-platform/src/i18n/messages:frontend-platform \
+	           translations/paragon/src/i18n/messages:paragon \
+	           translations/frontend-app-enterprise-public-catalog/src/i18n/messages:frontend-app-enterprise-public-catalog
 
-	$(intl_imports) frontend-app-enterprise-public-catalog
+	$(intl_imports) frontend-component-header frontend-component-footer frontend-platform paragon frontend-app-enterprise-public-catalog
 
 # This target is used by Travis.
 validate-no-uncommitted-package-lock-changes:
