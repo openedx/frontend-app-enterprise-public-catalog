@@ -45,7 +45,7 @@ const SearchDataWrapper = ({
 );
 
 const mockConfig = () => ({
-  EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+  EDX_FOR_SUBSCRIPTION_TITLE: 'ayylmao',
   EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
   FEATURE_CARD_VIEW_ENABLED: 'True',
 });
@@ -237,7 +237,7 @@ describe('Main Catalogs view works as expected', () => {
   });
 
   test('all courses rendered when search results available', async () => {
-    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <SearchDataWrapper>
@@ -265,7 +265,7 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText('Subscription')).toBeInTheDocument();
   });
   test('all courses rendered when search results available', async () => {
-    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     features.CONSOLIDATE_SUBS_CATALOG = false;
     render(
@@ -461,7 +461,7 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText('About this course')).toBeInTheDocument();
   });
   test('exec ed search results text and card price', async () => {
-    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     renderWithRouter(
       <SearchDataWrapper>
@@ -484,7 +484,7 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText('$100')).toBeInTheDocument();
   });
   test('all programs rendered when search results available', () => {
-    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
 
     renderWithRouter(

@@ -44,7 +44,7 @@ To run this project locally:
 
    .. code-block::
 
-      EDX_FOR_BUSINESS_TITLE='' # default = 'Business'
+      EDX_FOR_SUBSCRIPTION_TITLE='' # default = 'Subscription'
       EDX_ENTERPRISE_ALACARTE_TITLE='' # default = 'A la carte'
 
 5. From repository root folder, run:

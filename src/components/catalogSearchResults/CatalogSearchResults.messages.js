@@ -55,11 +55,6 @@ const messages = defineMessages({
     defaultMessage: 'A la carte',
     description: 'Badge text for the `A La Carte` catalog badge.',
   },
-  'catalogSearchResults.businessBadge': {
-    id: 'catalogSearchResults.businessBadge',
-    defaultMessage: 'Business',
-    description: 'Badge text for the `Business` catalog badge.',
-  },
   'catalogSearchResults.subscriptionBadge': {
     id: 'catalogSearchResults.subscriptionBadge',
     defaultMessage: 'Subscription',

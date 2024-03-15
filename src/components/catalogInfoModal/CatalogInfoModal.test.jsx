@@ -99,7 +99,7 @@ describe('Course info modal works as expected', () => {
     Object.assign(defaultPropsCopy, courseTypeModalProps);
 
     const businessQueryTitle = 'test-business-query-title';
-    process.env.EDX_FOR_BUSINESS_TITLE = businessQueryTitle;
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = businessQueryTitle;
     defaultPropsCopy.selectedCourse.courseAssociatedCatalogs = [
       businessQueryTitle,
     ];
@@ -119,7 +119,7 @@ describe('Course info modal works as expected', () => {
     Object.assign(defaultPropsCopy, courseTypeModalProps);
 
     const businessQueryTitle = 'test-business-query-title';
-    process.env.EDX_FOR_BUSINESS_TITLE = businessQueryTitle;
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = businessQueryTitle;
     defaultPropsCopy.selectedCourse.courseAssociatedCatalogs = [
       businessQueryTitle,
     ];
