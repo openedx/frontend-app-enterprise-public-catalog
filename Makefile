@@ -1,6 +1,4 @@
-export TRANSIFEX_RESOURCE = frontend-app-enterprise-public-catalog
-transifex_langs = "ar,fr,es_419,zh_CN"
-
+intl_imports = ./node_modules/.bin/intl-imports.js
 transifex_utils = ./node_modules/.bin/transifex-utils.js
 i18n = ./src/i18n
 transifex_input = $(i18n)/transifex_input.json
@@ -42,9 +40,13 @@ push_translations:
 	# Pushing comments to Transifex...
 	./node_modules/@edx/reactifex/bash_scripts/put_comments_v3.sh
 
-# Pulls translations from Transifex.
 pull_translations:
-	tx pull -f -t --mode reviewed --languages=$(transifex_langs)
+	rm -rf src/i18n/messages
+	mkdir src/i18n/messages
+	cd src/i18n/messages \
+      && atlas pull translations/frontend-app-enterprise-public-catalog/src/i18n/messages:frontend-app-enterprise-public-catalog
+
+	$(intl_imports) frontend-app-enterprise-public-catalog
 
 # This target is used by Travis.
 validate-no-uncommitted-package-lock-changes:

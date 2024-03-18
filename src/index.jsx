@@ -52,5 +52,10 @@ initialize({
     },
     auth: () => {},
   },
-  messages: [appMessages, headerMessages, footerMessages, paragonMessages],
+  messages: [
+    headerMessages,
+    footerMessages,
+    paragonMessages,
+    ...appMessages,
+  ],
 });

@@ -63,6 +63,8 @@ typings/
 dist/
 src/i18n/transifex_input.json
 temp/
+src/i18n/messages/
 
 .idea
 .vscode
+
