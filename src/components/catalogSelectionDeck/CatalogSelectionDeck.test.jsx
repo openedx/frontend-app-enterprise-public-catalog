@@ -19,7 +19,7 @@ const label = 'fefifofum';
 jest.mock('@edx/frontend-platform/config', () => ({
   ...jest.requireActual('@edx/frontend-platform/config'),
   getConfig: jest.fn(() => ({
-    EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+    EDX_FOR_SUBSCRIPTION_TITLE: 'ayylmao',
     EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
   })),
 }));

@@ -17,7 +17,7 @@ const CatalogBadges = ({ row }) => {
         </Badge>
       )}
       {row.original.enterprise_catalog_query_titles.includes(
-        process.env.EDX_FOR_BUSINESS_TITLE,
+        process.env.EDX_FOR_SUBSCRIPTION_TITLE,
       ) && (
         <Badge variant="secondary" className="business-catalog padded-catalog">
           {intl.formatMessage(messages['catalogSearchResults.subscriptionBadge'])}

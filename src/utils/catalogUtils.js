@@ -5,7 +5,7 @@ const nowDate = new Date(Date.now());
 
 function checkSubscriptions(courseAssociatedCatalogs) {
   const inSubscription = courseAssociatedCatalogs.includes(
-    process.env.EDX_FOR_BUSINESS_TITLE,
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE,
   );
   if (inSubscription) {
     return 'Included in subscription catalog';

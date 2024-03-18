@@ -68,7 +68,7 @@ const CourseCard = ({
             </Badge>
           )}
           {enterprise_catalog_query_titles?.includes(
-            process.env.EDX_FOR_BUSINESS_TITLE,
+            process.env.EDX_FOR_SUBSCRIPTION_TITLE,
           ) && (
             <Badge
               variant="secondary"

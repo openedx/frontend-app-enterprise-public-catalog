@@ -49,7 +49,7 @@ describe('Course card works as expected', () => {
     features.CONSOLIDATE_SUBS_CATALOG = true;
   });
   test('card renders as expected', () => {
-    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <IntlProvider locale="en">
@@ -64,7 +64,7 @@ describe('Course card works as expected', () => {
     expect(screen.queryByText('Subscription')).toBeInTheDocument();
   });
   test('card renders as expected with business subs', () => {
-    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     features.CONSOLIDATE_SUBS_CATALOG = false;
     render(
@@ -90,7 +90,7 @@ describe('Course card works as expected', () => {
     await expect(screen.getByAltText(imageAltText).src).not.toBeUndefined;
   });
   test('exec ed card renders correct price from entitlement', async () => {
-    process.env.EDX_FOR_BUSINESS_TITLE = 'ayylmao';
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE = 'baz';
     render(
       <IntlProvider locale="en">
