@@ -17,6 +17,7 @@
 @import './components/hero/Hero';
 @import 'components/catalogSearchResults/associatedComponents/downloadCsvButton/DownloadCsvButton';
 @import 'components/catalogSelectionDeck/CatalogSelectionDeck';
+@import 'components/aiCuration/xpertResultCard/XpertResultCard';
 
 .page-width {
   max-width: 1350px;
@@ -32,4 +33,9 @@
 
 .program.badge {
   font-family: $font-family-monospace;
+}
+
+.course-card .pgn__card-logo-cap {
+  object-fit: scale-down;
+  object-position: center center;
 }

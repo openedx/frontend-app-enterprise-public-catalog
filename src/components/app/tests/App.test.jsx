@@ -25,7 +25,7 @@ mockWindowLocations();
 
 const mockConfig = () => ({
   HUBSPOT_MARKETING_URL: 'http://bobsdooremporium.com',
-  EDX_FOR_BUSINESS_TITLE: 'ayylmao',
+  EDX_FOR_SUBSCRIPTION_TITLE: 'ayylmao',
   EDX_ENTERPRISE_ALACARTE_TITLE: 'baz',
 });
 

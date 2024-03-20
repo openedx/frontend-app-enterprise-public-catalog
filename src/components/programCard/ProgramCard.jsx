@@ -26,7 +26,7 @@ const ProgramCard = ({ intl, onClick, original }) => {
     process.env.EDX_ENTERPRISE_ALACARTE_TITLE,
   );
   const businessCatalogRequested = enterprise_catalog_query_titles?.includes(
-    process.env.EDX_FOR_BUSINESS_TITLE,
+    process.env.EDX_FOR_SUBSCRIPTION_TITLE,
   );
   const imageSrc = card_image_url || defaultCardHeader;
 

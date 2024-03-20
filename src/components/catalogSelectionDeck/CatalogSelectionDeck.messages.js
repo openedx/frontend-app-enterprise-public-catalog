@@ -1,34 +1,9 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
 
 const messages = defineMessages({
-  'catalogSelectionDeck.edxForBusiness.badge': {
-    id: 'catalogSelectionDeck.edxForBusiness.badge',
-    defaultMessage: 'For businesses',
-    description: 'badge for catalog',
-  },
-  'catalogSelectionDeck.edxForBusiness.label': {
-    id: 'catalogSelectionDeck.edxForBusiness.label',
-    defaultMessage: 'Business subscription',
-    description: 'label for checkbox for filtering results',
-  },
-  'catalogSelectionDeck.edxSubscription.badge': {
-    id: 'catalogSelectionDeck.edxSubscription.badge',
-    defaultMessage: 'For all organizations',
-    description: 'badge for catalog',
-  },
   'catalogSelectionDeck.edxSubscription.label': {
     id: 'catalogSelectionDeck.edxSubscription.label',
     defaultMessage: 'Subscription',
-    description: 'label for checkbox for filtering results',
-  },
-  'catalogSelectionDeck.edxForOnlineEdu.badge': {
-    id: 'catalogSelectionDeck.edxForOnlineEdu.badge',
-    defaultMessage: 'For educational institutions',
-    description: 'badge for catalog',
-  },
-  'catalogSelectionDeck.edxForOnlineEdu.label': {
-    id: 'catalogSelectionDeck.edxForOnlineEdu.label',
-    defaultMessage: 'Education subscription',
     description: 'label for checkbox for filtering results',
   },
   'catalogSelectionDeck.labelDetail': {

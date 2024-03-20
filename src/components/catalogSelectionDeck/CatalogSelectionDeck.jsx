@@ -52,7 +52,7 @@ const CatalogSelectionDeck = ({ intl, title, hide }) => {
             </ul>
           </div>
         </SelectableBox>
-        <SelectableBox value={config.EDX_FOR_BUSINESS_TITLE} inputHidden={false} type="radio" aria-label="business select">
+        <SelectableBox value={config.EDX_FOR_SUBSCRIPTION_TITLE} inputHidden={false} type="radio" aria-label="subscription select">
           <h3>{intl.formatMessage(messages['catalogSelectionDeck.edxSubscription.label'])}</h3>
           <p>{intl.formatMessage(messages['catalogSelectionDeck.labelDetail'])}</p>
           <ul className="catalog-list">

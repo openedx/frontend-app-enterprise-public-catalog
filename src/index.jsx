@@ -41,7 +41,7 @@ initialize({
         ALGOLIA_SEARCH_API_KEY: process.env.ALGOLIA_SEARCH_API_KEY || null,
         ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,
         HUBSPOT_MARKETING_URL: process.env.HUBSPOT_MARKETING_URL || null,
-        EDX_FOR_BUSINESS_TITLE: process.env.EDX_FOR_BUSINESS_TITLE || null,
+        EDX_FOR_SUBSCRIPTION_TITLE: process.env.EDX_FOR_SUBSCRIPTION_TITLE || null,
         EDX_ENTERPRISE_ALACARTE_TITLE:
           process.env.EDX_ENTERPRISE_ALACARTE_TITLE || null,
         FEATURE_CARD_VIEW_ENABLED:
@@ -52,5 +52,10 @@ initialize({
     },
     auth: () => {},
   },
-  messages: [appMessages, headerMessages, footerMessages, paragonMessages],
+  messages: [
+    headerMessages,
+    footerMessages,
+    paragonMessages,
+    ...appMessages,
+  ],
 });
