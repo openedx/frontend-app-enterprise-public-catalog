@@ -1,7 +1,7 @@
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
   Container, Image, useMediaQuery, breakpoints,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import LargeHeroImageHiRes from '../../assets/hero-image-144px-hi-res.png';

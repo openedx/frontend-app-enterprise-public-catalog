@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Alert, CardView, DataTable } from '@edx/paragon';
+import { Alert, CardView, DataTable } from '@openedx/paragon';
 
 import {
   CONTENT_TYPE_COURSE,

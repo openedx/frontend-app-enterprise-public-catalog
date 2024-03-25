@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Badge, Card } from '@edx/paragon';
+import { Badge, Card } from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
 import { CONTENT_TYPE_COURSE } from '../../constants';

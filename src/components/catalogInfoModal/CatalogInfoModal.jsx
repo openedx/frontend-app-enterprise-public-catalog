@@ -7,10 +7,10 @@ import {
   Image,
   ModalDialog,
   Icon,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
-import { Launch } from '@edx/paragon/icons';
+import { Launch } from '@openedx/paragon/icons';
 import messages from './CatalogInfoModal.messages';
 import CatalogCourseModalBanner from '../catalogModalBanner/CatalogCourseModalBanner';
 import CatalogProgramModalBanner from '../catalogModalBanner/CatalogProgramModalBanner';

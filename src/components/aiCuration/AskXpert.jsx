@@ -8,8 +8,8 @@ import {
   Image,
   IconButton,
   Icon,
-} from '@edx/paragon';
-import { Close } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { Close } from '@openedx/paragon/icons';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import edxXPERT from '../../assets/edx-xpert-card-side-image.png';

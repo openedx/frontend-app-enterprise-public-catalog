@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from '@edx/paragon';
+import { Container } from '@openedx/paragon';
 import { Helmet } from 'react-helmet';
 
 import { PAGE_TITLE } from '../constants';

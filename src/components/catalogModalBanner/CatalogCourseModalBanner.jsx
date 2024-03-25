@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from '@edx/paragon';
+import { Icon } from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import {
   Book, BookOpen, EventNote, MoneyOutline,
-} from '@edx/paragon/icons';
+} from '@openedx/paragon/icons';
 import messages from './CatalogCourseModalBanner.messages';
 import {
   checkAvailability,

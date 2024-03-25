@@ -9,7 +9,7 @@ import {
 } from '@edx/frontend-enterprise-catalog-search';
 import {
   breakpoints, Container, SelectableBox, useMediaQuery,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import messages from './CatalogSelectionDeck.messages';

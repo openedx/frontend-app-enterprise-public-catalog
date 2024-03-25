@@ -2,8 +2,8 @@ import {
   Form,
   Icon,
   IconButton,
-} from '@edx/paragon';
-import { Send } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { Send } from '@openedx/paragon/icons';
 import { useState } from 'react';
 
 import PropTypes from 'prop-types';

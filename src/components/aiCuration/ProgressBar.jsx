@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   ProgressBar,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import PropTypes from 'prop-types';
 
 const LoadingBar = ({ isLoading }) => {
