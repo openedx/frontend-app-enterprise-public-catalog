@@ -7,6 +7,7 @@ import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Close } from '@edx/paragon/icons';
 import askXpretImage from '../../../assets/edx-xpert-card-side-image.png';
 import { useXpertResultsWithThreshold } from '../data/hooks';
+import { hasNonEmptyValues } from '../../../utils/common';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
@@ -15,9 +16,11 @@ import {
 
 const debounce = require('lodash.debounce');
 
-const XpertResultCard = ({ taskId, queryTitle, xpertData }) => {
+const XpertResultCard = ({
+  taskId, query, results, onClose, onXpertResults,
+}) => {
   const [thresholdValue, setThresholdValue] = useState(0);
-  const [xpertResults, setXpertResults] = useState(xpertData);
+  const [xpertResults, setXpertResults] = useState(results);
   const {
     loading, error, xpertResultsData, getXpertResultsWithThreshold,
   } = useXpertResultsWithThreshold();
@@ -27,6 +30,12 @@ const XpertResultCard = ({ taskId, queryTitle, xpertData }) => {
 
     if (xpertResultsData) {
       setXpertResults(xpertResultsData);
+      const aggregationKeys = {
+        [CONTENT_TYPE_COURSE]: xpertResultsData.ocm_courses?.map(item => item.aggregation_key),
+        [EXEC_ED_TITLE]: xpertResultsData.exec_ed_courses?.map(item => item.aggregation_key),
+        [CONTENT_TYPE_PROGRAM]: xpertResultsData.programs?.map(item => item.aggregation_key),
+      };
+      onXpertResults(aggregationKeys);
     }
   }, 1000);
 
@@ -37,52 +46,45 @@ const XpertResultCard = ({ taskId, queryTitle, xpertData }) => {
     debouncedHandleChange(threshold);
   };
 
-  const xpertResultStats = useMemo(() => {
-    const selfPacedCoursesCount = xpertResults.filter(item => item.learning_type === CONTENT_TYPE_COURSE).length;
-    const selfPacedProgramsCount = xpertResults.filter(item => item.learning_type === CONTENT_TYPE_PROGRAM).length;
-    const execEdCoursesCount = xpertResults.filter(item => item.learning_type === EXEC_ED_TITLE).length;
-
-    return {
-      selfPacedCoursesCount,
-      selfPacedProgramsCount,
-      execEdCoursesCount,
-    };
-  }, [xpertResults]);
+  const xpertResultStats = useMemo(() => ({
+    selfPacedCoursesCount: xpertResults.ocm_courses?.length,
+    selfPacedProgramsCount: xpertResults.programs?.length,
+    execEdCoursesCount: xpertResults.exec_ed_courses?.length,
+  }), [xpertResults]);
 
   const { selfPacedCoursesCount, selfPacedProgramsCount, execEdCoursesCount } = xpertResultStats;
 
   return (
-    <div>
-      <div className="mt-3 d-flex justify-content-center">
-        <Card orientation="horizontal" className="bg-primary-700 w-100 row">
-          <Card.Section className="col-3">
-            <Image
-              src={askXpretImage}
-              alt="edx Xpert logo"
-              fluid
-            />
-          </Card.Section>
-          <Card.Section className="col-6">
-            <Stack gap={3}>
-              <h1 className="text-white">
-                <FormattedMessage
-                  id="catalogs.askXpert.result.card.heading"
-                  defaultMessage="Xpert"
-                  description="Heading displayed on askXpert result card"
-                />
-              </h1>
-              <div className="text-white">
-                <FormattedMessage
-                  id="catalogs.askXpert.result.card.label.for.results"
-                  defaultMessage="Results: {queryTitle}"
-                  description="Results label to display askXpert search results on askXpert result card"
-                  values={{ queryTitle: <b>{queryTitle}</b> }}
-                />
-              </div>
-              {xpertResults && xpertResults.length > 0
+    <div className="mt-3 mb-6 d-flex justify-content-center">
+      <Card orientation="horizontal" className="bg-primary-700 w-100 row">
+        <Card.Section className="col-3">
+          <Image
+            src={askXpretImage}
+            alt="edx Xpert logo"
+            fluid
+          />
+        </Card.Section>
+        <Card.Section className="col-6">
+          <Stack gap={3}>
+            <h1 className="text-white">
+              <FormattedMessage
+                id="catalogs.askXpert.result.card.heading"
+                defaultMessage="Xpert"
+                description="Heading displayed on askXpert result card"
+              />
+            </h1>
+            <div className="text-white">
+              <FormattedMessage
+                id="catalogs.askXpert.result.card.label.for.results"
+                defaultMessage="Results: {query}"
+                description="Results label to display askXpert search results on askXpert result card"
+                values={{ query: <b>{query}</b> }}
+              />
+            </div>
+            {xpertResults && hasNonEmptyValues(xpertResults)
                 && (
-                <div className="d-flex align-xpertResults-center text-white">
-                  <div className="d-flex align-xpertResults-center mr-4">
+                <div className="d-flex align-items-center text-white">
+                  <div className="d-flex align-items-center mr-4">
                     {loading
                       ? <Spinner animation="border" variant="light" className="mr-2" />
                       : <h1 className="text-white mr-2">{selfPacedCoursesCount}</h1>}
@@ -94,7 +96,7 @@ const XpertResultCard = ({ taskId, queryTitle, xpertData }) => {
                       />
                     </span>
                   </div>
-                  <div className="d-flex align-xpertResults-center mr-4">
+                  <div className="d-flex align-items-center mr-4">
                     {loading
                       ? <Spinner animation="border" variant="light" className="mr-2" />
                       : <h1 className="text-white mr-2">{selfPacedProgramsCount}</h1>}
@@ -106,7 +108,7 @@ const XpertResultCard = ({ taskId, queryTitle, xpertData }) => {
                       />
                     </span>
                   </div>
-                  <div className="d-flex align-xpertResults-center">
+                  <div className="d-flex align-items-center">
                     {loading
                       ? <Spinner animation="border" variant="light" className="mr-2" />
                       : <h1 className="text-white mr-2">{execEdCoursesCount}</h1>}
@@ -120,7 +122,7 @@ const XpertResultCard = ({ taskId, queryTitle, xpertData }) => {
                   </div>
                 </div>
                 )}
-              {error
+            {error
               && (
               <p className="text-white">
                 <FormattedMessage
@@ -130,7 +132,7 @@ const XpertResultCard = ({ taskId, queryTitle, xpertData }) => {
                 />
               </p>
               )}
-              {!error && !xpertResults.length
+            {!error && !hasNonEmptyValues(xpertResults)
               && (
               <p className="text-white">
                 <FormattedMessage
@@ -140,60 +142,90 @@ const XpertResultCard = ({ taskId, queryTitle, xpertData }) => {
                 />
               </p>
               )}
-              <div className="text-white mt-4">
-                <Form.Group className="">
-                  <Form.Label className="h2 text-white mb-3 font-weight-bold">
-                    Update your results
-                  </Form.Label>
-                  <datalist id="values" className="d-flex justify-content-between mb-1">
-                    <option value="0" label="Broad" className="p-0 font-weight-normal" />
-                    <option value="0.8" label="Focused" className="p-0 font-weight-normal" />
-                  </datalist>
-                  <Form.Control
-                    type="range"
-                    role="slider"
-                    value={thresholdValue}
-                    onChange={handleChange}
-                    min="0"
-                    max="0.8"
-                    step="0.2"
-                    list="values"
-                    aria-valuemin="0"
-                    aria-valuemax="0.8"
-                    className="m-0"
-                  />
-                </Form.Group>
-              </div>
-            </Stack>
-          </Card.Section>
-          <Card.Section className="col-3">
-            <div className="d-flex justify-content-end d-flex align-xpertResults-center">
-              <Button variant="inverse-outline-primary mr-3 btn-sm">New Search</Button>
-              <Icon src={Close} className="text-white" />
+            <div className="text-white mt-4">
+              <Form.Group className="">
+                <Form.Label className="h2 text-white mb-3 font-weight-bold">
+                  Update your results
+                </Form.Label>
+                <datalist id="values" className="d-flex justify-content-between mb-1">
+                  <option value="0" label="Broad" className="p-0 font-weight-normal" />
+                  <option value="0.8" label="Focused" className="p-0 font-weight-normal" />
+                </datalist>
+                <Form.Control
+                  type="range"
+                  role="slider"
+                  value={thresholdValue}
+                  onChange={handleChange}
+                  min="0"
+                  max="0.8"
+                  step="0.2"
+                  list="values"
+                  aria-valuemin="0"
+                  aria-valuemax="0.8"
+                  className="m-0"
+                />
+              </Form.Group>
             </div>
-          </Card.Section>
-          <Card.Section className="row d-flex justify-content-end m-0 pt-0 pb-0">
-            <p className="text-white">Powered by OpenAI</p>
-          </Card.Section>
-        </Card>
-      </div>
+          </Stack>
+        </Card.Section>
+        <Card.Section className="col-3">
+          <div className="d-flex justify-content-end align-items-center">
+            <Button
+              variant="inverse-outline-primary mr-3 btn-sm"
+              onClick={onClose}
+            >New Search
+            </Button>
+            <Icon
+              src={Close}
+              className="text-white"
+              onClick={onClose}
+            />
+          </div>
+        </Card.Section>
+        <Card.Section className="row d-flex justify-content-end m-0 pt-0 pb-0">
+          <p className="text-white">Powered by OpenAI</p>
+        </Card.Section>
+      </Card>
     </div>
   );
 };
 
 XpertResultCard.propTypes = {
-  taskId: PropTypes.number.isRequired,
-  queryTitle: PropTypes.string.isRequired,
-  xpertData: PropTypes.arrayOf(
-    PropTypes.shape({
-      learning_type: PropTypes.string.isRequired,
-      queryTitle: PropTypes.string,
-      card_image_url: PropTypes.string,
-      course_keys: PropTypes.arrayOf(PropTypes.string),
-      enterprise_catalog_query_queryTitles: PropTypes.arrayOf(PropTypes.string),
-      original_image_url: PropTypes.string,
-    }),
-  ).isRequired,
+  taskId: PropTypes.string.isRequired,
+  query: PropTypes.string.isRequired,
+  results: PropTypes.shape({
+    ocm_courses: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        short_description: PropTypes.string.isRequired,
+        program_titles: PropTypes.arrayOf(PropTypes.string).isRequired,
+        skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+        subjects: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }),
+    ).isRequired,
+    exec_ed_courses: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        short_description: PropTypes.string.isRequired,
+        program_titles: PropTypes.arrayOf(PropTypes.string).isRequired,
+        skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+        subjects: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }),
+    ).isRequired,
+    programs: PropTypes.arrayOf(
+      PropTypes.shape({
+        aggregation_key: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        short_description: PropTypes.string.isRequired,
+        skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+        subjects: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onXpertResults: PropTypes.func.isRequired,
 };
 
 export default XpertResultCard;

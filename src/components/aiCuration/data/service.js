@@ -12,7 +12,7 @@ class EnterpriseCatalogAiCurationApiService {
     try {
       const response = await axios.post(`${EnterpriseCatalogAiCurationApiService.enterpriseCatalogAiCurationServiceUrl}`, {
         query,
-        catalog_id: catalogName,
+        catalog_name: catalogName,
       });
       return {
         status: response.status,

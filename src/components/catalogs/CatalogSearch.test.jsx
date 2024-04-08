@@ -16,6 +16,10 @@ jest.mock('react-instantsearch-dom', () => ({
   Index: () => <div>SEARCH</div>,
 }));
 
+jest.mock('axios', () => ({
+  get: jest.fn(),
+}));
+
 const DEFAULT_SEARCH_CONTEXT_VALUE = { refinements: {} };
 const COURSE_SEARCH_CONTEXT_VALUE = {
   refinements: { learning_type: ['course'] },

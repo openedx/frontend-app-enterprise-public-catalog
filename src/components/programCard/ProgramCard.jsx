@@ -39,15 +39,15 @@ const ProgramCard = ({ intl, onClick, original }) => {
     >
       <Card.ImageCap
         src={imageSrc}
-        logoSrc={authoring_organizations[0]?.logo_image_url}
+        logoSrc={authoring_organizations?.[0]?.logo_image_url || ''}
         srcAlt={title}
-        logoAlt={authoring_organizations[0]?.name}
+        logoAlt={authoring_organizations?.[0]?.name}
       />
       <Card.Header
         title={title}
         subtitle={
-          authoring_organizations.length !== 0 && (
-            <p className="small">{authoring_organizations[0].name}</p>
+          authoring_organizations?.length !== 0 && (
+            <p className="small">{authoring_organizations?.[0].name}</p>
           )
         }
       />
@@ -62,7 +62,7 @@ const ProgramCard = ({ intl, onClick, original }) => {
           </Badge>
         </span>
         <p className="x-small mb-2 mt-2">
-          {getCourses(course_keys.length, 'Course')}
+          {getCourses(course_keys?.length, 'Course')}
         </p>
         <div style={{ maxWidth: '400vw' }}>
           {alaCarteRequested && (

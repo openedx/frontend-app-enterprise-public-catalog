@@ -21,6 +21,10 @@ jest.mock('react-instantsearch-dom', () => ({
   Index: () => <div>SEARCH</div>,
 }));
 
+jest.mock('axios', () => ({
+  get: jest.fn(),
+}));
+
 mockWindowLocations();
 
 const mockConfig = () => ({

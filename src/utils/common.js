@@ -42,3 +42,7 @@ export function getCourses(numCourses, string) {
 
   return `${numCourses} ${string}`;
 }
+
+export function hasNonEmptyValues(data) {
+  return Object.values(data).some(item => Array.isArray(item) && item.length > 0);
+}

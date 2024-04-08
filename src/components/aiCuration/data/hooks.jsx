@@ -26,23 +26,28 @@ export const useXpertResultsWithThreshold = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [xpertResultsData, setXpertResultsData] = useState([]);
+  const defaultResult = {
+    ocm_courses: [],
+    exec_ed_courses: [],
+    programs: [],
+  };
 
   const getXpertResultsWithThreshold = async (taskId, threshold) => {
     try {
       setLoading(true);
-      const results = await EnterpriseCatalogAiCurationApiService.getXpertResults(taskId, threshold);
-      const { status, data: responseData, error: responseError } = results;
+      const response = await EnterpriseCatalogAiCurationApiService.getXpertResults(taskId, threshold);
+      const { status, data: responseData, error: responseError } = response;
 
       if (status >= 400 && status < 600) {
         setError(responseError);
-        setXpertResultsData([]);
+        setXpertResultsData({});
       } else {
-        setXpertResultsData(responseData || []);
+        setXpertResultsData(responseData.result || defaultResult);
       }
     } catch (err) {
       setError(err);
       logError(err);
-      setXpertResultsData([]);
+      setXpertResultsData({});
     } finally {
       setLoading(false);
     }

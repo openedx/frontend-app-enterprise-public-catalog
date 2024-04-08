@@ -14,6 +14,7 @@ import {
   SearchHeader,
   SearchContext,
 } from '@edx/frontend-enterprise-catalog-search';
+import { Image } from '@edx/paragon';
 import { useAlgoliaIndex } from './data/hooks';
 import PageWrapper from '../PageWrapper';
 
@@ -35,6 +36,9 @@ import {
 } from '../../utils/algoliaUtils';
 import { convertLearningTypesToFilters } from '../../utils/catalogUtils';
 import messages from '../catalogSearchResults/CatalogSearchResults.messages';
+import xpertLogo from '../../assets/edx-xpert-logo.png';
+import features from '../../config';
+import AskXpert from '../aiCuration/AskXpert';
 
 const CatalogSearch = (intl) => {
   const {
@@ -60,6 +64,8 @@ const CatalogSearch = (intl) => {
 
   const [contentWithResults, setContentWithResults] = useState([]);
   const [contentWithoutResults, setContentWithoutResults] = useState([]);
+  const [showAskXpert, setShowAskXpert] = useState(false);
+  const [xpertData, setXpertData] = useState({});
 
   const contentData = useMemo(
     () => ({
@@ -192,28 +198,40 @@ const CatalogSearch = (intl) => {
 
   // Take a list of learning types and render a search results component for each item
   const contentToRender = (items) => {
-    const itemsWithResultsList = items.map((item) => (
-      <Index
-        indexName={algoliaIndexName}
-        indexId={`search-${item}`}
-        key={`search-${item}`}
-      >
-        <Configure
-          hitsPerPage={
-            specifiedContentType && learningType?.length === 1
-              ? NUM_RESULTS_PER_PAGE
-              : contentData[item].numResults
-          }
-          filters={contentData[item].filter}
-          facetingAfterDistinct
-        />
-        <CatalogSearchResults
-          preview={specifiedContentType === undefined}
-          contentType={item}
-          setNoContent={contentData[item].setNoResults}
-        />
-      </Index>
-    ));
+    const itemsWithResultsList = items.map((item) => {
+      let filters = contentData[item].filter;
+
+      if (features.ENABLE_AI_CURATION) {
+        if (xpertData[item]?.length > 0) {
+          filters += ` AND (${xpertData[item]?.map(key => `aggregation_key:'${key}'`).join(' OR ')})`;
+        } else if (xpertData[item]?.length === 0) {
+          filters = 'aggregation_key: null';
+        }
+      }
+
+      return (
+        <Index
+          indexName={algoliaIndexName}
+          indexId={`search-${item}`}
+          key={`search-${item}`}
+        >
+          <Configure
+            hitsPerPage={
+              specifiedContentType && learningType?.length === 1
+                ? NUM_RESULTS_PER_PAGE
+                : contentData[item].numResults
+            }
+            filters={filters}
+            facetingAfterDistinct
+          />
+          <CatalogSearchResults
+            preview={specifiedContentType === undefined}
+            contentType={item}
+            setNoContent={contentData[item].setNoResults}
+          />
+        </Index>
+      );
+    });
     return itemsWithResultsList;
   };
 
@@ -222,18 +240,30 @@ const CatalogSearch = (intl) => {
   return (
     <PageWrapper className="mt-3 mb-5" size="xl">
       <section>
-        <FormattedMessage
-          id="catalogs.enterpriseCatalogs.header"
-          defaultMessage="Search our catalog"
-          description="Search dialogue."
-          tagName="h2"
-        />
+        <div className="d-flex align-items-center">
+          <FormattedMessage
+            id="catalogs.enterpriseCatalogs.header"
+            defaultMessage="Search our catalog"
+            description="Search dialogue."
+            tagName="h2"
+          />
+          { features.ENABLE_AI_CURATION && !showAskXpert && (
+            <Image
+              className="ml-2 xpert-logo"
+              src={xpertLogo}
+              rounded
+              alt="xpert logo"
+              onClick={() => setShowAskXpert(true)}
+            />
+          )}
+        </div>
         <InstantSearch indexName={algoliaIndexName} searchClient={searchClient}>
           <div className="enterprise-catalogs-header">
             <Configure
               filters={defaultInstantSearchFilter}
               facetingAfterDistinct
             />
+            { !showAskXpert && (
             <SearchHeader
               hideTitle
               variant="default"
@@ -242,6 +272,19 @@ const CatalogSearch = (intl) => {
               disableSuggestionRedirect
               suggestionSubmitOverride={suggestedCourseOnClick}
             />
+            ) }
+            {
+              showAskXpert && (
+              <AskXpert
+                catalogName={enterpriseCatalogQueryTitles[0]}
+                onClose={() => {
+                  setShowAskXpert(false);
+                  setXpertData({});
+                }}
+                onXpertData={(data) => setXpertData(data)}
+              />
+              )
+            }
           </div>
           <CatalogInfoModal
             isOpen={selectedSuggestedCourseType === 'course'}
