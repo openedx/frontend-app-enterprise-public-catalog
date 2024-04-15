@@ -4,6 +4,7 @@ import {
   FEATURE_ENABLE_PROGRAMS,
   FEATURE_EXEC_ED_INCLUSION,
   FEATURE_PROGRAM_TYPE_FACET,
+  FEATURE_ENABLE_AI_CURATION,
 } from './constants';
 
 const features = {
@@ -19,6 +20,8 @@ const features = {
   CONSOLIDATE_SUBS_CATALOG:
     process.env.CONSOLIDATE_SUBS_CATALOG === 'true'
     || hasFeatureFlagEnabled(FEATURE_CONSOLIDATE_SUBS_CATALOG),
+  ENABLE_AI_CURATION: process.env.ENABLE_AI_CURATION === 'true'
+  || hasFeatureFlagEnabled(FEATURE_ENABLE_AI_CURATION),
 };
 
 export default features;

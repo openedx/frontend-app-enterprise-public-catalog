@@ -49,6 +49,9 @@ export const EDX_COURSE_TITLE_DESC = 'Self paced online learning from world-clas
 export const TWOU_EXEC_ED_TITLE_DESC = 'Immersive, instructor led online short courses designed to develop interpersonal, analytical, and critical thinking skills.';
 export const PROGRAM_TITLE_DESC = 'Multi-course bundled learning for skills mastery and to earn credentials such as Professional Certificates, MicroBachelors™, MicroMasters®, and Master’s Degrees.';
 
+// Ask Xpert
+export const XPERT_RESULT_STATUSES = ['IN_PROGRESS', 'PENDING', 'STARTED'];
+
 const OVERRIDE_FACET_FILTERS = [];
 if (features.PROGRAM_TYPE_FACET) {
   const PROGRAM_TYPE_FACET_OVERRIDE = {

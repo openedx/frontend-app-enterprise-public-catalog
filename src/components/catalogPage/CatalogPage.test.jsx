@@ -15,6 +15,10 @@ jest.mock('react-instantsearch-dom', () => ({
   Index: () => <div>SEARCH</div>,
 }));
 
+jest.mock('axios', () => ({
+  get: jest.fn(),
+}));
+
 // Catalog Page loads the CTA button link which expects a config value.
 // Thus we're mocking the config here.
 const mockConfig = () => ({
