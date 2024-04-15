@@ -27,7 +27,7 @@ const LoadingBar = ({ isLoading }) => {
   }, [isLoading]);
   return (
     <div>
-      <ProgressBar now={progress} />
+      <ProgressBar variant="info" now={progress} />
     </div>
   );
 };
