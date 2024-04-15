@@ -50,7 +50,7 @@ export const TWOU_EXEC_ED_TITLE_DESC = 'Immersive, instructor led online short c
 export const PROGRAM_TITLE_DESC = 'Multi-course bundled learning for skills mastery and to earn credentials such as Professional Certificates, MicroBachelors™, MicroMasters®, and Master’s Degrees.';
 
 // Ask Xpert
-export const XPERT_RESULT_STATUSES = ['IN_PROGRESS', 'PENDING', 'STARTED'];
+export const XPERT_RESULT_STATUSES = ['IN_PROGRESS', 'PENDING', 'STARTED', 'FAILURE'];
 
 const OVERRIDE_FACET_FILTERS = [];
 if (features.PROGRAM_TYPE_FACET) {
