@@ -87,7 +87,7 @@ const AskXpert = ({ catalogName, onClose, onXpertData }) => {
       setIsLoading(true);
       const queryResponse = await EnterpriseCatalogAiCurationApiService.postXpertQuery(userQuery, catalogName);
       const { status: postRequestStatusCode, data: response } = queryResponse;
-      if (postRequestStatusCode < 400) {
+      if (postRequestStatusCode < 400 && response.status !== 'FAILURE') {
         setTaskId(response?.task_id);
         setDelay(1000);
       } else {
