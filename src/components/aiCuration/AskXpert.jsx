@@ -45,7 +45,9 @@ const AskXpert = ({ catalogName, onClose, onXpertData }) => {
       const response = await EnterpriseCatalogAiCurationApiService.getXpertResults(taskId);
       const { status, data: finalResponse } = response;
 
-      if (status < 400) {
+      const defaultErrorMessage = 'An error occurred. Please try again.';
+
+      if (status < 400 || status === 429) {
         if (!XPERT_RESULT_STATUSES.includes(finalResponse.status)) {
           setResults(finalResponse.result);
           if (finalResponse.result) {
@@ -66,7 +68,7 @@ const AskXpert = ({ catalogName, onClose, onXpertData }) => {
           setDelay(null);
         }
       } else {
-        setErrorMessage(finalResponse.error);
+        setErrorMessage(finalResponse.error || defaultErrorMessage);
         setDelay(null);
         setIsLoading(false);
       }
