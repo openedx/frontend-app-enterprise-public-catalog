@@ -74,7 +74,7 @@
     "@edx/reactifex": "^2.1.1",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "12.1.5",
-    "@testing-library/react-hooks": "7.0.2",
+    "@testing-library/react-hooks": "8.0.1",
     "@testing-library/user-event": "13.5.0",
     "glob": "7.2.3",
     "husky": "6.0.0",
