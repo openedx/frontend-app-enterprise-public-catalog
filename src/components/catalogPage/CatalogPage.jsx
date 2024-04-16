@@ -116,15 +116,7 @@ const CatalogPage = ({ intl }) => {
         highlight={intl.formatMessage(messages['catalogPage.hero.highlight'])}
       />
       <Subheader>
-        <div className="d-flex flex-column text-center">
-          <span>
-            <FormattedMessage
-              id="catalogPage.subtitle.title"
-              defaultMessage="In-demand skills + engaging content"
-              description="Description"
-              tagName="h1"
-            />
-          </span>
+        <div className="d-flex flex-column text-left">
           <span>
             <FormattedMessage
               id="catalogPage.subtitle.text"
