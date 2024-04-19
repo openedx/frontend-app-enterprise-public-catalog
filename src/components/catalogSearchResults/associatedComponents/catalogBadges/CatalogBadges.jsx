@@ -1,4 +1,4 @@
-import { Badge } from '@edx/paragon';
+import { Badge } from '@openedx/paragon';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import PropTypes from 'prop-types';
 
