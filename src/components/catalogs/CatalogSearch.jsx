@@ -14,7 +14,7 @@ import {
   SearchHeader,
   SearchContext,
 } from '@edx/frontend-enterprise-catalog-search';
-import { Image } from '@edx/paragon';
+import { Image } from '@openedx/paragon';
 import { useAlgoliaIndex } from './data/hooks';
 import PageWrapper from '../PageWrapper';
 

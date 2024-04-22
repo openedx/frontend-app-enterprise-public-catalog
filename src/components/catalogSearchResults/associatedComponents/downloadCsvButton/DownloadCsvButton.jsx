@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Toast, Button, useToggle } from '@edx/paragon';
-import { Download } from '@edx/paragon/icons';
+import { Toast, Button, useToggle } from '@openedx/paragon';
+import { Download } from '@openedx/paragon/icons';
 
 import EnterpriseCatalogApiService from '../../../../data/services/EnterpriseCatalogAPIService';
 

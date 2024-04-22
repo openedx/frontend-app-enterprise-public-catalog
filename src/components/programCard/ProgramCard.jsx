@@ -4,8 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { Badge, Icon, Card } from '@edx/paragon';
-import { Program } from '@edx/paragon/icons';
+import { Badge, Icon, Card } from '@openedx/paragon';
+import { Program } from '@openedx/paragon/icons';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import defaultCardHeader from '@edx/brand/paragon/images/card-imagecap-fallback.png';

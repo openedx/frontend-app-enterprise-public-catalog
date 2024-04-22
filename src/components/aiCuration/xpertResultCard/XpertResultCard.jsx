@@ -2,9 +2,9 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon, Card, Stack, Form, Button, Spinner, Image,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
-import { Close } from '@edx/paragon/icons';
+import { Close } from '@openedx/paragon/icons';
 import askXpretImage from '../../../assets/edx-xpert-card-side-image.png';
 import { useXpertResultsWithThreshold } from '../data/hooks';
 import { hasNonEmptyValues } from '../../../utils/common';
