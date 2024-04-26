@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon, Card, Stack, Form, Button, Spinner, Image,
@@ -27,8 +27,10 @@ const XpertResultCard = ({
 
   const debouncedHandleChange = debounce(async (threshold) => {
     getXpertResultsWithThreshold(taskId, threshold);
+  }, 1000);
 
-    if (xpertResultsData) {
+  useEffect(() => {
+    if (hasNonEmptyValues(xpertResultsData)) {
       setXpertResults(xpertResultsData);
       const aggregationKeys = {
         [CONTENT_TYPE_COURSE]: xpertResultsData.ocm_courses?.map(item => item.aggregation_key),
@@ -37,7 +39,8 @@ const XpertResultCard = ({
       };
       onXpertResults(aggregationKeys);
     }
-  }, 1000);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [thresholdValue, xpertResultsData]);
 
   const handleChange = async (e) => {
     const threshold = Number(e.target.value);
