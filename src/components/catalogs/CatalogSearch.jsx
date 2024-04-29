@@ -17,6 +17,7 @@ import {
 import { Image } from '@openedx/paragon';
 import { useAlgoliaIndex } from './data/hooks';
 import PageWrapper from '../PageWrapper';
+import { getSelectedCatalogFromURL } from '../../utils/common';
 
 import {
   CONTENT_TYPE_COURSE,
@@ -26,6 +27,7 @@ import {
   NUM_RESULTS_COURSE,
   NUM_RESULTS_PROGRAM,
   NUM_RESULTS_PER_PAGE,
+  QUERY_TITLE_REFINEMENT,
 } from '../../constants';
 import CatalogSearchResults from '../catalogSearchResults/CatalogSearchResults';
 import CatalogInfoModal from '../catalogInfoModal/CatalogInfoModal';
@@ -198,12 +200,13 @@ const CatalogSearch = (intl) => {
 
   // Take a list of learning types and render a search results component for each item
   const contentToRender = (items) => {
+    const selectedCatalog = getSelectedCatalogFromURL();
     const itemsWithResultsList = items.map((item) => {
       let filters = contentData[item].filter;
 
       if (features.ENABLE_AI_CURATION) {
         if (xpertData[item]?.length > 0) {
-          filters += ` AND (${xpertData[item]?.map(key => `aggregation_key:'${key}'`).join(' OR ')})`;
+          filters += ` AND ${QUERY_TITLE_REFINEMENT}:"${selectedCatalog}" AND (${xpertData[item]?.map(key => `aggregation_key:'${key}'`).join(' OR ')})`;
         } else if (xpertData[item]?.length === 0) {
           filters = 'aggregation_key: null';
         }

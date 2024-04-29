@@ -48,22 +48,22 @@ const AskXpert = ({ catalogName, onClose, onXpertData }) => {
       const defaultErrorMessage = 'An error occurred. Please try again.';
 
       if (status < 400 || status === 429) {
-        if (!XPERT_RESULT_STATUSES.includes(finalResponse.status)) {
+        if (finalResponse.status && !XPERT_RESULT_STATUSES.includes(finalResponse.status)) {
           setResults(finalResponse.result);
-          if (finalResponse.result) {
-            setShowXpertResultCard(hasNonEmptyValues(finalResponse.result));
-
-            const aggregationKeys = {
-              [CONTENT_TYPE_COURSE]: finalResponse?.result?.ocm_courses.map(item => item.aggregation_key),
-              [EXEC_ED_TITLE]: finalResponse?.result?.exec_ed_courses.map(item => item.aggregation_key),
-              [CONTENT_TYPE_PROGRAM]: finalResponse?.result?.programs.map(item => item.aggregation_key),
-            };
-
-            onXpertData(aggregationKeys); // Pass aggregationKeys to CatalogSearch
+          if (hasNonEmptyValues(finalResponse.result)) {
+            setShowXpertResultCard(finalResponse.result);
           } else {
             // Handles the scenario where request is successful but no data is returned.
             setErrorMessage('Hm, I didnt find anything. Try telling me about the subjects, jobs, or skills you are trying to train in your organization.');
           }
+          const aggregationKeys = {
+            [CONTENT_TYPE_COURSE]: finalResponse?.result?.ocm_courses.map(item => item.aggregation_key),
+            [EXEC_ED_TITLE]: finalResponse?.result?.exec_ed_courses.map(item => item.aggregation_key),
+            [CONTENT_TYPE_PROGRAM]: finalResponse?.result?.programs.map(item => item.aggregation_key),
+          };
+
+          onXpertData(aggregationKeys); // Pass aggregationKeys to CatalogSearch for Algolia filter
+
           setIsLoading(false);
           setDelay(null);
         }
