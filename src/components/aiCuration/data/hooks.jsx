@@ -39,7 +39,7 @@ export const useXpertResultsWithThreshold = () => {
       const { status, data: responseData, error: responseError } = response;
 
       if (status >= 400 && status < 600) {
-        setError(responseError);
+        setError(responseError || responseData?.error);
         setXpertResultsData({});
       } else {
         setXpertResultsData(responseData.result || defaultResult);

@@ -30,9 +30,14 @@ class EnterpriseCatalogAiCurationApiService {
     return new Promise(resolve => { setTimeout(resolve, ms); });
   }
 
-  static async getXpertResults(taskId, threshold = 0) {
+  static async getXpertResults(taskId, threshold) {
     try {
-      const response = await axios.get(`${EnterpriseCatalogAiCurationApiService.enterpriseCatalogAiCurationServiceUrl}?task_id=${taskId}&threshold=${threshold}`);
+      let url = `${EnterpriseCatalogAiCurationApiService.enterpriseCatalogAiCurationServiceUrl}?task_id=${taskId}`;
+      if (threshold) {
+        url += `&threshold=${threshold}`;
+      }
+
+      const response = await axios.get(url);
       return {
         status: response.status,
         data: response.data,
