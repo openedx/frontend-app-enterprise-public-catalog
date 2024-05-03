@@ -31,8 +31,8 @@ const XpertResultCard = ({
   }, 1000), [taskId]);
 
   useEffect(() => {
-    if (hasNonEmptyValues(xpertResultsData)) {
-      setXpertResults(xpertResultsData);
+    setXpertResults(xpertResultsData);
+    if (xpertResultsData && Object.keys(xpertResultsData).length > 0) {
       const aggregationKeys = {
         [CONTENT_TYPE_COURSE]: xpertResultsData.ocm_courses?.map(item => item.aggregation_key),
         [EXEC_ED_TITLE]: xpertResultsData.exec_ed_courses?.map(item => item.aggregation_key),
@@ -91,7 +91,7 @@ const XpertResultCard = ({
                 values={{ query: <b>{query}</b> }}
               />
             </div>
-            {xpertResults && hasNonEmptyValues(xpertResults)
+            {xpertResults && Object.keys(xpertResults).length > 0
                 && (
                 <div className="d-flex align-items-center text-white">
                   <div className="d-flex align-items-center mr-4">
