@@ -7,7 +7,6 @@ import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Close } from '@openedx/paragon/icons';
 import askXpretImage from '../../../assets/edx-xpert-card-side-image.png';
 import { useXpertResultsWithThreshold } from '../data/hooks';
-import { hasNonEmptyValues } from '../../../utils/common';
 import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
@@ -31,14 +30,16 @@ const XpertResultCard = ({
   }, 1000), [taskId]);
 
   useEffect(() => {
-    setXpertResults(xpertResultsData);
     if (xpertResultsData && Object.keys(xpertResultsData).length > 0) {
+      setXpertResults(xpertResultsData);
       const aggregationKeys = {
         [CONTENT_TYPE_COURSE]: xpertResultsData.ocm_courses?.map(item => item.aggregation_key),
         [EXEC_ED_TITLE]: xpertResultsData.exec_ed_courses?.map(item => item.aggregation_key),
         [CONTENT_TYPE_PROGRAM]: xpertResultsData.programs?.map(item => item.aggregation_key),
       };
       onXpertResults(aggregationKeys);
+    } else if (error) {
+      setXpertResults({});
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdValue, xpertResultsData]);
@@ -139,16 +140,6 @@ const XpertResultCard = ({
                   id="catalogs.askXpert.result.card.error.label"
                   defaultMessage="An error occurred. Please try a new search"
                   description="Error message displayed in case of an error on the askXpert result card"
-                />
-              </p>
-              )}
-            {!error && !hasNonEmptyValues(xpertResults)
-              && (
-              <p className="text-white">
-                <FormattedMessage
-                  id="catalogs.askXpert.result.card.no.data.found.error.message"
-                  defaultMessage="No course/program found against your filter criteria, please select a broader focus to get results"
-                  description="Error message displayed when no course/program is found against the selected filter value, on askXpert result card"
                 />
               </p>
               )}
