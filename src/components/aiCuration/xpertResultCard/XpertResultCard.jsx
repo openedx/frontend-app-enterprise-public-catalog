@@ -25,9 +25,10 @@ const XpertResultCard = ({
     loading, error, xpertResultsData, getXpertResultsWithThreshold,
   } = useXpertResultsWithThreshold();
 
-  const debouncedHandleChange = debounce(async (threshold) => {
+  const debouncedHandleChange = useMemo(() => debounce(async (threshold) => {
     getXpertResultsWithThreshold(taskId, threshold);
-  }, 1000);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, 1000), [taskId]);
 
   useEffect(() => {
     if (hasNonEmptyValues(xpertResultsData)) {
@@ -42,11 +43,17 @@ const XpertResultCard = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdValue, xpertResultsData]);
 
-  const handleChange = async (e) => {
+  // The API call for tweaking should only be triggered when the user releases the slider after sliding through
+  // multiple values. This debounce mechanism helps prevent multiple API calls within a short time frame,
+  // which can lead to issues such as receiving a 429 (too many requests) response from the server.
+  const handleChange = (e) => {
     const threshold = Number(e.target.value);
     setThresholdValue(threshold);
 
-    debouncedHandleChange(threshold);
+    clearTimeout(window.sliderTimeout);
+    window.sliderTimeout = setTimeout(() => {
+      debouncedHandleChange(threshold);
+    }, 300);
   };
 
   const xpertResultStats = useMemo(() => ({

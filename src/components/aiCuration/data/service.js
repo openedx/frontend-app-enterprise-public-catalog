@@ -32,7 +32,7 @@ class EnterpriseCatalogAiCurationApiService {
 
   static async getXpertResults(taskId, threshold = 0) {
     try {
-      const response = await axios.get(`${EnterpriseCatalogAiCurationApiService.enterpriseCatalogAiCurationServiceUrl}?task_id=${taskId}&&?threshold=${threshold}`);
+      const response = await axios.get(`${EnterpriseCatalogAiCurationApiService.enterpriseCatalogAiCurationServiceUrl}?task_id=${taskId}&threshold=${threshold}`);
       return {
         status: response.status,
         data: response.data,
