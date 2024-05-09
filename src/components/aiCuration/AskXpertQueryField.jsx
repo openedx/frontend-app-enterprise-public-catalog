@@ -41,6 +41,7 @@ const AskXpertQueryField = ({ onSubmit, isDisabled }) => {
                 onSubmit(textInputValue);
               }
             }}
+            aria-label="Enter Ask Xpert Query"
           />
             )}
       />
