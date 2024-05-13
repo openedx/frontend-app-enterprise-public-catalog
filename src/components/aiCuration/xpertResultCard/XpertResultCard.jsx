@@ -66,7 +66,7 @@ const XpertResultCard = ({
   const { selfPacedCoursesCount, selfPacedProgramsCount, execEdCoursesCount } = xpertResultStats;
 
   return (
-    <div className="mt-3 mb-6 d-flex justify-content-center">
+    <div className="mt-3 d-flex justify-content-center">
       <Card orientation="horizontal" className="bg-primary-700 w-100 row">
         <Card.Section className="col-3">
           <Image

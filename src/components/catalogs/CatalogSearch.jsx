@@ -68,6 +68,7 @@ const CatalogSearch = (intl) => {
   const [contentWithoutResults, setContentWithoutResults] = useState([]);
   const [showAskXpert, setShowAskXpert] = useState(false);
   const [xpertData, setXpertData] = useState({});
+  const [hideSearchBox, setHideSearchBox] = useState(false);
 
   const contentData = useMemo(
     () => ({
@@ -260,23 +261,7 @@ const CatalogSearch = (intl) => {
             />
           )}
         </div>
-        <InstantSearch indexName={algoliaIndexName} searchClient={searchClient}>
-          <div className="enterprise-catalogs-header">
-            <Configure
-              filters={defaultInstantSearchFilter}
-              facetingAfterDistinct
-            />
-            { !showAskXpert && (
-            <SearchHeader
-              hideTitle
-              variant="default"
-              index={courseIndex}
-              filters={suggestedSearchContentTypeFilter}
-              disableSuggestionRedirect
-              suggestionSubmitOverride={suggestedCourseOnClick}
-            />
-            ) }
-            {
+        {
               showAskXpert && (
               <AskXpert
                 catalogName={enterpriseCatalogQueryTitles[0]}
@@ -284,10 +269,30 @@ const CatalogSearch = (intl) => {
                   setShowAskXpert(false);
                   setXpertData({});
                 }}
-                onXpertData={(data) => setXpertData(data)}
+                onXpertData={(data) => {
+                  setHideSearchBox(true);
+                  setXpertData(data);
+                }}
               />
               )
-            }
+          }
+        <InstantSearch indexName={algoliaIndexName} searchClient={searchClient}>
+          <div className="enterprise-catalogs-header">
+            <Configure
+              filters={defaultInstantSearchFilter}
+              facetingAfterDistinct
+            />
+            { (!showAskXpert || (showAskXpert && hideSearchBox)) && (
+            <SearchHeader
+              hideTitle
+              variant="default"
+              index={courseIndex}
+              filters={suggestedSearchContentTypeFilter}
+              disableSuggestionRedirect
+              suggestionSubmitOverride={suggestedCourseOnClick}
+              hideSearchBox={hideSearchBox}
+            />
+            ) }
           </div>
           <CatalogInfoModal
             isOpen={selectedSuggestedCourseType === 'course'}
