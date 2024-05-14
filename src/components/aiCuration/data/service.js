@@ -4,10 +4,6 @@ import axios from 'axios';
 class EnterpriseCatalogAiCurationApiService {
   static enterpriseCatalogAiCurationServiceUrl = `${process.env.CATALOG_SERVICE_BASE_URL}/api/v1/ai-curation`;
 
-  static MAX_RETRIES = 10;
-
-  static RETRY_INTERVAL = 1000;
-
   static async postXpertQuery(query, catalogName) {
     try {
       const response = await axios.post(`${EnterpriseCatalogAiCurationApiService.enterpriseCatalogAiCurationServiceUrl}`, {

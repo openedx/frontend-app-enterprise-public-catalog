@@ -23,6 +23,7 @@ import {
   CONTENT_TYPE_COURSE,
   CONTENT_TYPE_PROGRAM,
   EXEC_ED_TITLE,
+  XPERT_POLLING_RETRY_INTERVAL,
   XPERT_RESULT_STATUSES,
 } from '../../constants';
 
@@ -91,7 +92,7 @@ const AskXpert = ({ catalogName, onClose, onXpertData }) => {
       const { status: postRequestStatusCode, data: response } = queryResponse;
       if (postRequestStatusCode < 400 && response.status !== 'FAILURE') {
         setTaskId(response?.task_id);
-        setDelay(1000);
+        setDelay(XPERT_POLLING_RETRY_INTERVAL);
       } else {
         setErrorMessage(response?.error || defaultErrorMessage);
         setIsLoading(false);
