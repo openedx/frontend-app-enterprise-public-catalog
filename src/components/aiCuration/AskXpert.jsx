@@ -27,7 +27,9 @@ import {
   XPERT_RESULT_STATUSES,
 } from '../../constants';
 
-const AskXpert = ({ catalogName, onClose, onXpertData }) => {
+const AskXpert = ({
+  catalogName, onClose, onXpertData, changeHideSearchBox,
+}) => {
   const [results, setResults] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -105,6 +107,10 @@ const AskXpert = ({ catalogName, onClose, onXpertData }) => {
   const cancelSearch = () => {
     setDelay(null);
     setIsLoading(false);
+  };
+  const onCloseXpertResult = () => {
+    setShowXpertResultCard(false);
+    changeHideSearchBox();
   };
 
   return (
@@ -192,7 +198,7 @@ const AskXpert = ({ catalogName, onClose, onXpertData }) => {
         taskId={taskId}
         query={query}
         results={results}
-        onClose={() => setShowXpertResultCard(false)}
+        onClose={() => onCloseXpertResult()}
         onXpertResults={(aggregationKeys) => onXpertData(aggregationKeys)}
       />
       )}
@@ -204,6 +210,7 @@ AskXpert.propTypes = {
   catalogName: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onXpertData: PropTypes.func.isRequired,
+  changeHideSearchBox: PropTypes.func.isRequired,
 };
 
 export default AskXpert;

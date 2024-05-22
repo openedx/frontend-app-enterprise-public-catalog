@@ -68,6 +68,7 @@ const CatalogSearch = (intl) => {
   const [contentWithoutResults, setContentWithoutResults] = useState([]);
   const [showAskXpert, setShowAskXpert] = useState(false);
   const [xpertData, setXpertData] = useState({});
+  const [hideSearchBox, setHideSearchBox] = useState(false);
 
   const contentData = useMemo(
     () => ({
@@ -260,13 +261,30 @@ const CatalogSearch = (intl) => {
             />
           )}
         </div>
+        {
+              showAskXpert && (
+              <AskXpert
+                catalogName={enterpriseCatalogQueryTitles[0]}
+                onClose={() => {
+                  setShowAskXpert(false);
+                  setXpertData({});
+                  setHideSearchBox(false);
+                }}
+                onXpertData={(data) => {
+                  setHideSearchBox(true);
+                  setXpertData(data);
+                }}
+                changeHideSearchBox={() => setHideSearchBox(false)}
+              />
+              )
+          }
         <InstantSearch indexName={algoliaIndexName} searchClient={searchClient}>
           <div className="enterprise-catalogs-header">
             <Configure
               filters={defaultInstantSearchFilter}
               facetingAfterDistinct
             />
-            { !showAskXpert && (
+            { (!showAskXpert || (showAskXpert && hideSearchBox)) && (
             <SearchHeader
               hideTitle
               variant="default"
@@ -274,20 +292,9 @@ const CatalogSearch = (intl) => {
               filters={suggestedSearchContentTypeFilter}
               disableSuggestionRedirect
               suggestionSubmitOverride={suggestedCourseOnClick}
+              hideSearchBox={hideSearchBox}
             />
             ) }
-            {
-              showAskXpert && (
-              <AskXpert
-                catalogName={enterpriseCatalogQueryTitles[0]}
-                onClose={() => {
-                  setShowAskXpert(false);
-                  setXpertData({});
-                }}
-                onXpertData={(data) => setXpertData(data)}
-              />
-              )
-            }
           </div>
           <CatalogInfoModal
             isOpen={selectedSuggestedCourseType === 'course'}
