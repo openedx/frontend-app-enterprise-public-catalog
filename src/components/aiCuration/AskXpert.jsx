@@ -53,7 +53,6 @@ const AskXpert = ({
       if (status < 400 || status === 429) {
         if (finalResponse.status && !XPERT_RESULT_STATUSES.includes(finalResponse.status)) {
           setResults(finalResponse.result);
-          console.log('finalResponse.result', finalResponse.result);
           if (hasNonEmptyValues(finalResponse.result)) {
             setShowXpertResultCard(finalResponse.result);
           } else {
