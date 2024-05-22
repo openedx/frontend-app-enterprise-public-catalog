@@ -268,11 +268,13 @@ const CatalogSearch = (intl) => {
                 onClose={() => {
                   setShowAskXpert(false);
                   setXpertData({});
+                  setHideSearchBox(false);
                 }}
                 onXpertData={(data) => {
                   setHideSearchBox(true);
                   setXpertData(data);
                 }}
+                changeHideSearchBox={() => setHideSearchBox(false)}
               />
               )
           }
