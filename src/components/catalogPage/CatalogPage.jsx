@@ -24,7 +24,6 @@ import {
   HIDE_CARDS_REFINEMENT,
   TRACKING_APP_NAME,
 } from '../../constants';
-import features from '../../config';
 
 const learningType = {
   attribute: LEARNING_TYPE_REFINEMENT,
@@ -98,7 +97,7 @@ const CatalogPage = ({ intl }) => {
 
   // Ensure we have availability refinement(s) set by default
   if (
-    !loadedSearchParams.get(AVAILABILITY_REFINEMENT) && !features.ENABLE_AI_CURATION
+    !loadedSearchParams.get(AVAILABILITY_REFINEMENT)
   ) {
     AVAILABILITY_REFINEMENT_DEFAULTS.map((a) => loadedSearchParams.append(AVAILABILITY_REFINEMENT, a));
     reloadPage = true;
