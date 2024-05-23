@@ -26,6 +26,7 @@ const AskXpertQueryField = ({ onSubmit, isDisabled }) => {
             }
           }
         }}
+        style={{ fontSize: '1.25rem' }}
         size="lg"
         trailingElement={(
           <IconButton

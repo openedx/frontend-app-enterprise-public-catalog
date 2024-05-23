@@ -125,7 +125,7 @@ const AskXpert = ({
               fluid
             />
           </Card.Section>
-          <Card.Section className="col-6 mb-0">
+          <Card.Section className="col-6 mb-0 mr-0 pr-0">
             <Stack gap={2}>
               <h1 className="text-white">
                 <FormattedMessage
