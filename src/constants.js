@@ -52,6 +52,8 @@ export const PROGRAM_TITLE_DESC = 'Multi-course bundled learning for skills mast
 // Ask Xpert
 export const XPERT_RESULT_STATUSES = ['IN_PROGRESS', 'PENDING', 'STARTED', 'FAILURE'];
 export const XPERT_POLLING_RETRY_INTERVAL = 5000;
+export const progressBarDuration = 30000; // 30 seconds in milliseconds
+export const targetProgressBarValue = 95;
 
 const OVERRIDE_FACET_FILTERS = [];
 if (features.PROGRAM_TYPE_FACET) {
