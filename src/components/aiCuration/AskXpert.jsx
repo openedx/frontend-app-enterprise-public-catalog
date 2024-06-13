@@ -181,6 +181,7 @@ const AskXpert = ({
               src={Close}
               iconAs={Icon}
               onClick={() => onClose()}
+              aria-label="Close Ask Xpert Modal"
             />
             <p className="text-white">
               <FormattedMessage
