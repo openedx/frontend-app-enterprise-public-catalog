@@ -30,8 +30,8 @@ jobs:
         run: npm run test
       - name: Build
         run: npm run build
-      - name: i18n_extract
-        run: npm run i18n_extract
+      - name: extract_translations
+        run: make extract_translations
       - name: Coverage
         uses: codecov/codecov-action@v4
         with:
