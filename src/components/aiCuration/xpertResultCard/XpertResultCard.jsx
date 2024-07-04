@@ -164,6 +164,7 @@ const XpertResultCard = ({
                   aria-valuemin="0"
                   aria-valuemax="0.8"
                   className="m-0"
+                  aria-label="Xpert result card slider"
                 />
               </Form.Group>
             </div>
@@ -174,6 +175,7 @@ const XpertResultCard = ({
             <Button
               variant="inverse-outline-primary mr-3 btn-sm"
               onClick={onClose}
+              aria-label="Close XpertResultCard"
             >New Search
             </Button>
             <Icon

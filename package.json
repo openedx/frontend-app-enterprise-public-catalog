@@ -11,11 +11,13 @@
   ],
   "scripts": {
     "build": "fedx-scripts webpack",
-    "i18n_extract": "BABEL_ENV=i18n fedx-scripts babel src --quiet > /dev/null",
+    "i18n_extract": "fedx-scripts formatjs extract --throws",
     "lint": "fedx-scripts eslint --ext .js --ext .jsx .",
     "lint:fix": "fedx-scripts eslint --ext .js --ext .jsx . --fix",
     "snapshot": "fedx-scripts jest --updateSnapshot",
+    "install-theme": "npm install \"@edx/brand@${THEME}\" --no-save",
     "start": "fedx-scripts webpack-dev-server --progress",
+    "start:with-theme": "THEME=npm:@edx/brand-edx.org@latest npm run install-theme && npm run start",
     "test": "fedx-scripts jest --transformIgnorePatterns \"node_modules/(?!@edx/frontend-app-enterprise-public-catalog)/\" --env=jsdom --coverage --passWithNoTests"
   },
   "husky": {
@@ -61,8 +63,8 @@
     "react-helmet": "6.1.0",
     "react-instantsearch-dom": "6.40.4",
     "react-redux": "7.2.9",
-    "react-router": "6.22.3",
-    "react-router-dom": "6.22.3",
+    "react-router": "6.23.1",
+    "react-router-dom": "6.23.1",
     "react-test-renderer": "17.0.2",
     "redux": "4.2.1",
     "redux-devtools-extension": "2.13.9",
