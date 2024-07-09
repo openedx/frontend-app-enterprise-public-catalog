@@ -45,7 +45,7 @@
     "@edx/frontend-platform": "7.1.4",
     "@edx/openedx-atlas": "^0.6.0",
     "@openedx/paragon": "^21.0.0",
-    "algoliasearch": "4.23.3",
+    "algoliasearch": "4.24.0",
     "axios": "^1.6.7",
     "babel-polyfill": "6.26.0",
     "classnames": "2.5.1",
