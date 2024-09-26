@@ -89,6 +89,9 @@ const searchResults = {
         upgrade_deadline: 1892678399,
         pacing_type: 'self_paced',
       },
+      normalized_metadata: {
+        content_price: 100,
+      },
     },
     {
       title: TEST_COURSE_NAME_2,
@@ -104,6 +107,9 @@ const searchResults = {
         end: '2080-01-01T17:00:00Z',
         upgrade_deadline: 1892678399,
         pacing_type: 'self_paced',
+      },
+      normalized_metadata: {
+        content_price: 99,
       },
     },
   ],
@@ -158,6 +164,9 @@ const searchResultsExecEd = {
       additional_metadata: {
         start_date: '2020-01-24T05:00:00Z',
         end_date: '2080-01-01T17:00:00Z',
+      },
+      normalized_metadata: {
+        content_price: 100,
       },
     },
   ],

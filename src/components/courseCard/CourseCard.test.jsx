@@ -21,6 +21,9 @@ const originalData = {
   original_image_url: '',
   enterprise_catalog_query_titles: TEST_CATALOG,
   advertised_course_run: { pacing_type: 'self_paced' },
+  normalized_metadata: {
+    content_price: 100,
+  },
 };
 
 const defaultProps = {
@@ -37,6 +40,9 @@ const execEdData = {
   enterprise_catalog_query_titles: TEST_CATALOG,
   advertised_course_run: { pacing_type: 'instructor_paced' },
   entitlements: [{ price: '999.00' }],
+  normalized_metadata: {
+    content_price: 999,
+  },
 };
 
 const execEdProps = {

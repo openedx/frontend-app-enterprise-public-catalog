@@ -1,4 +1,5 @@
 import { CONTENT_TYPE_COURSE, CONTENT_TYPE_PROGRAM } from '../constants';
+import { formatPrice } from './common';
 
 const extractUuid = (aggregationKey) => aggregationKey.split(':')[1];
 
@@ -9,7 +10,7 @@ function mapAlgoliaObjectToCourse(algoliaCourseObject, intl, messages) {
   const {
     title: courseTitle,
     partners,
-    first_enrollable_paid_seat_price: coursePrice, // todo
+    normalized_metadata: normalizedMetadata,
     enterprise_catalog_query_titles: courseAssociatedCatalogs,
     full_description: courseDescription,
     original_image_url: bannerImageUrl,
@@ -19,8 +20,8 @@ function mapAlgoliaObjectToCourse(algoliaCourseObject, intl, messages) {
     skill_names: skillNames,
   } = algoliaCourseObject;
   const { start: startDate, end: endDate } = courseRun;
-  const priceText = coursePrice != null
-    ? `$${coursePrice.toString()}`
+  const priceText = normalizedMetadata.content_price != null
+    ? formatPrice(normalizedMetadata.content_price)
     : intl.formatMessage(
       messages['catalogSearchResult.table.priceNotAvailable'],
     );
@@ -48,7 +49,7 @@ function mapAlgoliaObjectToExecEd(algoliaCourseObject, intl, messages) {
   const {
     title: courseTitle,
     partners,
-    entitlements: coursePrice, // todo
+    normalized_metadata: normalizedMetadata,
     enterprise_catalog_query_titles: courseAssociatedCatalogs,
     full_description: courseDescription,
     original_image_url: bannerImageUrl,
@@ -58,8 +59,8 @@ function mapAlgoliaObjectToExecEd(algoliaCourseObject, intl, messages) {
     additional_metadata: additionalMetadata,
   } = algoliaCourseObject;
   const { start_date: startDate, end_date: endDate } = additionalMetadata;
-  const priceText = coursePrice != null
-    ? `$${coursePrice[0].price.toString()}`
+  const priceText = normalizedMetadata.content_price != null
+    ? formatPrice(normalizedMetadata.content_price)
     : intl.formatMessage(
       messages['catalogSearchResult.table.priceNotAvailable'],
     );

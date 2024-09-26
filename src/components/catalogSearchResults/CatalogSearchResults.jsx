@@ -55,7 +55,12 @@ import DownloadCsvButton from './associatedComponents/downloadCsvButton/Download
 import messages from './CatalogSearchResults.messages';
 
 import CatalogNoResultsDeck from '../catalogNoResultsDeck/CatalogNoResultsDeck';
-import { formatDate, makePlural, getSelectedCatalogFromURL } from '../../utils/common';
+import {
+  formatDate,
+  makePlural,
+  getSelectedCatalogFromURL,
+  formatPrice,
+} from '../../utils/common';
 
 export const ERROR_MESSAGE = 'An error occured while retrieving data';
 
@@ -184,11 +189,8 @@ export const BaseCatalogSearchResults = ({
   };
 
   const renderCardComponent = (props) => {
-    if (contentType === CONTENT_TYPE_COURSE) {
-      return <CourseCard {...props} learningType={contentType} onClick={cardClicked} />;
-    }
-    if (contentType === EXEC_ED_TITLE) {
-      return <CourseCard {...props} learningType={contentType} onClick={cardClicked} />;
+    if ([CONTENT_TYPE_COURSE, EXEC_ED_TITLE].includes(contentType)) {
+      return <CourseCard {...props} onClick={cardClicked} />;
     }
     return <ProgramCard {...props} onClick={cardClicked} />;
   };
@@ -225,10 +227,8 @@ export const BaseCatalogSearchResults = ({
       },
       {
         Header: TABLE_HEADERS.price,
-        accessor: 'first_enrollable_paid_seat_price',
-        Cell: ({ row }) => (row.values.first_enrollable_paid_seat_price
-          ? `$${row.values.first_enrollable_paid_seat_price}`
-          : null),
+        accessor: 'normalized_metadata',
+        Cell: ({ row }) => formatPrice(row.values.normalized_metadata.content_price),
       },
       {
         Header: TABLE_HEADERS.catalogs,
@@ -252,10 +252,8 @@ export const BaseCatalogSearchResults = ({
       },
       {
         Header: TABLE_HEADERS.price,
-        accessor: 'entitlements',
-        Cell: ({ row }) => (row.values.entitlements[0].price
-          ? `$${Math.trunc(row.values.entitlements[0].price)}`
-          : null),
+        accessor: 'normalized_metadata',
+        Cell: ({ row }) => formatPrice(row.values.normalized_metadata.content_price),
       },
       {
         Header: TABLE_HEADERS.catalogs,

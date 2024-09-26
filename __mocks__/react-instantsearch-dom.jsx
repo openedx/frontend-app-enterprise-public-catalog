@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-import-module-exports
-import React from 'react';
+/* eslint-disable func-names */
 
 const MockReactInstantSearch = jest.genMockFromModule(
   'react-instantsearch-dom',
