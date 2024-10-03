@@ -46,3 +46,13 @@ export function getCourses(numCourses, string) {
 export function hasNonEmptyValues(data) {
   return Object.values(data).some(item => Array.isArray(item) && item.length > 0);
 }
+
+export const formatPrice = (price, options = {}) => {
+  const USDollar = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    ...options,
+  });
+  return USDollar.format(Math.abs(price));
+};

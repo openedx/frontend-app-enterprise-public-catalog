@@ -1,6 +1,3 @@
-// eslint-disable-next-line import/no-import-module-exports
-import React from 'react';
-
 const MockReactInstantSearch = jest.genMockFromModule(
   'react-instantsearch-dom',
 );
@@ -25,7 +22,7 @@ const fakeHits = [
   },
 ];
 
-MockReactInstantSearch.connectStateResults = (Component) => function (props) {
+MockReactInstantSearch.connectStateResults = (Component) => function connectStateResults(props) {
   return (
     <Component
       searchResults={{
@@ -44,20 +41,20 @@ MockReactInstantSearch.connectStateResults = (Component) => function (props) {
   );
 };
 
-MockReactInstantSearch.connectPagination = (Component) => function (props) {
+MockReactInstantSearch.connectPagination = (Component) => function connectPagination(props) {
   return <Component nbPages={2} maxPagesDisplayed={2} {...props} />;
 };
 
 // eslint-disable-next-line react/prop-types
-MockReactInstantSearch.InstantSearch = function ({ children }) {
+MockReactInstantSearch.InstantSearch = function InstantSearch({ children }) {
   return <div>{children}</div>;
 };
 
-MockReactInstantSearch.connectCurrentRefinements = (Component) => function (props) {
+MockReactInstantSearch.connectCurrentRefinements = (Component) => function connectCurrentRefinements(props) {
   return <Component items={[]} {...props} />;
 };
 
-MockReactInstantSearch.connectRefinementList = (Component) => function (props) {
+MockReactInstantSearch.connectRefinementList = (Component) => function connectRefinementList(props) {
   return (
     <Component
       attribute="subjects"
@@ -71,18 +68,18 @@ MockReactInstantSearch.connectRefinementList = (Component) => function (props) {
   );
 };
 
-MockReactInstantSearch.connectSearchBox = (Component) => function (props) {
+MockReactInstantSearch.connectSearchBox = (Component) => function connectSearchBox(props) {
   return <Component {...props} />;
 };
 
-MockReactInstantSearch.connectPagination = (Component) => function (props) {
+MockReactInstantSearch.connectPagination = (Component) => function connectPagination(props) {
   return <Component nbPages={1} {...props} />;
 };
 
-MockReactInstantSearch.InstantSearch = function ({ children }) {
+MockReactInstantSearch.InstantSearch = function InstantSearch({ children }) {
   return children;
 };
-MockReactInstantSearch.Configure = function () {
+MockReactInstantSearch.Configure = function Configure() {
   return <div>CONFIGURED</div>;
 };
 
