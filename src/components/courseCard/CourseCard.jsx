@@ -6,32 +6,21 @@ import PropTypes from 'prop-types';
 import { Badge, Card } from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
-import { CONTENT_TYPE_COURSE } from '../../constants';
 import defaultCardHeader from '../../static/default-card-header-light.png';
+import { formatPrice } from '../../utils/common';
 
 const CourseCard = ({
-  intl, onClick, original, learningType,
+  intl, onClick, original,
 }) => {
   const {
     title,
     card_image_url,
     partners,
-    first_enrollable_paid_seat_price,
+    normalized_metadata,
     enterprise_catalog_query_titles,
-    entitlements,
     advertised_course_run,
   } = original;
-  let rowPrice;
-  let priceText;
-
-  if (learningType === CONTENT_TYPE_COURSE) {
-    rowPrice = first_enrollable_paid_seat_price;
-    priceText = rowPrice != null ? `$${rowPrice.toString()}` : 'N/A';
-  } else {
-    [rowPrice] = entitlements || [null];
-    priceText = rowPrice != null ? `$${Math.trunc(rowPrice.price)?.toString()}` : 'N/A';
-  }
-
+  const priceText = formatPrice(normalized_metadata.content_price);
   let pacingType = 'NA';
   if (advertised_course_run) {
     pacingType = advertised_course_run.pacing_type === 'self_paced' ? 'Self paced' : 'Instructor led';
@@ -90,7 +79,6 @@ CourseCard.defaultProps = {
 CourseCard.propTypes = {
   intl: intlShape.isRequired,
   onClick: PropTypes.func,
-  learningType: PropTypes.string.isRequired,
   original: PropTypes.shape({
     title: PropTypes.string,
     card_image_url: PropTypes.string,
@@ -102,6 +90,9 @@ CourseCard.propTypes = {
         logo_image_url: PropTypes.string,
       }),
     ),
+    normalized_metadata: PropTypes.shape({
+      content_price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
     first_enrollable_paid_seat_price: PropTypes.number,
     enterprise_catalog_query_titles: PropTypes.arrayOf(PropTypes.string),
     original_image_url: PropTypes.string,
