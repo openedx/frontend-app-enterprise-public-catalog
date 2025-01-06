@@ -33,9 +33,12 @@
 }
 
 .landing-page-download {
-  float: right;
-  @media only screen and (max-width: map-get($grid-breakpoints, 'md')) {
-    float: none !important;
+  position: absolute;
+  top: -60px;
+  right: 0;
+  @media only screen and (max-width: map-get($grid-breakpoints, 'xl')) {
+    position: relative;
+    top: 0;
   }
 }
 
@@ -43,6 +46,7 @@
   justify-content: space-between;
   display: flex;
   clear: right;
+  align-items: center;
 }
 
 .partner-logo-thumbnail {

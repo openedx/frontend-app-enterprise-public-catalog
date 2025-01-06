@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createQueryParams } from '../../utils/catalogUtils';
 
 class EnterpriseCatalogApiService {
@@ -9,7 +10,8 @@ class EnterpriseCatalogApiService {
     const enterpriseListUrl = `${
       EnterpriseCatalogApiService.enterpriseCatalogServiceApiUrl
     }/catalog_workbook?${queryParams}${facetQuery}`;
-    return enterpriseListUrl;
+
+    return axios.get(enterpriseListUrl, { responseType: 'blob' });
   }
 }
 

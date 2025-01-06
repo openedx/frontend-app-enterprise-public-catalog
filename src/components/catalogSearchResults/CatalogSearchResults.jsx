@@ -427,13 +427,15 @@ export const BaseCatalogSearchResults = ({
         />
       )}
       {preview && isCourseType && searchResults?.nbHits !== 0 && (
-        <span className="landing-page-download mt-n5 mb-2">
-          <DownloadCsvButton
-            // eslint-disable-next-line no-underscore-dangle
-            facets={searchResults?._state.disjunctiveFacetsRefinements}
-            query={inputQuery}
-          />
-        </span>
+        <div className="position-relative">
+          <span className="landing-page-download mb-2">
+            <DownloadCsvButton
+              // eslint-disable-next-line no-underscore-dangle
+              facets={searchResults?._state.disjunctiveFacetsRefinements}
+              query={inputQuery}
+            />
+          </span>
+        </div>
       )}
       <div className="preview-title">
         <p className="h2 ml-2 mt-3 mb-3">

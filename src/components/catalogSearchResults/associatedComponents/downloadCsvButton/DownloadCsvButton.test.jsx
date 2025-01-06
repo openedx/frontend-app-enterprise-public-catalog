@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { saveAs } from 'file-saver';
 
 import userEvent from '@testing-library/user-event';
 import DownloadCsvButton from './DownloadCsvButton';
@@ -8,11 +9,18 @@ import { renderWithRouter } from '../../../tests/testUtils';
 import EnterpriseCatalogApiService from '../../../../data/services/EnterpriseCatalogAPIService';
 
 // file-saver mocks
-jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
+jest.mock('file-saver', () => ({
+  ...jest.requireActual('file-saver'),
+  saveAs: jest.fn(),
+}));
 // eslint-disable-next-line func-names
 global.Blob = function (content, options) {
   return { content, options };
 };
+
+const mockDate = new Date('2024-01-06T12:00:00Z');
+const mockTimestamp = mockDate.toISOString();
+global.Date = jest.fn(() => mockDate);
 
 const mockCatalogApiService = jest.spyOn(
   EnterpriseCatalogApiService,
@@ -37,6 +45,9 @@ delete global.location;
 global.location = { href: assignMock };
 
 describe('Download button', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   test('button renders and is clickable', async () => {
     // Render the component
     renderWithRouter(<DownloadCsvButton {...defaultProps} />);
@@ -48,10 +59,17 @@ describe('Download button', () => {
       const input = screen.getByText('Download results');
       userEvent.click(input);
     });
-    expect(mockCatalogApiService).toBeCalledWith(facets, 'foo');
+    expect(mockCatalogApiService).toHaveBeenCalledWith(facets, 'foo');
   });
   test('download button url encodes queries', async () => {
     process.env.CATALOG_SERVICE_BASE_URL = 'foobar.com';
+    const mockResponse = {
+      data: 'mock-excel-data',
+      headers: {
+        'content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      },
+    };
+    mockCatalogApiService.mockResolvedValue(mockResponse);
     // Render the component
     renderWithRouter(<DownloadCsvButton {...badQueryProps} />);
     // Expect to be in the default state
@@ -62,8 +80,17 @@ describe('Download button', () => {
       const input = screen.getByText('Download results');
       userEvent.click(input);
     });
-    const expectedWindowLocation = `${process.env.CATALOG_SERVICE_BASE_URL}/api/v1/enterprise-catalogs/catalog_workbook?availability=Available`
-      + '+Now&availability=Upcoming&query=math%20%26%20science';
-    expect(window.location.href).toEqual(expectedWindowLocation);
+    expect(mockCatalogApiService).toHaveBeenCalledTimes(1);
+    expect(mockCatalogApiService).toHaveBeenCalledWith(smallFacets, 'math & science');
+
+    expect(saveAs).toHaveBeenCalledWith(
+      expect.objectContaining({
+        content: ['mock-excel-data'],
+        options: {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        },
+      }),
+      `Enterprise-Catalog-Export-${mockTimestamp}.xlsx`,
+    );
   });
 });
