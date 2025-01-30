@@ -1,17 +1,14 @@
 {
-  "extends": [
-    "config:base",
-    "group:allNonMajor"
-  ],
+  "extends": ["config:recommended", "group:allNonMajor"],
   "patch": {
     "automerge": true
   },
-  "rebaseStalePrs": true,
+  "rebaseWhen": "behind-base-branch",
   "packageRules": [
     {
-      "matchPackagePatterns": ["@edx", "@openedx"],
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": ["/@edx/", "/@openedx/"]
     }
   ]
 }
