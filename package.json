@@ -40,7 +40,7 @@
     "@edx/brand-openedx": "^1.2.1",
     "@edx/frontend-component-footer": "npm:@edx/frontend-component-footer-edx@^7.1.9",
     "@edx/frontend-component-header": "npm:@edx/frontend-component-header-edx@^8.12.9",
-    "@edx/frontend-enterprise-catalog-search": "10.8.1",
+    "@edx/frontend-enterprise-catalog-search": "10.8.2",
     "@edx/frontend-enterprise-hotjar": "7.2.0",
     "@edx/frontend-enterprise-utils": "9.1.1",
     "@edx/frontend-platform": "^8.1.5",
