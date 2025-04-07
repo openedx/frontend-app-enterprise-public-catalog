@@ -1,5 +1,7 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import {
+  act, render, screen, waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -259,7 +261,8 @@ describe('Main Catalogs view works as expected', () => {
 
     // Card view should be default
     const listViewToggleButton = screen.getByLabelText('Card');
-    userEvent.click(listViewToggleButton);
+    const user = userEvent.setup();
+    await user.click(listViewToggleButton);
 
     // course 1
     expect(screen.queryByText(TEST_COURSE_NAME)).toBeInTheDocument();
@@ -270,7 +273,6 @@ describe('Main Catalogs view works as expected', () => {
     expect(screen.queryByText(TEST_PARTNER_2)).toBeInTheDocument();
 
     expect(screen.queryAllByText('A la carte').length === 2);
-    await act(() => screen.findByText('Subscription'));
     expect(screen.queryByText('Subscription')).toBeInTheDocument();
   });
   test('all courses rendered when search results available', async () => {
@@ -288,7 +290,8 @@ describe('Main Catalogs view works as expected', () => {
 
     // Card view should be default
     const listViewToggleButton = screen.getByLabelText('Card');
-    userEvent.click(listViewToggleButton);
+    const user = userEvent.setup();
+    await user.click(listViewToggleButton);
 
     await act(() => screen.findByText('Subscription'));
     expect(screen.queryByText('Subscription')).toBeInTheDocument();
@@ -366,7 +369,8 @@ describe('Main Catalogs view works as expected', () => {
 
     // switch to table view instead of card
     const listViewToggleButton = screen.getByLabelText('List');
-    userEvent.click(listViewToggleButton);
+    const user = userEvent.setup();
+    await user.click(listViewToggleButton);
 
     expect(
       screen.queryByText(
@@ -384,11 +388,8 @@ describe('Main Catalogs view works as expected', () => {
       ),
     ).toBeInTheDocument();
     // fixes the act warnings by ensuring we await some UI state before returning from the test
-    await act(() => screen.findByText(
-      messages['catalogSearchResults.table.price'].defaultMessage,
-    ));
     expect(
-      screen.queryByText(
+      await screen.findByText(
         messages['catalogSearchResults.table.price'].defaultMessage,
       ),
     ).toBeInTheDocument();
@@ -403,32 +404,30 @@ describe('Main Catalogs view works as expected', () => {
       </SearchDataWrapper>,
     );
     const listViewToggleButton = screen.getByLabelText('List');
-    userEvent.click(listViewToggleButton);
+    const user = userEvent.setup();
+    await user.click(listViewToggleButton);
 
-    expect(
+    await waitFor(() => expect(
       screen.queryByText(
         messages['catalogSearchResults.table.courseName'].defaultMessage,
       ),
-    ).toBeInTheDocument();
-    expect(
+    ).toBeInTheDocument());
+    await waitFor(() => expect(
       screen.queryByText(
         messages['catalogSearchResults.table.catalogs'].defaultMessage,
       ),
-    ).toBeInTheDocument();
-    expect(
+    ).toBeInTheDocument());
+    await waitFor(() => expect(
       screen.queryByText(
         messages['catalogSearchResults.table.partner'].defaultMessage,
       ),
-    ).toBeInTheDocument();
+    ).toBeInTheDocument());
     // fixes the act warnings by ensuring we await some UI state before returning from the test
-    await act(() => screen.findByText(
-      messages['catalogSearchResults.table.availability'].defaultMessage,
-    ));
-    expect(
+    await waitFor(() => expect(
       screen.queryByText(
         messages['catalogSearchResults.table.availability'].defaultMessage,
       ),
-    ).toBeInTheDocument();
+    ).toBeInTheDocument());
   });
   test('testing list course modal pops up ', async () => {
     renderWithRouter(
@@ -441,14 +440,14 @@ describe('Main Catalogs view works as expected', () => {
     );
 
     const listViewToggleButton = screen.getByLabelText('List');
-    userEvent.click(listViewToggleButton);
+    const user = userEvent.setup();
+    await user.click(listViewToggleButton);
 
     const courseTitle = screen.getByText('test course');
-    userEvent.click(courseTitle);
+    await user.click(courseTitle);
 
-    expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument();
-    await act(() => screen.findByText('About this course'));
-    expect(screen.queryByText('About this course')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('About this course')).toBeInTheDocument());
   });
   test('testing card course modal pops up ', async () => {
     renderWithRouter(
@@ -462,12 +461,12 @@ describe('Main Catalogs view works as expected', () => {
 
     // click course card
     const courseTitle = screen.getByText('test course');
-    userEvent.click(courseTitle);
-
-    expect(screen.queryByText('A la carte course price')).toBeInTheDocument();
-    expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument();
+    const user = userEvent.setup();
+    await user.click(courseTitle);
+    await waitFor(() => expect(screen.queryByText('A la carte course price')).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('Session ends Jan 1, 2080')).toBeInTheDocument());
     await act(() => screen.findByText('About this course'));
-    expect(screen.queryByText('About this course')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText('About this course')).toBeInTheDocument());
   });
   test('exec ed search results text and card price', async () => {
     process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
@@ -480,17 +479,17 @@ describe('Main Catalogs view works as expected', () => {
         />
       </SearchDataWrapper>,
     );
-
-    expect(screen.queryByText('Executive Education')).toBeInTheDocument();
-    expect(screen.queryByText(
+    await waitFor(() => expect(screen.queryByText('Executive Education')).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText(
       'Immersive, instructor led online short courses designed to develop interpersonal, analytical, and critical thinking skills.',
-    )).toBeInTheDocument();
-    expect(screen.queryByText('New')).toBeInTheDocument();
+    )).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('New')).toBeInTheDocument());
 
     // click exec ed course card
     const courseTitle = screen.getByText(TEST_EXEC_ED_NAME);
-    userEvent.click(courseTitle);
-    expect(screen.queryByText('$100')).toBeInTheDocument();
+    const user = userEvent.setup();
+    await user.click(courseTitle);
+    await waitFor(() => expect(screen.queryByText('$100')).toBeInTheDocument());
   });
   test('all programs rendered when search results available', () => {
     process.env.EDX_FOR_SUBSCRIPTION_TITLE = 'ayylmao';
@@ -525,7 +524,8 @@ describe('Main Catalogs view works as expected', () => {
 
     // switch to table view instead of card
     const listViewToggleButton = screen.getByLabelText('List');
-    userEvent.click(listViewToggleButton);
+    const user = userEvent.setup();
+    await user.click(listViewToggleButton);
 
     expect(
       screen.queryByText(
@@ -542,9 +542,6 @@ describe('Main Catalogs view works as expected', () => {
         messages['catalogSearchResults.table.programType'].defaultMessage,
       ),
     ).toBeInTheDocument();
-    await act(() => screen.findByText(
-      messages['catalogSearchResults.table.partner'].defaultMessage,
-    ));
     expect(
       screen.queryByText(
         messages['catalogSearchResults.table.partner'].defaultMessage,
@@ -552,7 +549,7 @@ describe('Main Catalogs view works as expected', () => {
     ).toBeInTheDocument();
   });
 
-  test('no course search results displays popular course text', async () => {
+  test('no course search results displays popular course text', () => {
     const emptySearchResults = { ...searchResults, nbHits: 0 };
     renderWithRouter(
       <IntlProvider locale="en">
@@ -564,7 +561,7 @@ describe('Main Catalogs view works as expected', () => {
         </SearchDataWrapper>
       </IntlProvider>,
     );
-    await act(() => screen.findByText('Popular Courses'));
-    expect(screen.getByText('Popular Courses')).toBeInTheDocument();
+    const textComponent = screen.getAllByText('Popular Courses')[0];
+    expect(textComponent).toBeInTheDocument();
   });
 });

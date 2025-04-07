@@ -54,6 +54,7 @@ const CourseModal = ({
         size="xl"
         hasCloseButton
         isFullscreenOnMobile
+        isOverflowVisible={false}
         className="course-info-modal"
       >
         <ModalDialog.Body className="full-body p-0">
@@ -222,6 +223,7 @@ const ProgramModal = ({
         onClose={onClose}
         size="xl"
         hasCloseButton
+        isOverflowVisible={false}
         isFullscreenOnMobile
         className="course-info-modal"
       >

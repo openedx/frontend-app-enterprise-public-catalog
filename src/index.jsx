@@ -9,8 +9,8 @@ import {
   mergeConfig,
 } from '@edx/frontend-platform';
 import { ErrorPage } from '@edx/frontend-platform/react';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
 import App from './components/app/App';
 
@@ -18,14 +18,16 @@ import messages from './i18n';
 
 import './index.scss';
 
+const rootNode = createRoot(document.getElementById('root'));
 subscribe(APP_READY, () => {
-  ReactDOM.render(<App />, document.getElementById('root'));
+  rootNode.render(<StrictMode><App /></StrictMode>);
 });
 
 subscribe(APP_INIT_ERROR, (error) => {
-  ReactDOM.render(
-    <ErrorPage message={error.message} />,
-    document.getElementById('root'),
+  rootNode.render(
+    <StrictMode>
+      <ErrorPage message={error.message} />
+    </StrictMode>,
   );
 });
 
