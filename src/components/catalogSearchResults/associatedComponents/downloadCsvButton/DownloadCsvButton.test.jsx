@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, act } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { saveAs } from 'file-saver';
 
@@ -55,10 +55,9 @@ describe('Download button', () => {
     expect(screen.queryByText('Download results')).toBeInTheDocument();
 
     // Click the button
-    await act(async () => {
-      const input = screen.getByText('Download results');
-      userEvent.click(input);
-    });
+    const input = screen.getByText('Download results');
+    const user = userEvent.setup();
+    await user.click(input);
     expect(mockCatalogApiService).toHaveBeenCalledWith(facets, 'foo');
   });
   test('download button url encodes queries', async () => {
@@ -76,10 +75,9 @@ describe('Download button', () => {
     expect(screen.queryByText('Download results')).toBeInTheDocument();
 
     // Click the button
-    await act(async () => {
-      const input = screen.getByText('Download results');
-      userEvent.click(input);
-    });
+    const input = screen.getByText('Download results');
+    const user = userEvent.setup();
+    await user.click(input);
     expect(mockCatalogApiService).toHaveBeenCalledTimes(1);
     expect(mockCatalogApiService).toHaveBeenCalledWith(smallFacets, 'math & science');
 
