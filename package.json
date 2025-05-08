@@ -18,6 +18,7 @@
     "start": "fedx-scripts webpack-dev-server --progress",
     "start:stage": "npm run start -- --config=webpack.dev-stage.config.js",
     "start:with-theme": "paragon install-theme && npm run start && npm install",
+    "start:stage:with-theme": "paragon install-theme && npm run start:stage && npm install",
     "test": "fedx-scripts jest --transformIgnorePatterns \"node_modules/(?!@edx/frontend-app-enterprise-public-catalog)/\" --env=jsdom --coverage --passWithNoTests",
     "test:watch": "npm run test -- --watch"
   },
