@@ -293,7 +293,6 @@ describe('Main Catalogs view works as expected', () => {
     const user = userEvent.setup();
     await user.click(listViewToggleButton);
 
-    await act(() => screen.findByText('Subscription'));
     expect(screen.queryByText('Subscription')).toBeInTheDocument();
   });
   test('all courses rendered in card view when search results available', () => {
