@@ -45,7 +45,7 @@ function convertLearningTypesToFilters(types) {
  * @returns A string containing a query string suitable for use in a URL.
  */
 
-function createQueryParams(options) {
+function createQueryParams(options: Record<string, any>): string {
   const queryParams = new URLSearchParams();
   Object.entries(options).forEach(([key, value]) => {
     if (Array.isArray(value)) {
@@ -54,7 +54,7 @@ function createQueryParams(options) {
       });
       return;
     }
-    queryParams.set(key, value);
+    queryParams.set(key, value.toString());
   });
   return queryParams.toString();
 }
