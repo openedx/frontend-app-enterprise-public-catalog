@@ -1,5 +1,6 @@
 coverage/*
 dist/
 node_modules/
+src/i18n/*
 jest.config.js
 webpack.*.config.js
