@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import {
   ActionRow,
@@ -8,7 +7,7 @@ import {
   ModalDialog,
   Icon,
 } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 
 import { Launch } from '@openedx/paragon/icons';
 import messages from './CatalogInfoModal.messages';
@@ -28,7 +27,10 @@ SkillsListing.propTypes = {
 };
 
 const CourseModal = ({
-  intl, isOpen, onClose, isExecEdType, selectedCourse,
+  isOpen,
+  onClose,
+  isExecEdType,
+  selectedCourse,
 }) => {
   const {
     courseTitle,
@@ -44,6 +46,8 @@ const CourseModal = ({
     upcomingRuns,
     skillNames,
   } = selectedCourse;
+
+  const intl = useIntl();
 
   return (
     <div>
@@ -135,7 +139,6 @@ const CourseModal = ({
 };
 
 CourseModal.propTypes = {
-  intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   isExecEdType: PropTypes.bool.isRequired,
@@ -193,7 +196,9 @@ CourseDisplayForProgram.propTypes = {
 };
 
 const ProgramModal = ({
-  intl, isOpen, onClose, selectedProgram,
+  isOpen,
+  onClose,
+  selectedProgram,
 }) => {
   const {
     programTitle,
@@ -208,6 +213,7 @@ const ProgramModal = ({
     programCourses,
   } = selectedProgram;
 
+  const intl = useIntl();
   const prices = programPrices?.filter((item) => item.currency === 'USD');
   const usdPrice = prices && prices.length > 0 ? `$${prices[0].total}` : '$0';
 
@@ -313,7 +319,6 @@ const ProgramModal = ({
 };
 
 ProgramModal.propTypes = {
-  intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedProgram: PropTypes.shape({
@@ -331,7 +336,6 @@ ProgramModal.propTypes = {
 };
 
 const CatalogCourseInfoModal = ({
-  intl,
   isOpen,
   onClose,
   isExecEdType,
@@ -339,6 +343,7 @@ const CatalogCourseInfoModal = ({
   selectedProgram,
   renderProgram,
 }) => {
+  const intl = useIntl();
   if (!selectedCourse && !renderProgram) {
     return null;
   }
@@ -378,7 +383,6 @@ CatalogCourseInfoModal.defaultProps = {
 
 CatalogCourseInfoModal.propTypes = {
   renderProgram: PropTypes.bool,
-  intl: intlShape.isRequired,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   isExecEdType: PropTypes.bool,
@@ -410,4 +414,4 @@ CatalogCourseInfoModal.propTypes = {
   }),
 };
 
-export default injectIntl(CatalogCourseInfoModal);
+export default CatalogCourseInfoModal;
