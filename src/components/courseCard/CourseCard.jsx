@@ -1,17 +1,15 @@
 /* eslint-disable camelcase */
 // variables taken from algolia not in camelcase
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Badge, Card } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import messages from './CourseCard.messages';
 import defaultCardHeader from '../../static/default-card-header-light.png';
 import { formatPrice } from '../../utils/common';
 
-const CourseCard = ({
-  intl, onClick, original,
-}) => {
+const CourseCard = ({ onClick, original }) => {
+  const intl = useIntl();
   const {
     title,
     card_image_url,
@@ -77,7 +75,6 @@ CourseCard.defaultProps = {
 };
 
 CourseCard.propTypes = {
-  intl: intlShape.isRequired,
   onClick: PropTypes.func,
   original: PropTypes.shape({
     title: PropTypes.string,
@@ -99,4 +96,4 @@ CourseCard.propTypes = {
   }).isRequired,
 };
 
-export default injectIntl(CourseCard);
+export default CourseCard;

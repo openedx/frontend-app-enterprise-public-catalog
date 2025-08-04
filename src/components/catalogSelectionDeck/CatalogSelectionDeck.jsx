@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -10,12 +10,13 @@ import {
 import {
   breakpoints, Container, SelectableBox, useMediaQuery,
 } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 
 import messages from './CatalogSelectionDeck.messages';
 import { QUERY_TITLE_REFINEMENT } from '../../constants';
 
-const CatalogSelectionDeck = ({ intl, title, hide }) => {
+const CatalogSelectionDeck = ({ title, hide }) => {
+  const intl = useIntl();
   const { refinements, dispatch } = useContext(SearchContext);
   const config = getConfig();
   const [value, setValue] = useState('');
@@ -72,8 +73,7 @@ CatalogSelectionDeck.defaultProps = {
 
 CatalogSelectionDeck.propTypes = {
   title: PropTypes.string.isRequired,
-  intl: intlShape.isRequired,
   hide: PropTypes.bool,
 };
 
-export default injectIntl(CatalogSelectionDeck);
+export default CatalogSelectionDeck;

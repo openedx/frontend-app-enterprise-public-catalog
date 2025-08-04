@@ -4,16 +4,12 @@ import {
   setRefinementAction,
   useNbHitsFromSearchResults,
 } from '@edx/frontend-enterprise-catalog-search';
-import {
-  FormattedMessage,
-  injectIntl,
-  intlShape,
-} from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 import {
   Alert, Badge, Button, CardView, DataTable, Skeleton,
 } from '@openedx/paragon';
 import PropTypes from 'prop-types';
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
@@ -82,7 +78,6 @@ export const SKELETON_DATA_TESTID = 'enterprise-catalog-skeleton';
  */
 
 export const BaseCatalogSearchResults = ({
-  intl,
   searchResults,
   // algolia recommends this prop instead of searching
   isSearchStalled,
@@ -93,6 +88,7 @@ export const BaseCatalogSearchResults = ({
   setNoContent,
   preview,
 }) => {
+  const intl = useIntl();
   const { algoliaIndexName, searchClient } = useAlgoliaIndex();
   const [isProgramType, setIsProgramType] = useState();
   const [isCourseType, setIsCourseType] = useState();
@@ -532,7 +528,6 @@ BaseCatalogSearchResults.defaultProps = {
 };
 
 BaseCatalogSearchResults.propTypes = {
-  intl: intlShape.isRequired,
   // from Algolia
   searchResults: PropTypes.shape({
     _state: PropTypes.shape({
@@ -562,4 +557,4 @@ BaseCatalogSearchResults.propTypes = {
   setNoContent: PropTypes.func,
 };
 
-export default connectStateResults(injectIntl(BaseCatalogSearchResults));
+export default connectStateResults(BaseCatalogSearchResults);
