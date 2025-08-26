@@ -1,18 +1,18 @@
 /* eslint-disable camelcase */
 // variables taken from algolia not in camelcase
-import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { Badge, Icon, Card } from '@openedx/paragon';
 import { Program } from '@openedx/paragon/icons';
 
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import defaultCardHeader from '@edx/brand/paragon/images/card-imagecap-fallback.png';
 import messages from './ProgramCard.messages';
 import { getCourses } from '../../utils/common';
 
-const ProgramCard = ({ intl, onClick, original }) => {
+const ProgramCard = ({ onClick, original }) => {
+  const intl = useIntl();
   const {
     title,
     card_image_url,
@@ -86,7 +86,6 @@ ProgramCard.defaultProps = {
 };
 
 ProgramCard.propTypes = {
-  intl: intlShape.isRequired,
   onClick: PropTypes.func,
   original: PropTypes.shape({
     title: PropTypes.string,
@@ -103,4 +102,4 @@ ProgramCard.propTypes = {
   }).isRequired,
 };
 
-export default injectIntl(ProgramCard);
+export default ProgramCard;

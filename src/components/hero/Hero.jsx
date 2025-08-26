@@ -1,9 +1,8 @@
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   Container, Image, useMediaQuery, breakpoints,
 } from '@openedx/paragon';
 import PropTypes from 'prop-types';
-import React from 'react';
 import LargeHeroImageHiRes from '../../assets/hero-image-144px-hi-res.png';
 import SmallHeroImageHiRes from '../../assets/hero-image-hi-res.png';
 import LargeHeroImageLoRes from '../../assets/hero-image-large-lo-res.png';
@@ -65,7 +64,8 @@ Tablet.propTypes = {
   }).isRequired,
 };
 
-const Hero = ({ intl, text, highlight }) => {
+const Hero = ({ text, highlight }) => {
+  const intl = useIntl();
   const alt = intl.formatMessage(messages['hero.image.alt']);
 
   return (
@@ -92,9 +92,8 @@ Hero.defaultProps = {
 };
 
 Hero.propTypes = {
-  intl: intlShape.isRequired,
   text: PropTypes.string.isRequired,
   highlight: PropTypes.string,
 };
 
-export default injectIntl(Hero);
+export default Hero;
