@@ -1,12 +1,8 @@
 /* eslint eqeqeq: "off" */
-import React, {
+import {
   useContext, useState, useMemo, useEffect,
 } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  intlShape,
-} from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 
 import { getConfig } from '@edx/frontend-platform/config';
 import { Configure, Index, InstantSearch } from 'react-instantsearch-dom';
@@ -42,7 +38,8 @@ import xpertLogo from '../../assets/edx-xpert-logo.png';
 import features from '../../config';
 import AskXpert from '../aiCuration/AskXpert';
 
-const CatalogSearch = (intl) => {
+const CatalogSearch = () => {
+  const intl = useIntl();
   const {
     refinements: {
       [LEARNING_TYPE_REFINEMENT]: learningType,
@@ -316,9 +313,4 @@ const CatalogSearch = (intl) => {
   );
 };
 
-CatalogSearch.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(CatalogSearch);
+export default CatalogSearch;

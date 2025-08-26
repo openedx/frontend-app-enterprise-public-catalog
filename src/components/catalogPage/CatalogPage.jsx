@@ -1,9 +1,4 @@
-import React from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  intlShape,
-} from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 import {
   SearchData,
   SEARCH_FACET_FILTERS,
@@ -36,7 +31,8 @@ if (
   SEARCH_FACET_FILTERS.push(learningType);
 }
 
-const CatalogPage = ({ intl }) => {
+const CatalogPage = () => {
+  const intl = useIntl();
   const location = useLocation();
   const config = getConfig();
   // Default routing:
@@ -149,8 +145,4 @@ const CatalogPage = ({ intl }) => {
   );
 };
 
-CatalogPage.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(CatalogPage);
+export default CatalogPage;

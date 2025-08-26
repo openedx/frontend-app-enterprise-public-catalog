@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connectStateResults } from 'react-instantsearch-dom';
 
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { Alert, CardView, DataTable } from '@openedx/paragon';
 
 import {
@@ -19,13 +19,13 @@ import { getSelectedCatalogFromURL } from '../../utils/common';
 const BASE_APP_URL = process.env.BASE_URL;
 
 const CatalogNoResultsDeck = ({
-  intl,
   setCardView,
   columns,
   renderCardComponent,
   contentType,
   searchResults,
 }) => {
+  const intl = useIntl();
   const tableData = useMemo(
     () => searchResults?.hits || [],
     [searchResults?.hits],
@@ -133,10 +133,9 @@ CatalogNoResultsDeck.propTypes = {
     page: PropTypes.number,
   }),
   contentType: PropTypes.string,
-  intl: intlShape.isRequired,
   setCardView: PropTypes.func,
   renderCardComponent: PropTypes.func,
   columns: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
-export default connectStateResults(injectIntl(CatalogNoResultsDeck));
+export default connectStateResults(CatalogNoResultsDeck);

@@ -1,7 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 
 import {
   Book, BookOpen, EventNote, MoneyOutline,
@@ -37,72 +36,75 @@ function availabilitySubtitle(start, end, upcomingRuns) {
 }
 
 const CatalogCourseModalBanner = ({
-  intl,
   coursePrice,
   courseAssociatedCatalogs,
   startDate,
   endDate,
   upcomingRuns,
   execEd,
-}) => (
-  <div className="banner my-3">
-    <div className="banner-section mx-3">
-      <div className="banner h4 mb-0">
-        <Icon className="mr-1" src={MoneyOutline} />
-        {coursePrice.split('.')[0]}
-      </div>
-      <div className="banner-subtitle small">
-        {intl.formatMessage(
-          messages['CatalogCourseModalBanner.bannerPriceText'],
-        )}
-      </div>
-    </div>
-    <div className="banner-section slash">/</div>
-    {checkSubscriptions(courseAssociatedCatalogs) && !execEd && (
-    <>
+}) => {
+  const intl = useIntl();
+
+  return (
+    <div className="banner my-3">
       <div className="banner-section mx-3">
         <div className="banner h4 mb-0">
-          <Icon className="mr-1" src={BookOpen} />
-          {intl.formatMessage(
-            messages['CatalogCourseModalBanner.bannerCatalogText'],
-          )}
-        </div>
-        <div className="banner-subtitle small">
-          {checkSubscriptions(courseAssociatedCatalogs)}
-        </div>
-      </div>
-      <div className="banner-section slash">/</div>
-    </>
-    )}
-    {execEd && (
-    <>
-      <div className="banner-section mx-3">
-        <div className="banner h4 mb-0">
-          <Icon className="mr-1" src={Book} />
-          {intl.formatMessage(
-            messages['CatalogCourseModalBanner.bannerExecEdText'],
-          )}
+          <Icon className="mr-1" src={MoneyOutline} />
+          {coursePrice.split('.')[0]}
         </div>
         <div className="banner-subtitle small">
           {intl.formatMessage(
-            messages['CatalogCourseModalBanner.bannerExecEdSubtext'],
+            messages['CatalogCourseModalBanner.bannerPriceText'],
           )}
         </div>
       </div>
       <div className="banner-section slash">/</div>
-    </>
-    )}
-    <div className="banner-section mx-3">
-      <div className="banner h4 mb-0">
-        <Icon className="mr-1" src={EventNote} />
-        {checkAvailability(startDate, endDate)}
-      </div>
-      <div className="banner-subtitle small">
-        {availabilitySubtitle(startDate, endDate, upcomingRuns)}{' '}
+      {checkSubscriptions(courseAssociatedCatalogs) && !execEd && (
+      <>
+        <div className="banner-section mx-3">
+          <div className="banner h4 mb-0">
+            <Icon className="mr-1" src={BookOpen} />
+            {intl.formatMessage(
+              messages['CatalogCourseModalBanner.bannerCatalogText'],
+            )}
+          </div>
+          <div className="banner-subtitle small">
+            {checkSubscriptions(courseAssociatedCatalogs)}
+          </div>
+        </div>
+        <div className="banner-section slash">/</div>
+      </>
+      )}
+      {execEd && (
+      <>
+        <div className="banner-section mx-3">
+          <div className="banner h4 mb-0">
+            <Icon className="mr-1" src={Book} />
+            {intl.formatMessage(
+              messages['CatalogCourseModalBanner.bannerExecEdText'],
+            )}
+          </div>
+          <div className="banner-subtitle small">
+            {intl.formatMessage(
+              messages['CatalogCourseModalBanner.bannerExecEdSubtext'],
+            )}
+          </div>
+        </div>
+        <div className="banner-section slash">/</div>
+      </>
+      )}
+      <div className="banner-section mx-3">
+        <div className="banner h4 mb-0">
+          <Icon className="mr-1" src={EventNote} />
+          {checkAvailability(startDate, endDate)}
+        </div>
+        <div className="banner-subtitle small">
+          {availabilitySubtitle(startDate, endDate, upcomingRuns)}{' '}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 CatalogCourseModalBanner.defaultProps = {
   coursePrice: '0',
@@ -114,7 +116,6 @@ CatalogCourseModalBanner.defaultProps = {
 };
 
 CatalogCourseModalBanner.propTypes = {
-  intl: intlShape.isRequired,
   coursePrice: PropTypes.string,
   courseAssociatedCatalogs: PropTypes.arrayOf(PropTypes.string),
   startDate: PropTypes.string,
@@ -123,4 +124,4 @@ CatalogCourseModalBanner.propTypes = {
   execEd: PropTypes.bool,
 };
 
-export default injectIntl(CatalogCourseModalBanner);
+export default CatalogCourseModalBanner;
