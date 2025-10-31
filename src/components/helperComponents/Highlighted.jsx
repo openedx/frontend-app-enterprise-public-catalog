@@ -16,7 +16,7 @@ const Highlighted = ({ text, highlight, highlightClass }) => {
         .filter((part) => part)
         .map((part, i) => (regex.test(part) ? (
           <span
-            className={classNames('highlighted', highlightClass)}
+            // className={classNames('highlighted', highlightClass)}
             key={highlightClass}
           >
             {part}
