@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import escapeRegExp from 'lodash.escaperegexp';
-import classNames from 'classnames';
 
 const Highlighted = ({ text, highlight, highlightClass }) => {
   if (!highlight.trim()) {
@@ -16,7 +15,6 @@ const Highlighted = ({ text, highlight, highlightClass }) => {
         .filter((part) => part)
         .map((part, i) => (regex.test(part) ? (
           <span
-            // className={classNames('highlighted', highlightClass)}
             key={highlightClass}
           >
             {part}
