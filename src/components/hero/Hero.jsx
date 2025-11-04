@@ -5,7 +5,7 @@ import {
 import PropTypes from 'prop-types';
 import LargeHeroImageHiRes from '../../assets/hero-image-144px-hi-res.png';
 import SmallHeroImageHiRes from '../../assets/hero-image-hi-res.png';
-import LargeHeroImageLoRes from '../../assets/hero-image-large-lo-res.png';
+import LargeHeroImageLoRes from '../../assets/hero-image-large-lo-res1.jpg';
 import SmallHeroImageLoRes from '../../assets/hero-image-small-lo-res.png';
 import { Highlighted } from '../helperComponents';
 import messages from './Hero.messages';
