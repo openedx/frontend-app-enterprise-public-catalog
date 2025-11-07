@@ -1,18 +1,21 @@
 .hero {
-  background-color: $primary-700;
   white-space: pre-line;
+  width: 100%;
 }
 
 .hero__content {
-  @include center-vertically;
   font-family: Inter;
   min-height: $banner-min-height;
   max-height: $hero-max-height;
-
+  width: 100%;
   .display-1 {
     @extend .py-3;
     color: $white;
-    max-width: 70%;
+    top:18%;
+    left:8%;
+    font-style: italic;
+    max-width:25%;
+    position: absolute;
   }
   div {
     min-height: $banner-min-height;
@@ -23,6 +26,7 @@
     min-height: $banner-min-height;
     max-height: $hero-max-height;
     height: 100%;
+    width: 100%;
   }
   .highlighted {
     color: $accent-b;
