@@ -1,6 +1,7 @@
 .hero {
   white-space: pre-line;
   width: 100%;
+  position: relative;
 }
 
 .hero__content {
@@ -8,13 +9,15 @@
   min-height: $banner-min-height;
   max-height: $hero-max-height;
   width: 100%;
+  position: relative;
   .display-1 {
     @extend .py-3;
     color: $white;
-    top:18%;
-    left:8%;
+    top:8%;
+    font-size: 2 rem;
+    left:10%;
     font-style: italic;
-    max-width:25%;
+    max-width:28%;
     position: absolute;
   }
   div {
