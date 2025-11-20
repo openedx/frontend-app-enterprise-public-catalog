@@ -19,6 +19,10 @@
     font-style: italic;
     max-width:28%;
     position: absolute;
+
+    p{
+      font-style: normal;
+    }
   }
   div {
     min-height: $banner-min-height;
@@ -30,9 +34,6 @@
     max-height: $hero-max-height;
     height: 100%;
     width: 100%;
-  }
-  .highlighted {
-    color: $accent-b;
   }
 }
 
