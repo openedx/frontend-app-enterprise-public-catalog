@@ -31,7 +31,6 @@ const LargeImage = ({ alt }) => (
     srcSet={`${LargeHeroImageLoRes} 1000w, ${LargeHeroImageHiRes} 2000w`}
     src={LargeHeroImageLoRes}
     alt={alt}
-    sizes="33vw"
   />
 );
 LargeImage.propTypes = {
@@ -69,18 +68,15 @@ const Hero = ({ text, highlight }) => {
   const alt = intl.formatMessage(messages['hero.image.alt']);
 
   return (
-    <section className="hero px-1">
+    <section className="hero">
       <Container size="xl" className="hero__content">
-        <h1 className="display-1">
-          <Highlighted text={text} highlight={highlight} />
-        </h1>
-        <div>
-          <Desktop>
-            <LargeImage alt={alt} />
-          </Desktop>
-          <Tablet>
-            <LargeImage alt={alt} />
-          </Tablet>
+        <Container size="xl" className="hero__text">
+          <h1 className="display-1">
+            <Highlighted text={text} highlight={highlight} />
+          </h1>
+        </Container>
+        <div className="hero__image__container">
+          <LargeImage alt={alt} />
         </div>
       </Container>
     </section>
