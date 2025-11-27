@@ -3,7 +3,7 @@ import { defineMessages } from '@edx/frontend-platform/i18n';
 const messages = defineMessages({
   'catalogPage.hero.text': {
     id: 'catalogPage.hero.text',
-    defaultMessage: 'Explore world-class learning \n Unmatched quality. market relevance, and comprehensive solutions.',
+    defaultMessage: 'Explore world-class learning \n Unmatched quality, market relevance, and comprehensive solutions.',
     description: 'Header text tagline.',
   },
   'catalogPage.hero.highlight': {
