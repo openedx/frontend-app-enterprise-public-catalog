@@ -23,17 +23,6 @@ LargeImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-const Desktop = ({ children }) => {
-  const isDesktop = useMediaQuery({ minWidth: breakpoints.large.minWidth });
-  return isDesktop ? children : null;
-};
-Desktop.propTypes = {
-  children: PropTypes.shape({
-    props: PropTypes.shape({
-      alt: PropTypes.string,
-    }),
-  }).isRequired,
-};
 
 const Hero = ({ text, highlight }) => {
   const intl = useIntl();
