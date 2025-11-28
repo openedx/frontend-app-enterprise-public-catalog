@@ -1,7 +1,6 @@
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
-  breakpoints,
-  Container, Image, useMediaQuery,
+  Container, Image,
 } from '@openedx/paragon';
 import PropTypes from 'prop-types';
 import LargeHeroImageHiRes from '../../assets/hero-image-144px-hi-res.jpg';
@@ -22,7 +21,6 @@ const LargeImage = ({ alt }) => (
 LargeImage.propTypes = {
   alt: PropTypes.string.isRequired,
 };
-
 
 const Hero = ({ text, highlight }) => {
   const intl = useIntl();
