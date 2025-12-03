@@ -71,7 +71,25 @@
           opacity: 1;
         }
       }
+    }
+  }
+}
 
+@include media-breakpoint-down(sm) {
+  .hero {
+    &__content {
+      .highlighted {
+        font-size: 2rem;
+        line-height: 1;
+      }
+    }
+
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .hero {
+    &__content {
       .highlighted {
         font-size: 3rem;
         line-height: 1;
@@ -81,10 +99,14 @@
   }
 }
 
-@media (max-width: 1199.98px) {
-  .hero__content .highlighted {
-    font-size: 3rem;
-    line-height: 1;
+@include media-breakpoint-up(lg) {
+  .hero {
+    &__content {
+      .highlighted {
+        font-size: 3.75rem;
+        line-height: 1;
+      }
+    }
   }
 }
 
