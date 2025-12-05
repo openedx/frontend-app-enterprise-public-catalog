@@ -1,7 +1,7 @@
 .hero {
-  white-space: pre-line;
-  width: 100%;
   position: relative;
+  width: 100%;
+  white-space: pre-line;
 
   &__content {
     position: relative;
@@ -10,21 +10,31 @@
     max-width: 100% !important;
     padding-inline: 0 !important;
 
-    .hero__text {
-      position: relative;
+    .hero__text__container {
+      position: absolute;
+      inset: 0;
     }
 
-    .display-1 {
+    .hero__text {
       position: absolute;
-      max-width: 28rem;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 23rem;
       color: $white;
       font-style: italic;
-      z-index: 3; // text always on top
+      z-index: 3;
       padding-right: 2rem;
-      @extend .py-5;
+      margin: 0;
 
       p {
         font-style: normal;
+        margin: 0;
+      }
+
+      .highlighted {
+        display: inline-block;
+        line-height: 1;
+        font-size: 3rem;
       }
     }
   }
@@ -40,8 +50,8 @@
       width: 100%;
       object-fit: contain;
       object-position: right;
-      position: relative;
-      z-index: 0;
+      min-height: $hero-max-height;
+      max-height: $hero-max-height;
     }
 
     &::after {
@@ -59,64 +69,20 @@
   }
 }
 
-// Mobile styles
-@include media-breakpoint-down(md) {
-  .hero {
-    &__content {
-      .hero__image__container {
-        min-height: $banner-min-height;
+// Responsive tweaks
+@media (max-width: 890px) {
+  .hero__content .hero__text {
+    max-width: 100%;
+  }
 
-        &::after {
-          background: black;
-          opacity: 1;
-        }
-      }
-    }
+  .hero__content .hero__image__container::after {
+    background: black;
+    opacity: 1;
   }
 }
 
-@include media-breakpoint-down(sm) {
-  .hero {
-    &__content {
-      .highlighted {
-        font-size: 2rem;
-        line-height: 1;
-      }
-    }
-
-  }
-}
-
-@include media-breakpoint-up(sm) {
-  .hero {
-    &__content {
-      .highlighted {
-        font-size: 3rem;
-        line-height: 1;
-      }
-    }
-
-  }
-}
-
-@include media-breakpoint-up(lg) {
-  .hero {
-    &__content {
-      .highlighted {
-        font-size: 3.75rem;
-        line-height: 1;
-      }
-    }
-  }
-}
-
-@include media-breakpoint-up(md) {
-  .hero {
-    &__content {
-      .hero__image {
-        max-height: $hero-max-height;
-      }
-
-    }
+@media (max-width: 1160px) {
+  .hero__content .hero__image {
+    object-fit: fill;
   }
 }

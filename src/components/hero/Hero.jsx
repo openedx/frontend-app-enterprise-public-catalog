@@ -29,8 +29,8 @@ const Hero = ({ text, highlight }) => {
   return (
     <section className="hero">
       <Container size="xl" className="hero__content">
-        <Container size="xl" className="hero__text">
-          <h1 className="display-1">
+        <Container size="xl" className="hero__text__container">
+          <h1 className="hero__text">
             <Highlighted text={text} highlight={highlight} />
           </h1>
         </Container>
